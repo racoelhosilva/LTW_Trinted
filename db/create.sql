@@ -12,6 +12,8 @@ DROP TABLE IF EXISTS Size;
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Image;
 
+-- Tables
+
 CREATE TABLE Image(
     url     VARCHAR(64) CONSTRAINT UrlNotNull NOT NULL,
     CONSTRAINT UrlPK PRIMARY KEY (url)
@@ -135,3 +137,20 @@ CREATE TABLE Message(
     CONSTRAINT ReceiverFK FOREIGN KEY (receiver) REFERENCES User(username),
     CONSTRAINT SenderNotReceiver CHECK (sender <> receiver)
 );
+
+-- Indexes
+
+CREATE INDEX ItemSellerIndex ON Item(seller);
+CREATE INDEX ItemSizeIndex ON Item(size);
+CREATE INDEX ItemCategoryIndex ON Item(category);
+CREATE INDEX ItemConditionIndex ON Item(condition);
+
+CREATE INDEX ItemBrandBrandIndex ON ItemBrand(brand);
+
+CREATE INDEX PostTileIndex ON Post(title);
+CREATE INDEX PostPriceIndex ON Post(price);
+
+CREATE INDEX PostImagePostIndex ON PostImage(post);
+
+CREATE INDEX MessageSenderIndex ON Message(sender);
+CREATE INDEX MessageReceiverIndex ON Message(receiver);
