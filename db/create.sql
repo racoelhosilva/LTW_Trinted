@@ -1,5 +1,10 @@
 PRAGMA foreign_keys = ON;
 
+CREATE TABLE Image(
+    url     VARCHAR(64) CONSTRAINT UrlNotNull NOT NULL,
+    CONSTRAINT UrlPK PRIMARY KEY (url)
+);
+
 CREATE TABLE User(
     username            VARCHAR(32) CONSTRAINT UsernameNotNull NOT NULL,
     email               VARCHAR(64) CONSTRAINT EmailNotNull NOT NULL CONSTRAINT EmailUnique UNIQUE,
@@ -8,7 +13,8 @@ CREATE TABLE User(
     registerDatetime    DATETIME CONSTRAINT RegisterDatetimeNotNull NOT NULL,
     profilePicture      VARCHAR(64),
     type                VARCHAR(6) CONSTRAINT TypeNotNull NOT NULL CONSTRAINT ValidType CHECK (type IN ('seller', 'buyer', 'admin')),
-    CONSTRAINT UsernamePK PRIMARY KEY (username)
+    CONSTRAINT UsernamePK PRIMARY KEY (username),
+    CONSTRAINT profilePictureFK FOREIGN KEY (profilePicture) REFERENCES Image(url)
 );
 
 CREATE TABLE Size(
@@ -46,12 +52,12 @@ FOR EACH ROW
 WHEN (SELECT type FROM User WHERE username = New.seller) <> 'seller'
 BEGIN
     SELECT RAISE(FAIL, 'Item cannot belong to non-seller user');
-END
+END;
 
 CREATE TABLE Brand(
     name    VARCHAR(16) CONSTRAINT NameNotNull NOT NULL,
     CONSTRAINT NamePK PRIMARY KEY (name)
-)
+);
 
 CREATE TABLE ItemBrand(
     item    INT CONSTRAINT ItemNotNull NOT NULL,
@@ -59,18 +65,18 @@ CREATE TABLE ItemBrand(
     CONSTRAINT ItemBrandPK PRIMARY KEY (item, brand),
     CONSTRAINT ItemFK FOREIGN KEY (item) REFERENCES Item(id),
     CONSTRAINT BrandFK FOREIGN KEY (brand) REFERENCES Brand(name)
-)
+);
 
 CREATE TABLE Post(
     id              INT CONSTRAINT IdNotNull NOT NULL,
     price           DECIMAL(5, 2) CONSTRAINT PriceNotNull NOT NULL CONSTRAINT PriceNotNegative CHECK (price >= 0),
-    publishDatetime DATETIME CONSTRAINT PublishDatetimeNotNull NOT NULL
+    publishDatetime DATETIME CONSTRAINT PublishDatetimeNotNull NOT NULL,
     seller          VARCHAR(32) CONSTRAINT SellerNotNull NOT NULL,
     item            INT CONSTRAINT ItemNotNull NOT NULL,
     CONSTRAINT IdPK PRIMARY KEY (id),
     CONSTRAINT SellerFK FOREIGN KEY (seller) REFERENCES User(username),
     CONSTRAINT ItemFK FOREIGN KEY (item) REFERENCES Item(id)
-)
+);
 
 CREATE TRIGGER PostPublisherIsSeller
 BEFORE INSERT ON Post
@@ -78,7 +84,7 @@ FOR EACH ROW
 WHEN (SELECT type FROM User WHERE username = New.seller) <> 'seller'
 BEGIN
     SELECT RAISE(FAIL, 'The post'' publisher must be a seller');
-END
+END;
 
 CREATE TRIGGER PostAndItemHaveSameOwner
 BEFORE INSERT ON Post 
@@ -86,7 +92,7 @@ FOR EACH ROW
 WHEN (SELECT seller FROM Item WHERE id = New.item) <> New.seller
 BEGIN
     SELECT RAISE(FAIL, 'The post and the respective item must have the same seller');
-END 
+END;
 
 CREATE TRIGGER PostAfterUserRegister
 BEFORE INSERT ON Post 
@@ -94,16 +100,15 @@ FOR EACH ROW
 WHEN (SELECT registerDatetime FROM User WHERE username = New.seller) <= New.publishDatetime
 BEGIN 
     SELECT RAISE(FAIL, 'The post cannot be publish before the respective seller being registered');
-END 
+END;
 
-CREATE TABLE Image(
-    url     VARCHAR(64) CONSTRAINT UrlNotNull NOT NULL,
-    post    INT,
-    CONSTRAINT UrlPK PRIMARY KEY (url),
+CREATE TABLE PostImage(
+    post    INT CONSTRAINT PostNotNull NOT NULL,
+    image   VARCHAR(64) CONSTRAINT ImageNotNull NOT NULL,
+    CONSTRAINT PostPK PRIMARY KEY (image),
     CONSTRAINT PostFK FOREIGN KEY (post) REFERENCES Post(id),
+    CONSTRAINT ImageFK FOREIGN KEY (image) REFERENCES Image(url)
 );
-
-ALTER TABLE User ADD CONSTRAINT profilePictureFK FOREIGN KEY (profilePicture) REFERENCES Image(url);
 
 CREATE TABLE Message(
     id          INT CONSTRAINT IdNotNull NOT NULL,
