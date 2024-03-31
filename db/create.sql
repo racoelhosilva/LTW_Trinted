@@ -1,5 +1,17 @@
 PRAGMA foreign_keys = ON;
 
+DROP TABLE IF EXISTS Message;
+DROP TABLE IF EXISTS PostImage;
+DROP TABLE IF EXISTS Post;
+DROP TABLE IF EXISTS ItemBrand;
+DROP TABLE IF EXISTS Brand;
+DROP TABLE IF EXISTS Item;
+DROP TABLE IF EXISTS Condition;
+DROP TABLE IF EXISTS Category;
+DROP TABLE IF EXISTS Size;
+DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS Image;
+
 CREATE TABLE Image(
     url     VARCHAR(64) CONSTRAINT UrlNotNull NOT NULL,
     CONSTRAINT UrlPK PRIMARY KEY (url)
@@ -69,7 +81,9 @@ CREATE TABLE ItemBrand(
 
 CREATE TABLE Post(
     id              INT CONSTRAINT IdNotNull NOT NULL,
+    title           VARCHAR(64) CONSTRAINT TitleNotNull NOT NULL,
     price           DECIMAL(5, 2) CONSTRAINT PriceNotNull NOT NULL CONSTRAINT PriceNotNegative CHECK (price >= 0),
+    description     TEXT,
     publishDatetime DATETIME CONSTRAINT PublishDatetimeNotNull NOT NULL,
     seller          VARCHAR(32) CONSTRAINT SellerNotNull NOT NULL,
     item            INT CONSTRAINT ItemNotNull NOT NULL,
