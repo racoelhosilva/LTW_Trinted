@@ -97,7 +97,7 @@ BEFORE INSERT ON Post
 FOR EACH ROW
 WHEN (SELECT type FROM User WHERE username = New.seller) <> 'seller'
 BEGIN
-    SELECT RAISE(FAIL, 'The post'' publisher must be a seller');
+    SELECT RAISE(FAIL, 'The post''s publisher must be a seller');
 END;
 
 CREATE TRIGGER PostAndItemHaveSameOwner
@@ -111,7 +111,7 @@ END;
 CREATE TRIGGER PostAfterUserRegister
 BEFORE INSERT ON Post 
 FOR EACH ROW 
-WHEN (SELECT registerDatetime FROM User WHERE username = New.seller) <= New.publishDatetime
+WHEN (SELECT registerDatetime FROM User WHERE username = New.seller) >= New.publishDatetime
 BEGIN 
     SELECT RAISE(FAIL, 'The post cannot be publish before the respective seller being registered');
 END;
