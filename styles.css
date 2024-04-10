@@ -131,12 +131,13 @@ table {
 :root {
   --text: #171717;
   --halftone: #514b48;
-  --background: #f2f2f2;
   --lighter: #68a6ab;
   --primary: #007580;
   --darker: #094d53;
   --accent: #0079a8;
   --secondary: #b0d4d8;
+  --background-primary: #f2f2f2;
+  --background-secondary: #D9D9D9;
 }
 
 #logo-small {
@@ -150,7 +151,7 @@ table {
 }
 
 .logo-bg {
-    fill: #D9D9D9;
+    fill: var(--background-secondary);
 } 
 
 .logo-fg {
@@ -158,7 +159,7 @@ table {
 }
 
 header {
-    background-color: #D9D9D9;
+    background-color: var(--background-secondary);
 }
 
 header>h1{
@@ -170,3 +171,5 @@ header>h1{
 footer {
   background-color: var(--darker);
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap');
