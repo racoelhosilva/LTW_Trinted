@@ -29,22 +29,27 @@
     <div class="loginscreen">
         <div class="welcometext">
             <h1>Welcome to</h1>
-            <h1>Trinted</h1>
+            <h1 class="title">TRINTED</h1>
         </div>
         <div class="forms">
             <div class="loginform">
                 <form>
                     <p>If you already have an account:</p>
-                    <input type="text" id="input email" name="email" placeholder="Email"><br>
-                    <input type="password" id="input password" name="password" placeholder="Password"><br>
+                    <input type="text" id="loginemail" name="loginemail" placeholder="Email"><br>
+                    <input type="password" id="loginpassword" name="loginpassword" placeholder="Password"><br>
                     <input type="submit" value="Submit">
                 </form>
             </div>
             <div class="registerform">
                 <p>If you already have an account:</p>
                 <form>
-                    <input type="text" id="fname" name="fname" placeholder="Email"><br>
-                    <input type="password" id="fname" name="fname" placeholder="Password"><br>
+                    <div class="nameemail">
+                        <input type="text" id="registername
+                        " name="registername
+                        " placeholder="Name"><br>
+                        <input type="text" id="registeremail" name="registeremail" placeholder="Email"><br>
+                    </div>
+                    <input type="password" id="registerpassword" name="registerpassword" placeholder="Password"><br>
                     <input type="submit" value="Submit">
                 </form>
             </div>
