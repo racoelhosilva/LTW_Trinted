@@ -17,7 +17,7 @@
 
 <?php function drawMainHeader() { ?>
     <header id="main-header">
-        <
+        
     </header>
 <?php } ?>
 

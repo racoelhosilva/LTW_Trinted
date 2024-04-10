@@ -1,3 +1,7 @@
+@import url('color_scheme.css');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 #main-header {
-    
+    height: 5em;
+    background-color: var(--background-secondary);
 }

@@ -7,15 +7,10 @@
     <title>Trinted</title>
 </head>
 <body>
-    <header>
-        <p>a</p>
-    </header>
-    
-    <main>
-        <p> a</p>
-    </main>
-
-    <footer>
-    </footer>
+    <?php
+        include_once('pages/main_page.php');
+        
+        drawMainPage();
+    ?>
 </body>
 </html>
