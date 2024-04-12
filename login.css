@@ -121,6 +121,15 @@ input[type="submit"] {
 	border: 1px solid #007782;
 }
 
+input[type="submit"]:hover {
+	font-weight: bold;
+	color: #007782;
+	background-color: #f2f2f2;
+	border: 1px solid #007782;
+	transition: 0.3s;
+	cursor: pointer;
+}
+
 #registername {
 	margin-right: 0.5em;
 }
