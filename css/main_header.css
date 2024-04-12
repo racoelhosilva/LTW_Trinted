@@ -1,19 +1,17 @@
 @import url('color_scheme.css');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
-}
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
 
-#hamburger-button {
+.header-button {
+  display: flex;
   border: none;
   background-color: inherit;
-  vertical-align: middle;
-  text-align: center;
+  justify-content: center;
+  align-items: center;
   font-size: 2em;
 }
 
