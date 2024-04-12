@@ -35,8 +35,8 @@
             <div class="loginform">
                 <form>
                     <p>If you already have an account:</p>
-                    <input type="text" id="loginemail" name="loginemail" placeholder="Email"><br>
-                    <input type="password" id="loginpassword" name="loginpassword" placeholder="Password"><br>
+                    <input type="text" id="loginemail" name="loginemail" placeholder="Email">
+                    <input type="password" id="loginpassword" name="loginpassword" placeholder="Password">
                     <input type="submit" value="Submit">
                 </form>
             </div>
@@ -44,12 +44,10 @@
                 <p>If you already have an account:</p>
                 <form>
                     <div class="nameemail">
-                        <input type="text" id="registername
-                        " name="registername
-                        " placeholder="Name"><br>
-                        <input type="text" id="registeremail" name="registeremail" placeholder="Email"><br>
+                        <input type="text" id="registername" name="registername" placeholder="Name">
+                        <input type="text" id="registeremail" name="registeremail" placeholder="Email">
                     </div>
-                    <input type="password" id="registerpassword" name="registerpassword" placeholder="Password"><br>
+                    <input type="password" id="registerpassword" name="registerpassword" placeholder="Password">
                     <input type="submit" value="Submit">
                 </form>
             </div>

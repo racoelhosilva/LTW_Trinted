@@ -91,16 +91,17 @@ footer {
 }
 
 form {
-	gap: 0.1em;
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
 }
 
 .nameemail {
-	gap: 0.1em;
 	display: flex;
-	align-items: center;
+}
+
+.nameemail input {
+	flex-grow: 1;
 }
 
 input {
@@ -110,6 +111,7 @@ input {
 	border: 1px solid #b1b1b1;
 	border-radius: 22px;
 	color: #514b48;
+	margin-bottom: 1em;
 }
 
 input[type="submit"] {
@@ -117,4 +119,12 @@ input[type="submit"] {
 	color: #f2f2f2;
 	background-color: #68a6ab;
 	border: 1px solid #007782;
+}
+
+#registername {
+	margin-right: 0.5em;
+}
+
+#registeremail {
+	margin-left: 0.5em;
 }
