@@ -17,7 +17,7 @@
 
 <?php function drawMainHeader() { ?>
     <header id="main-header">
-        
+        <span class="material-symbols-outlined" id="hamburger">menu</span>
     </header>
 <?php } ?>
 
