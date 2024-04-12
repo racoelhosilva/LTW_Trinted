@@ -9,14 +9,18 @@
   'opsz' 24
 }
 
-#hamburger {
-    font-size: 2em;
+#hamburger-button {
+  border: none;
+  background-color: inherit;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 2em;
 }
 
 #main-header {
-    height: 4em;
-    display: flex;
-    align-items: center;
-    padding-inline: 1em;
-    background-color: var(--background-secondary);
+  height: 4em;
+  display: flex;
+  align-items: center;
+  padding-inline: 1em;
+  background-color: var(--background-secondary);
 }

@@ -1,4 +1,8 @@
-<?php declare(strict_types = 1); ?>
+<?php
+declare(strict_types = 1);
+
+include_once('template/main_header.tlp.php');
+?>
 
 <?php function createPage(callable $buildContent) { ?>
     <!DOCTYPE html>
@@ -17,7 +21,7 @@
 
 <?php function drawMainHeader() { ?>
     <header id="main-header">
-        <span class="material-symbols-outlined" id="hamburger">menu</span>
+        <?php drawHamburgerButton(); ?>
     </header>
 <?php } ?>
 
