@@ -23,6 +23,8 @@ include_once('template/main_header.tlp.php');
 <?php function drawMainHeader() { ?>
     <header id="main-header">
         <?php drawHamburgerButton(); ?>
+        <?php drawHeaderLogo(); ?>
+        <?php drawActionButtons(); ?>
     </header>
 <?php } ?>
 

@@ -6,19 +6,25 @@
 .material-icons.md-36 { font-size: 36px; }
 .material-icons.md-48 { font-size: 48px; }
 
-.header-button {
-  display: flex;
-  border: none;
-  background-color: inherit;
-  justify-content: center;
-  align-items: center;
-  font-size: 2em;
-}
-
 #main-header {
   height: 4em;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding-inline: 1em;
   background-color: var(--background-secondary);
+}
+
+#header-logo {
+  height: 3em;
+}
+
+.header-button {
+  display: inline-flex;
+  border: none;
+  padding: 0;
+  background-color: inherit;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
 }
