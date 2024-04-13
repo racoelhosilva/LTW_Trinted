@@ -1,0 +1,22 @@
+#welcome-banner {
+    background-color: var(--background-dark);
+    color: var(--background-primary);
+    padding-inline: 20%;
+    padding-block: 5em;
+}
+
+#welcome-banner h1 {
+    width: 40%;
+    font-size: 5em;
+}
+
+#welcome-banner p {
+    width: 30%;
+    text-align: end;
+    font-size: 2em;
+    margin-left: auto;
+}
+
+#welcome-banner > :first-child {
+    margin-top: 0;
+}
