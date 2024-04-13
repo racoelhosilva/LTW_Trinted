@@ -1,0 +1,25 @@
+.product-card {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto auto;
+  width: 16em;
+  background-color: var(--background-secondary);
+  border-radius: 1em;
+}
+
+.product-card > img {
+  width: 15em;
+  height: 18em;
+  overflow: hidden;
+  border-radius: 0.5em;
+  margin: 0.5em;
+}
+
+.product-card > h1 {
+  margin: 0 0.5rem;
+  color: var(--primary);
+}
+
+.product-card > p {
+  margin: 0 0.5em 0.5em;
+}
