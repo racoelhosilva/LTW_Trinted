@@ -24,6 +24,7 @@ include_once('template/main_header.tlp.php');
     <header id="main-header">
         <?php drawHamburgerButton(); ?>
         <?php drawHeaderLogo(); ?>
+        <?php drawSearchBar(); ?>
         <?php drawActionButtons(); ?>
     </header>
 <?php } ?>

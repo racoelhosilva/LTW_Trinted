@@ -8,6 +8,8 @@
 
 #main-header {
   height: 4em;
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -19,7 +21,7 @@
   height: 3em;
 }
 
-.header-button {
+#main-header > button, #main-header > div > button {
   display: inline-flex;
   border: none;
   padding: 0;
@@ -27,4 +29,35 @@
   justify-content: center;
   align-items: center;
   font-size: 2em;
+}
+
+#search-bar {
+  display: flex;
+  align-items: center;
+}
+
+#search-bar > input {
+  border: none;
+  border-radius: 1rem;
+  padding: 0 3em 0 1em;
+  height: 2rem;
+  width: 30rem;
+  background-color: var(--background-primary);
+  margin-right: auto;
+}
+
+#search-bar > button {
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--primary);
+  border: none;
+  border-radius: 1rem;
+  margin-left: -2rem;
+  padding: 0;
+  margin-right: auto;
+}
+
+#search-bar > button > span {
+  font-size: 1.2rem;
+  color: var(--background-primary);
 }

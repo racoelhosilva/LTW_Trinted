@@ -1,7 +1,7 @@
 <?php declare(strict_types=1); ?>
 
 <?php function drawHeaderButton(string $icon) { ?>
-    <button class="header-button">
+    <button>
         <span class="material-icons md-36"><?= $icon ?></span>
     </button>
 <?php } ?>
@@ -21,4 +21,13 @@ function drawHamburgerButton() {
 
 <?php function drawHeaderLogo() { ?>
     <img src="svg/logo_large.svg" alt="Trinted Logo" id="header-logo">
+<?php } ?>
+
+<?php function drawSearchBar() { ?>
+    <form id="search-bar">
+        <input type="text" placeholder="Search items...">
+        <button type="submit" id="search-button">
+            <span class="material-icons">search</span>
+        </button>
+    </form>
 <?php } ?>
