@@ -30,6 +30,10 @@ header > h1 {
 	margin: 2px;
 }
 
+main {
+    min-height: calc(100vh - 11em);
+}
+
 footer {
 	background-color: var(--darker);
 }

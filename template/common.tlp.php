@@ -12,6 +12,7 @@ include_once('template/main_header.tlp.php');
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="styles.css">
             <link rel="stylesheet" href="css/main_header.css">
+            <link rel="stylesheet" href="css/main_footer.css">
             <title>Trinted</title>
         </head>
         <body>
@@ -30,6 +31,6 @@ include_once('template/main_header.tlp.php');
 <?php } ?>
 
 <?php function drawFooter() { ?>
-    <footer>
+    <footer id="main-footer">
     </footer>
 <?php } ?>
