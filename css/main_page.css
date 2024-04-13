@@ -1,22 +1,43 @@
 #welcome-banner {
-    background-color: var(--background-dark);
-    color: var(--background-primary);
-    padding-inline: 20%;
-    padding-block: 5em;
+  display: grid;
+  grid-template-areas: "welcome-text"
+                       "welcome-description"
+                       "start-now-button";
+  background-color: var(--background-dark);
+  color: var(--background-primary);
+  padding-inline: 20%;
+  padding-block: 5em 2em;
 }
 
 #welcome-banner h1 {
-    width: 40%;
-    font-size: 5em;
+  grid-area: welcome-text;
+  width: 40%;
+  font-size: 5em;
 }
 
 #welcome-banner p {
-    width: 30%;
-    text-align: end;
-    font-size: 2em;
-    margin-left: auto;
+  grid-area: welcome-description;
+  justify-self: end;
+  width: 20%;
+  text-align: end;
+  font-size: 1.5em;
+  margin-left: auto;
 }
 
 #welcome-banner > :first-child {
-    margin-top: 0;
+  margin-top: 0;
+}
+
+#start-now-button {
+  grid-area: start-now-button;
+  justify-self: end;
+  height: 2em;
+  border: 3px solid var(--lighter);
+  border-radius: 1em;
+  padding-inline: 1em;
+  margin-inline: auto 0;
+  background-color: var(--primary);
+  color: var(--background-primary);
+  font-weight: bold;
+  font-size: 1.5em;
 }
