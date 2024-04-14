@@ -37,7 +37,7 @@
                     <p>If you already have an account:</p>
                     <input type="text" id="loginemail" name="loginemail" placeholder="Email">
                     <input type="password" id="loginpassword" name="loginpassword" placeholder="Password">
-                    <input type="submit" value="Submit">
+                    <input type="submit" value="Login<">
                 </form>
             </div>
             <div class="registerform">
@@ -48,7 +48,7 @@
                         <input type="text" id="registeremail" name="registeremail" placeholder="Email">
                     </div>
                     <input type="password" id="registerpassword" name="registerpassword" placeholder="Password">
-                    <input type="submit" value="Submit">
+                    <input type="submit" value="Register">
                 </form>
             </div>
         </div>
