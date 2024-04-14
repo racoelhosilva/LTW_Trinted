@@ -41,7 +41,7 @@
                 </form>
             </div>
             <div class="registerform">
-                <p>If you already don't have an account:</p>
+                <p>If you don't have an account:</p>
                 <form>
                     <div class="nameemail">
                         <input type="text" id="registername" name="registername" placeholder="Name">
