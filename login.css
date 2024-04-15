@@ -17,9 +17,6 @@ h1 {
 	font-size: 64px;
 }
 
-p {
-}
-
 footer {
 	width: 100vw;
 	height: 150px;
@@ -36,7 +33,6 @@ footer {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	margin-top: -7rem;
 }
 
 .title {
@@ -136,4 +132,34 @@ input[type="submit"]:hover {
 
 #registeremail {
 	margin-left: 0.5em;
+}
+
+/* ------------- Responsive -------------*/
+
+@media (max-height: 800px) {
+	.welcometext {
+		display: none;
+	}
+}
+
+@media (max-width: 975px) {
+	.title {
+		font-size: 75pt;
+	}
+
+	.forms {
+		flex-direction: column;
+	}
+
+	.loginform {
+		border: none;
+		padding: 0;
+		padding-bottom: 1rem;
+	}
+
+	.registerform {
+		padding-top: 1em;
+		border: none;
+		padding: 0;
+	}
 }
