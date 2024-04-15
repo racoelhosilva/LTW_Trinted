@@ -8,7 +8,6 @@
 
 #main-header {
   height: 4em;
-  width: 100%;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -42,6 +41,7 @@
   padding: 0 3em 0 1em;
   height: 2rem;
   width: 30rem;
+  max-width: 30vw;
   background-color: var(--background-primary);
   margin-right: auto;
 }
@@ -49,6 +49,7 @@
 #search-bar > button {
   width: 2rem;
   height: 2rem;
+  flex-shrink: 0;
   background-color: var(--primary);
   border: none;
   border-radius: 1rem;
