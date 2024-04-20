@@ -15,8 +15,11 @@ include_once('template/search_page.tlp.php');
 <?php function drawSearchPageContent() { ?>
     <?php $page = (int) $_GET['page'] ?>
     <main id="search-page">
-        <?php drawProducts(generateProducts($page * 20 - 19, $page * 20)); ?>
-        <?php drawPagination(10, $page); ?>
+        <?php drawSearchDrawer(); ?>
+        <section id="results">
+            <?php drawProducts(generateProducts($page * 20 - 19, $page * 20)); ?>
+            <?php drawPagination(10, $page); ?>
+        </section>
     </main>
 <?php } ?>
 

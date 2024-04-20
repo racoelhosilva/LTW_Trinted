@@ -5,13 +5,13 @@ include_once('template/product.tlp.php');
 ?>
 
 <?php function drawProducts(array $products) { ?>
-    <div id="searched-products">
+    <section id="searched-products">
         <?php
         foreach ($products as $product) {
             drawProductCard((string)$product);
         }
         ?>
-    </div>
+    </section>
 <?php } ?>
 
 <?php function drawPagination(int $pages, int $current) { ?>
@@ -50,4 +50,18 @@ include_once('template/product.tlp.php');
             <a class="blocked">&gt;</a>
         <?php } ?>
     </div>
+<?php } ?>
+
+<?php function drawSearchDrawer() { ?>
+    <section id="search-drawer">
+        <h1>Search</h1>
+        <ul>
+            <li><a href="#">Woman/Female</a></li>
+            <li><a href="#">Man/Male</a></li>
+            <li><a href="#">Child</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Entretainment</a></li>
+            <li><a href="#">Pets</a></li>
+        </ul>
+    </section>
 <?php } ?>

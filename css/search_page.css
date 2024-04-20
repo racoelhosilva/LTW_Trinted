@@ -1,4 +1,16 @@
+#search-page {
+  display: grid;
+  grid-template-areas: "header header"
+                       "drawer results";
+  grid-template-columns: 20em auto;
+}
+
+#results {
+  grid-area: results;
+}
+
 #searched-products {
+  grid-area: results;
   margin: 5em 15% 1em;
   display: flex;
   flex-wrap: wrap;
@@ -38,4 +50,27 @@
 
 #pagination a.blocked {
   visibility: hidden;
+}
+
+#search-drawer {
+  grid-area: drawer;
+  padding: 0 1em 1em;
+  background-color: var(--background-secondary);
+}
+
+#search-drawer > h1 {
+  margin-block: 0 0.2em;
+  font-size: 2em;
+  color: var(--primary);
+}
+
+#search-drawer li {
+  list-style-type: none;
+  font-size: 1.1em;
+  margin-bottom: 0.3em;
+}
+
+#search-drawer li > a {
+  text-decoration: none;
+  color: black;
 }
