@@ -63,5 +63,19 @@ include_once('template/product.tlp.php');
             <li><a href="#">Entretainment</a></li>
             <li><a href="#">Pets</a></li>
         </ul>
+        <h1>Condition</h1>
+        <ul>
+            <li><a href="#">New</a></li>
+            <li><a href="#">Barely-Used</a></li>
+            <li><a href="#">Used</a></li>
+            <li><a href="#">Damaged</a></li>
+        </ul>
+        <h1>Size</h1>
+        <ul>
+            <li><a href="#">S</a></li>
+            <li><a href="#">M</a></li>
+            <li><a href="#">L</a></li>
+            <li><a href="#">XL</a></li>
+        </ul>
     </section>
 <?php } ?>

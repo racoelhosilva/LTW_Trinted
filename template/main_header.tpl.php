@@ -6,11 +6,10 @@
     </button>
 <?php } ?>
 
-<?php
-function drawHamburgerButton() {
-    drawHeaderButton('menu');
-}
-?>
+<?php function drawHamburgerButton() { ?>
+    <input type="checkbox" id="hamburger-button">
+    <label for="hamburger-button" class="material-icons md-36">menu</label>
+<?php } ?>
 
 <?php function drawActionButtons() { ?>
     <div id="action-buttons">

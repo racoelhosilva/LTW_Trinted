@@ -62,3 +62,11 @@
   font-size: 1.2rem;
   color: var(--background-primary);
 }
+
+#hamburger-button {
+  display: none;
+}
+
+#hamburger-button ~ label {
+  user-select: none;
+}

@@ -2,7 +2,7 @@
   display: grid;
   grid-template-areas: "header header"
                        "drawer results";
-  grid-template-columns: 20em auto;
+  grid-template-columns: auto auto;
 }
 
 #results {
@@ -53,9 +53,21 @@
 }
 
 #search-drawer {
+  display: table;
+  width: 20em;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: clip;
+  display: block;
   grid-area: drawer;
   padding: 0 1em 1em;
   background-color: var(--background-secondary);
+  transition: all 1s ease-in-out;
+}
+
+body:has(#hamburger-button:checked) #search-drawer {
+  width: 0;
+  padding: 0;
 }
 
 #search-drawer > h1 {
@@ -68,6 +80,7 @@
   list-style-type: none;
   font-size: 1.1em;
   margin-bottom: 0.3em;
+  white-space: nowrap;
 }
 
 #search-drawer li > a {
