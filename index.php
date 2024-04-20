@@ -22,7 +22,6 @@ if ($route) {
     list($controllerName, $actionName) = explode('@', $route['controller']);
 
     $request = new Request();
-    echo var_dump($request);
 
     foreach ($route['middlewares'] as $middleware) {
         $request = $middleware->handle($request, function ($request) {
@@ -37,4 +36,3 @@ if ($route) {
     header("HTTP/1.0 404 Not Found");
     echo '404 - Page Not Found';
 }
-?>
