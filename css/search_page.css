@@ -22,17 +22,17 @@
   font-weight: bold;
   width: 2.5em;
   height: 2.5em;
-  line-height: 2em;
+  line-height: 2.5em;
   text-align: center;
   transition: all 0.2s ease-out;
-  bor
+  border-radius: 1.25em;
 }
 
 #pagination a.active {
   color: var(--primary);
 }
 
-#pagination a:hover {
+#pagination a:not(.active):hover {
   background: var(--secondary);
 }
 
