@@ -1,9 +1,8 @@
 <?php
 function autoload($class_name) {
     $base_dirs = [
-      __DIR__ . '/../pages/',
-      __DIR__ . '/../utils/',
-      __DIR__ . '/../template/',
+        __DIR__ . '/../utils/',
+        __DIR__ . '/../middlewares/',
     ];
 
     foreach ($base_dirs as $base_dir) {

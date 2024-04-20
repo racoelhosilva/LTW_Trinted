@@ -5,6 +5,7 @@ class Request {
     private $cookies;
     private $headers;
     private $files;
+    private $session;
 
     public function __construct() {
         $this->getParams = $_GET;
@@ -12,6 +13,7 @@ class Request {
         $this->cookies = $_COOKIE;
         $this->headers = $_SERVER;
         $this->files = $_FILES;
+        $this->session = $_SESSION;
     }
 
     public function get($key, $default = null) {
@@ -32,5 +34,9 @@ class Request {
 
     public function files($key) {
         return isset($this->files[$key]) ? $this->files[$key] : null;
+    }
+
+    public function session($key) {
+        return isset($this->session[$key]) ? $this->session[$key] : null;
     }
 }
