@@ -60,13 +60,13 @@
   text-overflow: clip;
   display: block;
   grid-area: drawer;
-  padding: 0 1em 1em;
+  padding-bottom: 1em;
   background-color: var(--background-secondary);
   transition: all 1s ease-in-out;
 }
 
 #search-drawer > h1 {
-  margin-block: 0 0.2em;
+  margin: 0 0 0.2em 0.5em;
   font-size: 2em;
   color: var(--primary);
 }
@@ -78,7 +78,7 @@
 #search-drawer li {
   list-style-type: none;
   font-size: 1.1em;
-  margin-bottom: 0.3em;
+  margin-bottom: 0.3rem;
   white-space: nowrap;
 }
 
@@ -89,9 +89,29 @@
 
 body:has(#hamburger-button:checked) #search-drawer {
   width: 0;
-  padding: 0;
+  box-sizing: border-box;
 }
 
 body:has(#hamburger-button:checked) #search-drawer * {
   color: var(--background-secondary);
+}
+
+/* Responsive UI */
+
+@media (max-width: 1000px) {
+  #search-page {
+    display: block;
+  }
+
+  #search-drawer {
+    width: 100%;
+    height: 20em;
+    overflow: scroll;
+  }
+
+  body:has(#hamburger-button:checked) #search-drawer {
+    width: 100%;
+    height: 0;
+    padding: 0;
+  }
 }
