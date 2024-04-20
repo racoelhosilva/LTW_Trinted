@@ -1,7 +1,7 @@
 <?php declare(strict_types=1); ?>
 
 <?php function drawHeaderButton(string $icon) { ?>
-    <button>
+    <button type="submit" formmethod="get" formaction="pages/login_page.php">
         <span class="material-icons md-36"><?= $icon ?></span>
     </button>
 <?php } ?>

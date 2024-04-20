@@ -55,7 +55,7 @@
   border-radius: 1rem;
   margin-left: -2rem;
   padding: 0;
-  margin-right: auto;
+  margin-right: 0;
 }
 
 #search-bar > button > span {

@@ -1,25 +1,14 @@
-body {
-	height: 100vh;
+#login-page {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: space-evenly;
+	line-height: 1;
 }
 
-body * {
-	font-family: "Hanken Grotesk", sans-serif;
-}
-
-header {
-	width: 100vw;
-}
-
-h1 {
+#login-page h1 {
 	font-size: 64px;
-}
-
-footer {
-	width: 100vw;
-	height: 150px;
+	font-weight: normal;
+	margin: 0;
 }
 
 .logo {
@@ -35,7 +24,7 @@ footer {
 	flex-direction: column;
 }
 
-.title {
+#login-page .title {
 	display: inline-block;
 	font-family: "Segoe UI", Verdana, sans-serif;
 	font-weight: 900;
@@ -70,6 +59,7 @@ footer {
 
 .loginform {
 	width: 25em;
+	max-width: 90vw;
 	padding-right: 5rem;
 	border-right: 1px solid #909090;
 	text-align: center;
@@ -77,6 +67,7 @@ footer {
 
 .registerform {
 	width: 25em;
+	max-width: 90vw;
 	padding-left: 5rem;
 	border-left: 1px solid #909090;
 	text-align: center;
@@ -86,7 +77,7 @@ footer {
 	margin-bottom: 1em;
 }
 
-form {
+#login-page form {
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
@@ -94,13 +85,14 @@ form {
 
 .nameemail {
 	display: flex;
+	max-width: 90vw;
 }
 
 .nameemail input {
-	flex-grow: 1;
+	width: 45%;
 }
 
-input {
+#login-page input {
 	font-family: "Hanken Grotesk", sans-serif;
 	padding: 0.7em;
 	background-color: #d9d9d9;
@@ -110,14 +102,14 @@ input {
 	margin-bottom: 1em;
 }
 
-input[type="submit"] {
+#login-page input[type="submit"] {
 	font-weight: bold;
 	color: #f2f2f2;
 	background-color: #68a6ab;
 	border: 1px solid #007782;
 }
 
-input[type="submit"]:hover {
+#login-page input[type="submit"]:hover {
 	font-weight: bold;
 	color: #007782;
 	background-color: #f2f2f2;
@@ -143,7 +135,7 @@ input[type="submit"]:hover {
 }
 
 @media (max-width: 975px) {
-	.title {
+	#login-page .title {
 		font-size: 75pt;
 	}
 
@@ -161,5 +153,15 @@ input[type="submit"]:hover {
 		padding-top: 1em;
 		border: none;
 		padding: 0;
+	}
+}
+
+@media (max-width: 500px) {
+	#login-page .title {
+		font-size: calc(20vw);
+	}
+
+	#login-page form {
+		width: 90vw;
 	}
 }
