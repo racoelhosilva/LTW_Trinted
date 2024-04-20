@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-        include_once('pages/login_page.php');
+        include_once('pages/main_page.php');
     ?>
 </body>
 </html>

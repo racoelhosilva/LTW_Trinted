@@ -3,15 +3,15 @@
   grid-template-areas: "img   img"
                        "name  like-button"
                        "price like-button";
-  width: 16em;
+  width: 14em;
   background-color: var(--background-secondary);
   border-radius: 1em;
 }
 
 .product-card > img {
   grid-area: img;
-  width: 15em;
-  height: 18em;
+  width: 13em;
+  height: 14em;
   overflow: hidden;
   border-radius: 0.5em;
   margin: 0.5em;
