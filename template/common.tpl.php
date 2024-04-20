@@ -18,7 +18,7 @@ include_once('template/main_header.tpl.php');
             <link rel="stylesheet" href="css/product.css">
             <link rel="stylesheet" href="css/login_page.css">
             <link rel="stylesheet" href="css/title.css">
-
+            <link rel="stylesheet" href="css/search_page.css">
             <title>Trinted</title>
         </head>
         <body>

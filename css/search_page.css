@@ -1,0 +1,10 @@
+#searched-products {
+  margin: 5em 5%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#searched-products .product-card {
+  margin: 0.5em;
+}
