@@ -1,5 +1,10 @@
 <?php
 class Controller {
+    private $request;
+
+    public function __construct(Request $request) {
+        $this->request = $request;
+    }
 
     public function index() {
         include_once('pages/main_page.php');

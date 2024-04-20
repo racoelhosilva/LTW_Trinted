@@ -14,12 +14,14 @@ $route = $routes[$path] ?? null;
 if ($route) {
     
     list($controllerName, $actionName) = explode('@', $route);
-    $controller = new $controllerName();
+    
+    $request = new Request();
+
+    $controller = new $controllerName($request);
     $controller->$actionName();
 
 } else {
     header("HTTP/1.0 404 Not Found");
     echo '404 - Page Not Found';
 }
-
 ?>
