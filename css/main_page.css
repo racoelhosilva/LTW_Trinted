@@ -9,16 +9,21 @@
   padding-block: 5em 2em;
 }
 
-#welcome-banner h1 {
+#welcome-banner h1:not(.title) {
   grid-area: welcome-text;
-  width: 40%;
-  font-size: 5em;
+  width: 60%;
+  font-size: 4.5em;
+  margin: 0;
+}
+
+#welcome-banner .title {
+  font-size: 10em;
 }
 
 #welcome-banner p {
   grid-area: welcome-description;
   justify-self: end;
-  width: 20%;
+  width: 40%;
   text-align: end;
   font-size: 1.5em;
   margin-left: auto;

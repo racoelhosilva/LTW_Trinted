@@ -16,6 +16,7 @@ include_once('template/main_header.tlp.php');
             <link rel="stylesheet" href="css/main_page.css">
             <link rel="stylesheet" href="css/product.css">
             <link rel="stylesheet" href="css/login_page.css">
+            <link rel="stylesheet" href="css/title.css">
 
             <title>Trinted</title>
         </head>

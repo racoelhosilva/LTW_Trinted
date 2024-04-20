@@ -22,7 +22,7 @@
 <?php function drawWelcomeText() { ?>
     <div class="welcometext">
         <h1>Welcome to</h1>
-        <h1 class="title">TRINTED</h1>
+        <h1 id="title">TRINTED</h1>
     </div>
 <?php } ?>
 
