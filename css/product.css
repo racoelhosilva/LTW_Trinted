@@ -1,0 +1,42 @@
+.product-card {
+  display: grid;
+  grid-template-areas: "img   img"
+                       "name  like-button"
+                       "price like-button";
+  width: 14em;
+  background-color: var(--background-secondary);
+  border-radius: 1em;
+}
+
+.product-card > img {
+  grid-area: img;
+  width: 13em;
+  height: 14em;
+  overflow: hidden;
+  border-radius: 0.5em;
+  margin: 0.5em;
+}
+
+.product-card > h1 {
+  grid-area: name;
+  margin: 0 0.5rem;
+  color: var(--primary);
+}
+
+.product-card > p {
+  grid-area: price;
+  margin: 0 0.5em 0.5em;
+}
+
+.product-card > button {
+  grid-area: like-button;
+  width: 3em;
+  height: 3em;
+  justify-self: end;
+  align-self: center;
+  padding: 0;
+  margin-right: 0.5em;
+  border: none;
+  border-radius: 1.5em;
+  color: var(--primary);
+}

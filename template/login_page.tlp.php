@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php declare(strict_types = 1); ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="login.css">
-    <title>Login</title>
-</head>
-
-<body>
+<?php function drawLoginHeader() { ?>
     <header>
         <div class="logo">
             <svg id="logo-small" data-name="logo-small" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 751 317">
@@ -26,36 +17,36 @@
             </svg>
         </div>
     </header>
-    <div class="loginscreen">
-        <div class="welcometext">
-            <h1>Welcome to</h1>
-            <h1 class="title">TRINTED</h1>
-        </div>
-        <div class="forms">
-            <div class="loginform">
-                <form>
-                    <p>If you already have an account:</p>
-                    <input type="text" id="loginemail" name="loginemail" placeholder="Email">
-                    <input type="password" id="loginpassword" name="loginpassword" placeholder="Password">
-                    <input type="submit" value="Login">
-                </form>
-            </div>
-            <div class="registerform">
-                <p>If you don't have an account:</p>
-                <form>
-                    <div class="nameemail">
-                        <input type="text" id="registername" name="registername" placeholder="Name">
-                        <input type="text" id="registeremail" name="registeremail" placeholder="Email">
-                    </div>
-                    <input type="password" id="registerpassword" name="registerpassword" placeholder="Password">
-                    <input type="submit" value="Register">
-                </form>
-            </div>
-        </div>
+<?php } ?>
+
+<?php function drawWelcomeText() { ?>
+    <div class="welcometext">
+        <h1>Welcome to</h1>
+        <h1 id="title">TRINTED</h1>
     </div>
+<?php } ?>
 
-    <footer>
-    </footer>
-</body>
+<?php function drawLoginForm() { ?>
+    <div class="loginform">
+        <form>
+            <p>If you already have an account:</p>
+            <input type="text" id="loginemail" name="loginemail" placeholder="Email">
+            <input type="password" id="loginpassword" name="loginpassword" placeholder="Password">
+            <input type="submit" value="Login">
+        </form>
+    </div>
+<?php } ?>
 
-</html>
+<?php function drawRegisterForm() { ?>
+    <div class="registerform">
+        <p>If you don't have an account:</p>
+        <form>
+            <div class="nameemail">
+                <input type="text" id="registername" name="registername" placeholder="Name">
+                <input type="text" id="registeremail" name="registeremail" placeholder="Email">
+            </div>
+            <input type="password" id="registerpassword" name="registerpassword" placeholder="Password">
+            <input type="submit" value="Register">
+        </form>
+    </div>
+<?php } ?>

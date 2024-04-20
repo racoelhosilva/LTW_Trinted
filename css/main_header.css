@@ -1,3 +1,64 @@
+@import url('color_scheme.css');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
 #main-header {
-    
+  height: 4em;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 1em;
+  background-color: var(--background-secondary);
+}
+
+#header-logo {
+  height: 3em;
+}
+
+#main-header > button, #main-header > div > button {
+  display: inline-flex;
+  border: none;
+  padding: 0;
+  background-color: inherit;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+}
+
+#search-bar {
+  display: flex;
+  align-items: center;
+}
+
+#search-bar > input {
+  border: none;
+  border-radius: 1rem;
+  padding: 0 3em 0 1em;
+  height: 2rem;
+  width: 30rem;
+  max-width: 30vw;
+  background-color: var(--background-primary);
+  margin-right: auto;
+}
+
+#search-bar > button {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  background-color: var(--primary);
+  border: none;
+  border-radius: 1rem;
+  margin-left: -2rem;
+  padding: 0;
+  margin-right: 0;
+}
+
+#search-bar > button > span {
+  font-size: 1.2rem;
+  color: var(--background-primary);
 }
