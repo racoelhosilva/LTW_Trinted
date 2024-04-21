@@ -39,9 +39,10 @@ if ($route) {
 
     // Create the controller and generate page
     $controller = new $controllerName($request);
-    $controller->$actionName();
+    echo $controller->$actionName();
 
 } else {
     // Display 404 page if route is not defined
     include_once('pages/404_page.php');
+    draw404Page();
 }

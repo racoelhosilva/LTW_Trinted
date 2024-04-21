@@ -26,8 +26,9 @@
 <?php } ?>
 
 <?php function drawSearchBar() { ?>
-    <form id="search-bar" action="search?page=1">
+    <form id="search-bar" method="get" action="search">
         <input type="text" placeholder="Search items...">
+        <input type="hidden" name="page" value="1">
         <button type="submit" id="search-button">
             <span class="material-icons">search</span>
         </button>

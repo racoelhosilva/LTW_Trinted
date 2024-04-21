@@ -12,8 +12,8 @@ include_once('template/search_page.tpl.php');
     return $products;
 } ?>
 
-<?php function drawSearchPageContent() { ?>
-    <?php $page = (int) $_GET['page'] ?>
+<?php function drawSearchPageContent(Request $request) { ?>
+    <?php $page = (int) $request->get('page') ?>
     <main id="search-page">
         <?php drawSearchDrawer(); ?>
         <section id="results">
@@ -24,12 +24,10 @@ include_once('template/search_page.tpl.php');
     </main>
 <?php } ?>
 
-<?php function drawSearchPage() {
-    createPage(function () {
+<?php function drawSearchPage(Request $request) {
+    createPage(function () use (&$request) {
         drawMainHeader();
-        drawSearchPageContent();
+        drawSearchPageContent($request);
         drawFooter();
     });
 } ?>
-
-<?php drawSearchPage(); ?>

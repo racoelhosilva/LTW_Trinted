@@ -20,12 +20,10 @@ include_once('template/common.tpl.php');
     </main>
 <?php } ?>
 
-<?php function drawLoginPage() {
+<?php function drawLoginPage(Request $request) {
     createPage(function () {
         drawLoginHeader();
         drawLoginPageContent();
         drawFooter();
     });
 } ?>
-
-<?php drawLoginPage(); ?>
