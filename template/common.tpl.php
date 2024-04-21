@@ -15,6 +15,7 @@ include_once('template/main_header.tpl.php');
             <link rel="stylesheet" href="css/footer.css">
             <link rel="stylesheet" href="css/404_page.css">
             <link rel="stylesheet" href="css/main_page.css">
+            <link rel="stylesheet" href="css/messages_page.css">
             <link rel="stylesheet" href="css/product.css">
             <link rel="stylesheet" href="css/login_page.css">
             <link rel="stylesheet" href="css/title.css">
