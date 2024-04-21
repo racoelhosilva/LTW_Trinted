@@ -14,6 +14,9 @@ $routes = [
     ],
     '/search' => [
         'controller' => 'Controller@search',
+    ],
+    '/profile' => [
+        'controller' => 'Controller@profile',
         'middlewares' => []
     ]
 ];

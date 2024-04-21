@@ -19,6 +19,7 @@ include_once('template/main_header.tpl.php');
             <link rel="stylesheet" href="css/login_page.css">
             <link rel="stylesheet" href="css/title.css">
             <link rel="stylesheet" href="css/search_page.css">
+            <link rel="stylesheet" href="css/profile_page.css">
             <title>Trinted</title>
         </head>
         <body>
@@ -34,6 +35,19 @@ include_once('template/main_header.tpl.php');
         <?php drawSearchBar(); ?>
         <?php drawActionButtons(); ?>
     </header>
+<?php } ?>
+
+<?php function drawProductSection(string $label) { ?>
+    <section id="product-section">
+        <h1><?= $label ?></h1>
+        <div id="product-section-cards">
+            <?php
+            for ($i = 0; $i < 10; $i++) {
+                drawProductCard((string)$i);
+            }
+            ?>
+        </div>
+    </section>
 <?php } ?>
 
 <?php function drawFooter() { ?>

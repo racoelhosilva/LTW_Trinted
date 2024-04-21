@@ -32,4 +32,11 @@ class Controller {
         include_once('pages/search_page.php');
         return drawSearchPage($this->request);
     }
+
+    /**
+     * @brief Generates login page
+     */
+    public function profile() {
+        include_once('pages/profile_page.php');
+    }
 }

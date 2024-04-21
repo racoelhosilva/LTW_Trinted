@@ -1,0 +1,58 @@
+#profile-section {
+  display: flex;
+  position: relative;
+  background-image: linear-gradient(to bottom right, #fff0, #ffff);
+  width: 100%;
+  height: 40em;
+  justify-content: end;
+  align-items: end;
+}
+
+#user-info {
+  margin: 0 8em 5em 8em;
+  text-align: end;
+}
+
+#user-info h1 {
+  font-size: 4em;
+  margin: 0;
+}
+
+#user-info h2 {
+  font-size: 1.5em;
+  color: var(--halftone);
+  margin: 0;
+}
+
+.profile-image {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Responsive UI */
+
+@media (max-width: 800px) {
+  #profile-section {
+    height: 15em;
+  }
+
+  #user-info {
+    margin: 0 3em 3em 3em;
+  }
+
+  #user-info h1 {
+    font-size: 2em;
+  }
+  
+  #user-info h2 {
+    font-size: 1em;
+    color: var(--halftone);
+    margin: 0;
+  }
+}

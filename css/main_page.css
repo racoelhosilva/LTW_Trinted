@@ -51,6 +51,10 @@
   margin: 0 10% 2em;
 }
 
+#product-section > h1 {
+  font-size: 2em;
+}
+
 #product-section-cards {
   display: flex;
   flex-wrap: wrap;
@@ -59,4 +63,12 @@
 
 #product-section-cards > .product-card {
   margin: 0.5em;
+}
+
+/* Responsive UI */
+
+@media (max-width: 800px) {
+  #product-section > h1 {
+    font-size: 1em;
+  }
 }
