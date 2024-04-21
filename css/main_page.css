@@ -64,3 +64,11 @@
 #product-section-cards > .product-card {
   margin: 0.5em;
 }
+
+/* Responsive UI */
+
+@media (max-width: 800px) {
+  #product-section > h1 {
+    font-size: 1em;
+  }
+}
