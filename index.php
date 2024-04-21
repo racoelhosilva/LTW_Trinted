@@ -39,6 +39,5 @@ if ($route) {
 
 } else {
     // Display 404 page if route is not defined
-    header("HTTP/1.0 404 Not Found");
-    echo '404 - Page Not Found';
+    include_once('pages/404_page.php');
 }

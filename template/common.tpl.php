@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-include_once('template/main_header.tlp.php');
+include_once('template/main_header.tpl.php');
 ?>
 
 <?php function createPage(callable $buildContent) { ?>
@@ -13,6 +13,7 @@ include_once('template/main_header.tlp.php');
             <link rel="stylesheet" href="css/styles.css">
             <link rel="stylesheet" href="css/main_header.css">
             <link rel="stylesheet" href="css/footer.css">
+            <link rel="stylesheet" href="css/404_page.css">
             <link rel="stylesheet" href="css/main_page.css">
             <link rel="stylesheet" href="css/product.css">
             <link rel="stylesheet" href="css/login_page.css">

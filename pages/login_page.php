@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
 
-include_once('template/login_page.tlp.php');
-include_once('template/common.tlp.php');
+include_once('template/login_page.tpl.php');
+include_once('template/common.tpl.php');
 ?>
 
 <?php function drawLoginPageContent() { ?>
