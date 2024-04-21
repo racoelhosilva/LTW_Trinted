@@ -12,6 +12,13 @@ $routes = [
         'controller' => 'Controller@login',
         'middlewares' => []
     ],
+    '/search' => [
+        'controller' => 'Controller@search',
+    ],
+    '/profile' => [
+        'controller' => 'Controller@profile',
+        'middlewares' => []
+    ]
 ];
 
 // Extract the path from the URL and compare it to the defined routes
@@ -35,9 +42,10 @@ if ($route) {
 
     // Create the controller and generate page
     $controller = new $controllerName($request);
-    $controller->$actionName();
+    echo $controller->$actionName();
 
 } else {
     // Display 404 page if route is not defined
     include_once('pages/404_page.php');
+    draw404Page();
 }

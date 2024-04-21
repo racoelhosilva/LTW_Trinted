@@ -19,5 +19,3 @@ include_once('template/common.tpl.php');
         drawFooter();
     });
 } ?>
-
-<?php draw404Page(); ?>
