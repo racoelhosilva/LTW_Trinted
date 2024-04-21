@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
-include_once('template/common.tlp.php');
-include_once('template/search_page.tlp.php');
+include_once('template/common.tpl.php');
+include_once('template/search_page.tpl.php');
 ?>
 
 <!-- TODO: Remove this function -->

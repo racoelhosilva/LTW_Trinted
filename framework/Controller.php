@@ -22,4 +22,11 @@ class Controller {
     public function login() {
         include_once('pages/login_page.php');
     }
+
+    /**
+     * @brief Generates search page
+     */
+    public function search() {
+        include_once('pages/search_page.php');
+    }
 }

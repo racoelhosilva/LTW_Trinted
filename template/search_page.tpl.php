@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/product.tlp.php');
+include_once('template/product.tpl.php');
 ?>
 
 <?php function drawProducts(array $products) { ?>

@@ -20,6 +20,10 @@
   height: 3em;
 }
 
+#main-header > div {
+  display: flex;
+}
+
 #main-header > button, #main-header > div > button {
   display: inline-flex;
   border: none;
@@ -46,7 +50,7 @@
   margin-right: auto;
 }
 
-#search-bar > button {
+#search-bar button {
   width: 2rem;
   height: 2rem;
   flex-shrink: 0;
