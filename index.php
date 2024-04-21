@@ -12,6 +12,10 @@ $routes = [
         'controller' => 'Controller@login',
         'middlewares' => []
     ],
+    '/messages' => [
+        'controller' => 'Controller@messages',
+        'middlewares' => []
+    ],
 ];
 
 // Extract the path from the URL and compare it to the defined routes

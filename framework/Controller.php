@@ -22,4 +22,11 @@ class Controller {
     public function login() {
         include_once('pages/login_page.php');
     }
+
+    /**
+     * @brief Generates messages page
+     */
+    public function messages() {
+        include_once('pages/messages_page.php');
+    }
 }
