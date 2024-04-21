@@ -5,24 +5,6 @@ body {
   margin: 0;
 }
 
-#logo-small {
-	height: 65px;
-	width: auto;
-}
-
-#logo-large {
-	height: 150px;
-	width: auto;
-}
-
-.logo-bg {
-	fill: var(--background-secondary);
-}
-
-.logo-fg {
-	fill: var(--primary);
-}
-
 header {
 	background-color: var(--background-secondary);
 }
