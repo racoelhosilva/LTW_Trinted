@@ -1,4 +1,7 @@
 <?php
+/**
+ * @brief Encapsulates superglobals when requests are created
+ */
 class Request {
     private $getParams;
     private $postParams;

@@ -1,7 +1,13 @@
 <?php
+/**
+ * @brief Loads custom class files from specific directories
+ * 
+ * @param string $class_name name of the class to be loaded
+ */
 function autoload($class_name) {
+    // Base directories to look for class declarations
     $base_dirs = [
-        __DIR__ . '/../utils/',
+        __DIR__ . '/../framework/',
         __DIR__ . '/../middlewares/',
     ];
 
