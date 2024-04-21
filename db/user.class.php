@@ -38,7 +38,7 @@ class User
     public static function getUser(PDO $db, string $username): User
     {
         $stmt = $db->prepare("SELECT * FROM User WHERE username = :username");
-        $stmt.bindParam(":username", $username);
+        $stmt->bindParam(":username", $username);
         $stmt->execute();
         $user = $stmt->fetch();
         if ($user === false) {
@@ -53,6 +53,9 @@ class User
         $stmt->bindParam(":username", $this->username);
         $stmt->execute();
         $profilePicture = $stmt->fetch();
+        if ($profilePicture === false){
+            throw new Exception("No image found");
+        }
         return new Image($profilePicture["profilePicture"]);
     }
 
