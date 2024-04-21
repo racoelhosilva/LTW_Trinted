@@ -7,11 +7,11 @@
 
 #page-404 > #number {
     color: var(--lighter);
-    font-size: 400px;
+    font-size: 200px;
     font-weight: 800;
 }
 
 #page-404 > #message {
-    font-size: 100px;
+    font-size: 80px;
     font-weight: 500;
 }
