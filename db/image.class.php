@@ -10,4 +10,11 @@ class Image
     {
         $this->url = $url;
     }
+
+    public function upload(PDO $db)
+    {
+        $stmt = $db->prepare("INSERT INTO Image (url) VALUES (:url)");
+        $stmt->bindParam(":url", $this->url);
+        $stmt->execute();
+    }
 }

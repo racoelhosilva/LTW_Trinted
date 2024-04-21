@@ -38,7 +38,7 @@ class User
     public static function getUser(PDO $db, string $username): User
     {
         $stmt = $db->prepare("SELECT * FROM User WHERE username = :username");
-        $stmt->bindParam(":username", $username);
+        $stmt.bindParam(":username", $username);
         $stmt->execute();
         $user = $stmt->fetch();
         if ($user === false) {
@@ -47,9 +47,13 @@ class User
         return new User($user["username"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
     }
 
-    public function setProfileImage(Image $profilePicture): void
+    public function getProfilePicture(PDO $db): Image
     {
-        $this->profilePicture = $profilePicture;
+        $stmt = $db->prepare("SELECT profilePicture FROM User WHERE username = :username");
+        $stmt->bindParam(":username", $this->username);
+        $stmt->execute();
+        $profilePicture = $stmt->fetch();
+        return new Image($profilePicture["profilePicture"]);
     }
 
     public function setType(PDO $db, string $type): void
