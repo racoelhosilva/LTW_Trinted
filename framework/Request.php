@@ -20,26 +20,26 @@ class Request {
     }
 
     public function get($key, $default = null) {
-        return isset($this->getParams[$key]) ? $this->getParams[$key] : $default;
+        return $this->getParams[$key] ?? $default;
     }
 
     public function post($key, $default = null){
-        return isset($this->postParams[$key]) ? $this->postParams[$key] : $default;
+        return $this->postParams[$key] ?? $default;
     }
 
     public function cookie($key, $default = null) {
-        return isset($this->cookies[$key]) ? $this->cookies[$key] : $default;
+        return $this->cookies[$key] ?? $default;
     }
 
     public function header($key) {
-        return isset($this->headers[$key]) ? $this->headers[$key] : null;
+        return $this->headers[$key] ?? null;
     }
 
     public function files($key) {
-        return isset($this->files[$key]) ? $this->files[$key] : null;
+        return $this->files[$key] ?? null;
     }
 
     public function session($key) {
-        return isset($this->session[$key]) ? $this->session[$key] : null;
+        return $this->session[$key] ?? null;
     }
 }

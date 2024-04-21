@@ -14,7 +14,7 @@ include_once('template/product.tpl.php');
 <?php } ?>
 
 <?php 
-function drawMainPage() {
+function drawMainPage(Request $request) {
     createPage(function () {
         drawMainHeader();
         drawMainPageContent();
@@ -22,5 +22,3 @@ function drawMainPage() {
     });
 }
 ?>
-
-<?php drawMainPage(); ?>
