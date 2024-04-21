@@ -17,6 +17,7 @@ include_once('template/search_page.tlp.php');
     <main id="search-page">
         <?php drawSearchDrawer(); ?>
         <section id="results">
+            <h1>Found 200 results</h1>
             <?php drawProducts(generateProducts($page * 20 - 19, $page * 20)); ?>
             <?php drawPagination(10, $page); ?>
         </section>
