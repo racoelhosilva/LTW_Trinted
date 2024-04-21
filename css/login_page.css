@@ -104,6 +104,13 @@
 	margin-left: 0.5em;
 }
 
+#login-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 4em;
+}
+
 /* ------------- Responsive -------------*/
 
 @media (max-height: 800px) {
