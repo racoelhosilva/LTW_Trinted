@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-include_once('template/main_header.tlp.php');
+include_once('template/main_header.tpl.php');
 ?>
 
 <?php function createPage(callable $buildContent) { ?>
