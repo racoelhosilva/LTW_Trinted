@@ -9,7 +9,8 @@
 }
 
 #user-info {
-  margin: 0 16em 5em 0;
+  margin: 0 12em 5em 0;
+  text-align: end;
 }
 
 #user-info h1 {
@@ -18,7 +19,7 @@
 }
 
 #user-info h2 {
-  font-size: 2em;
+  font-size: 1.5em;
   color: var(--halftone);
   margin: 0;
 }

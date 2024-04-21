@@ -1,3 +1,5 @@
+<?php include_once('template/product.tpl.php'); ?>
+
 <?php function drawProfileImage(String $url) { ?>
     <img src="https://picsum.photos/seed/<?=$url?>/200/300" class="profile-image" alt="Profile Picture">
 <?php } ?>
