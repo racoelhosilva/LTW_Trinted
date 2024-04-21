@@ -1,0 +1,17 @@
+#page-404 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#page-404 > #number {
+    color: var(--lighter);
+    font-size: 400px;
+    font-weight: 800;
+}
+
+#page-404 > #message {
+    font-size: 100px;
+    font-weight: 500;
+}
