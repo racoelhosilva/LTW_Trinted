@@ -20,7 +20,9 @@ function drawHamburgerButton() {
 <?php } ?>
 
 <?php function drawHeaderLogo() { ?>
-    <img src="svg/logo_large.svg" alt="Trinted Logo" id="header-logo">
+    <a href="/">
+        <img src="svg/logo_large.svg" alt="Trinted Logo" id="header-logo">
+    </a>
 <?php } ?>
 
 <?php function drawSearchBar() { ?>

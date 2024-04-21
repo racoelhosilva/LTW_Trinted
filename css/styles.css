@@ -5,10 +5,6 @@ body {
   margin: 0;
 }
 
-#logo {
-	height: 3em;
-}
-
 header {
 	background-color: var(--background-secondary);
 }

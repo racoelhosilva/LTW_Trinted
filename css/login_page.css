@@ -111,6 +111,10 @@
 	height: 4em;
 }
 
+#login-header #logo {
+	height: 3em;
+}
+
 /* ------------- Responsive -------------*/
 
 @media (max-height: 800px) {
