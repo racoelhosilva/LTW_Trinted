@@ -1,0 +1,35 @@
+#profile-section {
+  display: flex;
+  position: relative;
+  background-image: linear-gradient(to bottom right, #fff0, #ffff);
+  width: 100%;
+  height: 40em;
+  justify-content: end;
+  align-items: end;
+}
+
+#user-info {
+  margin: 0 16em 5em 0;
+}
+
+#user-info h1 {
+  font-size: 4em;
+  margin: 0;
+}
+
+#user-info h2 {
+  font-size: 2em;
+  color: var(--halftone);
+  margin: 0;
+}
+
+.profile-image {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
