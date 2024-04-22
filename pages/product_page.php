@@ -6,7 +6,8 @@ include_once('template/product_page.tpl.php');
 ?>
 
 <?php function drawProductPageContent() { ?>
-    <main>
+    <main id="product-page">
+        <?php drawProductPhotos("1"); ?>
     </main> 
 <?php } ?>
 

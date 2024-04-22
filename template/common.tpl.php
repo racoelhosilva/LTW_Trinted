@@ -20,6 +20,7 @@ include_once('template/main_header.tpl.php');
             <link rel="stylesheet" href="css/title.css">
             <link rel="stylesheet" href="css/search_page.css">
             <link rel="stylesheet" href="css/profile_page.css">
+            <link rel="stylesheet" href="css/product_page.css">
             <title>Trinted</title>
         </head>
         <body>
