@@ -11,3 +11,9 @@
         <img src="https://picsum.photos/seed/<?=$product_id?>/200/300" alt="Product Photo">
     </div>
 <?php } ?>
+
+<?php function drawProductInfo(string $product_id) { ?>
+    <div id="product-info">
+        <h1><?= $product_id ?></h1>
+    </div>
+<?php } ?>
