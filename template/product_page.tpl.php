@@ -17,6 +17,7 @@
         <h2>Published two weeks ago</h2>
         <h2>By <a href="profile">John Doe</a></h2>
         <h1><?= $product_id ?></h1>
+        <p class="price">$55.49</p>
         <p><strong>Size:</strong> L<p>
         <p><strong>Condition:</strong> Barely Used</p>
         <p><strong>Category:</strong> Clothing</p>
@@ -25,5 +26,6 @@
 
         <p><strong>Description</strong></p>
         <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum.</p>
+        <button class="add-cart-button">Add to Cart</button>
     </div>
 <?php } ?>
