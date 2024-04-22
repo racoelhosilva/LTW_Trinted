@@ -33,7 +33,14 @@
         </div>
 
         <div id="messages">
-            <div>
+            <p class="message user1">Hello</p>
+            <p class="message user2">Hello</p>
+            <p class="message user1">Helloaeluvsfdgbhuaklcw hvkjsdgc,.nwaids chgbskedjfby.huykse vfn,.d usekjb,undfhiyur,msdyfbgykae,jybs ivehjrtdszfvyuewrkhynsvky uahweu.cd tufjrgfa uyvsehr fgbueksrjgvyrf7eyrsjdb,rygfkyervajrlhysfviweukcraklhrs7vckubcgdksx vhjeyrgaibtyeq6riauvbshyrk ayebgoyskve8oifbwueabhjlysrekagstuyvjeyrbsgboyfvjegksrbciukrjbg tachuesvbghucvaeisdvtgirfuwebkusvdrtfgbevak6stgbfiuclka wuv</p>
+            <p class="message user2">Helloaeluvsfdgbhuaklcw hvkjsdgc,.nwaids chgbskedjfby.huykse vfn,.d usekjb,undfhiyur,msdyfbgykae,jybs ivehjrtdszfvyuewrkhynsvky uahweu.cd tufjrgfa uyvsehr fgbueksrjgvyrf7eyrsjdb,rygfkyervajrlhysfviweukcraklhrs7vckubcgdksx vhjeyrgaibtyeq6riauvbshyrk ayebgoyskve8oifbwueabhjlysrekagstuyvjeyrbsgboyfvjegksrbciukrjbg tachuesvbghucvaeisdvtgirfuwebkusvdrtfgbevak6stgbfiuclka wuv</p>
+            <p class="message user1">Hello</p>
+            <p class="message user2">Hello</p>
+            <p class="message user1">Helloaeluvsfdgbhuaklcw hvkjsdgc,.nwaids chgbskedjfby.huykse vfn,.d usekjb,undfhiyur,msdyfbgykae,jybs ivehjrtdszfvyuewrkhynsvky uahweu.cd tufjrgfa uyvsehr fgbueksrjgvyrf7eyrsjdb,rygfkyervajrlhysfviweukcraklhrs7vckubcgdksx vhjeyrgaibtyeq6riauvbshyrk ayebgoyskve8oifbwueabhjlysrekagstuyvjeyrbsgboyfvjegksrbciukrjbg tachuesvbghucvaeisdvtgirfuwebkusvdrtfgbevak6stgbfiuclka wuv</p>
+            <p class="message user2">Helloaeluvsfdgbhuaklcw hvkjsdgc,.nwaids chgbskedjfby.huykse vfn,.d usekjb,undfhiyur,msdyfbgykae,jybs ivehjrtdszfvyuewrkhynsvky uahweu.cd tufjrgfa uyvsehr fgbueksrjgvyrf7eyrsjdb,rygfkyervajrlhysfviweukcraklhrs7vckubcgdksx vhjeyrgaibtyeq6riauvbshyrk ayebgoyskve8oifbwueabhjlysrekagstuyvjeyrbsgboyfvjegksrbciukrjbg tachuesvbghucvaeisdvtgirfuwebkusvdrtfgbevak6stgbfiuclka wuv</p>
         </div>
 
         <div id="writemessage">

@@ -98,3 +98,34 @@
 	background-color: #68a6ab;
 	border: 1px solid #007782;
 }
+
+#messages {
+    flex-grow: 2;
+
+    max-height: 900px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 0 1rem;
+}
+
+.message {
+    max-width: 70%;
+    word-wrap: break-word;
+    width: fit-content;
+    height: fit-content;
+    display: block;
+    padding: 1em;
+    margin: 0.3rem;
+    border-radius: 25px;
+}
+
+.user1 {
+    background-color: var(--primary);
+    align-self: flex-end;
+}
+
+.user2 {
+    background-color: var(--lighter);
+    align-self: flex-start;
+}
