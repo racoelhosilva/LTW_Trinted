@@ -18,7 +18,7 @@ class Image
         $stmt->execute();
     }
     public static function getImage(PDO $db, string $url){
-        // At first glance, going to the database if we already now the size
+        // At first glance, going to the database if we already now the image
         // might seem a bit stupid, but in this way we can check
         // if the image is in the database or not.
         $stmt = $db->prepare("SELECT url FROM Image WHERE url = :url");

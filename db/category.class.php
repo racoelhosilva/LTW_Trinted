@@ -19,7 +19,7 @@ class Category
 
     public static function getCategory(PDO $db, string $category)
     {
-        // At first glance, going to the database if we already now the size
+        // At first glance, going to the database if we already now the category
         // might seem a bit stupid, but in this way we can check
         // if the category is in the database or not.
         $stmt = $db->prepare("SELECT name FROM Category WHERE name = :category");

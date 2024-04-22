@@ -19,7 +19,7 @@ class Condition
 
     public static function getCondition(PDO $db, string $condition)
     {
-        // At first glance, going to the database if we already now the size
+        // At first glance, going to the database if we already now the condition
         // might seem a bit stupid, but in this way we can check
         // if the condition is in the database or not.
         $stmt = $db->prepare("SELECT name FROM Condition WHERE name = :condition");
