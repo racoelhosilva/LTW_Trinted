@@ -27,6 +27,19 @@
 
 <?php function drawChatSection() { ?>
     <section id="chat">
+        <div id="contact">
+            <img src="https://picsum.photos/seed/picsum/200/" width="40" height="40" class="avatar">
+            Vasco Palmeirim
+        </div>
+
+        <div id="messages">
+            <div>
+        </div>
+
+        <div id="writemessage">
+            <input type="text" id="newmessage" name="newmessage" placeholder="Type your text here...">
+            <input type="submit" value="Send">
+        </div>
     </section>
 <?php } ?>
 
