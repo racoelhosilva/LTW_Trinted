@@ -42,4 +42,15 @@ class Item
         }
         return new Item($itemData["id"], $itemData["name"], User::getUser($db, $itemData["seller"]), Size::getSize($db, $itemData["size"]), Category::getCategory($db, $itemData["category"]), Condition::getCondition($db, $itemData["condition"]));
     }
+
+    public static function getNItems(PDO $db, int $n): array
+    {
+        $stmt = $db->prepare("SELECT * FROM Item WHERE id <= :n");
+        $stmt->bindParam(":n", $n);
+        $stmt->execute();
+        $items = $stmt->fetchAll();
+        return array_map(function ($item) use ($db) {
+            return new Item($item["id"], $item["name"], User::getUser($db, $item["seller"]), Size::getSize($db, $item["size"]), Category::getCategory($db, $item["category"]), Condition::getCondition($db, $item["condition"]));
+        }, $items);
+    }
 }
