@@ -22,7 +22,17 @@ class User
         $this->profilePicture = $profilePicture;
         $this->type = $type;
     }
-    public function upload(PDO $db)
+
+    public function validatePassword(string $password): bool
+    {
+        return password_verify($password, $this->password);
+    }
+
+    public function hashPassword(): void
+    {
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT, ['cost' >= 12]);
+    }
+    public function upload(PDO $db): void
     {
         $stmt = $db->prepare("INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type) VALUES (:username, :email, :name, :password, :registerDateTime, :profilePicture, :type)");
         $stmt->bindParam(":username", $this->username);
@@ -53,7 +63,7 @@ class User
         $stmt->bindParam(":username", $this->username);
         $stmt->execute();
         $profilePicture = $stmt->fetch();
-        if ($profilePicture === false){
+        if ($profilePicture === false) {
             throw new Exception("No image found");
         }
         return new Image($profilePicture["profilePicture"]);
