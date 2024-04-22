@@ -18,6 +18,10 @@ $routes = [
     '/profile' => [
         'controller' => 'Controller@profile',
         'middlewares' => []
+    ],
+    '/product' => [
+        'controller' => 'Controller@product',
+        'middlewares' => []
     ]
 ];
 

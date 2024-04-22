@@ -38,5 +38,14 @@ class Controller {
      */
     public function profile() {
         include_once('pages/profile_page.php');
+        return drawProfilePage($this->request);
+    }
+
+    /**
+     * @brief Generates product page
+     */
+    public function product() {
+        include_once('pages/product_page.php');
+        return drawProductPage($this->request);
     }
 }
