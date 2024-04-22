@@ -22,8 +22,7 @@ class Item
 
     public function upload(PDO $db)
     {
-        $stmt = $db->prepare("INSERT INTO Item (id, name, seller, size, category, condition) VALUES (:id, :name, :seller, :size, :category, :condition)");
-        $stmt->bindParam(":id", $this->id);
+        $stmt = $db->prepare("INSERT INTO Item (name, seller, size, category, condition) VALUES (:name, :seller, :size, :category, :condition)");
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":seller", $this->seller->username);
         $stmt->bindParam(":size", $this->size->size);
