@@ -47,7 +47,7 @@ CREATE TABLE Condition(
 );
 
 CREATE TABLE Item(
-    id          INT CONSTRAINT IdNotNull NOT NULL,
+    id          INTEGER,
     name        VARCHAR(64) CONSTRAINT NameNotNull NOT NULL,
     seller      VARCHAR(32) CONSTRAINT SellerNotNull NOT NULL,
     size        VARCHAR(16),
