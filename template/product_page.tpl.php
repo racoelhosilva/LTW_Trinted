@@ -14,18 +14,23 @@
 
 <?php function drawProductInfo(string $product_id) { ?>
     <div id="product-info">
-        <h2>Published two weeks ago</h2>
-        <h2>By <a href="profile">John Doe</a></h2>
-        <h1><?= $product_id ?></h1>
-        <p class="price">$55.49</p>
-        <p><strong>Size:</strong> L<p>
-        <p><strong>Condition:</strong> Barely Used</p>
-        <p><strong>Category:</strong> Clothing</p>
-        <p><strong>Brand:</strong> Abibas</p>
-        <br>
+        <div>
+            <h2>Published two weeks ago</h2>
+            <h2>By <a href="profile">John Doe</a></h2>
+        </div>
+        <a href="profile"><img alt="Profile Picture" src="https://picsum.photos/seed/<?=$product_id?>/200/300" class="avatar"></a>
+        <div>
+            <h1><?= $product_id ?></h1>
+            <p class="price">$55.49</p>
+            <p><strong>Size:</strong> L<p>
+            <p><strong>Condition:</strong> Barely Used</p>
+            <p><strong>Category:</strong> Clothing</p>
+            <p><strong>Brand:</strong> Abibas</p>
+            <br>
 
-        <p><strong>Description</strong></p>
-        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum.</p>
-        <button class="add-cart-button">Add to Cart</button>
+            <p><strong>Description</strong></p>
+            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum.</p>
+            <button class="add-cart-button">Add to Cart</button>
+        </div>
     </div>
 <?php } ?>
