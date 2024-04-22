@@ -4,7 +4,7 @@
     align-items: center;
 }
 
-#contact-list {
+#contacts {
     width: 300px;
     background-color: var(--lighter);
     height: 900px;
@@ -18,4 +18,33 @@
     background-color: var(--background-secondary);
     border: 2px solid var(--primary);
     height: 900px;
+}
+
+#contacts > h1 {
+    text-align: center;
+    margin: 0 0.5em;
+    padding: 0.5em 0;
+    border-bottom: 3px solid var(--background-primary);
+
+    font-family: 'Hanken Grotesk', sans-serif;
+    color: var(--darker);
+    font-size: 30px;
+}
+
+#contacts > ul {
+    padding: 0px 15px;
+    margin: 0;
+}
+
+#contacts > ul > li {
+    list-style-type: none;
+    padding: 1em;
+    border-bottom: 1px solid var(--background-primary);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 1em;
+}
+.avatar {
+    border-radius: 20px;
 }

@@ -39,7 +39,8 @@ if ($route) {
 
     // Create the controller and generate page
     $controller = new $controllerName($request);
-    $controller->$actionName();
+    $response = $controller->$actionName();
+    echo $response;
 
 } else {
     // Display 404 page if route is not defined

@@ -7,7 +7,8 @@ include_once('template/message_page.tpl.php');
 
 <?php function drawMessagePageContent() { ?>
     <main id="message-box">
-        <?php drawMessageSection()?>
+    <?php drawContactSection()?>
+    <?php drawChatSection()?>
     </main>
 <?php } ?>
 
