@@ -6,6 +6,10 @@
 .material-icons.md-36 { font-size: 36px; }
 .material-icons.md-48 { font-size: 48px; }
 
+.material-icons {
+  font-size: 1.5rem;
+}
+
 #main-header {
   height: 4em;
   box-sizing: border-box;

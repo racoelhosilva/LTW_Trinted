@@ -40,13 +40,11 @@ include_once('template/main_header.tpl.php');
 <?php function drawProductSection(string $label) { ?>
     <section id="product-section">
         <h1><?= $label ?></h1>
-        <div id="product-section-cards">
-            <?php
-            for ($i = 0; $i < 10; $i++) {
-                drawProductCard((string)$i);
-            }
-            ?>
-        </div>
+        <?php
+        for ($i = 0; $i < 10; $i++) {
+            drawProductCard((string)$i);
+        }
+        ?>
     </section>
 <?php } ?>
 

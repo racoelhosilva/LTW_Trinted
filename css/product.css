@@ -3,15 +3,16 @@
   grid-template-areas: "img   img"
                        "name  like-button"
                        "price like-button";
-  width: 14em;
+  width: 13em;
+  height: 17em;
   background-color: var(--background-secondary);
   border-radius: 1em;
 }
 
 .product-card > img {
   grid-area: img;
-  width: 13em;
-  height: 14em;
+  width: 12em;
+  height: 12em;
   overflow: hidden;
   border-radius: 0.5em;
   margin: 0.5em;
@@ -29,14 +30,34 @@
 }
 
 .product-card > button {
+  display: flex;
   grid-area: like-button;
   width: 3em;
   height: 3em;
   justify-self: end;
   align-self: center;
+  justify-content: center;
+  align-items: center;
   padding: 0;
   margin-right: 0.5em;
   border: none;
   border-radius: 1.5em;
   color: var(--primary);
+}
+
+/* Responsive UI */
+
+@media (max-width: 800px) {
+  .product-card {
+    font-size: 0.6em;
+  }
+
+  .product-card > button {
+    width: 2em;
+    height: 2em;
+  }
+
+  .product-card > button > .material-icons {
+    font-size: 1.1em;
+  }
 }
