@@ -9,14 +9,26 @@
 #product-photos {
   position: relative;
   margin: 0.5em;
+  padding: 0.25em;
+  background-color: var(--background-secondary);
+  border-radius: 0.5em;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 #product-photos > img {
   display: block;
-  width: calc(100% - 8px);
-  height: calc(100% - 8px);
-  border: 4px var(--background-secondary) solid;
-  border-radius: 0.5em;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.25em;
+  animation: fade-in 0.5s;
 }
 
 #prev-photo {
@@ -31,6 +43,7 @@
   user-select: none;
   cursor: pointer;
   font-size: 2em;
+  z-index: 1;
 }
 
 #next-photo {
@@ -45,6 +58,7 @@
   user-select: none;
   cursor: pointer;
   font-size: 2em;
+  z-index: 1;
 }
 
 #photo-badges {
@@ -55,6 +69,7 @@
   left: 0;
   margin-left: auto;
   margin-right: auto;
+  z-index: 1;
 }
 
 .photo-badge {
@@ -150,12 +165,9 @@
   color: var(--primary);
 }
 
-#product-info img {
+#product-info .avatar {
   justify-self: center;
   align-self: center;
-}
-
-#product-info .avatar {
   width: 3em;
   height: 3em;
   border-radius: 50%;

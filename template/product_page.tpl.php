@@ -5,13 +5,13 @@
         <span class="material-icons" id="prev-photo">navigate_before</span>
         <span class="material-icons" id="next-photo">navigate_next</span>
         <div id="photo-badges">
-            <span class="material-icons photo-badge">radio_button_checked</span>
-            <span class="material-icons photo-badge">radio_button_unchecked</span>
-            <span class="material-icons photo-badge">radio_button_unchecked</span>
+            <?php for ($i = 0; $i < 3; $i++) { ?>
+                <span class="material-icons photo-badge">radio_button_unchecked</span>
+            <?php } ?>
         </div>
-        <img src="https://picsum.photos/seed/<?=$product_id?>/200/300" alt="Product Photo">
-        <img src="https://picsum.photos/seed/<?=$product_id?>+1/200/300" alt="Product Photo">
-        <img src="https://picsum.photos/seed/<?=$product_id?>+2/200/300" alt="Product Photo">
+        <?php for ($i = 0; $i < 3; $i++) { ?>
+            <img src="https://picsum.photos/seed/<?=$product_id + $i?>/200/300" alt="Product Photo">
+        <?php } ?>
     </div>
 <?php } ?>
 
