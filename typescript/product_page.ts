@@ -1,12 +1,13 @@
 const prevPhotoButton: HTMLElement | null = document.getElementById('prev-photo');
 const nextPhotoButton: HTMLElement | null = document.getElementById('next-photo');
+const photoBadges: HTMLCollectionOf<Element> | null = document.getElementsByClassName('photo-badge');
 
 let currentIndex: number = 0;
 updatePhotoIndex(currentIndex);
 
 function updatePhotoIndex(index: number) : void {
   const photos: HTMLCollectionOf<HTMLImageElement> | undefined = document.getElementById('product-photos')?.getElementsByTagName('img');
-  if (!photos)
+  if (!photos || !photoBadges)
     return;
 
   currentIndex = index;
@@ -21,6 +22,13 @@ function updatePhotoIndex(index: number) : void {
     else
       photos[i].style.display = 'none';
   }
+
+  for (let i = 0; i < photoBadges.length; i++) {
+    if (i === currentIndex)
+      photoBadges[i].innerHTML = 'radio_button_checked'
+    else
+      photoBadges[i].innerHTML = 'radio_button_unchecked';
+  }
 }
 
 if (prevPhotoButton) {
@@ -33,4 +41,12 @@ if (nextPhotoButton) {
   nextPhotoButton.addEventListener('click', () => {
     updatePhotoIndex(currentIndex + 1);
   });
+}
+
+if (photoBadges) {
+  for (let i = 0; i < photoBadges.length; i++) {
+    photoBadges[i].addEventListener('click', () => {
+      updatePhotoIndex(i);
+    });
+  }
 }
