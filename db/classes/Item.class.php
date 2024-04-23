@@ -46,7 +46,7 @@ class Item
         }, $itemBrands);
     }
 
-    public static function getItem(PDO $db, string $id): Item
+    public static function getItem(PDO $db, int $id): Item
     {
         $stmt = $db->prepare("SELECT * FROM Item WHERE id = :id");
         $stmt->bindParam(":id", $id);
@@ -65,6 +65,7 @@ class Item
         $stmt->execute();
         $items = $stmt->fetchAll();
         return array_map(function ($item) use ($db) {
+            print("found\n");
             return new Item($item["id"], $item["name"], User::getUser($db, $item["seller"]), Size::getSize($db, $item["size"]), Category::getCategory($db, $item["category"]), Condition::getCondition($db, $item["condition"]));
         }, $items);
     }

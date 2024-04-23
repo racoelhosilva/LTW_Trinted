@@ -1,35 +1,40 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 include_once('template/main_header.tpl.php');
-include_once('db/Item.class.php')
 ?>
 
-<?php function createPage(callable $buildContent) { ?>
+<?php function createPage(callable $buildContent)
+{ ?>
     <!DOCTYPE html>
     <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="css/styles.css">
-            <link rel="stylesheet" href="css/main_header.css">
-            <link rel="stylesheet" href="css/footer.css">
-            <link rel="stylesheet" href="css/404_page.css">
-            <link rel="stylesheet" href="css/main_page.css">
-            <link rel="stylesheet" href="css/product.css">
-            <link rel="stylesheet" href="css/login_page.css">
-            <link rel="stylesheet" href="css/title.css">
-            <link rel="stylesheet" href="css/search_page.css">
-            <link rel="stylesheet" href="css/profile_page.css">
-            <title>Trinted</title>
-        </head>
-        <body>
-            <?php $buildContent(); ?>
-        </body>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/main_header.css">
+        <link rel="stylesheet" href="css/footer.css">
+        <link rel="stylesheet" href="css/404_page.css">
+        <link rel="stylesheet" href="css/main_page.css">
+        <link rel="stylesheet" href="css/product.css">
+        <link rel="stylesheet" href="css/login_page.css">
+        <link rel="stylesheet" href="css/title.css">
+        <link rel="stylesheet" href="css/search_page.css">
+        <link rel="stylesheet" href="css/profile_page.css">
+        <title>Trinted</title>
+    </head>
+
+    <body>
+        <?php $buildContent(); ?>
+    </body>
+
     </html>
 <?php } ?>
 
-<?php function drawMainHeader() { ?>
+<?php function drawMainHeader()
+{ ?>
     <header id="main-header">
         <?php drawHamburgerButton(); ?>
         <?php drawHeaderLogo(); ?>
@@ -38,22 +43,24 @@ include_once('db/Item.class.php')
     </header>
 <?php } ?>
 
-<?php function drawProductSection(string $label) { ?>
+<?php function drawProductSection(string $label)
+{ ?>
     <section id="product-section">
         <h1><?= $label ?></h1>
         <div id="product-section-cards">
             <?php
             $db = new PDO("sqlite:" . DB_PATH);
-            $products = Item::getNItems($db, 10);
-            foreach ($products as $product){
-                drawProductCard($product);
+            $posts = Post::getNPosts($db, 10);
+            foreach ($posts as $post) {
+                drawProductCard($post);
             }
             ?>
         </div>
     </section>
 <?php } ?>
 
-<?php function drawFooter() { ?>
+<?php function drawFooter()
+{ ?>
     <footer id="main-footer">
     </footer>
 <?php } ?>

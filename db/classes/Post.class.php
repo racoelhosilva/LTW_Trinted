@@ -39,7 +39,8 @@ class Post
         $this->id = $id[0];
     }
 
-    public function getAllImages(PDO $db): array{
+    public function getAllImages(PDO $db): array
+    {
         $stmt = $db->prepare("SELECT * FROM PostImage WHERE post = :post");
         $stmt->bindParam(":post", $this->id);
         $stmt->execute();
@@ -47,5 +48,20 @@ class Post
         return array_map(function ($image) use ($db) {
             return new Image($image["image"]);
         }, $images);
+    }
+
+    public function getItem(PDO $db): Item
+    {
+        return Item::getItem($db, $this->item->id);
+    }
+
+    public static function getNPosts(PDO $db, int $n): array {
+        $stmt = $db->prepare("SELECT * FROM Post WHERE id <= :n");
+        $stmt->bindParam(":n", $n);
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+        return array_map(function ($post) use ($db) {
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUser($db, $post["seller"]), Item::getItem($db, $post["item"]));
+        }, $posts);
     }
 }

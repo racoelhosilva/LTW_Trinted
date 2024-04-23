@@ -159,7 +159,7 @@ VALUES (1, 'Gucci'),
 
 -- Create Posts
 INSERT INTO Post (title, price, description, publishDatetime, seller, item)
-VALUES ('T-Dress', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but never used it',
+VALUES ('T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but never used it',
         DATETIME('2024-04-23 14:00'), 'Ricky', 1),
        ('Dress', 5.99, 'Almost new dress from Louis Vuitton',
         DATETIME('2024-04-23 14:01'), 'Shayde', 2),

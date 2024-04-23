@@ -4,11 +4,11 @@ declare(strict_types=1);
 include_once('template/product.tpl.php');
 ?>
 
-<?php function drawProducts(array $products) { ?>
+<?php function drawProducts(array $posts) { ?>
     <section id="searched-products">
         <?php
-        foreach ($products as $product) {
-            drawProductCard((string)$product);
+        foreach ($posts as $post) {
+            drawProductCard($post);
         }
         ?>
     </section>
