@@ -60,40 +60,50 @@ VALUES ('XS'),
 
 -- Create Categories
 -- Create Categories
-INSERT INTO Category (name) VALUES
-    ('Armwear'),
-    ('Badges'),
-    ('Belts'),
-    ('Children''s clothing'),
-    ('Coats'),
-    ('Dresses'),
-    ('Footwear'),
-    ('Gowns'),
-    ('Handwear'),
-    ('Headgear'),
-    ('Hosiery'),
-    ('Jackets'),
-    ('Knee clothing'),
-    ('Masks'),
-    ('Neckwear'),
-    ('One-piece suits'),
-    ('Outerwear'),
-    ('Ponchos'),
-    ('Robes and cloaks'),
-    ('Royal attire'),
-    ('Saris'),
-    ('Sashes'),
-    ('Shawls and wraps'),
-    ('Skirts'),
-    ('Sportswear'),
-    ('Suits'),
-    ('Tops'),
-    ('Trousers and shorts'),
-    ('Undergarments'),
-    ('Wedding clothing');
+INSERT INTO Category (name)
+VALUES ('Armwear'),
+       ('Badges'),
+       ('Belts'),
+       ('Children''s clothing'),
+       ('Coats'),
+       ('Dresses'),
+       ('Footwear'),
+       ('Gowns'),
+       ('Handwear'),
+       ('Headgear'),
+       ('Hosiery'),
+       ('Jackets'),
+       ('Knee clothing'),
+       ('Masks'),
+       ('Neckwear'),
+       ('One-piece suits'),
+       ('Outerwear'),
+       ('Ponchos'),
+       ('Robes and cloaks'),
+       ('Royal attire'),
+       ('Saris'),
+       ('Sashes'),
+       ('Shawls and wraps'),
+       ('Skirts'),
+       ('Sportswear'),
+       ('Suits'),
+       ('Tops'),
+       ('Trousers and shorts'),
+       ('Undergarments'),
+       ('Wedding clothing');
 
 -- Create Conditions
+INSERT INTO Condition (name)
+VALUES ('New with tag'),
+       ('New without tag'),
+       ('Deadstock'),
+       ('Like new'),
+       ('Excellent'),
+       ('Very good'),
+       ('Distressed');
+
 -- Create Items
+
 -- Create Brands
 -- Create ItemBrands
 -- Create Posts
