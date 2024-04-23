@@ -29,9 +29,24 @@ class Item
         $stmt->bindParam(":category", $this->category->category);
         $stmt->bindParam(":condition", $this->condition->condition);
         $stmt->execute();
+        $stmt = $db->prepare("SELECT last_insert_rowid()");
+        $stmt->execute();
+        $id = $stmt->fetch();
+        $this->id = $id[0];
     }
 
-    public static function getItem(PDO $db, string $id)
+    public function getBrands(PDO $db): array
+    {
+        $stmt = $db->prepare("SELECT * FROM ItemBrand WHERE item = :item");
+        $stmt->bindParam(":item", $this->id);
+        $stmt->execute();
+        $itemBrands = $stmt->fetchAll();
+        return array_map(function ($itemBrand) use ($db) {
+            return new Brand($itemBrand["brand"]);
+        }, $itemBrands);
+    }
+
+    public static function getItem(PDO $db, string $id): Item
     {
         $stmt = $db->prepare("SELECT * FROM Item WHERE id = :id");
         $stmt->bindParam(":id", $id);

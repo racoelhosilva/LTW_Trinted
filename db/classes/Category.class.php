@@ -17,7 +17,7 @@ class Category
         $stmt->execute();
     }
 
-    public static function getCategory(PDO $db, string $category)
+    public static function getCategory(PDO $db, string $category): Category
     {
         // At first glance, going to the database if we already now the category
         // might seem a bit stupid, but in this way we can check

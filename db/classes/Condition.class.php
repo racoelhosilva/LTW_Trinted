@@ -17,7 +17,7 @@ class Condition
         $stmt->execute();
     }
 
-    public static function getCondition(PDO $db, string $condition)
+    public static function getCondition(PDO $db, string $condition): Condition
     {
         // At first glance, going to the database if we already now the condition
         // might seem a bit stupid, but in this way we can check
