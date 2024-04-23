@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 
 include_once('template/main_header.tpl.php');
+include_once('template/product.tpl.php');
 ?>
 
 <?php function createPage(callable $buildContent) { ?>

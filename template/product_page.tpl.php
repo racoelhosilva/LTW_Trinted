@@ -19,7 +19,7 @@
             <h2>By <a href="profile">John Doe</a></h2>
         </div>
         <a href="profile"><img alt="Profile Picture" src="https://picsum.photos/seed/<?=$product_id?>/200/300" class="avatar"></a>
-        <div>
+        <div class="details">
             <h1><?= $product_id ?></h1>
             <p class="price">$55.49</p>
             <p><strong>Size:</strong> L<p>
@@ -29,8 +29,8 @@
             <br>
 
             <p><strong>Description</strong></p>
-            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum.</p>
-            <button class="add-cart-button">Add to Cart</button>
         </div>
+        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum.</p>
+        <button class="add-cart-button">Add to Cart</button>
     </div>
 <?php } ?>
