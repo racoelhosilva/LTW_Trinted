@@ -9,6 +9,7 @@ include_once('template/product_page.tpl.php');
     <main id="product-page">
         <?php drawProductPhotos('1'); ?>
         <?php drawProductInfo('1'); ?>
+        <?php drawProductSection('Related Products'); ?>
     </main> 
 <?php } ?>
 
