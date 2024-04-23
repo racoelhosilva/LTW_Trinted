@@ -1,13 +1,12 @@
 @import url('color_scheme.css');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
-
-.material-icons {
-  font-size: 1.5rem;
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
 
 #main-header {
@@ -28,7 +27,11 @@
   display: flex;
 }
 
-#main-header > button, #main-header > div > button {
+#action-buttons > input {
+  display: none;
+}
+
+#main-header > label, #action-buttons > label {
   display: inline-flex;
   border: none;
   padding: 0;
@@ -36,6 +39,11 @@
   justify-content: center;
   align-items: center;
   font-size: 2em;
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 40;
 }
 
 #search-bar {
@@ -67,7 +75,7 @@
 }
 
 #search-bar > button > span {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--background-primary);
 }
 

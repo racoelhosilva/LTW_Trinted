@@ -2,14 +2,13 @@
 
 <?php function drawHeaderButton(string $icon) { ?>
     <form id="profile-form" action="login"></form>
-    <button type="submit" form="profile-form">
-        <span class="material-icons md-36"><?= $icon ?></span>
-    </button>
+    <input type="submit" form="profile-form">
+    <label class="material-symbols-outlined"><?= $icon ?></label>
 <?php } ?>
 
 <?php function drawHamburgerButton() { ?>
     <input type="checkbox" id="hamburger-button">
-    <label for="hamburger-button" class="material-icons md-36">menu</label>
+    <label for="hamburger-button" class="material-symbols-outlined">menu</label>
 <?php } ?>
 
 <?php function drawActionButtons() { ?>
@@ -30,7 +29,7 @@
         <input type="text" placeholder="Search items...">
         <input type="hidden" name="page" value="1">
         <button type="submit" id="search-button">
-            <span class="material-icons">search</span>
+            <span class="material-symbols-outlined">search</span>
         </button>
     </form>
 <?php } ?>

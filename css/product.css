@@ -30,11 +30,16 @@
   margin: 0 0.5em 0.5em;
 }
 
-.product-card > button {
-  display: flex;
+.like-button {
   grid-area: like-button;
-  width: 3em;
-  height: 3em;
+  justify-self: end;
+  align-self: center;
+}
+
+.like-button > label {
+  display: flex;
+  width: 1.7em;
+  height: 1.7em;
   justify-self: end;
   align-self: center;
   justify-content: center;
@@ -42,10 +47,28 @@
   padding: 0;
   margin-right: 0.5em;
   border: none;
-  border-radius: 1.5em;
+  border-radius: 50%;
+  background-color: var(--background-primary);
   color: var(--primary);
+  user-select: none;
   cursor: pointer;
   transition: all 0.2s;
+}
+
+.like-button > label:hover {
+  color: var(--darker);
+}
+
+.like-button > label > input {
+  display: none;
+}
+
+.like-button > label:not(:has(input:checked)) {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
 
 /* Responsive UI */

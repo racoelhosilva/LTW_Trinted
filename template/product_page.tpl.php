@@ -2,11 +2,11 @@
 
 <?php function drawProductPhotos(string $product_id) { ?>
     <div id="product-photos">
-        <span class="material-icons" id="prev-photo">navigate_before</span>
-        <span class="material-icons" id="next-photo">navigate_next</span>
+        <span class="material-symbols-outlined" id="prev-photo">navigate_before</span>
+        <span class="material-symbols-outlined" id="next-photo">navigate_next</span>
         <div id="photo-badges">
             <?php for ($i = 0; $i < 3; $i++) { ?>
-                <span class="material-icons photo-badge">radio_button_unchecked</span>
+                <span class="material-symbols-outlined photo-badge">circle</span>
             <?php } ?>
         </div>
         <?php for ($i = 0; $i < 3; $i++) { ?>

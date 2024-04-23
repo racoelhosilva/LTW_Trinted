@@ -78,6 +78,14 @@
   color: white;
 }
 
+.photo-badge:not(.active) {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
 #product-info {
   display: grid;
   grid-template-columns: auto auto;
@@ -87,7 +95,7 @@
   background-color: var(--background-secondary);
   border-radius: 0.5em;
   margin: 0.5em;
-  padding: 0.5em 0.5em 5em 0.5em;
+  padding: 0.5em 0.5em 4em 0.5em;
   height: calc(fit-content - 2em);
 }
 

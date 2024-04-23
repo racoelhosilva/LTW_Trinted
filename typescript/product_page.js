@@ -21,9 +21,9 @@ function updatePhotoIndex(index) {
     }
     for (var i = 0; i < photoBadges.length; i++) {
         if (i === currentIndex)
-            photoBadges[i].innerHTML = 'radio_button_checked';
+            photoBadges[i].classList.add('active');
         else
-            photoBadges[i].innerHTML = 'radio_button_unchecked';
+            photoBadges[i].classList.remove('active');
     }
 }
 if (prevPhotoButton) {
