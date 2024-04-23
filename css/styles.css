@@ -19,4 +19,8 @@ main {
     min-height: calc(100vh - 11em);
 }
 
+button {
+	cursor: pointer;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap");

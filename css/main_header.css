@@ -39,6 +39,8 @@
   justify-content: center;
   align-items: center;
   font-size: 2em;
+  user-select: none;
+  cursor: pointer;
   font-variation-settings:
   'FILL' 1,
   'wght' 400,
@@ -81,8 +83,4 @@
 
 #hamburger-button {
   display: none;
-}
-
-#hamburger-button ~ label {
-  user-select: none;
 }

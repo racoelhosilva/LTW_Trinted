@@ -9,7 +9,7 @@ include_once('template/product.tpl.php');
 <?php function drawMainPageContent() { ?>
     <main>
         <?php drawWelcomeBanner(); ?>
-        <?php drawProductSection("Explore new items"); ?>
+        <?php drawProductSection('Explore new items'); ?>
     </main>
 <?php } ?>
 
