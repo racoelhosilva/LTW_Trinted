@@ -18,7 +18,7 @@ include_once('template/profile_page.tpl.php');
 <?php } ?>
 
 <?php
-function drawProfilePage() {
+function drawProfilePage(Request $request) {
     createPage(function () {
         drawMainHeader();
         drawProfilePageContent();
@@ -26,5 +26,3 @@ function drawProfilePage() {
     });
 }
 ?>
-
-<?php drawProfilePage(); ?>

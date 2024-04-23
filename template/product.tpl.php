@@ -1,12 +1,15 @@
 <?php
 
-declare(strict_types=1); ?>
-
+declare(strict_types=1);
+?>
 <?php function drawLikeButton(string $product)
 { ?>
-    <button type="checkbox">
-        <span class="material-icons">favorite_border</span>
-    </button>
+    <div class="like-button">
+        <label class="material-symbols-outlined">
+            <input type="checkbox">
+            favorite_border
+        </label>
+    </div>
 <?php } ?>
 
 <?php function drawProductCard(Post $post)
