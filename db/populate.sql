@@ -35,7 +35,6 @@ VALUES ('https://randomuser.me/api/portraits/men/84.jpg'),
        ('https://randomuser.me/api/portraits/men/64.jpg');
 
 -- Create Users
-
 INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
 VALUES ('Whichave', 'JoshuaEBradley@rhyta.com', 'Joshua E. Bradley',
         '$2y$10$XCd8oYMnh04062w15c08DuvsUbKHviBmGIE3nK4ZIwtlIgSbtOVa.', DATETIME('2024-01-01 12:35:35'),
@@ -51,7 +50,48 @@ VALUES ('Whichave', 'JoshuaEBradley@rhyta.com', 'Joshua E. Bradley',
         'https://randomuser.me/api/portraits/men/64.jpg', 'buyer');
 
 -- Create Sizes
+INSERT INTO Size (name)
+VALUES ('XS'),
+       ('S'),
+       ('M'),
+       ('L'),
+       ('XL'),
+       ('XXL');
+
 -- Create Categories
+-- Create Categories
+INSERT INTO Category (name) VALUES
+    ('Armwear'),
+    ('Badges'),
+    ('Belts'),
+    ('Children''s clothing'),
+    ('Coats'),
+    ('Dresses'),
+    ('Footwear'),
+    ('Gowns'),
+    ('Handwear'),
+    ('Headgear'),
+    ('Hosiery'),
+    ('Jackets'),
+    ('Knee clothing'),
+    ('Masks'),
+    ('Neckwear'),
+    ('One-piece suits'),
+    ('Outerwear'),
+    ('Ponchos'),
+    ('Robes and cloaks'),
+    ('Royal attire'),
+    ('Saris'),
+    ('Sashes'),
+    ('Shawls and wraps'),
+    ('Skirts'),
+    ('Sportswear'),
+    ('Suits'),
+    ('Tops'),
+    ('Trousers and shorts'),
+    ('Undergarments'),
+    ('Wedding clothing');
+
 -- Create Conditions
 -- Create Items
 -- Create Brands
