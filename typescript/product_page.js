@@ -1,12 +1,31 @@
 var prevPhotoButton = document.getElementById('prev-photo');
 var nextPhotoButton = document.getElementById('next-photo');
+var currentIndex = 0;
+updatePhotoIndex(currentIndex);
+function updatePhotoIndex(index) {
+    var _a;
+    var photos = (_a = document.getElementById('product-photos')) === null || _a === void 0 ? void 0 : _a.getElementsByTagName('img');
+    if (!photos)
+        return;
+    currentIndex = index;
+    if (currentIndex < 0)
+        currentIndex += photos.length;
+    else if (currentIndex >= photos.length)
+        currentIndex -= photos.length;
+    for (var i = 0; i < photos.length; i++) {
+        if (i === currentIndex)
+            photos[i].style.display = 'block';
+        else
+            photos[i].style.display = 'none';
+    }
+}
 if (prevPhotoButton) {
     prevPhotoButton.addEventListener('click', function () {
-        console.log('Previous photo');
+        updatePhotoIndex(currentIndex - 1);
     });
 }
 if (nextPhotoButton) {
     nextPhotoButton.addEventListener('click', function () {
-        console.log('Next photo');
+        updatePhotoIndex(currentIndex + 1);
     });
 }

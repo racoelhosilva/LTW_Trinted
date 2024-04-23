@@ -7,8 +7,11 @@
         <div id="photo-badges">
             <span class="material-icons photo-badge">directions_walk</span>
             <span class="material-icons photo-badge">directions_run</span>
+            <span class="material-icons photo-badge">directions_run</span>
         </div>
         <img src="https://picsum.photos/seed/<?=$product_id?>/200/300" alt="Product Photo">
+        <img src="https://picsum.photos/seed/<?=$product_id?>+1/200/300" alt="Product Photo">
+        <img src="https://picsum.photos/seed/<?=$product_id?>+2/200/300" alt="Product Photo">
     </div>
 <?php } ?>
 
