@@ -22,12 +22,14 @@ include_once('template/product.tpl.php');
             <link rel="stylesheet" href="css/search_page.css">
             <link rel="stylesheet" href="css/profile_page.css">
             <link rel="stylesheet" href="css/product_page.css">
+            <script src="typescript/product_page.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>
             <?php $buildContent(); ?>
         </body>
     </html>
+    <script 
 <?php } ?>
 
 <?php function drawMainHeader() { ?>
