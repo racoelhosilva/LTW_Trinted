@@ -83,7 +83,7 @@
     height: 2em;
   }
 
-  .product-card > button > .material-icons {
-    font-size: 1.1em;
+  .product-card > .like-button > label {
+    font-size: 1.5em;
   }
 }

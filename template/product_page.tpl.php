@@ -5,11 +5,11 @@
         <span class="material-symbols-outlined" id="prev-photo">navigate_before</span>
         <span class="material-symbols-outlined" id="next-photo">navigate_next</span>
         <div id="photo-badges">
-            <?php for ($i = 0; $i < 3; $i++) { ?>
+            <?php for ($i = 0; $i < 10; $i++) { ?>
                 <span class="material-symbols-outlined photo-badge">circle</span>
             <?php } ?>
         </div>
-        <?php for ($i = 0; $i < 3; $i++) { ?>
+        <?php for ($i = 0; $i < 10; $i++) { ?>
             <img src="https://picsum.photos/seed/<?=$product_id + $i?>/200/300" alt="Product Photo">
         <?php } ?>
     </div>
