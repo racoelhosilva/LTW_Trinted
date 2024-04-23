@@ -18,7 +18,7 @@
             <h2>Published two weeks ago</h2>
             <h2>By <a href="profile">John Doe</a></h2>
         </div>
-        <a href="profile"><img alt="Profile Picture" src="https://picsum.photos/seed/<?=$product_id?>/200/300" class="avatar"></a>
+        <a href="profile"><img alt="Profile Picture" src="https://picsum.photos/seed/1/200/300" class="avatar"></a>
         <div class="details">
             <h1><?= $product_id ?></h1>
             <p class="price">$55.49</p>
