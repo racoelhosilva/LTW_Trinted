@@ -45,6 +45,7 @@
   border-radius: 1.5em;
   color: var(--primary);
   cursor: pointer;
+  transition: all 0.2s;
 }
 
 /* Responsive UI */
