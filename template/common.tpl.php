@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 
 include_once('template/main_header.tpl.php');
+include_once('db/Item.class.php')
 ?>
 
 <?php function createPage(callable $buildContent) { ?>
@@ -42,8 +43,10 @@ include_once('template/main_header.tpl.php');
         <h1><?= $label ?></h1>
         <div id="product-section-cards">
             <?php
-            for ($i = 0; $i < 10; $i++) {
-                drawProductCard((string)$i);
+            $db = new PDO("sqlite:" . DB_PATH);
+            $products = Item::getNItems($db, 10);
+            foreach ($products as $product){
+                drawProductCard($product);
             }
             ?>
         </div>

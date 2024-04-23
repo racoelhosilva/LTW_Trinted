@@ -1,4 +1,5 @@
 <?php
+define('DB_PATH', $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 // Load the autoloader
 require_once __DIR__ . '/framework/Autoload.php';
 

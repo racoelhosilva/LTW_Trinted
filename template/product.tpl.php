@@ -6,11 +6,11 @@
     </button>
 <?php } ?>
 
-<?php function drawProductCard(string $product) { ?>  <!-- TODO: Use real database product -->
+<?php function drawProductCard(Item $product) { ?>  <!-- TODO: Use real database product -->
     <div class="product-card">
-        <img src="https://picsum.photos/seed/<?=$product?>/200/300" alt="<?=$product?>">
-        <h1><?=$product?></h1>
+        <img src="https://picsum.photos/seed/<?=$product->name?>/200/300" alt="<?=$product->name?>">
+        <h1><?=$product->name?></h1>
         <p>$55.49</p>
-        <?php drawLikeButton($product); ?>
+        <?php drawLikeButton($product->name); ?>
     </div>
 <?php } ?>

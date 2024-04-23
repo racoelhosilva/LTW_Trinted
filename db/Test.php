@@ -1,11 +1,5 @@
 <?php
 // ************ This file is used only for testing the database ************
-require_once "user.class.php";
-require_once "image.class.php";
-require_once "size.class.php";
-require_once "category.class.php";
-require_once "condition.class.php";
-require_once "item.class.php";
 
 
 $db = new PDO("sqlite:database.db");
