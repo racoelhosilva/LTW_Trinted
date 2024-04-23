@@ -38,6 +38,9 @@ $db = new PDO("sqlite:database.db");
 //     print($brand->name . "\n");
 // }
 //$item = Item::getItem($db, 2);
-$user = new User('name', "email", "name", "loveJivieY0", time(), new Image("ada"), "seller");
+$image = new Image("https://ibb.co/YNSXPCY");
+$image->upload($db);
+$user = new User('AnalyticalT', "202208700@up.pt", "Bruno Oliveira", "123456", strtotime("2024-04--23 13:49:12"), $image, "seller");
 $user->hashPassword();
+$user->upload($db);
 print($user->password . "\n");

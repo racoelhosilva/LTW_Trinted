@@ -29,25 +29,48 @@ FROM Image;
 
 -- Create Images
 INSERT INTO Image (url)
-VALUES ('https://randomuser.me/api/portraits/men/84.jpg'),
-       ('https://randomuser.me/api/portraits/men/19.jpg'),
-       ('https://randomuser.me/api/portraits/men/32.jpg'),
-       ('https://randomuser.me/api/portraits/men/64.jpg');
+VALUES ('https://randomuser.me/api/portraits/men/84.jpg');
+INSERT INTO Image (url)
+VALUES ('https://randomuser.me/api/portraits/men/19.jpg');
+INSERT INTO Image (url)
+VALUES ('https://randomuser.me/api/portraits/men/32.jpg');
+INSERT INTO Image (url)
+VALUES ('https://randomuser.me/api/portraits/men/64.jpg');
+INSERT INTO Image (url)
+VALUES ('https://ibb.co/w4L5GzT');
+INSERT INTO Image (url)
+VALUES ('https://ibb.co/v3yL7MR');
+INSERT INTO Image (url)
+VALUES ('https://ibb.co/YNSXPCY');
+
 
 -- Create Users
 INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
 VALUES ('Whichave', 'JoshuaEBradley@rhyta.com', 'Joshua E. Bradley',
-        '$2y$10$XCd8oYMnh04062w15c08DuvsUbKHviBmGIE3nK4ZIwtlIgSbtOVa.', DATETIME('2024-01-01 12:35:35'),
-        'https://randomuser.me/api/portraits/men/84.jpg', 'buyer'),
-       ('Samses', 'JeffreyFCervantes@teleworm.us', 'Jeffrey F. Cervantes',
-        '$2y$10$B5TYiAeEWLj3mV8vImn2ReTszGeU7aqMeVHLJGk.QcSFQt8kdikgG', DATETIME('2024-02-05 15:25:12'),
-        'https://randomuser.me/api/portraits/men/19.jpg', 'buyer'),
-       ('Hisguallon', 'JohnAHill@armyspy.com', 'John A. Hill',
-        '$2y$10$jRYT23lX6YeCCMuXgawcUuWTQKXYLIUDtBmFhKsfE63TcndCR.hWy', DATETIME('2024-03-07 17:34:45'),
-        'https://randomuser.me/api/portraits/men/32.jpg', 'buyer'),
-       ('Lils1947', 'DennisMChandler@dayrep.com', 'Dennis M. Chandler',
-        '$2y$10$DftDaXbYmdMbjX6CoHMIbeZaIjalhbzIpC2XZ46UKivtRUfJxMMQK', DATETIME('2024-04-01 09:21:32'),
-        'https://randomuser.me/api/portraits/men/64.jpg', 'buyer');
+        '$2y$10$5qzG2ayXItO6hhltSvCLK.J41BWPnK8h9LKWT4BxD7716brYw2T4a', '1704112535',
+        'https://randomuser.me/api/portraits/men/84.jpg', 'seller');
+INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
+VALUES ('Samses', 'JeffreyFCervantes@teleworm.us', 'Jeffrey F. Cervantes',
+        '$2y$10$wgMqjjZwkncCqt14pJAjpeThLPopeez2XY8CoXHLwWmcj/4nHNCFe', '1707146712',
+        'https://randomuser.me/api/portraits/men/19.jpg', 'seller');
+INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
+VALUES ('Hisguallon', 'JohnAHill@armyspy.com', 'John A. Hill',
+        '$2y$10$wqgEj1VXvv/sSANCNCpliuxZH3HrHW1XthJk2ATyHK2BQJYWiz0RK', '1709832885',
+        'https://randomuser.me/api/portraits/men/32.jpg', 'seller');
+INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
+VALUES ('Lils1947', 'DennisMChandler@dayrep.com', 'Dennis M. Chandler',
+        '$2y$10$pTsBH1AIIMOso.Dl/knV6OzJVH73Kn.FihC9xBIzI9NXc2gd6SBxS', '1711963292',
+        'https://randomuser.me/api/portraits/men/64.jpg', 'seller');
+INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
+VALUES ('Ricky', 'up202204988@up.pt', 'Henrique Fernandes',
+        '$2y$10$h5ldOURPVpPjsl44MzI1..7wPzCXV4x87f2ABP5ufxk1pcDK8EE7W', '0', 'https://ibb.co/w4L5GzT', 'seller');
+INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
+VALUES ('Shayde', '202205188@up.pt', 'Rodrigo Albergaria',
+        '$2y$10$cSeD.JpzN3KZNTCTfHIzhOYleR93GVmKDuTrHIhOv2Pqs7TmN/di6', '0', 'https://ibb.co/v3yL7MR', 'seller');
+INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
+VALUES ('AnalyticalT', '202208700@up.pt', 'Bruno Oliveira',
+        '$2y$10$Vo/ZYT5.CrKgk876Ha9DmOywwqlyMTtRi.C5ywYgPIgDTWrvVte.K', '0', 'https://ibb.co/YNSXPCY', 'seller');
+
 
 -- Create Sizes
 INSERT INTO Size (name)
@@ -58,7 +81,6 @@ VALUES ('XS'),
        ('XL'),
        ('XXL');
 
--- Create Categories
 -- Create Categories
 INSERT INTO Category (name)
 VALUES ('Armwear'),
@@ -89,6 +111,7 @@ VALUES ('Armwear'),
        ('Suits'),
        ('Tops'),
        ('Trousers and shorts'),
+       ('T-shirts'),
        ('Undergarments'),
        ('Wedding clothing');
 
@@ -103,9 +126,31 @@ VALUES ('New with tag'),
        ('Distressed');
 
 -- Create Items
+INSERT INTO Item (name, seller, size, category, condition)
+VALUES ('T-shirt ', 'Ricky', 'M', 'T-shirts', 'New without tag');
+INSERT INTO Item (name, seller, size, category, condition)
+VALUES ('Dress', 'Shayde', 'S', 'Dresses', 'Like new');
+INSERT INTO Item (name, seller, size, category, condition)
+VALUES ('Coat', 'AnalyticalT', 'L', 'Coats', 'Excellent');
 
 -- Create Brands
+INSERT INTO Brand (name)
+VALUES ('Nike'),
+       ('Adidas'),
+       ('Louis Vuitton'),
+       ('Chanel'),
+       ('Gucci'),
+       ('Hermès'),
+       ('Dior'),
+       ('Cartier'),
+       ('Zara'),
+       ('Rolex');
+
 -- Create ItemBrands
+INSERT INTO ItemBrand (item, brand)
+VALUES (0, 'Gucci'),
+       (1, 'Louis Vuitton'),
+       (2, 'Chanel');
 -- Create Posts
 -- Create PostImages
 -- Create Messages
