@@ -42,6 +42,11 @@ INSERT INTO Image (url)
 VALUES ('https://ibb.co/v3yL7MR');
 INSERT INTO Image (url)
 VALUES ('https://ibb.co/YNSXPCY');
+INSERT INTO Image (url)
+VALUES ('https://picsum.photos/200/300');INSERT INTO Image (url)
+VALUES ('https://picsum.photos/200/301');
+INSERT INTO Image (url)
+VALUES ('https://picsum.photos/200/302');
 
 
 -- Create Users
@@ -148,9 +153,21 @@ VALUES ('Nike'),
 
 -- Create ItemBrands
 INSERT INTO ItemBrand (item, brand)
-VALUES (0, 'Gucci'),
-       (1, 'Louis Vuitton'),
-       (2, 'Chanel');
+VALUES (1, 'Gucci'),
+       (2, 'Louis Vuitton'),
+       (3, 'Chanel');
+
 -- Create Posts
+INSERT INTO Post (title, price, description, publishDatetime, seller, item)
+VALUES ('T-Dress', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but never used it',
+        DATETIME('2024-04-23 14:00'), 'Ricky', 1),
+       ('Dress', 5.99, 'Almost new dress from Louis Vuitton',
+        DATETIME('2024-04-23 14:01'), 'Shayde', 2),
+       ('Coat', 5.99, 'Coat in good condition from Chanel',
+        DATETIME('2024-04-23 14:02'), 'AnalyticalT', 3);
+
 -- Create PostImages
+INSERT INTO PostImage (post, image)
+VALUES (1, 'https://picsum.photos/200/300'), (2, 'https://picsum.photos/200/301'), (3, 'https://picsum.photos/200/302');
+
 -- Create Messages
