@@ -45,31 +45,3 @@ $_SESSION['email'] = $email;
 $_SESSION['name'] = $user->name;
 header("Location: /profile");
 exit();
-
-// Check if the form is submitted
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     // Get username and password from the form
-//     $email = $_POST['loginemail'];
-//     $password = $_POST['loginpassword'];
-//     $db = new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
-//     try {
-//         $user = User::getUserByEmail($db, $email);
-//     } catch (Exception $e) {
-//         echo '<script>alert("User not found")</script>';
-//         sleep(2);
-//         header("Location: /login");
-//     }
-//     $isPasswordCorrect = $user->validatePassword($password);
-//     if (!$isPasswordCorrect) {
-//         print("Invalid password");
-//     } else {
-//         print("Login successful");
-//     }
-
-//     // Perform authentication (you can include your authentication code here)
-
-//     // For demonstration purposes, let's assume the user is authenticated
-//     // Set session variables
-//     $_SESSION['user_id'] = $email;
-//     header("Location: /");
-// }
