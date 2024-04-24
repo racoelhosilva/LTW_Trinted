@@ -55,7 +55,7 @@ class Item
         if ($itemData === false) {
             throw new Exception("Item not found");
         }
-        return new Item($itemData["id"], $itemData["name"], User::getUser($db, $itemData["seller"]), Size::getSize($db, $itemData["size"]), Category::getCategory($db, $itemData["category"]), Condition::getCondition($db, $itemData["condition"]));
+        return new Item($itemData["id"], $itemData["name"], User::getUserByName($db, $itemData["seller"]), Size::getSize($db, $itemData["size"]), Category::getCategory($db, $itemData["category"]), Condition::getCondition($db, $itemData["condition"]));
     }
 
     public static function getNItems(PDO $db, int $n): array
@@ -66,7 +66,7 @@ class Item
         $items = $stmt->fetchAll();
         return array_map(function ($item) use ($db) {
             print("found\n");
-            return new Item($item["id"], $item["name"], User::getUser($db, $item["seller"]), Size::getSize($db, $item["size"]), Category::getCategory($db, $item["category"]), Condition::getCondition($db, $item["condition"]));
+            return new Item($item["id"], $item["name"], User::getUserByName($db, $item["seller"]), Size::getSize($db, $item["size"]), Category::getCategory($db, $item["category"]), Condition::getCondition($db, $item["condition"]));
         }, $items);
     }
 }

@@ -55,13 +55,14 @@ class Post
         return Item::getItem($db, $this->item->id);
     }
 
-    public static function getNPosts(PDO $db, int $n): array {
+    public static function getNPosts(PDO $db, int $n): array
+    {
         $stmt = $db->prepare("SELECT * FROM Post WHERE id <= :n");
         $stmt->bindParam(":n", $n);
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUser($db, $post["seller"]), Item::getItem($db, $post["item"]));
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByName($db, $post["seller"]), Item::getItem($db, $post["item"]));
         }, $posts);
     }
 }

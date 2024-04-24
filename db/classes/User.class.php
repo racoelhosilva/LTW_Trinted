@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+require_once 'Image.class.php';
 class User
 {
     public string $username;
@@ -45,10 +46,22 @@ class User
         $stmt->execute();
     }
 
-    public static function getUser(PDO $db, string $username): User
+    public static function getUserByName(PDO $db, string $username): User
     {
         $stmt = $db->prepare("SELECT * FROM User WHERE username = :username");
         $stmt->bindParam(":username", $username);
+        $stmt->execute();
+        $user = $stmt->fetch();
+        if ($user === false) {
+            throw new Exception("User not found");
+        }
+        return new User($user["username"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
+    }
+
+    public static function getUserByEmail(PDO $db, string $email): User
+    {
+        $stmt = $db->prepare("SELECT * FROM User WHERE email = :email");
+        $stmt->bindParam(":email", $email);
         $stmt->execute();
         $user = $stmt->fetch();
         if ($user === false) {
