@@ -1,11 +1,13 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 include_once('template/main_header.tpl.php');
 include_once('template/product.tpl.php');
 ?>
 
-<?php function createPage(callable $buildContent) { ?>
+<?php function createPage(callable $buildContent)
+{ ?>
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -34,7 +36,8 @@ include_once('template/product.tpl.php');
     <script 
 <?php } ?>
 
-<?php function drawMainHeader() { ?>
+<?php function drawMainHeader()
+{ ?>
     <header id="main-header">
         <?php drawHamburgerButton(); ?>
         <?php drawHeaderLogo(); ?>
@@ -43,18 +46,22 @@ include_once('template/product.tpl.php');
     </header>
 <?php } ?>
 
-<?php function drawProductSection(string $label) { ?>
+<?php function drawProductSection(string $label)
+{ ?>
     <section id="product-section">
         <h1><?= $label ?></h1>
-        <?php
-        for ($i = 0; $i < 10; $i++) {
-            drawProductCard((string)$i);
-        }
-        ?>
+            <?php
+            $db = new PDO("sqlite:" . DB_PATH);
+            $posts = Post::getNPosts($db, 10);
+            foreach ($posts as $post) {
+                drawProductCard($post);
+            }
+            ?>
     </section>
 <?php } ?>
 
-<?php function drawFooter() { ?>
+<?php function drawFooter()
+{ ?>
     <footer id="main-footer">
     </footer>
 <?php } ?>

@@ -1,6 +1,9 @@
-<?php declare(strict_types = 1); ?>
+<?php
 
-<?php function drawLikeButton(string $product) { ?>
+declare(strict_types=1);
+?>
+<?php function drawLikeButton(string $product)
+{ ?>
     <div class="like-button">
         <label class="material-symbols-outlined">
             <input type="checkbox">
@@ -9,11 +12,14 @@
     </div>
 <?php } ?>
 
-<?php function drawProductCard(string $product) { ?>  <!-- TODO: Use real database product -->
+<?php function drawProductCard(Post $post)
+{
+    $db = new PDO("sqlite:" . DB_PATH);
+?>
     <div class="product-card">
-        <img src="https://picsum.photos/seed/<?=$product?>/200/300" alt="<?=$product?>">
-        <h1><?=$product?></h1>
-        <p>$55.49</p>
-        <?php drawLikeButton($product); ?>
+        <img src="<?= $post->getAllImages($db)[0]->url ?>" alt="<?= $post->item->name ?>">
+        <h1><?= $post->title ?></h1>
+        <p>$<?= $post->price ?></p>
+        <?php drawLikeButton($post->title); ?>
     </div>
 <?php } ?>

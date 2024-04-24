@@ -17,7 +17,7 @@ class Size
         $stmt->execute();
     }
 
-    public static function getSize(PDO $db, string $size)
+    public static function getSize(PDO $db, string $size): Size
     {
         // At first glance, going to the database if we already now the size
         // might seem a bit stupid, but in this way we can check

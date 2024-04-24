@@ -9,10 +9,16 @@ function autoload($class_name) {
     $base_dirs = [
         __DIR__ . '/../framework/',
         __DIR__ . '/../middlewares/',
+        __DIR__ . '/../db/classes/',
     ];
 
     foreach ($base_dirs as $base_dir) {
         $file_path = $base_dir . $class_name . '.php';
+        if (file_exists($file_path)) {
+            require_once $file_path;
+            return;
+        }
+        $file_path = $base_dir . $class_name . '.class.php';
         if (file_exists($file_path)) {
             require_once $file_path;
             return;
