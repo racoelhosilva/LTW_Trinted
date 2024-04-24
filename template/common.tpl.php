@@ -50,7 +50,6 @@ include_once('template/product.tpl.php');
 { ?>
     <section id="product-section">
         <h1><?= $label ?></h1>
-        <div id="product-section-cards">
             <?php
             $db = new PDO("sqlite:" . DB_PATH);
             $posts = Post::getNPosts($db, 10);
@@ -58,7 +57,6 @@ include_once('template/product.tpl.php');
                 drawProductCard($post);
             }
             ?>
-        </div>
     </section>
 <?php } ?>
 
