@@ -10,6 +10,7 @@ function autoload($class_name) {
         __DIR__ . '/../framework/',
         __DIR__ . '/../middlewares/',
         __DIR__ . '/../db/classes/',
+        __DIR__ . '/../actions/',
     ];
 
     foreach ($base_dirs as $base_dir) {
