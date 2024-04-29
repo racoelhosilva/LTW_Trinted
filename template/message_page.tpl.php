@@ -4,19 +4,19 @@
     <section id="contacts">
         <h1>Recent contacts</h1>
         <ul>
-        <li>
+        <li id="contact-side">
             <img src="https://picsum.photos/seed/picsum/200/" width="40" height="40" class="avatar">
             Vasco Palmeirim
         </li>
-        <li>
+        <li id="contact-side">
             <img src="https://picsum.photos/seed/picsum/200/" width="40" height="40" class="avatar">
             Vasco Palmeirim
         </li>
-        <li>
+        <li id="contact-side">
             <img src="https://picsum.photos/seed/picsum/200/" width="40" height="40" class="avatar">
             Vasco Palmeirim
         </li>
-        <li>
+        <li id="contact-side">
             <img src="https://picsum.photos/seed/picsum/200/" width="40" height="40" class="avatar">
             Vasco Palmeirim
         </li>

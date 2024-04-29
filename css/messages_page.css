@@ -49,6 +49,15 @@
     color: var(--background-primary);
     font-size: 18px;
 }
+
+#contact-side:hover {
+    font-weight: bold;
+    color: var(--primary);
+    background-color: var(--secondary);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
 .avatar {
     border-radius: 20px;
 }
@@ -129,3 +138,4 @@
     background-color: var(--lighter);
     align-self: flex-start;
 }
+
