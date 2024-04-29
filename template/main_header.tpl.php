@@ -1,16 +1,15 @@
 <?php declare(strict_types=1); ?>
 
 <?php function drawHeaderButton(string $icon) { ?>
-    <button type="submit" formmethod="get" formaction="pages/login_page.php">
-        <span class="material-icons md-36"><?= $icon ?></span>
-    </button>
+    <form id="profile-form" action="login"></form>
+    <input type="submit" form="profile-form">
+    <label class="material-symbols-outlined"><?= $icon ?></label>
 <?php } ?>
 
-<?php
-function drawHamburgerButton() {
-    drawHeaderButton('menu');
-}
-?>
+<?php function drawHamburgerButton() { ?>
+    <input type="checkbox" id="hamburger-button">
+    <label for="hamburger-button" class="material-symbols-outlined">menu</label>
+<?php } ?>
 
 <?php function drawActionButtons() { ?>
     <div id="action-buttons">
@@ -26,10 +25,11 @@ function drawHamburgerButton() {
 <?php } ?>
 
 <?php function drawSearchBar() { ?>
-    <form id="search-bar">
+    <form id="search-bar" method="get" action="search">
         <input type="text" placeholder="Search items...">
+        <input type="hidden" name="page" value="1">
         <button type="submit" id="search-button">
-            <span class="material-icons">search</span>
+            <span class="material-symbols-outlined">search</span>
         </button>
     </form>
 <?php } ?>

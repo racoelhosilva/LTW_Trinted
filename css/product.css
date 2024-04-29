@@ -3,15 +3,17 @@
   grid-template-areas: "img   img"
                        "name  like-button"
                        "price like-button";
-  width: 14em;
+  width: 13em;
+  height: 17em;
   background-color: var(--background-secondary);
   border-radius: 1em;
+  cursor: pointer;
 }
 
 .product-card > img {
   grid-area: img;
-  width: 13em;
-  height: 14em;
+  width: 12em;
+  height: 12em;
   overflow: hidden;
   border-radius: 0.5em;
   margin: 0.5em;
@@ -28,15 +30,60 @@
   margin: 0 0.5em 0.5em;
 }
 
-.product-card > button {
+.like-button {
   grid-area: like-button;
-  width: 3em;
-  height: 3em;
   justify-self: end;
   align-self: center;
+}
+
+.like-button > label {
+  display: flex;
+  width: 1.7em;
+  height: 1.7em;
+  justify-self: end;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
   padding: 0;
   margin-right: 0.5em;
   border: none;
-  border-radius: 1.5em;
+  border-radius: 50%;
+  background-color: var(--background-primary);
   color: var(--primary);
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.like-button > label:hover {
+  color: var(--darker);
+}
+
+.like-button > label > input {
+  display: none;
+}
+
+.like-button > label:not(:has(input:checked)) {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+/* Responsive UI */
+
+@media (max-width: 800px) {
+  .product-card {
+    font-size: 0.6em;
+  }
+
+  .product-card > button {
+    width: 2em;
+    height: 2em;
+  }
+
+  .product-card > .like-button > label {
+    font-size: 1.5em;
+  }
 }

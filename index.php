@@ -1,4 +1,5 @@
 <?php
+define('DB_PATH', $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 // Load the autoloader
 require_once __DIR__ . '/framework/Autoload.php';
 
@@ -16,6 +17,17 @@ $routes = [
         'controller' => 'Controller@messages',
         'middlewares' => []
     ],
+    '/search' => [
+        'controller' => 'Controller@search',
+    ],
+    '/profile' => [
+        'controller' => 'Controller@profile',
+        'middlewares' => []
+    ],
+    '/product' => [
+        'controller' => 'Controller@product',
+        'middlewares' => []
+    ]
 ];
 
 // Extract the path from the URL and compare it to the defined routes
@@ -39,10 +51,10 @@ if ($route) {
 
     // Create the controller and generate page
     $controller = new $controllerName($request);
-    $response = $controller->$actionName();
-    echo $response;
+    echo $controller->$actionName();
 
 } else {
     // Display 404 page if route is not defined
     include_once('pages/404_page.php');
+    draw404Page();
 }

@@ -1,10 +1,13 @@
 @import url('color_scheme.css');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
 
 #main-header {
   height: 4em;
@@ -20,7 +23,15 @@
   height: 3em;
 }
 
-#main-header > button, #main-header > div > button {
+#main-header > div {
+  display: flex;
+}
+
+#action-buttons > input {
+  display: none;
+}
+
+#main-header > label, #action-buttons > label {
   display: inline-flex;
   border: none;
   padding: 0;
@@ -28,6 +39,13 @@
   justify-content: center;
   align-items: center;
   font-size: 2em;
+  user-select: none;
+  cursor: pointer;
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 40;
 }
 
 #search-bar {
@@ -46,7 +64,7 @@
   margin-right: auto;
 }
 
-#search-bar > button {
+#search-bar button {
   width: 2rem;
   height: 2rem;
   flex-shrink: 0;
@@ -59,6 +77,10 @@
 }
 
 #search-bar > button > span {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--background-primary);
+}
+
+#hamburger-button {
+  display: none;
 }

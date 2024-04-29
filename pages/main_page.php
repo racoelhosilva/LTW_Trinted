@@ -9,12 +9,12 @@ include_once('template/product.tpl.php');
 <?php function drawMainPageContent() { ?>
     <main>
         <?php drawWelcomeBanner(); ?>
-        <?php drawProductSection(); ?>
+        <?php drawProductSection('Explore new items'); ?>
     </main>
 <?php } ?>
 
 <?php 
-function drawMainPage() {
+function drawMainPage(Request $request) {
     createPage(function () {
         drawMainHeader();
         drawMainPageContent();
@@ -22,5 +22,3 @@ function drawMainPage() {
     });
 }
 ?>
-
-<?php drawMainPage(); ?>

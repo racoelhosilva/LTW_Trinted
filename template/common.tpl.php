@@ -1,10 +1,13 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 include_once('template/main_header.tpl.php');
+include_once('template/product.tpl.php');
 ?>
 
-<?php function createPage(callable $buildContent) { ?>
+<?php function createPage(callable $buildContent)
+{ ?>
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -19,16 +22,23 @@ include_once('template/main_header.tpl.php');
             <link rel="stylesheet" href="css/product.css">
             <link rel="stylesheet" href="css/login_page.css">
             <link rel="stylesheet" href="css/title.css">
-
+            <link rel="stylesheet" href="css/search_page.css">
+            <link rel="stylesheet" href="css/profile_page.css">
+            <link rel="stylesheet" href="css/product_page.css">
+            <script src="typescript/product_page.js" defer></script>
+            <script src="typescript/product.js" defer></script>
+            <script src="typescript/main_page.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>
             <?php $buildContent(); ?>
         </body>
     </html>
+    <script 
 <?php } ?>
 
-<?php function drawMainHeader() { ?>
+<?php function drawMainHeader()
+{ ?>
     <header id="main-header">
         <?php drawHamburgerButton(); ?>
         <?php drawHeaderLogo(); ?>
@@ -37,7 +47,22 @@ include_once('template/main_header.tpl.php');
     </header>
 <?php } ?>
 
-<?php function drawFooter() { ?>
+<?php function drawProductSection(string $label)
+{ ?>
+    <section id="product-section">
+        <h1><?= $label ?></h1>
+            <?php
+            $db = new PDO("sqlite:" . DB_PATH);
+            $posts = Post::getNPosts($db, 10);
+            foreach ($posts as $post) {
+                drawProductCard($post);
+            }
+            ?>
+    </section>
+<?php } ?>
+
+<?php function drawFooter()
+{ ?>
     <footer id="main-footer">
     </footer>
 <?php } ?>
