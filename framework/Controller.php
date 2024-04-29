@@ -48,4 +48,12 @@ class Controller {
         include_once('pages/product_page.php');
         return drawProductPage($this->request);
     }
+
+    /**
+     * @brief Generates checkout page
+     */
+    public function checkout() {
+        include_once('pages/checkout_page.php');
+        return drawCheckoutPage($this->request);
+    }
 }
