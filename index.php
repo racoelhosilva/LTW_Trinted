@@ -22,7 +22,7 @@ $routes = [
     ],
     '/profile' => [
         'controller' => 'Controller@profile',
-        'middlewares' => []
+        'middlewares' => [new AuthenticationMiddleware()]
     ],
     '/product' => [
         'controller' => 'Controller@product',
