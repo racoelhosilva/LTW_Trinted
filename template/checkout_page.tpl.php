@@ -49,3 +49,20 @@ include_once('db/classes/Post.class.php');
         </div>
     </section>
 <?php } ?>
+
+<?php function drawCheckoutForm() { ?>
+    <section id="checkout-form">
+        <h1>Shipping Information</h1>
+        <form action="checkout.php" method="post">
+            <input type="text" name="first-name" placeholder="First Name" required>
+            <input type="text" name="last-name" placeholder="Last Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <input type="text" name="address" placeholder="Address" required>
+            <input type="text" name="zip" placeholder="Zip-Code" required>
+            <input type="text" name="town" placeholder="Town" required>
+            <input type="text" name="country" placeholder="Country" required>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </section>
+<?php } ?>

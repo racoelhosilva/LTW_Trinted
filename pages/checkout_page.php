@@ -11,6 +11,7 @@ include_once('db/classes/Post.class.php')
     <main id="checkout-page">
         <?php drawOrderItems(); ?>
         <?php drawCheckoutSummary(); ?>
+        <?php drawCheckoutForm(); ?>
     </main>
 <?php } ?>
 
