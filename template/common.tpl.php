@@ -64,5 +64,28 @@ include_once('template/product.tpl.php');
 <?php function drawFooter()
 { ?>
     <footer id="main-footer">
+    <div id="footer-content">
+        <div id="about">
+            <h1>About Us</h1>
+            <ul>
+                <li><a href="about">About Us</a></li>
+            </ul>
+        </div>
+        <div id="help">
+            <h1>Help</h1>
+            <ul>
+                <li><a href="help">Help & Tips</a></li>
+            </ul>
+        </div>
+        
+        <div id="legal">
+            <ul>
+            <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Cookie Policy</a></li>
+            <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy</a></li>
+            <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Terms & Conditions</a></li>
+            </ul>
+        </div>
+    </div>
     </footer>
 <?php } ?>
+
