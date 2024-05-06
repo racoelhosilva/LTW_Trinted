@@ -97,7 +97,6 @@ class User
 
     public function getUserPosts(PDO $db): array
     {
-        // TODO if the posts don't work, its because of this.
         $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller");
         $stmt->bindParam(":seller", $this->username);
         $stmt->execute();

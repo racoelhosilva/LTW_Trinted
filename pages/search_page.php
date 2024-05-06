@@ -6,15 +6,6 @@ include_once('template/common.tpl.php');
 include_once('template/search_page.tpl.php');
 ?>
 
-<!-- TODO: Remove this function-->
-<?php function generateProducts(int $from, int $to): array
-{
-    $products = array();
-    for ($i = $from; $i <= $to; $i++)
-        $products[] = (string) $i;
-    return $products;
-} ?>
-
 <?php function drawSearchPageContent(Request $request)
 { ?>
     <?php $page = (int) $request->get('page') ?>

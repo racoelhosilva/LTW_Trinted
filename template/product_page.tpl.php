@@ -23,10 +23,10 @@ declare(strict_types=1); ?>
 
 <?php function drawProductInfo(Post $post)
 { ?>
-    <!-- TODO date missing and profile button is redirecting to user profile -->
+    <!-- TODO Button is redirecting to user profile -->
     <div id="product-info">
         <div>
-            <h2>Published two weeks ago</h2>
+            <h2>Published on <?= date('m/d/Y', $post->publishDateTime) ?></h2>
             <h2>By <a href="profile"><?= $post->seller->name ?></a></h2>
         </div>
         <a href="profile"><img alt="Profile Picture" src="<?= $post->seller->profilePicture->url ?>" class="avatar"></a>
