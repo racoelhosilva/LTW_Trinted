@@ -47,13 +47,14 @@ include_once('template/product.tpl.php');
     </header>
 <?php } ?>
 
-<?php function drawProductSection(string $label)
-{ ?>
+<?php function drawProductSection(User $user)
+{ 
+    $db = new PDO("sqlite:" . DB_PATH);
+    $posts = $user->getUserPosts($db);
+    ?>
     <section id="product-section">
-        <h1><?= $label ?></h1>
+        <h1>Products by the seller (<?= count($posts) ?>)</h1>
             <?php
-            $db = new PDO("sqlite:" . DB_PATH);
-            $posts = Post::getNPosts($db, 10);
             foreach ($posts as $post) {
                 drawProductCard($post);
             }

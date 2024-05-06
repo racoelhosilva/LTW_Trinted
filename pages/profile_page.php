@@ -8,7 +8,6 @@ include_once('template/profile_page.tpl.php');
 
 <?php function drawProfilePageContent(User $user)
 { ?>
-    <?php $num_products = 10 ?>
     <main id="profile-page">
         <section id="profile-section">
             <?php
@@ -18,7 +17,7 @@ include_once('template/profile_page.tpl.php');
             <?php drawUserInfo($user) ?>
         </section>
         <!-- TODO: Check if user is seller -->
-        <?php drawProductSection("Products by the seller ($num_products)") ?>
+        <?php drawProductSection($user) ?>
     </main>
     <?php } ?>
     
