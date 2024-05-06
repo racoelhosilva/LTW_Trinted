@@ -142,7 +142,8 @@
   min-height: 100%;
   max-height: min-content;
   text-align: justify;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
   text-indent: 2em;
   grid-column-end: span 2;
 }
