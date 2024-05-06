@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 include_once('template/common.tpl.php');
 include_once('template/checkout_page.tpl.php');
+include_once('db/classes/Post.class.php')
 ?>
 
 <?php function drawCheckoutPageContent() { ?>
+    <?php $db = new PDO("sqlite:" . DB_PATH); ?>
     <main id="checkout-page">
+        <?php drawOrderItems(); ?>
     </main>
 <?php } ?>
 

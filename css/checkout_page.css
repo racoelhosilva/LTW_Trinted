@@ -1,0 +1,30 @@
+#checkout-page {
+  margin-inline: 10%;
+}
+
+#order-items > h1 {
+  margin: 2rem 0.5rem 0.5rem;
+  font-size: 2em;
+}
+
+.order-item-card {
+  margin: 0.5em;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: start;
+  align-items: center;
+  gap: 1em;
+  background-color: var(--background-secondary);
+  border-radius: 1em;
+}
+
+.order-item-card > img {
+  width: 8em;
+  height: 8em;
+  margin: 0.5em;
+  border-radius: 0.5em;
+}
+
+.order-item-card h1 {
+  color: var(--primary);
+}
