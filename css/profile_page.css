@@ -35,6 +35,17 @@
   z-index: -1;
 }
 
+#logout-button {
+  font-family: "Hanken Grotesk", sans-serif;
+	font-size: 16px;
+  padding: 1em 1.5em;
+	background-color: #f58c8c;
+	border: 1px solid #b61e0d;
+	border-radius: 30px;
+	color: #b61e0d;
+	margin: 1em;
+}
+
 /* Responsive UI */
 
 @media (max-width: 800px) {
