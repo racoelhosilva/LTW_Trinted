@@ -15,13 +15,16 @@
     color: var(--primary);
 }
 
+.information-field {
+    margin-bottom: 2em;
+}
+
 #settings-page input {
     box-sizing: border-box;
 	font-family: "Hanken Grotesk", sans-serif;
 	border: 1px solid #b1b1b1;
 	border-radius: 22px;
 	color: #514b48;
-	margin-bottom: 1em;
     padding: 0.7em;
     width: 100%;
 }
