@@ -4,3 +4,9 @@ if (profileButton) {
         location.href = 'profile';
     });
 }
+var settingsButton = document.getElementById('settings');
+if (settingsButton) {
+    settingsButton.addEventListener('click', function () {
+        location.href = 'settings';
+    });
+}
