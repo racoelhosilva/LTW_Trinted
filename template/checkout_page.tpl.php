@@ -53,16 +53,23 @@ include_once('db/classes/Post.class.php');
 <?php function drawCheckoutForm() { ?>
     <section id="checkout-form">
         <h1>Shipping Information</h1>
-        <form action="checkout.php" method="post">
-            <input type="text" name="first-name" placeholder="First Name" required>
-            <input type="text" name="last-name" placeholder="Last Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="text" name="phone" placeholder="Phone Number" required>
-            <input type="text" name="address" placeholder="Address" required>
-            <input type="text" name="zip" placeholder="Zip-Code" required>
-            <input type="text" name="town" placeholder="Town" required>
-            <input type="text" name="country" placeholder="Country" required>
-            <button type="submit" class="submit-button">Submit</button>
+        <form action="" method="post">
+            <div>
+                <input type="text" name="first-name" aria-label="First Name" placeholder="First Name" required>
+                <input type="text" name="last-name" aria-label="Last Name" placeholder="Last Name" required>
+            </div>
+            <div>
+                <input type="email" name="email" aria-label="Email" placeholder="Email" required>
+                <input type="tel" name="phone" aria-label="Phone" placeholder="Phone Number" required>
+            </div>
+            <div>
+                <input type="text" name="address" aria-label="Address" placeholder="Address" required>
+                <input type="text" name="zip" pattern="[0-9]{4}-[0-9]{3}" aria-label="Zip-Code" placeholder="Zip-Code" required>
+            </div>
+            <div>
+                <input type="text" name="town" aria-label="Town" placeholder="Town" required>
+                <input type="text" name="country" aria-label="Country" placeholder="Country" required>
+            </div>
         </form>
     </section>
 <?php } ?>

@@ -2,7 +2,7 @@
   margin-inline: 10%;
   display: grid;
   gap: 2em;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: 2fr 1fr;
   grid-template-areas: "order-items checkout-summary";
 }
 
@@ -10,7 +10,7 @@
   grid-area: order-items;
 }
 
-#order-items > h1, #checkout-summary > h1 {
+#order-items > h1, #checkout-summary > h1, #checkout-form > h1 {
   margin: 2rem 0.5rem 0.5rem;
   font-size: 2em;
 }
@@ -101,4 +101,36 @@
   margin: 0.5em 0.5em;
   width: calc(100% - 1em);
   height: 3em;
+}
+
+#checkout-form {
+  margin-bottom: 3em;
+}
+
+#checkout-form div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  margin-block: 1em;
+}
+
+#checkout-form input {
+	font-family: "Hanken Grotesk", sans-serif;
+	padding: 0.7em;
+  flex-grow: 1;
+	background-color: var(--background-primary);
+	border: 1px solid var(--background-secondary);
+	border-radius: 200em;
+  font-size: 1em;
+	color: var(--halftone);
+}
+
+#checkout-form input[name="email"] {
+  flex-grow: 5;
+}
+
+#checkout-form input[name="address"] {
+  flex-grow: 20;
 }
