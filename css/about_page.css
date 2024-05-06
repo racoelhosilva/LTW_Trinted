@@ -5,6 +5,10 @@
     justify-content: space-around;
 }
 
+#about-page section {
+    width: 40vw;
+}
+
 #about-page footer {
     font-size: 24px;
 }
