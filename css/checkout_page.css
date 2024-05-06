@@ -100,7 +100,8 @@
 #pay-now-button {
   margin: 0.5em 0.5em;
   width: calc(100% - 1em);
-  height: 3em;
+  height: 2.5em;
+  font-size: 1.2em;
 }
 
 #checkout-form {

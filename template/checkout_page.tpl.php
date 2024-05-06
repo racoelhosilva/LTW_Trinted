@@ -45,7 +45,7 @@ include_once('db/classes/Post.class.php');
                 <h1>Total</h1>
                 <p>$110.00</p>
             </div>
-            <button id="pay-now-button" class="submit-button">Pay now</button>
+            <button type="submit" id="pay-now-button" form="checkout-info-form" class="submit-button">Pay now</button>
         </div>
     </section>
 <?php } ?>
@@ -53,7 +53,7 @@ include_once('db/classes/Post.class.php');
 <?php function drawCheckoutForm() { ?>
     <section id="checkout-form">
         <h1>Shipping Information</h1>
-        <form action="" method="post">
+        <form id="checkout-info-form" action="" method="post">
             <div>
                 <input type="text" name="first-name" aria-label="First Name" placeholder="First Name" required>
                 <input type="text" name="last-name" aria-label="Last Name" placeholder="Last Name" required>
