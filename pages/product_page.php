@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 include_once('template/common.tpl.php');
 include_once('template/product_page.tpl.php');
+include_once('template/profile_page.tpl.php');
 ?>
 
 <?php function drawProductPageContent(Request $request)
@@ -15,7 +16,7 @@ include_once('template/product_page.tpl.php');
         ?>
         <?php drawProductPhotos($post); ?>
         <?php drawProductInfo($post); ?>
-        <?php drawProductSection('Related Products'); ?>
+        <?php drawUserProductSection($post->seller); ?>
     </main>
 <?php } ?>
 

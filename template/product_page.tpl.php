@@ -29,20 +29,28 @@ declare(strict_types=1); ?>
             <h2>Published two weeks ago</h2>
             <h2>By <a href="profile"><?= $post->seller->name ?></a></h2>
         </div>
-        <a href="profile"><img alt="Profile Picture" src="<?= $post->seller->profilePicture->url?>" class="avatar"></a>
+        <a href="profile"><img alt="Profile Picture" src="<?= $post->seller->profilePicture->url ?>" class="avatar"></a>
         <div class="details">
             <h1><?= $post->title ?></h1>
-            <p class="price">$55.49</p>
-            <p><strong>Size:</strong> L
+            <p class="price"><?= $post->price ?>€</p>
             <p>
-            <p><strong>Condition:</strong> Barely Used</p>
-            <p><strong>Category:</strong> Clothing</p>
-            <p><strong>Brand:</strong> Abibas</p>
+                <strong>Size: </strong>
+                <?= $post->item->size->size ?>
+            <p>
+            <p><strong>Condition: </strong><?= $post->item->condition->condition ?></p>
+            <p><strong>Category: </strong> <?= $post->item->category->category ?></p>
+            <p><strong>Brand: </strong> <?php
+                                        $db = new PDO("sqlite:" . DB_PATH);
+                                        $brands = $post->item->getBrands($db);
+                                        foreach ($brands as $brand) {
+                                            echo $brand->name . " ";
+                                        }
+                                        ?></p>
             <br>
 
             <p><strong>Description</strong></p>
         </div>
-        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat, pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat, pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat, pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat, pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat, pharetra eu arcu id, elementum.</p>
+        <p class="description"><?= $post->description ?></p>
         <button class="add-cart-button">Add to Cart</button>
     </div>
 <?php } ?>
