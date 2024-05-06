@@ -2,9 +2,33 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: flex-start;
 }
 
 #settings-page section {
-    width: 40vw;
+    width: 30vw;
+}
+
+#settings-page h2 {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+#settings-page input {
+    box-sizing: border-box;
+	font-family: "Hanken Grotesk", sans-serif;
+	border: 1px solid #b1b1b1;
+	border-radius: 22px;
+	color: #514b48;
+	margin-bottom: 1em;
+    padding: 0.7em;
+    width: 100%;
+}
+
+#settings-page input[type="submit"] {
+	font-weight: bold;
+	color: #f2f2f2;
+	background-color: #68a6ab;
+	border: 1px solid #007782;
 }
