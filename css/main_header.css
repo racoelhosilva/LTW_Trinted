@@ -1,86 +1,89 @@
-@import url('color_scheme.css');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url("color_scheme.css");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 
 .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 1,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+	font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
 #main-header {
-  height: 4em;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-inline: 1em;
-  background-color: var(--background-secondary);
+	height: 4em;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-inline: 1em;
+	background-color: var(--background-secondary);
 }
 
 #header-logo {
-  height: 3em;
+	height: 3em;
 }
 
 #main-header > div {
-  display: flex;
+	display: flex;
 }
 
 #action-buttons > input {
-  display: none;
+	display: none;
 }
 
-#main-header > label, #action-buttons > label {
-  display: inline-flex;
-  border: none;
-  padding: 0;
-  background-color: inherit;
-  justify-content: center;
-  align-items: center;
-  font-size: 2em;
-  user-select: none;
-  cursor: pointer;
-  font-variation-settings:
-  'FILL' 1,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 40;
+#main-header > label,
+#action-buttons > label {
+	display: inline-flex;
+	border: none;
+	padding: 0;
+	background-color: inherit;
+	justify-content: center;
+	align-items: center;
+	font-size: 2em;
+	user-select: none;
+	cursor: pointer;
+	font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 40;
 }
 
 #search-bar {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 #search-bar > input {
-  border: none;
-  border-radius: 1rem;
-  padding: 0 3em 0 1em;
-  height: 2rem;
-  width: 30rem;
-  max-width: 30vw;
-  background-color: var(--background-primary);
-  margin-right: auto;
+	border: none;
+	border-radius: 1rem;
+	padding: 0 3em 0 1em;
+	height: 2rem;
+	width: 30rem;
+	max-width: 30vw;
+	background-color: var(--background-primary);
+	margin-right: auto;
 }
 
 #search-bar button {
-  width: 2rem;
-  height: 2rem;
-  flex-shrink: 0;
-  background-color: var(--primary);
-  border: none;
-  border-radius: 1rem;
-  margin-left: -2rem;
-  padding: 0;
-  margin-right: 0;
+	width: 2rem;
+	height: 2rem;
+	flex-shrink: 0;
+	background-color: var(--primary);
+	border: none;
+	border-radius: 1rem;
+	margin-left: -2rem;
+	padding: 0;
+	margin-right: 0;
 }
 
 #search-bar > button > span {
-  font-size: 1.1rem;
-  color: var(--background-primary);
+	font-size: 1.1rem;
+	color: var(--background-primary);
 }
 
 #hamburger-button {
-  display: none;
+	display: none;
+}
+
+.header-button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+.header-button > label {
+	cursor: pointer;
 }

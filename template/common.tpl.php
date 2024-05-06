@@ -28,6 +28,7 @@ include_once('template/product.tpl.php');
             <script src="typescript/product_page.js" defer></script>
             <script src="typescript/product.js" defer></script>
             <script src="typescript/main_page.js" defer></script>
+            <script src="typescript/main_header.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>
@@ -45,21 +46,6 @@ include_once('template/product.tpl.php');
         <?php drawSearchBar(); ?>
         <?php drawActionButtons(); ?>
     </header>
-<?php } ?>
-
-<?php function drawProductSection(User $user)
-{ 
-    $db = new PDO("sqlite:" . DB_PATH);
-    $posts = $user->getUserPosts($db);
-    ?>
-    <section id="product-section">
-        <h1>Products by the seller (<?= count($posts) ?>)</h1>
-            <?php
-            foreach ($posts as $post) {
-                drawProductCard($post);
-            }
-            ?>
-    </section>
 <?php } ?>
 
 <?php function drawFooter()

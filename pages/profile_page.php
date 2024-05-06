@@ -17,7 +17,7 @@ include_once('template/profile_page.tpl.php');
             <?php drawUserInfo($user) ?>
         </section>
         <!-- TODO: Check if user is seller -->
-        <?php drawProductSection($user) ?>
+        <?php drawUserProductSection($user) ?>
     </main>
     <?php } ?>
     
