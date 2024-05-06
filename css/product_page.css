@@ -90,7 +90,7 @@
 #product-info {
   display: grid;
   grid-template-columns: auto auto;
-  grid-template-rows: min-content auto auto;
+  grid-template-rows: min-content min-content auto;
   column-gap: 1em;
   position: relative;
   background-color: var(--background-secondary);

@@ -47,7 +47,6 @@ declare(strict_types=1); ?>
                                         }
                                         ?></p>
             <br>
-
             <p><strong>Description</strong></p>
         </div>
         <p class="description"><?= $post->description ?></p>
