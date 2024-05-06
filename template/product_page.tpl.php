@@ -34,6 +34,6 @@
             <p><strong>Description</strong></p>
         </div>
         <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam  facilisis sem aliquam tellus dignissim rutrum. Morbi magna erat,  pharetra eu arcu id, elementum.</p>
-        <button class="add-cart-button">Add to Cart</button>
+        <button class="add-cart-button submit-button">Add to Cart</button>
     </div>
 <?php } ?>

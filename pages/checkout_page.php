@@ -10,6 +10,7 @@ include_once('db/classes/Post.class.php')
     <?php $db = new PDO("sqlite:" . DB_PATH); ?>
     <main id="checkout-page">
         <?php drawOrderItems(); ?>
+        <?php drawCheckoutSummary(); ?>
     </main>
 <?php } ?>
 

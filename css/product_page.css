@@ -159,19 +159,6 @@
   right: 0.5em;
   width: calc(100% - 1em);
   height: 3em;
-  border: none;
-  border-radius: 1.5em;
-  font-size: 1em;
-  font-weight: bold;
-  background-color: var(--primary);
-  color: var(--background-primary);
-  transition: all 0.3s;
-  cursor: pointer;
-}
-
-#product-info .add-cart-button:hover {
-  background-color: var(--background-primary);
-  color: var(--primary);
 }
 
 #product-info .avatar {

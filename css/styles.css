@@ -23,4 +23,19 @@ button {
 	cursor: pointer;
 }
 
+.submit-button {
+	border: none;
+  border-radius: 200em;
+  font-size: 1em;
+  font-weight: bold;
+  background-color: var(--primary);
+  color: var(--background-primary);
+  transition: all 0.3s;
+}
+
+.submit-button:hover {
+  background-color: var(--background-primary);
+  color: var(--primary);
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap");

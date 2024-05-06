@@ -1,6 +1,7 @@
 #checkout-page {
   margin-inline: 10%;
   display: grid;
+  gap: 2em;
   grid-template-columns: 3fr 2fr;
   grid-template-areas: "order-items checkout-summary";
 }
@@ -9,7 +10,7 @@
   grid-area: order-items;
 }
 
-#order-items > h1 {
+#order-items > h1, #checkout-summary > h1 {
   margin: 2rem 0.5rem 0.5rem;
   font-size: 2em;
 }
@@ -26,37 +27,78 @@
   border-radius: 1em;
 }
 
-.order-item-info:last-child {
-  justify-self: end;
-  text-align: end;
-}
-
 .order-item-card > img {
   width: 8em;
   height: 8em;
   border-radius: 0.5em;
 }
 
-.order-item-info {
-  margin-inline: 0.5em 1.5em;
+.order-item-card > div {
+  margin-inline: 0.5em 1em;
 }
 
-.order-item-info > h1 {
+.order-item-card > div > h1 {
   margin: 0;
   color: var(--primary);
 }
 
-.order-item-info > p {
+.order-item-card > div > p {
   margin: 0;
   font-size: 1.2em;
   color: var(--halftone);
 }
 
-.order-item-info > .num-items {
+.order-item-card > div:last-child {
+  justify-self: end;
+  text-align: end;
+}
+
+.order-item-card > div > .num-items {
   margin: 0;
   font-size: 1.5em;
 }
 
-.order-item-info > .num-items::after {
+.order-item-card > div > .num-items::after {
   content: "\00D7";
+}
+
+#checkout-summary {
+  grid-area: checkout-summary;
+}
+
+#checkout-total {
+  margin: 0.5em;
+  padding: 0.5em;
+  background-color: var(--background-secondary);
+  border-radius: 1em;
+}
+
+#checkout-total > div {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  margin: 1em 0.5em;
+}
+
+#checkout-total > div:nth-child(2) {
+  margin: 1em 0.5em 5em;
+}
+
+#checkout-total > div > h1 {
+  margin: 0;
+  color: var(--primary);
+  justify-self: start;
+}
+
+#checkout-total > div > p {
+  margin: 0;
+  font-size: 1.2em;
+  color: var(--halftone);
+  justify-self: end;
+}
+
+#pay-now-button {
+  margin: 0.5em 0.5em;
+  width: calc(100% - 1em);
+  height: 3em;
 }
