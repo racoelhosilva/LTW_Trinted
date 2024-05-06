@@ -23,6 +23,10 @@ $routes = [
     '/product' => [
         'controller' => 'Controller@product',
         'middlewares' => []
+    ],
+    '/settings' => [
+        'controller' => 'Controller@settings',
+        'middlewares' => [new AuthenticationMiddleware()]
     ]
 ];
 

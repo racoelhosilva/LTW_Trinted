@@ -48,4 +48,12 @@ class Controller {
         include_once('pages/product_page.php');
         return drawProductPage($this->request);
     }
+
+    /**
+     * @brief Generates settings page
+     */
+    public function settings() {
+        include_once('pages/settings_page.php');
+        return drawSettingsPage($this->request);
+    }
 }
