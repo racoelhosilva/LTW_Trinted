@@ -24,7 +24,9 @@
         <?php
         }
         ?>
-
+        <form method="post" action="/actions/logout.php">
+            <button type="submit" id="logout-button">Logout</button>
+        </form> 
     </div>
 <?php } ?>
 
