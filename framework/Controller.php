@@ -48,4 +48,13 @@ class Controller {
         include_once('pages/product_page.php');
         return drawProductPage($this->request);
     }
+
+
+    /**
+     * @brief Generates help page
+     */
+    public function help() {
+        include_once('pages/help_page.php');
+        return drawHelpPage($this->request);
+    }
 }

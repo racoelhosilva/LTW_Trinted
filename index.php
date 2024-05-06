@@ -23,6 +23,10 @@ $routes = [
     '/product' => [
         'controller' => 'Controller@product',
         'middlewares' => []
+    ],
+    '/help' => [
+        'controller' => 'Controller@help',
+        'middlewares' => []
     ]
 ];
 

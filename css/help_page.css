@@ -1,0 +1,27 @@
+#help-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#help-page section {
+    width: 40vw;
+}
+
+#help-page dt {
+    color: var(--primary);
+    font-size: 24px;
+    padding: 1em;
+    font-weight: 600;
+}
+
+#help-page dd {
+    color: var(--text);
+    font-size: 16px;
+}
+
+#help-page footer {
+    font-size: 20px;
+    color: var(--halftone);
+}
