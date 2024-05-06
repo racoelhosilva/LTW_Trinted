@@ -30,6 +30,7 @@ include_once('template/product.tpl.php');
             <script src="typescript/product.js" defer></script>
             <script src="typescript/main_page.js" defer></script>
             <script src="typescript/main_header.js" defer></script>
+            <script src="typescript/checkout_page.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>

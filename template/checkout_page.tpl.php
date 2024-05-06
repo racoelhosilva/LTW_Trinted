@@ -16,7 +16,7 @@ include_once('db/classes/Post.class.php');
 
 <?php function drawOrderItemCard(Post $post) { ?>
     <?php $db = new PDO("sqlite:" . DB_PATH); ?>
-    <div class="order-item-card">
+    <div class="order-item-card" data-post-id="<?= $post->id ?>">
         <img src="<?= $post->getAllImages($db)[0]->url ?>" alt="Product Image">
         <div>
             <h1><?= $post->title ?></h1>
