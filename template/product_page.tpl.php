@@ -23,6 +23,7 @@ declare(strict_types=1); ?>
 
 <?php function drawProductInfo(Post $post)
 { ?>
+    <!-- TODO date missing and profile button is redirecting to user profile -->
     <div id="product-info">
         <div>
             <h2>Published two weeks ago</h2>
@@ -30,7 +31,7 @@ declare(strict_types=1); ?>
         </div>
         <a href="profile"><img alt="Profile Picture" src="<?= $post->seller->profilePicture->url?>" class="avatar"></a>
         <div class="details">
-            <h1><?= $product_id ?></h1>
+            <h1><?= $post->title ?></h1>
             <p class="price">$55.49</p>
             <p><strong>Size:</strong> L
             <p>
