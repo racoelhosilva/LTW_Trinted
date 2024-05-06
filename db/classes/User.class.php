@@ -94,4 +94,16 @@ class User
         $stmt->bindParam(":username", $this->username);
         $stmt->execute();
     }
+
+    public function getUserPosts(PDO $db): array
+    {
+        // TODO if the posts don't work, its because of this.
+        $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller");
+        $stmt->bindParam(":seller", $this->username);
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+        return array_map(function ($post) use ($db) {
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), $this, Item::getItem($db, $post["item"]));
+        }, $posts);
+    }
 }

@@ -29,6 +29,7 @@ include_once('template/product.tpl.php');
             <script src="typescript/product_page.js" defer></script>
             <script src="typescript/product.js" defer></script>
             <script src="typescript/main_page.js" defer></script>
+            <script src="typescript/main_header.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>
@@ -48,22 +49,31 @@ include_once('template/product.tpl.php');
     </header>
 <?php } ?>
 
-<?php function drawProductSection(string $label)
-{ ?>
-    <section id="product-section">
-        <h1><?= $label ?></h1>
-            <?php
-            $db = new PDO("sqlite:" . DB_PATH);
-            $posts = Post::getNPosts($db, 10);
-            foreach ($posts as $post) {
-                drawProductCard($post);
-            }
-            ?>
-    </section>
-<?php } ?>
-
 <?php function drawFooter()
 { ?>
     <footer id="main-footer">
+    <div id="footer-content">
+        <div id="about">
+            <h1>About Us</h1>
+            <ul>
+                <li><a href="about">About Us</a></li>
+            </ul>
+        </div>
+        <div id="help">
+            <h1>Help</h1>
+            <ul>
+                <li><a href="help">Help & Tips</a></li>
+            </ul>
+        </div>
+        
+        <div id="legal">
+            <ul>
+            <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Cookie Policy</a></li>
+            <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy</a></li>
+            <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Terms & Conditions</a></li>
+            </ul>
+        </div>
+    </div>
     </footer>
 <?php } ?>
+
