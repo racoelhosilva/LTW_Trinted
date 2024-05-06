@@ -43,11 +43,13 @@ VALUES ('https://i.ibb.co/tqjY71F/2abbdcf4c2ffd98961dccef0acc31218.png');
 INSERT INTO Image (url)
 VALUES ('https://i.ibb.co/7SDQjf8/ae83d24e3101503ae176fa79b8416272.png');
 INSERT INTO Image (url)
-VALUES ('https://picsum.photos/200/300');
+VALUES ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf86hwNJhBnREMUwWlvVpOCfTm8li5gmA&s');
 INSERT INTO Image (url)
-VALUES ('https://picsum.photos/200/301');
+VALUES ('https://www.redcarpet-fashionawards.com/wp-content/uploads/2023/03/Ana-de-Armas.jpeg');
 INSERT INTO Image (url)
-VALUES ('https://picsum.photos/200/302');
+VALUES ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s');
+INSERT INTO Image (url)
+VALUES ('https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg');
 
 
 -- Create Users
@@ -172,8 +174,9 @@ VALUES ('T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but ne
 
 -- Create PostImages
 INSERT INTO PostImage (post, image)
-VALUES (1, 'https://picsum.photos/200/300'),
-       (2, 'https://picsum.photos/200/301'),
-       (3, 'https://picsum.photos/200/302');
+VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf86hwNJhBnREMUwWlvVpOCfTm8li5gmA&s'),
+       (1, 'https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg'),
+       (2, 'https://www.redcarpet-fashionawards.com/wp-content/uploads/2023/03/Ana-de-Armas.jpeg'),
+       (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s');
 
 -- Create Messages
