@@ -1,5 +1,12 @@
 #checkout-page {
   margin-inline: 10%;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-areas: "order-items checkout-summary";
+}
+
+#order-items {
+  grid-area: order-items;
 }
 
 #order-items > h1 {
@@ -9,22 +16,47 @@
 
 .order-item-card {
   margin: 0.5em;
+  padding: 0.5em;
   display: grid;
-  grid-template-columns: auto auto auto;
-  justify-content: start;
+  grid-template-columns: min-content auto auto;
+  justify-items: start;
   align-items: center;
   gap: 1em;
   background-color: var(--background-secondary);
   border-radius: 1em;
 }
 
+.order-item-info:last-child {
+  justify-self: end;
+  text-align: end;
+}
+
 .order-item-card > img {
   width: 8em;
   height: 8em;
-  margin: 0.5em;
   border-radius: 0.5em;
 }
 
-.order-item-card h1 {
+.order-item-info {
+  margin-inline: 0.5em 1.5em;
+}
+
+.order-item-info > h1 {
+  margin: 0;
   color: var(--primary);
+}
+
+.order-item-info > p {
+  margin: 0;
+  font-size: 1.2em;
+  color: var(--halftone);
+}
+
+.order-item-info > .num-items {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.order-item-info > .num-items::after {
+  content: "\00D7";
 }
