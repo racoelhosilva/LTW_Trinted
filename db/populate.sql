@@ -37,13 +37,14 @@ VALUES ('https://randomuser.me/api/portraits/men/32.jpg');
 INSERT INTO Image (url)
 VALUES ('https://randomuser.me/api/portraits/men/64.jpg');
 INSERT INTO Image (url)
-VALUES ('https://ibb.co/w4L5GzT');
+VALUES ('https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg/640px-%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg');
 INSERT INTO Image (url)
-VALUES ('https://ibb.co/v3yL7MR');
+VALUES ('https://i.ibb.co/tqjY71F/2abbdcf4c2ffd98961dccef0acc31218.png');
 INSERT INTO Image (url)
-VALUES ('https://ibb.co/YNSXPCY');
+VALUES ('https://i.ibb.co/7SDQjf8/ae83d24e3101503ae176fa79b8416272.png');
 INSERT INTO Image (url)
-VALUES ('https://picsum.photos/200/300');INSERT INTO Image (url)
+VALUES ('https://picsum.photos/200/300');
+INSERT INTO Image (url)
 VALUES ('https://picsum.photos/200/301');
 INSERT INTO Image (url)
 VALUES ('https://picsum.photos/200/302');
@@ -68,13 +69,16 @@ VALUES ('Lils1947', 'DennisMChandler@dayrep.com', 'Dennis M. Chandler',
         'https://randomuser.me/api/portraits/men/64.jpg', 'seller');
 INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
 VALUES ('Ricky', 'up202204988@up.pt', 'Henrique Fernandes',
-        '$2y$10$h5ldOURPVpPjsl44MzI1..7wPzCXV4x87f2ABP5ufxk1pcDK8EE7W', '0', 'https://ibb.co/w4L5GzT', 'seller');
+        '$2y$10$h5ldOURPVpPjsl44MzI1..7wPzCXV4x87f2ABP5ufxk1pcDK8EE7W', '1656513143',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg/640px-%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg', 'seller');
 INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
-VALUES ('Shayde', '202205188@up.pt', 'Rodrigo Albergaria',
-        '$2y$10$cSeD.JpzN3KZNTCTfHIzhOYleR93GVmKDuTrHIhOv2Pqs7TmN/di6', '0', 'https://ibb.co/v3yL7MR', 'seller');
+VALUES ('Shayde', 'up202205188@up.pt', 'Rodrigo Albergaria',
+        '$2y$10$cSeD.JpzN3KZNTCTfHIzhOYleR93GVmKDuTrHIhOv2Pqs7TmN/di6', '1656513143',
+        'https://i.ibb.co/tqjY71F/2abbdcf4c2ffd98961dccef0acc31218.png', 'seller');
 INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type)
-VALUES ('AnalyticalT', '202208700@up.pt', 'Bruno Oliveira',
-        '$2y$10$Vo/ZYT5.CrKgk876Ha9DmOywwqlyMTtRi.C5ywYgPIgDTWrvVte.K', '0', 'https://ibb.co/YNSXPCY', 'seller');
+VALUES ('AnalyticalT', 'up202208700@up.pt', 'Bruno Oliveira',
+        '$2y$10$Vo/ZYT5.CrKgk876Ha9DmOywwqlyMTtRi.C5ywYgPIgDTWrvVte.K', '1656513143',
+        'https://i.ibb.co/7SDQjf8/ae83d24e3101503ae176fa79b8416272.png', 'seller');
 
 
 -- Create Sizes
@@ -168,6 +172,8 @@ VALUES ('T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but ne
 
 -- Create PostImages
 INSERT INTO PostImage (post, image)
-VALUES (1, 'https://picsum.photos/200/300'), (2, 'https://picsum.photos/200/301'), (3, 'https://picsum.photos/200/302');
+VALUES (1, 'https://picsum.photos/200/300'),
+       (2, 'https://picsum.photos/200/301'),
+       (3, 'https://picsum.photos/200/302');
 
 -- Create Messages
