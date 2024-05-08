@@ -52,30 +52,57 @@ include_once('template/product.tpl.php');
     </div>
 <?php } ?>
 
+<?php function drawSearchFilter(string $name, string $text) { ?>
+
+    <li>
+        <label>
+            <?= $text ?>
+            <input type="checkbox" name="<?= $name ?>">
+        </label>
+    </li>
+<?php } ?>
+
 <?php function drawSearchDrawer() { ?>
+    <?php
+    $search_filters = [
+        ["woman", "Woman/Female"],
+        ["man", "Man/Male"],
+        ["child", "Child"],
+        ["home", "Home"],
+        ["entertainment", "Entertainment"],
+        ["pets", "Pets"],
+    ];
+    $condition_filters = [
+        ["new", "New"],
+        ["barely-used", "Barely-Used"],
+        ["used", "Used"],
+        ["damaged", "Damaged"],
+    ];
+    $size_filters = [
+        ["s", "S"],
+        ["m", "M"],
+        ["l", "L"],
+        ["xl", "XL"],
+    ];
+    ?>
     <section id="search-drawer">
         <h1>Search</h1>
         <ul>
-            <li><a href="#">Woman/Female</a></li>
-            <li><a href="#">Man/Male</a></li>
-            <li><a href="#">Child</a></li>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Entretainment</a></li>
-            <li><a href="#">Pets</a></li>
+            <?php foreach ($search_filters as $filter) {
+                drawSearchFilter($filter[0], $filter[1]);
+            } ?>
         </ul>
         <h1>Condition</h1>
         <ul>
-            <li><a href="#">New</a></li>
-            <li><a href="#">Barely-Used</a></li>
-            <li><a href="#">Used</a></li>
-            <li><a href="#">Damaged</a></li>
+            <?php foreach ($condition_filters as $filter) {
+                drawSearchFilter($filter[0], $filter[1]);
+            } ?>
         </ul>
         <h1>Size</h1>
         <ul>
-            <li><a href="#">S</a></li>
-            <li><a href="#">M</a></li>
-            <li><a href="#">L</a></li>
-            <li><a href="#">XL</a></li>
+            <?php foreach ($size_filters as $filter) {
+                drawSearchFilter($filter[0], $filter[1]);
+            } ?>
         </ul>
     </section>
 <?php } ?>

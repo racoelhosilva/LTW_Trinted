@@ -85,9 +85,21 @@
   white-space: nowrap;
 }
 
-#search-drawer li > a {
-  text-decoration: none;
-  color: black;
+#search-drawer li input {
+  display: none;
+}
+
+#search-drawer li label {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#search-drawer li label:hover {
+  color: var(--darker);
+}
+
+#search-drawer li label:has(input:checked) {
+  color: var(--primary);
 }
 
 body:has(#hamburger-button:checked) #search-drawer {
