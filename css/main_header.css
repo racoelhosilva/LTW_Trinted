@@ -54,7 +54,10 @@
 	width: 30rem;
 	max-width: 30vw;
 	background-color: var(--background-primary);
-	margin-right: auto;
+}
+
+#search-bar > input:focus {
+	outline: 1px solid var(--lighter);
 }
 
 #search-bar button {
@@ -86,4 +89,42 @@
 
 .header-button > label {
 	cursor: pointer;
+}
+
+/* Responsive UI */
+
+@media (max-width: 550px) {
+	#main-header {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		height: auto;
+		padding-block: 0.5em;
+	}
+
+	#hamburger-button + * {
+		justify-self: start;
+	}
+
+	#action-buttons {
+		justify-self: end;
+	}
+
+	#header-logo {
+		height: 2em;
+	}
+
+	a:has(#header-logo) {
+		justify-self: center;
+	}
+
+	#search-bar {
+		grid-row: 2 / span 1;
+		grid-column: 1 / span 3;
+		padding-top: 1em;
+	}
+
+	#search-bar > input {
+		width: 100%;
+		max-width: 100%;
+	}
 }
