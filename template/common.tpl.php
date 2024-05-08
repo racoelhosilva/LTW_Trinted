@@ -79,4 +79,3 @@ include_once('template/product.tpl.php');
     </div>
     </footer>
 <?php } ?>
-

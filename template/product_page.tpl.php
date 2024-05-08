@@ -53,3 +53,17 @@ declare(strict_types=1); ?>
         <button class="add-cart-button">Add to Cart</button>
     </div>
 <?php } ?>
+
+<?php function drawRelatedProducts() {
+    $db = new PDO("sqlite:" . DB_PATH);
+    $posts = Post::getNPosts($db, 10);
+    ?>
+    <section id="product-section">
+        <h1>Related Products (<?= count($posts) ?>)</h1>
+            <?php
+            foreach ($posts as $post) {
+                drawProductCard($post);
+            }
+            ?>
+    </section>
+<?php } ?>
