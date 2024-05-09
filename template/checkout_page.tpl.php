@@ -45,7 +45,8 @@ include_once('db/classes/Post.class.php');
                 <h1>Total</h1>
                 <p>$110.00</p>
             </div>
-            <button id="pay-now-button" class="submit-button">Pay now</button>
+            <?php drawLoadingSpinner() ?>
+            <!-- <button id="pay-now-button" class="submit-button">Pay now</button> -->
         </div>
     </section>
 <?php } ?>
