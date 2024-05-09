@@ -12,11 +12,11 @@ include_once('template/profile_page.tpl.php');
     <main id="product-page">
         <?php
         $db = new PDO("sqlite:" . DB_PATH);
-        $post = Post::getPost($db, intval($request->get('id')));
+        $post = Post::getPostByID($db, intval($request->get('id')));
         ?>
         <?php drawProductPhotos($post); ?>
         <?php drawProductInfo($post); ?>
-        <?php drawUserProductSection($post->seller); ?>
+        <?php drawRelatedProductsSection($post); ?>
     </main>
 <?php } ?>
 
