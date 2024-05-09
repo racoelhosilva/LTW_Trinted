@@ -30,13 +30,5 @@ function drawMainPage(Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $posts = Post::getNPosts($db, 10);
-?>
-    <section id="product-section">
-        <h1>Explore new items</h1>
-        <?php
-        foreach ($posts as $post) {
-            drawProductCard($post);
-        }
-        ?>
-    </section>
-<?php } ?>
+    drawProductSection($posts, "Explore new items");
+} ?>
