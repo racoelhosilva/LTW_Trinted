@@ -14,10 +14,10 @@ var checkoutInfoForm = document.querySelector('#checkout-info-form');
 var paymentSuccessfulMessage = document.querySelector('#payment-successful-message');
 if (payNowButton && checkoutInfoForm && paymentSuccessfulMessage) {
     payNowButton.addEventListener('click', function (event) {
-        // if (!checkoutInfoForm.checkValidity()) {
-        //   checkoutInfoForm.reportValidity();
-        //   return;
-        // }
+        if (!checkoutInfoForm.checkValidity()) {
+            checkoutInfoForm.reportValidity();
+            return;
+        }
         var payNowButtonClone = payNowButton.cloneNode(true);
         var loadingSpinner = document.createElement('div');
         loadingSpinner.classList.add('spinner');
@@ -28,7 +28,7 @@ if (payNowButton && checkoutInfoForm && paymentSuccessfulMessage) {
             paymentSuccessfulMessage.classList.add('show');
             window.setTimeout(function () {
                 paymentSuccessfulMessage.classList.remove('show');
-                document.location.assign('/');
+                checkoutInfoForm.submit();
             }, 5000);
         }, 2000);
     });

@@ -13,10 +13,10 @@ const checkoutInfoForm = document.querySelector<HTMLFormElement>('#checkout-info
 const paymentSuccessfulMessage = document.querySelector<HTMLElement>('#payment-successful-message');
 if (payNowButton && checkoutInfoForm && paymentSuccessfulMessage) {
   payNowButton.addEventListener('click', (event) => {
-    // if (!checkoutInfoForm.checkValidity()) {
-    //   checkoutInfoForm.reportValidity();
-    //   return;
-    // }
+    if (!checkoutInfoForm.checkValidity()) {
+      checkoutInfoForm.reportValidity();
+      return;
+    }
 
     const payNowButtonClone = payNowButton.cloneNode(true) as HTMLElement;
     const loadingSpinner = document.createElement('div');
@@ -26,10 +26,11 @@ if (payNowButton && checkoutInfoForm && paymentSuccessfulMessage) {
 
     window.setTimeout(() => {
       loadingSpinner.replaceWith(payNowButton);
+
       paymentSuccessfulMessage.classList.add('show');
       window.setTimeout(() => {
         paymentSuccessfulMessage.classList.remove('show');
-        document.location.assign('/');
+        checkoutInfoForm.submit();
       }, 5000);
     }, 2000);
   });
