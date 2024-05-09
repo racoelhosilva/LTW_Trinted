@@ -7,10 +7,15 @@
   position: fixed;
   z-index: 1;
   padding-block: 0.5em;
-  width: 13em;
+  width: 14em;
   text-align: center;
   font-size: 1.2em;
   font-weight: bold;
+}
+
+.toast-message .material-symbols-outlined {
+  font-size: 1.5em;
+  vertical-align: middle;
 }
 
 .toast-message.show {
