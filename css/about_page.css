@@ -5,10 +5,33 @@
     justify-content: space-around;
 }
 
+#about-page h1 {
+    color: var(--primary);
+    padding: 1em;
+    text-align: center;
+}
+
 #about-page section {
-    width: 40vw;
+    width: 60vw;
+    text-align: justify;
 }
 
 #about-page footer {
-    font-size: 24px;
+    padding: 1em;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+/* ------------- Responsive -------------*/
+
+@media (max-width: 1000px){
+    #about-page section {
+        width: 70vw;
+    }
+}
+
+@media (max-width: 500px){
+    #about-page section {
+        width: 80vw;
+    }
 }

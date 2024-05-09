@@ -5,23 +5,53 @@
     justify-content: space-around;
 }
 
+#help-page h1 {
+    padding: 1em;
+    color: var(--primary);
+    text-align: center;
+    font-size: 2.5em;
+}
+
+#help-page h2 {
+    text-align: center;
+}
+
 #help-page section {
-    width: 40vw;
+    width: 60vw;
 }
 
 #help-page dt {
     color: var(--primary);
-    font-size: 24px;
+    font-size: 1.5em;
     padding: 1em;
     font-weight: 600;
+    text-align: justify;
 }
 
 #help-page dd {
     color: var(--text);
-    font-size: 16px;
+    font-size: 1em;
+    text-align: justify;
+    margin-left: 0;
 }
 
 #help-page footer {
-    font-size: 20px;
+    padding: 1em;
+    font-size: 1.25em;
     color: var(--halftone);
+    text-align: center;
+}
+
+/* ------------- Responsive -------------*/
+
+@media (max-width: 1000px){
+    #help-page section {
+        width: 70vw;
+    }
+}
+
+@media (max-width: 500px){
+    #help-page section {
+        width: 80vw;
+    }
 }
