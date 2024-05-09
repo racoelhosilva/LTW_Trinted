@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/common.tlp.php');
+include_once ('template/common.tlp.php');
 ?>
 
 <?php function drawProductPhotos(Post $post)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $images = $post->getAllImages($db);
-?>
+    ?>
     <div id="product-photos">
         <span class="material-symbols-outlined" id="prev-photo">navigate_before</span>
         <span class="material-symbols-outlined" id="next-photo">navigate_next</span>
@@ -32,7 +32,7 @@ include_once('template/common.tlp.php');
 
     $postsByBrand = array();
     $brands = $post->item->getBrands($db);
-    foreach($brands as $brand){
+    foreach ($brands as $brand) {
         $postsByBrand = array_merge($postsByBrand, Post::getPostsByBrand($db, $brand));
     }
     $posts = array_merge($postsByCategory, $postsBySeller);
@@ -41,7 +41,7 @@ include_once('template/common.tlp.php');
     $posts = array_filter($posts, function ($p) use ($post) {
         return $p->id != $post->id;
     });
-?>
+    ?>
     <section id="product-section">
         <h1>Related products (<?= count($posts) ?>)</h1>
         <?php
@@ -55,13 +55,13 @@ include_once('template/common.tlp.php');
 
 <?php function drawProductInfo(Post $post)
 { ?>
-    <!-- TODO Button is redirecting to user profile -->
     <div id="product-info">
         <div>
             <h2>Published on <?= date('m/d/Y', $post->publishDateTime) ?></h2>
-            <h2>By <a href="profile"><?= $post->seller->name ?></a></h2>
+            <h2>By <a href="actions/go_to_profile.php?id=<?= $post->seller->id ?>"><?= $post->seller->name ?></a></h2>
         </div>
-        <a href="profile"><img alt="Profile Picture" src="<?= $post->seller->profilePicture->url ?>" class="avatar"></a>
+        <a href="actions/go_to_profile.php?id=<?= $post->seller->id ?>"><img alt="Profile Picture"
+                src="<?= $post->seller->profilePicture->url ?>" class="avatar"></a>
         <div class="details">
             <h1><?= $post->title ?></h1>
             <p class="price"><?= $post->price ?>€</p>
@@ -72,12 +72,12 @@ include_once('template/common.tlp.php');
             <p><strong>Condition: </strong><?= $post->item->condition->condition ?></p>
             <p><strong>Category: </strong> <?= $post->item->category->category ?></p>
             <p><strong>Brand: </strong> <?php
-                                        $db = new PDO("sqlite:" . DB_PATH);
-                                        $brands = $post->item->getBrands($db);
-                                        foreach ($brands as $brand) {
-                                            echo $brand->name . " ";
-                                        }
-                                        ?></p>
+            $db = new PDO("sqlite:" . DB_PATH);
+            $brands = $post->item->getBrands($db);
+            foreach ($brands as $brand) {
+                echo $brand->name . " ";
+            }
+            ?></p>
             <br>
             <p><strong>Description</strong></p>
         </div>
@@ -86,7 +86,8 @@ include_once('template/common.tlp.php');
     </div>
 <?php } ?>
 
-<?php function drawRelatedProducts() {
+<?php function drawRelatedProducts()
+{
     $db = new PDO("sqlite:" . DB_PATH);
     $posts = Post::getNPosts($db, 10);
     drawProductSection($posts, "Related Products (" . count($posts) . ")");
