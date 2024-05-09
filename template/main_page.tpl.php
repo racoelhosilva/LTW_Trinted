@@ -6,12 +6,14 @@
 
 <?php function drawWelcomeBanner() { ?>
     <section id="welcome-banner">
-        <div id="title-text">
-            <h1>Welcome to</h1>
-            <h1 class="title">TRINTED</h1>
+        <div>
+            <div id="title-text">
+                <h1>Welcome to</h1>
+                <h1 class="title">TRINTED</h1>
+            </div>
+            <p>Buy and sell <strong>trillions of<br> pre-loved</strong> items!</p>
+            <?php drawStartNowButton(); ?>
         </div>
-        <p>Buy and sell <strong>trillions of<br> pre-loved</strong> items!</p>
-        <?php drawStartNowButton(); ?>
     </section>
 <?php } ?>
 

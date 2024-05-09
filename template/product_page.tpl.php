@@ -1,6 +1,8 @@
 <?php
+declare(strict_types=1);
 
-declare(strict_types=1); ?>
+include_once('template/common.tlp.php');
+?>
 
 <?php function drawProductPhotos(Post $post)
 {
@@ -83,3 +85,9 @@ declare(strict_types=1); ?>
         <button class="add-cart-button">Add to Cart</button>
     </div>
 <?php } ?>
+
+<?php function drawRelatedProducts() {
+    $db = new PDO("sqlite:" . DB_PATH);
+    $posts = Post::getNPosts($db, 10);
+    drawProductSection($posts, "Related Products (" . count($posts) . ")");
+} ?>
