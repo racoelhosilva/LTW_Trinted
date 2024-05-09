@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
-if (!isset($_GET["post_id"]))
+include_once(__DIR__ . '/../db/classes/Post.class.php');
+
+if (!isset($_POST["post_id"]))
     exit();
 
 session_start();
@@ -13,12 +16,13 @@ function validate($data)
     return $data;
 }
 
-$post_id = validate($_GET["post_id"]);
-
+$post_id = validate($_POST["post_id"]);
 $db = new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
-$post = Post::getPostByID($db, $post_id);
+$post = null;
+
+$post = Post::getPostByID($db, (int)$post_id);
 
 if (isset($post))
     $_SESSION['items'][] = $post;
 
-echo json_encode(array("success" => isset($post)));
+echo json_encode(array("success" => isset($post), "post_id" => $post_id));

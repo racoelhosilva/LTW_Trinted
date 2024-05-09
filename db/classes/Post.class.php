@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+include_once(__DIR__ . "/User.class.php");
+include_once(__DIR__ . "/Item.class.php");
+
 class Post
 {
     public int $id;
