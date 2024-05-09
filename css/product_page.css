@@ -29,6 +29,7 @@
   height: 100%;
   border-radius: 0.25em;
   animation: fade-in 0.5s;
+  object-fit: contain;
 }
 
 #prev-photo {
