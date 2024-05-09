@@ -45,7 +45,7 @@ include_once('db/classes/Post.class.php');
                 <h1>Total</h1>
                 <p>$110.00</p>
             </div>
-            <button type="submit" id="pay-now-button" form="checkout-info-form" class="submit-button">Pay now</button>
+            <button id="pay-now-button" class="submit-button">Pay now</button>
         </div>
     </section>
 <?php } ?>
@@ -55,20 +55,20 @@ include_once('db/classes/Post.class.php');
         <h1>Shipping Information</h1>
         <form id="checkout-info-form" action="" method="post">
             <div>
-                <input type="text" name="first-name" aria-label="First Name" placeholder="First Name" required>
-                <input type="text" name="last-name" aria-label="Last Name" placeholder="Last Name" required>
+                <input type="text" name="first-name" aria-label="First Name" placeholder="First Name*" required>
+                <input type="text" name="last-name" aria-label="Last Name" placeholder="Last Name*" required>
             </div>
             <div>
-                <input type="email" name="email" aria-label="Email" placeholder="Email" required>
-                <input type="tel" name="phone" aria-label="Phone" placeholder="Phone Number" required>
+                <input type="email" name="email" aria-label="Email" placeholder="Email*" required>
+                <input type="tel" name="phone" aria-label="Phone" placeholder="Phone Number*" required>
             </div>
             <div>
-                <input type="text" name="address" aria-label="Address" placeholder="Address" required>
-                <input type="text" name="zip" pattern="[0-9]{4}-[0-9]{3}" aria-label="Zip-Code" placeholder="Zip-Code" required>
+                <input type="text" name="address" aria-label="Address" placeholder="Address*" required>
+                <input type="text" name="zip" pattern="[0-9]{4}-[0-9]{3}" aria-label="Zip-Code" placeholder="Zip-Code*" required>
             </div>
             <div>
-                <input type="text" name="town" aria-label="Town" placeholder="Town" required>
-                <input type="text" name="country" aria-label="Country" placeholder="Country" required>
+                <input type="text" name="town" aria-label="Town" placeholder="Town*" required>
+                <input type="text" name="country" aria-label="Country" placeholder="Country*" required>
             </div>
         </form>
     </section>

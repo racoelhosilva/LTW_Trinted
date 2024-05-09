@@ -66,6 +66,7 @@
 
 #checkout-summary {
   grid-area: checkout-summary;
+  margin-bottom: 2em;
 }
 
 #checkout-total {
