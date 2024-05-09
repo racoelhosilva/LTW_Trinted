@@ -34,7 +34,7 @@ class Controller {
     }
 
     /**
-     * @brief Generates login page
+     * @brief Generates profile page
      */
     public function profile() {
         include_once('pages/profile_page.php');
@@ -47,5 +47,29 @@ class Controller {
     public function product() {
         include_once('pages/product_page.php');
         return drawProductPage($this->request);
+    }
+
+    /**
+     * @brief Generates checkout page
+     */
+    public function checkout() {
+        include_once('pages/checkout_page.php');
+        return drawCheckoutPage($this->request);
+    }
+
+    /**
+     * @brief Generates help page
+     */
+    public function help() {
+        include_once('pages/help_page.php');
+        return drawHelpPage($this->request);
+    }
+
+    /**
+     * @brief Generates about page
+     */
+    public function about() {
+        include_once('pages/about_page.php');
+        return drawAboutPage($this->request);
     }
 }

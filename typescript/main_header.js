@@ -4,3 +4,9 @@ if (profileButton) {
         location.href = 'profile';
     });
 }
+var checkoutButton = document.getElementById('shopping_cart');
+if (checkoutButton) {
+    checkoutButton.addEventListener('click', function () {
+        location.href = 'checkout';
+    });
+}
