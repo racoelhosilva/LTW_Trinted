@@ -1,7 +1,8 @@
-var productCards = document.getElementsByClassName("product-card");
-for (var i = 0; i < productCards.length; i++) {
-    var likeButton = (productCards[i].querySelector(".like-button"));
-    likeButton.addEventListener("click", function (event) {
+"use strict";
+const productCards = document.getElementsByClassName("product-card");
+for (let i = 0; i < productCards.length; i++) {
+    let likeButton = (productCards[i].querySelector(".like-button"));
+    likeButton.addEventListener("click", (event) => {
         event.stopPropagation();
         return;
     });

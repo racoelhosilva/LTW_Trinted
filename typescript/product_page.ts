@@ -1,6 +1,7 @@
 const prevPhotoButton: HTMLElement | null = document.getElementById('prev-photo');
 const nextPhotoButton: HTMLElement | null = document.getElementById('next-photo');
 const photoBadges: HTMLCollectionOf<Element> | null = document.getElementsByClassName('photo-badge');
+const addToCartButton: HTMLElement | null = document.querySelector('.add-cart-button');
 
 let currentIndex: number = 0;
 updatePhotoIndex(currentIndex);
@@ -49,4 +50,14 @@ if (photoBadges) {
       updatePhotoIndex(i);
     });
   }
+}
+
+if (addToCartButton) {
+  addToCartButton.addEventListener('click', () => {
+    console.log('Adding to cart...');
+    postData('/actions/add_to_cart.php', { post_id: addToCartButton.dataset.productId })
+      .then(response => response.json())
+      .then(json => console.log(json))
+      .catch(error => console.error('Error:', error));
+  });
 }

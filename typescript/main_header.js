@@ -1,12 +1,13 @@
-var profileButton = document.getElementById('person');
+"use strict";
+const profileButton = document.getElementById('person');
 if (profileButton) {
-    profileButton.addEventListener('click', function () {
+    profileButton.addEventListener('click', () => {
         location.href = 'actions/go_to_profile.php';
     });
 }
-var checkoutButton = document.getElementById('shopping_cart');
+const checkoutButton = document.getElementById('shopping_cart');
 if (checkoutButton) {
-    checkoutButton.addEventListener('click', function () {
+    checkoutButton.addEventListener('click', () => {
         location.href = 'checkout';
     });
 }
