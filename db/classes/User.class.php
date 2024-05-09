@@ -35,7 +35,7 @@ class User
     }
     public function upload(PDO $db): void
     {
-        $stmt = $db->prepare("INSERT INTO User (email, name, password, registerDatetime, profilePicture, type) VALUES (:id, :email, :name, :password, :registerDateTime, :profilePicture, :type)");
+        $stmt = $db->prepare("INSERT INTO User (email, name, password, registerDatetime, profilePicture, type) VALUES (:email, :name, :password, :registerDateTime, :profilePicture, :type)");
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":password", $this->password);
