@@ -1,7 +1,7 @@
 const prevPhotoButton: HTMLElement | null = document.getElementById('prev-photo');
 const nextPhotoButton: HTMLElement | null = document.getElementById('next-photo');
 const photoBadges: HTMLCollectionOf<Element> | null = document.getElementsByClassName('photo-badge');
-const addToCartButton: HTMLElement | null = document.querySelector('.add-cart-button');
+const cartButton: HTMLElement | null = document.querySelector('.add-cart-button');
 
 let currentIndex: number = 0;
 updatePhotoIndex(currentIndex);
@@ -52,12 +52,25 @@ if (photoBadges) {
   }
 }
 
-if (addToCartButton) {
-  addToCartButton.addEventListener('click', () => {
-    console.log('Adding to cart...');
-    const postId = document.location.search.split('=')[1];
-    console.log(postId);
-    postData('../actions/add_to_cart.php', { post_id: postId })
+if (cartButton) {
+  const postId = document.location.search.split('=')[1];
+
+  getData('../actions/action_get_cart.php')
+    .then(response => response.json())
+    .then(json => {
+      const cart: Array<{[key: string]: any}> = json.items;
+      const postIds: Array<any> = Array.from(cart.map((item: {[key: string]: any}) => item.id));
+
+      console.log(postIds);
+
+      if (postIds.includes(parseInt(postId)))
+        cartButton.innerHTML = 'Remove from Cart';
+      else
+        cartButton.innerHTML = 'Add to Cart';
+    })
+
+  cartButton.addEventListener('click', () => {
+    postData('../actions/action_edit_cart.php', { post_id: postId })
       .then(response => response.json())
       .then(json => console.log(json))
       .catch(error => console.error('Error:', error));
