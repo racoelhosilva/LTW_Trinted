@@ -55,6 +55,15 @@ class Post
         return Item::getItem($db, $this->item->id);
     }
 
+    public static function getPost(PDO $db, int $id): Post
+    {
+        $stmt = $db->prepare("SELECT * FROM Post WHERE id = :id");
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        $post = $stmt->fetch();
+        return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByName($db, $post["seller"]), Item::getItem($db, $post["item"]));
+    }
+
     public static function getNPosts(PDO $db, int $n): array
     {
         $stmt = $db->prepare("SELECT * FROM Post WHERE id <= :n");

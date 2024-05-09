@@ -90,7 +90,7 @@
 #product-info {
   display: grid;
   grid-template-columns: auto auto;
-  grid-template-rows: min-content auto auto;
+  grid-template-rows: min-content min-content auto;
   column-gap: 1em;
   position: relative;
   background-color: var(--background-secondary);
@@ -142,7 +142,7 @@
   min-height: 100%;
   max-height: min-content;
   text-align: justify;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   text-indent: 2em;
   grid-column-end: span 2;
@@ -160,6 +160,19 @@
   right: 0.5em;
   width: calc(100% - 1em);
   height: 3em;
+  border: none;
+  border-radius: 1.5em;
+  font-size: 1em;
+  font-weight: bold;
+  background-color: var(--primary);
+  color: var(--background-primary);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+#product-info .add-cart-button:hover {
+  background-color: var(--background-primary);
+  color: var(--primary);
 }
 
 #product-info .avatar {
