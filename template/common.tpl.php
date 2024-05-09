@@ -28,6 +28,7 @@ include_once('template/product.tpl.php');
             <link rel="stylesheet" href="css/checkout_page.css">
             <link rel="stylesheet" href="css/help_page.css">
             <link rel="stylesheet" href="css/about_page.css">
+            <link rel="stylesheet" href="css/toast_message.css">
             <script src="javascript/utils.js" defer></script>
             <script src="javascript/product_page.js" defer></script>
             <script src="javascript/product.js" defer></script>

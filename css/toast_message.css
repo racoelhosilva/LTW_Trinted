@@ -1,0 +1,39 @@
+.toast-message {
+  visibility: hidden;
+  background-color: var(--info);
+  color: white;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: -2em;
+  border-radius: 1.5em;
+  padding-block: 0.5em;
+  width: 13em;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-left: -6.5em;
+}
+
+.toast-message.show {
+  visibility: visible;
+  animation: toast-appear 0.5s, toast-disappear 0.5s 2.5s;
+}
+
+@keyframes toast-appear {
+  from {
+    bottom: -2em;
+  }
+  to {
+    bottom: 2em;
+  }
+}
+
+@keyframes toast-disappear {
+  from {
+    bottom: 2em;
+  }
+  to {
+    bottom: -2em;
+  }
+}
