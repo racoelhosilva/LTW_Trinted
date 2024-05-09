@@ -101,11 +101,11 @@
 }
 
 #checkout-total > .spinner {
-  margin: 2em auto;
+  margin: 3em auto 0;
 }
 
 #checkout-total:has(.spinner) {
-  padding-bottom: 3.5em;
+  padding-bottom: 2.7em;
 }
 
 #pay-now-button {
