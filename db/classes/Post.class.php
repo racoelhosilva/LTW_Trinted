@@ -55,12 +55,14 @@ class Post
         return Item::getItem($db, $this->item->id);
     }
 
-    public static function getPostByID(PDO $db, int $id): Post
+    public static function getPostByID(PDO $db, int $id): ?Post
     {
         $stmt = $db->prepare("SELECT * FROM Post WHERE id = :id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
         $post = $stmt->fetch();
+        if (!isset($post["id"]))
+            return null;
         return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
     }
 
