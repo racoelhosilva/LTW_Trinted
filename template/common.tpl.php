@@ -26,10 +26,14 @@ include_once('template/product.tpl.php');
             <link rel="stylesheet" href="css/profile_page.css">
             <link rel="stylesheet" href="css/product_page.css">
             <link rel="stylesheet" href="css/settings_page.css">
+            <link rel="stylesheet" href="css/checkout_page.css">
+            <link rel="stylesheet" href="css/help_page.css">
+            <link rel="stylesheet" href="css/about_page.css">
             <script src="typescript/product_page.js" defer></script>
             <script src="typescript/product.js" defer></script>
             <script src="typescript/main_page.js" defer></script>
             <script src="typescript/main_header.js" defer></script>
+            <script src="typescript/checkout_page.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>
@@ -77,3 +81,13 @@ include_once('template/product.tpl.php');
     </footer>
 <?php } ?>
 
+<?php function drawProductSection(array $posts, string $title) { ?>
+    <section id="product-section">
+        <h1><?= $title ?></h1>
+            <?php
+            foreach ($posts as $post) {
+                drawProductCard($post);
+            }
+            ?>
+    </section>
+<?php } ?>

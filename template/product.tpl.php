@@ -16,10 +16,10 @@ declare(strict_types=1);
 {
     $db = new PDO("sqlite:" . DB_PATH);
 ?>
-    <div class="product-card">
+    <div class="product-card" onClick="goToProduct(<?= $post->id ?>)">
         <img src="<?= $post->getAllImages($db)[0]->url ?>" alt="<?= $post->item->name ?>">
         <h1><?= $post->title ?></h1>
-        <p>$<?= $post->price ?></p>
+        <p><?= $post->price ?>€</p>
         <?php drawLikeButton($post->title); ?>
     </div>
 <?php } ?>

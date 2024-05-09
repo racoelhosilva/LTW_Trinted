@@ -24,21 +24,15 @@
         <?php
         }
         ?>
-
+        <form method="post" action="/actions/logout.php">
+            <button type="submit" id="logout-button">Logout</button>
+        </form> 
     </div>
 <?php } ?>
 
 <?php function drawUserProductSection(User $user)
-{ 
+{
     $db = new PDO("sqlite:" . DB_PATH);
     $posts = $user->getUserPosts($db);
-    ?>
-    <section id="product-section">
-        <h1>Products by the seller (<?= count($posts) ?>)</h1>
-            <?php
-            foreach ($posts as $post) {
-                drawProductCard($post);
-            }
-            ?>
-    </section>
-<?php } ?>
+    drawProductSection($posts, "Products by the seller (" . count($posts) . ")");
+} ?>

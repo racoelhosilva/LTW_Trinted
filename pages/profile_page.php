@@ -29,7 +29,7 @@ function drawProfilePage(Request $request)
         session_start();
 
         $db = new PDO("sqlite:" . DB_PATH);
-        drawProfilePageContent(User::getUserByName($db, $_SESSION['user_id']));
+        drawProfilePageContent(User::getUserByID($db, intval($_GET['id'])));
         drawFooter();
     });
 }

@@ -42,7 +42,7 @@ declare(strict_types=1); ?>
 { ?>
     <div>
         <div class="registerform">
-            <form>
+            <form action="/actions/register_process.php" method="post">
                 <p>If you don't have an account:</p>
                 <div class="nameemail">
                     <input type="text" id="registername" name="registername" placeholder="Name">

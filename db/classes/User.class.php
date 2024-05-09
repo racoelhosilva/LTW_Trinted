@@ -5,7 +5,7 @@ declare(strict_types=1);
 require_once 'Image.class.php';
 class User
 {
-    public string $username;
+    public int $id;
     public string $email;
     public string $name;
     public string $password;
@@ -13,9 +13,9 @@ class User
     public Image $profilePicture;
     public string $type;
 
-    public function __construct(string $username, string $email, string $name, string $password, int $registerDateTime, Image $profilePicture, string $type)
+    public function __construct(int $id, string $email, string $name, string $password, int $registerDateTime, Image $profilePicture, string $type)
     {
-        $this->username = $username;
+        $this->id = $id;
         $this->email = $email;
         $this->name = $name;
         $this->password = $password;
@@ -35,8 +35,7 @@ class User
     }
     public function upload(PDO $db): void
     {
-        $stmt = $db->prepare("INSERT INTO User (username, email, name, password, registerDatetime, profilePicture, type) VALUES (:username, :email, :name, :password, :registerDateTime, :profilePicture, :type)");
-        $stmt->bindParam(":username", $this->username);
+        $stmt = $db->prepare("INSERT INTO User (email, name, password, registerDatetime, profilePicture, type) VALUES (:email, :name, :password, :registerDateTime, :profilePicture, :type)");
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":password", $this->password);
@@ -44,18 +43,22 @@ class User
         $stmt->bindParam(":profilePicture", $this->profilePicture->url);
         $stmt->bindParam(":type", $this->type);
         $stmt->execute();
+        $stmt = $db->prepare("SELECT last_insert_rowid()");
+        $stmt->execute();
+        $id = $stmt->fetch();
+        $this->id = $id[0];
     }
 
-    public static function getUserByName(PDO $db, string $username): User
+    public static function getUserByID(PDO $db, int $id): User
     {
-        $stmt = $db->prepare("SELECT * FROM User WHERE username = :username");
-        $stmt->bindParam(":username", $username);
+        $stmt = $db->prepare("SELECT * FROM User WHERE id = :id");
+        $stmt->bindParam(":id", $id);
         $stmt->execute();
         $user = $stmt->fetch();
         if ($user === false) {
             throw new Exception("User not found");
         }
-        return new User($user["username"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
+        return new User($user["id"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
     }
 
     public static function getUserByEmail(PDO $db, string $email): User
@@ -67,13 +70,13 @@ class User
         if ($user === false) {
             throw new Exception("User not found");
         }
-        return new User($user["username"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
+        return new User($user["id"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
     }
 
     public function getProfilePicture(PDO $db): Image
     {
-        $stmt = $db->prepare("SELECT profilePicture FROM User WHERE username = :username");
-        $stmt->bindParam(":username", $this->username);
+        $stmt = $db->prepare("SELECT profilePicture FROM User WHERE id = :id");
+        $stmt->bindParam(":id", $this->id);
         $stmt->execute();
         $profilePicture = $stmt->fetch();
         if ($profilePicture === false) {
@@ -89,17 +92,16 @@ class User
             throw new Exception("Invalid type");
         }
         $this->type = $type;
-        $stmt = $db->prepare("UPDATE User SET type = :type WHERE username = :username");
+        $stmt = $db->prepare("UPDATE User SET type = :type WHERE id = :id");
         $stmt->bindParam(":type", $type);
-        $stmt->bindParam(":username", $this->username);
+        $stmt->bindParam(":id", $this->id);
         $stmt->execute();
     }
 
     public function getUserPosts(PDO $db): array
     {
-        // TODO if the posts don't work, its because of this.
         $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller");
-        $stmt->bindParam(":seller", $this->username);
+        $stmt->bindParam(":seller", $this->id);
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {

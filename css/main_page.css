@@ -1,17 +1,20 @@
 #welcome-banner {
-  display: grid;
-  grid-template-areas: "welcome-text"
-                       "welcome-description"
-                       "start-now-button";
   background-color: var(--background-dark);
   color: var(--background-primary);
-  padding-inline: 20%;
-  padding-block: 5em 2em;
+  padding: 5em 1em 2em;
+}
+
+#welcome-banner > div {
+  display: flex;
+  flex-direction: column;
+  width: 60em;
+  max-width: 100%;
+  margin-inline: auto;
 }
 
 #welcome-banner h1:not(.title) {
   grid-area: welcome-text;
-  width: 60%;
+  max-width: 30em;
   font-size: 4.5em;
   margin: 0;
 }
@@ -23,13 +26,13 @@
 #welcome-banner p {
   grid-area: welcome-description;
   justify-self: end;
-  width: 40%;
+  max-width: 12em;
   text-align: end;
   font-size: 1.5em;
   margin-left: auto;
 }
 
-#welcome-banner > :first-child {
+#welcome-banner > div > :first-child {
   margin-top: 0;
 }
 
@@ -69,6 +72,10 @@
 /* Responsive UI */
 
 @media (max-width: 1200px) {
+  #welcome-banner {
+    font-size: 0.8em;
+  }
+
   #product-section {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -79,7 +86,31 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 800px) {
+  #welcome-banner > div {
+    width: 50em;
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 500px) {
+  #welcome-banner > div {
+    width: 35em;
+  }
+
+  #welcome-banner h1:not(.title) {
+    font-size: 3em;
+    width: auto;
+  }
+
+  #welcome-banner .title {
+    font-size: 6em;
+  }
+
+  #welcome-banner p {
+    max-width: 24em;
+  }
+
   #product-section {
     grid-template-columns: repeat(2, 1fr);
   }

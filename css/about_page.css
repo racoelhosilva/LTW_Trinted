@@ -1,0 +1,37 @@
+#about-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#about-page h1 {
+    color: var(--primary);
+    padding: 1em;
+    text-align: center;
+}
+
+#about-page section {
+    width: 60vw;
+    text-align: justify;
+}
+
+#about-page footer {
+    padding: 1em;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+/* ------------- Responsive -------------*/
+
+@media (max-width: 1000px){
+    #about-page section {
+        width: 70vw;
+    }
+}
+
+@media (max-width: 500px){
+    #about-page section {
+        width: 80vw;
+    }
+}

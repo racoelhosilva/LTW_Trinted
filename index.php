@@ -27,6 +27,18 @@ $routes = [
     '/settings' => [
         'controller' => 'Controller@settings',
         'middlewares' => [new AuthenticationMiddleware()]
+    ],
+    '/checkout' => [
+        'controller' => 'Controller@checkout',
+        'middlewares' => []
+    ],
+    '/help' => [
+        'controller' => 'Controller@help',
+        'middlewares' => []
+    ],
+    '/about' => [
+        'controller' => 'Controller@about',
+        'middlewares' => []
     ]
 ];
 

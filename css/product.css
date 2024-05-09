@@ -17,6 +17,7 @@
   overflow: hidden;
   border-radius: 0.5em;
   margin: 0.5em;
+  object-fit: contain;
 }
 
 .product-card > h1 {

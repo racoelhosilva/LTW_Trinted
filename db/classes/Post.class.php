@@ -30,7 +30,7 @@ class Post
         $stmt->bindParam(":price", $this->price);
         $stmt->bindParam(":description", $this->description);
         $stmt->bindParam(":publishDateTime", $this->publishDateTime);
-        $stmt->bindParam(":seller", $this->seller->username);
+        $stmt->bindParam(":seller", $this->seller->id);
         $stmt->bindParam(":item", $this->item->id);
         $stmt->execute();
         $stmt = $db->prepare("SELECT last_insert_rowid()");
@@ -55,6 +55,35 @@ class Post
         return Item::getItem($db, $this->item->id);
     }
 
+    public static function getPostByID(PDO $db, int $id): Post
+    {
+        $stmt = $db->prepare("SELECT * FROM Post WHERE id = :id");
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        $post = $stmt->fetch();
+        return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
+    }
+
+    public static function getPostsByCategory(PDO $db, Category $category): array{
+        $stmt = $db->prepare("SELECT * FROM Post WHERE item IN (SELECT id FROM Item WHERE category = :category)");
+        $stmt->bindParam(":category", $category->category);
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+        return array_map(function ($post) use ($db) {
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
+        }, $posts);
+    }
+
+    public static function getPostsByBrand(PDO $db, Brand $brand) : array {
+        $stmt = $db->prepare("SELECT * FROM Post WHERE item IN (SELECT item FROM ItemBrand WHERE brand = :brand)");
+        $stmt->bindParam(":brand", $brand->name);
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+        return array_map(function ($post) use ($db) {
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
+        }, $posts);
+    }
+
     public static function getNPosts(PDO $db, int $n): array
     {
         $stmt = $db->prepare("SELECT * FROM Post WHERE id <= :n");
@@ -62,7 +91,7 @@ class Post
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByName($db, $post["seller"]), Item::getItem($db, $post["item"]));
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
         }, $posts);
     }
 }
