@@ -30,7 +30,7 @@ class Post
         $stmt->bindParam(":price", $this->price);
         $stmt->bindParam(":description", $this->description);
         $stmt->bindParam(":publishDateTime", $this->publishDateTime);
-        $stmt->bindParam(":seller", $this->seller->username);
+        $stmt->bindParam(":seller", $this->seller->id);
         $stmt->bindParam(":item", $this->item->id);
         $stmt->execute();
         $stmt = $db->prepare("SELECT last_insert_rowid()");
@@ -61,7 +61,7 @@ class Post
         $stmt->bindParam(":id", $id);
         $stmt->execute();
         $post = $stmt->fetch();
-        return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByName($db, $post["seller"]), Item::getItem($db, $post["item"]));
+        return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
     }
 
     public static function getPostsByCategory(PDO $db, Category $category): array{
@@ -70,7 +70,7 @@ class Post
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByName($db, $post["seller"]), Item::getItem($db, $post["item"]));
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
         }, $posts);
     }
 
@@ -80,7 +80,7 @@ class Post
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByName($db, $post["seller"]), Item::getItem($db, $post["item"]));
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
         }, $posts);
     }
 
@@ -91,7 +91,7 @@ class Post
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByName($db, $post["seller"]), Item::getItem($db, $post["item"]));
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
         }, $posts);
     }
 }
