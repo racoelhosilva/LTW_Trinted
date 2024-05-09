@@ -5,8 +5,18 @@
     justify-content: space-around;
 }
 
+#help-page h1 {
+    color: var(--primary);
+    text-align: center;
+    font-size: 72px;
+}
+
+#help-page h2 {
+    text-align: center;
+}
+
 #help-page section {
-    width: 40vw;
+    width: 60vw;
 }
 
 #help-page dt {
@@ -22,6 +32,22 @@
 }
 
 #help-page footer {
+    padding: 1em;
     font-size: 20px;
     color: var(--halftone);
+    text-align: center;
+}
+
+/* ------------- Responsive -------------*/
+
+@media (max-width: 965px){
+    #help-page section {
+        width: 70vw;
+    }
+}
+
+@media (max-width: 500px){
+    #help-page section {
+        width: 80vw;
+    }
 }
