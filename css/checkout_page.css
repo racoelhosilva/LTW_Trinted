@@ -33,6 +33,7 @@
   height: 8em;
   border-radius: 0.5em;
   cursor: pointer;
+  object-fit: cover;
 }
 
 .order-item-card > div {

@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 include_once('template/common.tpl.php');
 include_once('template/checkout_page.tpl.php');
-include_once('db/classes/Post.class.php')
+include_once('template/toast_message.tpl.php');
+include_once('db/classes/Post.class.php');
 ?>
 
 <?php function drawCheckoutPageContent() { ?>
@@ -12,6 +13,7 @@ include_once('db/classes/Post.class.php')
         <?php drawOrderItems(); ?>
         <?php drawCheckoutSummary(); ?>
         <?php drawCheckoutForm(); ?>
+        <?php drawPaymentSuccess(); ?>
     </main>
 <?php } ?>
 
