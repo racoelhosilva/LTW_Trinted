@@ -11,7 +11,8 @@ for (var i = 0; i < orderItemCards.length; i++) {
 }
 var payNowButton = document.querySelector('#pay-now-button');
 var checkoutInfoForm = document.querySelector('#checkout-info-form');
-if (payNowButton && checkoutInfoForm) {
+var paymentSuccessfulMessage = document.querySelector('#payment-successful-message');
+if (payNowButton && checkoutInfoForm && paymentSuccessfulMessage) {
     payNowButton.addEventListener('click', function (event) {
         // if (!checkoutInfoForm.checkValidity()) {
         //   checkoutInfoForm.reportValidity();
@@ -23,8 +24,11 @@ if (payNowButton && checkoutInfoForm) {
         loadingSpinner.appendChild(document.createElement('div'));
         payNowButton.replaceWith(loadingSpinner);
         window.setTimeout(function () {
-            console.log('Payment successful!');
             loadingSpinner.replaceWith(payNowButton);
+            paymentSuccessfulMessage.classList.add('show');
+            window.setTimeout(function () {
+                paymentSuccessfulMessage.classList.remove('show');
+            }, 5000);
         }, 2000);
     });
 }
