@@ -2,7 +2,7 @@ const profileButton = document.getElementById('person');
 
 if (profileButton) {
     profileButton.addEventListener('click', () => {
-        location.href = 'profile';
+        location.href = 'actions/go_to_profile.php';
     })
 }
 
