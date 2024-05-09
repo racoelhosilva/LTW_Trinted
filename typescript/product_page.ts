@@ -52,26 +52,53 @@ if (photoBadges) {
   }
 }
 
-if (cartButton) {
-  const postId = document.location.search.split('=')[1];
+function updateCartButtonText(cartButton: HTMLElement, itemSelected: boolean): void {
+  if (itemSelected)
+    cartButton.innerHTML = 'Remove from Cart';
+  else
+    cartButton.innerHTML = 'Add to Cart';
+}
 
-  getData('../actions/action_get_cart.php')
-    .then(response => response.json())
+function getCart(postId: number): Promise<any> {
+  return getData('../actions/action_get_cart.php')
+    .then(response => response.json());
+}
+
+function addItemToCart(postId: number): Promise<any> {
+  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: false })
+    .then(response => response.json());
+}
+
+function removeItemFromCart(postId: number): Promise<any> {
+  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: true })
+    .then(response => response.json());
+}
+
+if (cartButton) {
+  const postId = parseInt(document.location.search.split('=')[1]);
+  let itemSelected = false;
+
+  getCart(postId)
     .then(json => {
       const cart: Array<number> = json.cart;
-
       console.log(cart);
 
-      if (cart.includes(parseInt(postId)))
-        cartButton.innerHTML = 'Remove from Cart';
-      else
-        cartButton.innerHTML = 'Add to Cart';
+      itemSelected = cart.includes(postId);
+      updateCartButtonText(cartButton, itemSelected);
     })
+    .catch(error => console.log(error));
 
   cartButton.addEventListener('click', () => {
-    postData('../actions/action_edit_cart.php', { post_id: postId })
-      .then(response => response.json())
-      .then(json => console.log(json))
-      .catch(error => console.error('Error:', error));
+    let response = !itemSelected ? addItemToCart(postId) : removeItemFromCart(postId);
+    response
+      .then(json => {
+        if (json.success) {
+          itemSelected = !itemSelected;
+          updateCartButtonText(cartButton, itemSelected);
+        } else {
+          console.log("Error");
+        }
+      })
+      .catch(error => console.log(error));
   });
 }

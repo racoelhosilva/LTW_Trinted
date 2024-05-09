@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-include_once ('template/common.tlp.php');
+include_once ('template/common.tpl.php');
 ?>
 
 <?php function drawProductPhotos(Post $post)

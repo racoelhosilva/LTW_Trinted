@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 include_once(__DIR__ . '/../db/classes/Post.class.php');
 
-if (!isset($_POST['post_id']) || !isset($_POST['remove']))
+if (!isset($_POST['post_id']) || !in_array($_POST['remove'], [true, false]))
     exit();
 
 session_start();
@@ -18,7 +18,6 @@ function validate(string $data): string {
 function addToCart(int $post_id): bool {
     foreach ($_SESSION['cart'] as $index => $cart_post_id) {
         if ($cart_post_id == $post_id) {
-            echo json_encode(array('success' => true));
             return false;
         }
     }
@@ -30,7 +29,7 @@ function addToCart(int $post_id): bool {
 function removeFromCart(int $post_id): bool {
     foreach ($_SESSION['cart'] as $index => $cart_post_id) {
         if ($cart_post_id == $post_id) {
-            unset($_SESSION['cart'][$index]);
+            array_splice($_SESSION['cart'], $index, 1);
             return true;
         }
     }
@@ -49,5 +48,5 @@ try {
     exit();
 }
 
-$success = isset($post) && ((!$remove && addToCart($post_id)) || ($remove && removeFromCart($post_id)));
+$success = isset($post) && (($remove && addToCart($post_id)) || ($remove && removeFromCart($post_id)));
 echo json_encode(array('success' => $success));
