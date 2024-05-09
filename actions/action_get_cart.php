@@ -13,4 +13,4 @@ function validate($data)
     return $data;
 }
 
-echo json_encode(array('items' => $_SESSION['items']));
+echo json_encode(array('cart' => $_SESSION['cart']));

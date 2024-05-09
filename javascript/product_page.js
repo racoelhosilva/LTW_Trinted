@@ -50,10 +50,9 @@ if (cartButton) {
     getData('../actions/action_get_cart.php')
         .then(response => response.json())
         .then(json => {
-        const cart = json.items;
-        const postIds = Array.from(cart.map((item) => item.id));
-        console.log(postIds);
-        if (postIds.includes(parseInt(postId)))
+        const cart = json.cart;
+        console.log(cart);
+        if (cart.includes(parseInt(postId)))
             cartButton.innerHTML = 'Remove from Cart';
         else
             cartButton.innerHTML = 'Add to Cart';
