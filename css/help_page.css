@@ -22,19 +22,22 @@
 
 #help-page dt {
     color: var(--primary);
-    font-size: 24px;
+    font-size: 1.5em;
     padding: 1em;
     font-weight: 600;
+    text-align: justify;
 }
 
 #help-page dd {
     color: var(--text);
-    font-size: 16px;
+    font-size: 1em;
+    text-align: justify;
+    margin-left: 0;
 }
 
 #help-page footer {
     padding: 1em;
-    font-size: 20px;
+    font-size: 1.25em;
     color: var(--halftone);
     text-align: center;
 }
