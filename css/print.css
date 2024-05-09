@@ -1,0 +1,31 @@
+@media print {
+    #main-header, #main-footer, #pay-now-button, #checkout-form {
+        display: none;
+    }
+
+    #checkout-page {
+        display: block;
+        font-size: 0.8em;
+        height: 75%;
+
+        h1 {
+            font-size: 24px;
+        }
+
+        .order-item-card img {
+            width: 4em;
+            height: 4em;
+        }
+
+        #checkout-total {
+
+            div:nth-child(2) {
+                margin-bottom: 1em;
+            }
+
+            h1 {
+                font-size: 16px;
+            }
+        }
+    }
+}
