@@ -23,8 +23,7 @@ CREATE TABLE Image
 
 CREATE TABLE User
 (
-    username         VARCHAR(32)
-        CONSTRAINT UsernameNotNull NOT NULL,
+    id               INTEGER,
     email            VARCHAR(64)
         CONSTRAINT EmailNotNull NOT NULL
         CONSTRAINT EmailUnique UNIQUE,
@@ -38,7 +37,7 @@ CREATE TABLE User
     type             VARCHAR(6)
         CONSTRAINT TypeNotNull NOT NULL
         CONSTRAINT ValidType CHECK (type IN ('seller', 'buyer', 'admin')),
-    CONSTRAINT UsernamePK PRIMARY KEY (username),
+    CONSTRAINT idPK PRIMARY KEY (id),
     CONSTRAINT profilePictureFK FOREIGN KEY (profilePicture) REFERENCES Image (url)
 );
 
@@ -68,13 +67,13 @@ CREATE TABLE Item
     id        INTEGER,
     name      VARCHAR(64)
         CONSTRAINT NameNotNull NOT NULL,
-    seller    VARCHAR(32)
+    seller    INTEGER
         CONSTRAINT SellerNotNull NOT NULL,
     size      VARCHAR(16),
     category  VARCHAR(16),
     condition VARCHAR(16),
     CONSTRAINT IdPK PRIMARY KEY (id),
-    CONSTRAINT SellerFK FOREIGN KEY (seller) REFERENCES User (username),
+    CONSTRAINT SellerFK FOREIGN KEY (seller) REFERENCES User (id),
     CONSTRAINT SizeFK FOREIGN KEY (size) REFERENCES Size (name),
     CONSTRAINT CategoryFK FOREIGN KEY (category) REFERENCES Category (name),
     CONSTRAINT ConditionFK FOREIGN KEY (condition) REFERENCES Condition (name)
@@ -86,7 +85,7 @@ CREATE TRIGGER ItemOwnerIsSeller
     FOR EACH ROW
     WHEN (SELECT type
           FROM User
-          WHERE username = New.seller) <> 'seller'
+          WHERE id = New.seller) <> 'seller'
 BEGIN
     SELECT RAISE(FAIL, 'Item cannot belong to non-seller user');
 END;
@@ -120,12 +119,12 @@ CREATE TABLE Post
     description     TEXT,
     publishDatetime DATETIME
         CONSTRAINT PublishDatetimeNotNull NOT NULL,
-    seller          VARCHAR(32)
+    seller          INTEGER
         CONSTRAINT SellerNotNull NOT NULL,
     item            INT
         CONSTRAINT ItemNotNull NOT NULL,
     CONSTRAINT IdPK PRIMARY KEY (id),
-    CONSTRAINT SellerFK FOREIGN KEY (seller) REFERENCES User (username),
+    CONSTRAINT SellerFK FOREIGN KEY (seller) REFERENCES User (id),
     CONSTRAINT ItemFK FOREIGN KEY (item) REFERENCES Item (id)
 );
 
@@ -135,7 +134,7 @@ CREATE TRIGGER PostPublisherIsSeller
     FOR EACH ROW
     WHEN (SELECT type
           FROM User
-          WHERE username = New.seller) <> 'seller'
+          WHERE id = New.seller) <> 'seller'
 BEGIN
     SELECT RAISE(FAIL, 'The post''s publisher must be a seller');
 END;
@@ -157,7 +156,7 @@ CREATE TRIGGER PostAfterUserRegister
     FOR EACH ROW
     WHEN (SELECT registerDatetime
           FROM User
-          WHERE username = New.seller) >= New.publishDatetime
+          WHERE id = New.seller) >= New.publishDatetime
 BEGIN
     SELECT RAISE(FAIL, 'The post cannot be publish before the respective seller being registered');
 END;
@@ -181,13 +180,13 @@ CREATE TABLE Message
         CONSTRAINT DatetimeNotNull NOT NULL,
     content  TEXT
         CONSTRAINT ContentNotNull NOT NULL,
-    sender   VARCHAR(32)
+    sender   INTEGER
         CONSTRAINT SenderNotNull NOT NULL,
-    receiver VARCHAR(32)
+    receiver INTEGER
         CONSTRAINT ReceiverNotNull NOT NULL,
     CONSTRAINT IdPK PRIMARY KEY (id),
-    CONSTRAINT SenderFK FOREIGN KEY (sender) REFERENCES User (username),
-    CONSTRAINT ReceiverFK FOREIGN KEY (receiver) REFERENCES User (username),
+    CONSTRAINT SenderFK FOREIGN KEY (sender) REFERENCES User (id),
+    CONSTRAINT ReceiverFK FOREIGN KEY (receiver) REFERENCES User (id),
     CONSTRAINT SenderNotReceiver CHECK (sender <> receiver)
 );
 

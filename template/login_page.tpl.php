@@ -50,7 +50,7 @@ declare(strict_types=1); ?>
                 </div>
                 <input type="password" id="registerpassword" name="registerpassword" placeholder="Password">
                 <input type="submit" value="Register">
-            </form>
+            </form action="/actions/register_process.php" method="post">
         </div>
         <?php if (isset($_GET['registererror'])) { ?>
             <script>
