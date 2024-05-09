@@ -28,6 +28,7 @@ if (payNowButton && checkoutInfoForm && paymentSuccessfulMessage) {
             paymentSuccessfulMessage.classList.add('show');
             window.setTimeout(function () {
                 paymentSuccessfulMessage.classList.remove('show');
+                document.location.assign('/');
             }, 5000);
         }, 2000);
     });
