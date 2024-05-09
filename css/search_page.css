@@ -49,7 +49,7 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-y: scroll;
   text-overflow: clip;
   display: block;
   grid-area: drawer;
@@ -59,8 +59,8 @@
 }
 
 #search-drawer > h1 {
-  margin: 0 0 0.2em 0.5em;
-  font-size: 2em;
+  margin: 0 0 0 0.5em;
+  font-size: 1.5em;
   color: var(--primary);
 }
 
@@ -81,7 +81,7 @@
 
 #search-drawer li label {
   cursor: pointer;
-  transition: all 0.2s;
+  transition: color 0.2s;
 }
 
 #search-drawer li label:hover {
@@ -126,7 +126,8 @@ body:has(#hamburger-button:not(:checked)) #search-drawer * {
   #search-drawer {
     width: 100%;
     height: 20em;
-    overflow: scroll;
+    overflow-y: scroll;
+    font-size: 0.8em;
   }
 
   body:has(#hamburger-button:not(:checked)) #search-drawer {
