@@ -98,6 +98,34 @@ class User
         $stmt->execute();
     }
 
+    public function setName(PDO $db, string $name): void
+    {
+        $this->name = $name;
+        $stmt = $db->prepare("UPDATE User SET name = :name WHERE id = :id");
+        $stmt->bindParam(":name", $this->name);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+    }
+
+    public function setEmail(PDO $db, string $email): void
+    {
+        $this->email = $email;
+        $stmt = $db->prepare("UPDATE User SET email = :email WHERE id = :id");
+        $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+    }
+
+    public function setPassword(PDO $db, string $password): void
+    {
+        $this->password = $password;
+        $this->hashPassword();
+        $stmt = $db->prepare("UPDATE User SET password = :password WHERE id = :id");
+        $stmt->bindParam(":password", $this->password);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+    }
+
     public function getUserPosts(PDO $db): array
     {
         $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller");
