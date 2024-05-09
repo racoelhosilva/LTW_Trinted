@@ -7,3 +7,18 @@ for (let i = 0; i < orderItemCards.length; i++) {
     window.location.href = `/product?id=${itemCard.dataset.postId}`;
   });
 }
+
+const payNowButton = document.querySelector<HTMLElement>('#pay-now-button');
+const checkoutInfoForm = document.querySelector<HTMLFormElement>('#checkout-info-form');
+if (payNowButton && checkoutInfoForm) {
+  payNowButton.addEventListener('click', (event) => {
+    if (!checkoutInfoForm.checkValidity()) {
+      checkoutInfoForm.reportValidity();
+      return;
+    }
+
+    window.setTimeout(() => {
+      console.log('Payment successful!');
+    }, 2000);
+  });
+}

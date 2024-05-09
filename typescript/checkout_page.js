@@ -9,3 +9,16 @@ var _loop_1 = function (i) {
 for (var i = 0; i < orderItemCards.length; i++) {
     _loop_1(i);
 }
+var payNowButton = document.querySelector('#pay-now-button');
+var checkoutInfoForm = document.querySelector('#checkout-info-form');
+if (payNowButton && checkoutInfoForm) {
+    payNowButton.addEventListener('click', function (event) {
+        if (!checkoutInfoForm.checkValidity()) {
+            checkoutInfoForm.reportValidity();
+            return;
+        }
+        window.setTimeout(function () {
+            console.log('Payment successful!');
+        }, 2000);
+    });
+}
