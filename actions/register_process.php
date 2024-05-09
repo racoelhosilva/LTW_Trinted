@@ -1,10 +1,5 @@
 <?php
 
-// registername
-// registeremail
-// registerpassword
-
-// Start session
 session_start();
 
 require_once '../db/classes/User.class.php';
@@ -35,7 +30,7 @@ if (empty($name)) {
     exit();
 }
 
-$user = new User(73, $email, $name, $password, time(), new Image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGt4iF5y8eiMnD87lrrXEwzvKIXSfPgGpjtiTEm5yOAA&s"), "buyer");
+$user = new User(0, $email, $name, $password, time(), new Image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGt4iF5y8eiMnD87lrrXEwzvKIXSfPgGpjtiTEm5yOAA&s"), "buyer");
 $db = new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 
 try {
