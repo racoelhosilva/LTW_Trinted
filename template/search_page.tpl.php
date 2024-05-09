@@ -1,20 +1,16 @@
 <?php
 declare(strict_types=1);
 
+include_once('template/common.tpl.php');
 include_once('template/product.tpl.php');
 ?>
 
-<?php function drawProducts(array $posts) { ?>
-    <section id="searched-products">
-        <?php
-        foreach ($posts as $post) {
-            drawProductCard($post);
-        }
-        ?>
-    </section>
-<?php } ?>
+<?php function drawSearchedProducts(array $posts, int $page) {
+    drawProductSection(array_slice($posts, ($page - 1) * 15, 15), "Found " . count($posts) . " results");
+} ?>
 
 <?php function drawPagination(int $pages, int $current) { ?>
+    <?php if ($pages == 0) return; ?>
     <div id="pagination">
         <?php if ($current > 1) { ?>
             <a href="?page=<?= $current - 1 ?>">&lt;</a>
@@ -22,7 +18,7 @@ include_once('template/product.tpl.php');
             <a class="blocked">&lt;</a>
         <?php } ?>
         <?php if ($current == 1) { ?>
-            <a href="" onclick="return false;" class="active">1</a>
+            <a href="" onclick="return false;" class="active">1</a>  <!-- TODO: Remove onclick -->
         <?php } else { ?>
             <a href="?page=1">1</a>
         <?php } ?>
@@ -39,9 +35,9 @@ include_once('template/product.tpl.php');
         <?php if ($current < $pages - 2) { ?>
             <a class="ellipsis">...</a>
         <?php } ?>
-        <?php if ($current == $pages) { ?>
+        <?php if ($pages > 1 && $current == $pages) { ?>
             <a href="" onclick="return false;" class="active"><?= $pages ?></a>
-        <?php } else { ?>
+        <?php } else if ($pages > 1) { ?>
             <a href="?page=<?= $pages ?>"><?=$pages ?></a>
         <?php } ?>
         <?php if ($current < $pages) { ?>
@@ -53,7 +49,6 @@ include_once('template/product.tpl.php');
 <?php } ?>
 
 <?php function drawSearchFilter(string $name, string $text) { ?>
-
     <li>
         <label>
             <?= $text ?>

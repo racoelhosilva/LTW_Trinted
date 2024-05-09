@@ -79,3 +79,14 @@ include_once('template/product.tpl.php');
     </div>
     </footer>
 <?php } ?>
+
+<?php function drawProductSection(array $posts, string $title) { ?>
+    <section id="product-section">
+        <h1><?= $title ?></h1>
+            <?php
+            foreach ($posts as $post) {
+                drawProductCard($post);
+            }
+            ?>
+    </section>
+<?php } ?>
