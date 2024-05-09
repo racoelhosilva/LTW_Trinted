@@ -10,7 +10,8 @@ for (let i = 0; i < orderItemCards.length; i++) {
 
 const payNowButton = document.querySelector<HTMLElement>('#pay-now-button');
 const checkoutInfoForm = document.querySelector<HTMLFormElement>('#checkout-info-form');
-if (payNowButton && checkoutInfoForm) {
+const paymentSuccessfulMessage = document.querySelector<HTMLElement>('#payment-successful-message');
+if (payNowButton && checkoutInfoForm && paymentSuccessfulMessage) {
   payNowButton.addEventListener('click', (event) => {
     // if (!checkoutInfoForm.checkValidity()) {
     //   checkoutInfoForm.reportValidity();
@@ -24,8 +25,11 @@ if (payNowButton && checkoutInfoForm) {
     payNowButton.replaceWith(loadingSpinner);
 
     window.setTimeout(() => {
-      console.log('Payment successful!');
       loadingSpinner.replaceWith(payNowButton);
+      paymentSuccessfulMessage.classList.add('show');
+      window.setTimeout(() => {
+        paymentSuccessfulMessage.classList.remove('show');
+      }, 5000);
     }, 2000);
   });
 }
