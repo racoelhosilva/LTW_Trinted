@@ -25,12 +25,14 @@ include_once('template/product.tpl.php');
             <link rel="stylesheet" href="css/search_page.css">
             <link rel="stylesheet" href="css/profile_page.css">
             <link rel="stylesheet" href="css/product_page.css">
+            <link rel="stylesheet" href="css/checkout_page.css">
             <link rel="stylesheet" href="css/help_page.css">
             <link rel="stylesheet" href="css/about_page.css">
             <script src="typescript/product_page.js" defer></script>
             <script src="typescript/product.js" defer></script>
             <script src="typescript/main_page.js" defer></script>
             <script src="typescript/main_header.js" defer></script>
+            <script src="typescript/checkout_page.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>

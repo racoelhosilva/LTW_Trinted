@@ -142,7 +142,8 @@
   min-height: 100%;
   max-height: min-content;
   text-align: justify;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   text-indent: 2em;
   grid-column-end: span 2;
 }
@@ -159,19 +160,6 @@
   right: 0.5em;
   width: calc(100% - 1em);
   height: 3em;
-  border: none;
-  border-radius: 1.5em;
-  font-size: 1em;
-  font-weight: bold;
-  background-color: var(--primary);
-  color: var(--background-primary);
-  transition: all 0.3s;
-  cursor: pointer;
-}
-
-#product-info .add-cart-button:hover {
-  background-color: var(--background-primary);
-  color: var(--primary);
 }
 
 #product-info .avatar {

@@ -50,6 +50,14 @@ class Controller {
     }
 
     /**
+     * @brief Generates checkout page
+     */
+    public function checkout() {
+        include_once('pages/checkout_page.php');
+        return drawCheckoutPage($this->request);
+    }
+
+    /**
      * @brief Generates help page
      */
     public function help() {
