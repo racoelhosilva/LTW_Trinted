@@ -82,4 +82,29 @@ button {
   }
 }
 
+.spinner {
+  position: relative;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner > div::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2em;
+  height: 2em;
+  margin-top: -1em;
+  margin-left: -1em;
+  border-radius: 50%;
+  border-top: 2px solid var(--primary);
+  border-right: 2px solid transparent;
+  animation: spinner 0.6s linear infinite;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap");
