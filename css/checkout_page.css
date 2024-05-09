@@ -76,7 +76,7 @@
   border-radius: 1em;
 }
 
-#checkout-total > div {
+#checkout-total > div:not(.spinner) {
   display: grid;
   grid-template-columns: auto auto;
   align-items: center;
@@ -98,6 +98,14 @@
   font-size: 1.2em;
   color: var(--halftone);
   justify-self: end;
+}
+
+#checkout-total > .spinner {
+  margin: 2em auto;
+}
+
+#checkout-total:has(.spinner) {
+  padding-bottom: 3.5em;
 }
 
 #pay-now-button {
