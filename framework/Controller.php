@@ -50,6 +50,14 @@ class Controller {
     }
 
     /**
+     * @brief Generates help page
+     */
+    public function help() {
+        include_once('pages/help_page.php');
+        return drawHelpPage($this->request);
+    }
+
+    /**
      * @brief Generates about page
      */
     public function about() {
