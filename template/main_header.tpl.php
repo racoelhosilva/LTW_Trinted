@@ -11,7 +11,7 @@ declare(strict_types=1); ?>
 
 <?php function drawHamburgerButton()
 { ?>
-    <input type="checkbox" id="hamburger-button">
+    <input type="checkbox" id="hamburger-button" checked>
     <label for="hamburger-button" class="material-symbols-outlined">menu</label>
 <?php } ?>
 
