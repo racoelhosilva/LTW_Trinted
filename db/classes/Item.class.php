@@ -24,7 +24,7 @@ class Item
     {
         $stmt = $db->prepare("INSERT INTO Item (name, seller, size, category, condition) VALUES (:name, :seller, :size, :category, :condition)");
         $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":seller", $this->seller->username);
+        $stmt->bindParam(":seller", $this->seller->id);
         $stmt->bindParam(":size", $this->size->size);
         $stmt->bindParam(":category", $this->category->category);
         $stmt->bindParam(":condition", $this->condition->condition);
@@ -55,7 +55,7 @@ class Item
         if ($itemData === false) {
             throw new Exception("Item not found");
         }
-        return new Item($itemData["id"], $itemData["name"], User::getUserByName($db, $itemData["seller"]), Size::getSize($db, $itemData["size"]), Category::getCategory($db, $itemData["category"]), Condition::getCondition($db, $itemData["condition"]));
+        return new Item($itemData["id"], $itemData["name"], User::getUserByID($db, $itemData["seller"]), Size::getSize($db, $itemData["size"]), Category::getCategory($db, $itemData["category"]), Condition::getCondition($db, $itemData["condition"]));
     }
 
     public static function getNItems(PDO $db, int $n): array
@@ -66,7 +66,7 @@ class Item
         $items = $stmt->fetchAll();
         return array_map(function ($item) use ($db) {
             print("found\n");
-            return new Item($item["id"], $item["name"], User::getUserByName($db, $item["seller"]), Size::getSize($db, $item["size"]), Category::getCategory($db, $item["category"]), Condition::getCondition($db, $item["condition"]));
+            return new Item($item["id"], $item["name"], User::getUserByID($db, $item["seller"]), Size::getSize($db, $item["size"]), Category::getCategory($db, $item["category"]), Condition::getCondition($db, $item["condition"]));
         }, $items);
     }
 }
