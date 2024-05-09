@@ -9,6 +9,11 @@ function validate($data)
     return $data;
 }
 
+if (!isset($_GET['id'])) {
+    header("Location: /profile?id=" . $_SESSION['user_id']);
+    exit();
+}
+
 $userID = validate($_GET['id']);
 
 if (empty($userID)) {
