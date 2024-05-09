@@ -1,44 +1,46 @@
 .toast-message {
   visibility: hidden;
-  bottom: -3em;
+  top: -1em;
+  right: 1em;
   background-color: var(--info);
   color: white;
   position: fixed;
   z-index: 1;
-  left: 50%;
-  border-radius: 1.5em;
   padding-block: 0.5em;
   width: 13em;
   text-align: center;
   font-size: 1.2em;
   font-weight: bold;
-  margin-left: -6.5em;
 }
 
 .toast-message.show {
   visibility: visible;
-  bottom: 2em;
-  animation: toast-appear 0.5s, toast-disappear 0.5s 4.5s;
+  top: 4em;
+  animation: toast-appear 0.5s, toast-disappear 0.6s 4.5s;
 }
 
 @keyframes toast-appear {
   from {
-    bottom: -1em;
+    top: -1em;
     opacity: 0;
   }
   to {
-    bottom: 2em;
+    top: 4em;
     opacity: 1;
   }
 }
 
 @keyframes toast-disappear {
-  from {
-    bottom: 2em;
+  0% {
+    top: 4em;
     opacity: 1;
   }
-  to {
-    bottom: -1em;
+  50% {
+    top: -1em;
+    opacity: 0;
+  }
+  100% {
+    top: -1em;
     opacity: 0;
   }
 }
