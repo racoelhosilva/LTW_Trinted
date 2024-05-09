@@ -55,7 +55,7 @@ if (photoBadges) {
 if (addToCartButton) {
   addToCartButton.addEventListener('click', () => {
     console.log('Adding to cart...');
-    postData('/actions/add_to_cart.php', { post_id: addToCartButton.dataset.productId })
+    postData('../actions/add_to_cart.php', { post_id: addToCartButton.dataset.productId })
       .then(response => response.json())
       .then(json => console.log(json))
       .catch(error => console.error('Error:', error));
