@@ -21,6 +21,36 @@ declare(strict_types=1); ?>
     </div>
 <?php } ?>
 
+<?php function drawRelatedProductsSection(Post $post)
+{
+    $db = new PDO("sqlite:" . DB_PATH);
+    $postsByCategory = Post::getPostsByCategory($db, $post->item->category);
+    $user = $post->seller;
+    $postsBySeller = $user->getUserPosts($db);
+
+    $postsByBrand = array();
+    $brands = $post->item->getBrands($db);
+    foreach($brands as $brand){
+        $postsByBrand = array_merge($postsByBrand, Post::getPostsByBrand($db, $brand));
+    }
+    $posts = array_merge($postsByCategory, $postsBySeller);
+    $posts = array_merge($posts, $postsByBrand);
+    $posts = array_unique($posts, SORT_REGULAR);
+    $posts = array_filter($posts, function ($p) use ($post) {
+        return $p->id != $post->id;
+    });
+?>
+    <section id="product-section">
+        <h1>Related products (<?= count($posts) ?>)</h1>
+        <?php
+        foreach ($posts as $post) {
+            drawProductCard($post);
+        }
+        ?>
+    </section>
+<?php } ?>
+
+
 <?php function drawProductInfo(Post $post)
 { ?>
     <!-- TODO Button is redirecting to user profile -->
