@@ -51,8 +51,7 @@ const sendToastMessage = (function () {
         toastMessage.appendChild(icon);
         toastMessage.innerHTML += message;
 
-        window.setTimeout(() => {
-            toastMessage.remove();
-        }, 5000);
+        return new Promise((resolve) => window.setTimeout(resolve, 5000))
+            .then(() => toastMessage.remove());
     }
 })();
