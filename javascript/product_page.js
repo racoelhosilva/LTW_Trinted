@@ -65,28 +65,6 @@ function removeItemFromCart(postId) {
     return postData('../actions/action_edit_cart.php', { post_id: postId, remove: true })
         .then(response => response.json());
 }
-const changeToastMessage = (function () {
-    let timer;
-    return function (itemAdded, addedToCartMessage, removedFromCartMessage) {
-        if (!addedToCartMessage || !removedFromCartMessage)
-            return;
-        window.clearTimeout(timer);
-        if (itemAdded) {
-            removedFromCartMessage.classList.remove('show');
-            addedToCartMessage.classList.add('show');
-            timer = window.setTimeout(() => {
-                addedToCartMessage.classList.remove('show');
-            }, 5000);
-        }
-        else {
-            addedToCartMessage.classList.remove('show');
-            removedFromCartMessage.classList.add('show');
-            timer = window.setTimeout(() => {
-                removedFromCartMessage.classList.remove('show');
-            }, 5000);
-        }
-    };
-})();
 if (cartButton) {
     const postId = parseInt(document.location.search.split('=')[1]);
     let itemSelected = false;
@@ -104,7 +82,7 @@ if (cartButton) {
             if (json.success) {
                 itemSelected = !itemSelected;
                 updateCartButtonText(cartButton, itemSelected);
-                changeToastMessage(itemSelected, addedToCartMessage, removedFromCartMessage);
+                sendToastMessage(itemSelected ? 'Added to cart' : 'Removed from cart', 'success');
             }
             else {
                 console.log("Error");

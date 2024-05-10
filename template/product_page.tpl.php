@@ -93,11 +93,3 @@ include_once('template/toast_message.tpl.php');
     $posts = Post::getNPosts($db, 10);
     drawProductSection($posts, "Related Products (" . count($posts) . ")");
 } ?>
-
-<?php function drawAddedToCartSuccess() {
-    drawSuccessMessage("Added to cart!", "added-to-cart-message");
-} ?>
-
-<?php function drawRemovedFromCartSuccess() {
-    drawSuccessMessage("Removed from cart!", "removed-from-cart-message");
-} ?>

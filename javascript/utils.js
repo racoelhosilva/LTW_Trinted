@@ -29,3 +29,35 @@ function postData(url, data) {
         });
     });
 }
+const sendToastMessage = (function () {
+    let timer;
+    return function (message, type) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const oldToastMessage = document.querySelector('#toast-message');
+            if (oldToastMessage)
+                oldToastMessage.remove();
+            window.clearTimeout(timer);
+            let icon = document.createElement('span');
+            icon.classList.add('material-symbols-outlined');
+            switch (type) {
+                case 'success':
+                    icon.innerHTML = 'check';
+                    break;
+                case 'error':
+                    icon.innerHTML = 'error';
+                    break;
+                default:
+                    throw new Error(`Invalid toast message type "${type}"`);
+            }
+            const toastMessage = document.createElement('div');
+            toastMessage.id = 'toast-message';
+            document.body.appendChild(toastMessage);
+            toastMessage.classList.add(type);
+            toastMessage.appendChild(icon);
+            toastMessage.innerHTML += message;
+            window.setTimeout(() => {
+                toastMessage.remove();
+            }, 5000);
+        });
+    };
+})();

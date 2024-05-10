@@ -17,8 +17,6 @@ include_once('template/profile_page.tpl.php');
         <?php drawProductPhotos($post); ?>
         <?php drawProductInfo($post); ?>
         <?php drawRelatedProductsSection($post); ?>
-        <?php drawAddedToCartSuccess(); ?>
-        <?php drawRemovedFromCartSuccess(); ?>
     </main>
 <?php } ?>
 

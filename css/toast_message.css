@@ -1,6 +1,5 @@
-.toast-message {
-  visibility: hidden;
-  top: -1em;
+#toast-message {
+  top: 4em;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--info);
@@ -12,17 +11,12 @@
   font-size: 1.2em;
   font-weight: bold;
   user-select: none;
+  animation: 0.5s toast-appear, 1s 4.5s toast-disappear;
 }
 
-.toast-message .material-symbols-outlined {
+#toast-message .material-symbols-outlined {
   font-size: 1.5em;
   vertical-align: middle;
-}
-
-.toast-message.show {
-  visibility: visible;
-  top: 4em;
-  animation: toast-appear 0.5s, toast-disappear 0.6s 4.5s;
 }
 
 @keyframes toast-appear {
@@ -51,10 +45,10 @@
   }
 }
 
-.toast-message.success {
+#toast-message.success {
   background-color: var(--success);
 }
 
-.toast-message.error {
+#toast-message.error {
   background-color: var(--error);
 }

@@ -17,3 +17,42 @@ async function postData(url: string, data: Object): Promise<Response> {
         body: encodeForAjax(data),
     });
 }
+
+const sendToastMessage = (function () {
+    let timer: number;
+    
+    return async function (message: string, type: string): Promise<void> {
+        const oldToastMessage = document.querySelector<HTMLElement>('#toast-message');
+        if (oldToastMessage)
+            oldToastMessage.remove();
+        window.clearTimeout(timer);
+
+        let icon = document.createElement('span');
+        icon.classList.add('material-symbols-outlined');
+
+        switch (type) {
+            case 'success':
+                icon.innerHTML = 'check';
+                break;
+            
+            case 'error':
+                icon.innerHTML = 'error';
+                break;
+
+            default:
+                throw new Error(`Invalid toast message type "${type}"`);
+        }
+
+        const toastMessage = document.createElement('div');
+        toastMessage.id = 'toast-message';
+        document.body.appendChild(toastMessage);
+
+        toastMessage.classList.add(type);
+        toastMessage.appendChild(icon);
+        toastMessage.innerHTML += message;
+
+        window.setTimeout(() => {
+            toastMessage.remove();
+        }, 5000);
+    }
+})();

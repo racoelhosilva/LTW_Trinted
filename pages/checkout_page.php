@@ -12,7 +12,6 @@ include_once('db/classes/Post.class.php');
         <?php drawOrderItems(); ?>
         <?php drawCheckoutSummary(); ?>
         <?php drawCheckoutForm(); ?>
-        <?php drawPaymentSuccess(); ?>
     </main>
     <!-- <main id="checkout-empty" class="hidden">
         <?php // drawEmptyCart(); ?>
