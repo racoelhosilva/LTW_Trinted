@@ -3,11 +3,6 @@ declare(strict_types=1);
 
 include_once(__DIR__ . '/../db/classes/Post.class.php');
 
-if (!isset($_POST['post_id']) || !in_array($_POST['remove'], [true, false]))
-    die("Invalid request");
-
-session_start();
-
 function validate(string $data): string {
     $data = trim($data);
     $data = stripslashes($data);
@@ -15,27 +10,44 @@ function validate(string $data): string {
     return $data;
 }
 
+function getCart(): array {
+    return json_decode($_COOKIE['cart'] ?? '[]');
+}
+
+function setCart(array $cart): void {
+    setcookie('cart', json_encode($cart), ['samesite' => 'strict', 'expires' => 0, 'path' => '/']);
+}
+
 function addToCart(int $post_id): bool {
-    foreach ($_SESSION['cart'] as $index => $cart_post_id) {
+    $cart = getCart();
+    foreach ($cart as $index => $cart_post_id) {
         if ($cart_post_id == $post_id) {
             return false;
         }
     }
 
-    $_SESSION['cart'][] = $post_id;
+    $cart[] = $post_id;
+    setCart($cart);
     return true;
 }
 
 function removeFromCart(int $post_id): bool {
-    foreach ($_SESSION['cart'] as $index => $cart_post_id) {
+    $cart = getCart();
+    foreach ($cart as $index => $cart_post_id) {
         if ($cart_post_id == $post_id) {
-            array_splice($_SESSION['cart'], $index, 1);
+            array_splice($cart, $index, 1);
+            setCart($cart);
             return true;
         }
     }
 
     return false;
 }
+
+if (!isset($_POST['post_id']) || !in_array($_POST['remove'], [true, false]))
+    die("Invalid request");
+
+session_start();
 
 $post_id = validate($_POST['post_id']);
 $remove = validate($_POST['remove']);
