@@ -60,6 +60,7 @@
 	border-radius: 30px;
 	color: var(--primary);
 	margin: 1em;
+  cursor: default;
 }
 
 /* Responsive UI */
