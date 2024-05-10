@@ -204,3 +204,10 @@ VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf8
         (5, 'https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
 
 -- Create Messages
+INSERT INTO Message (id, datetime, content, sender, receiver)
+VALUES  (0, '1715351715', 'Hello, Rodrigo from Henrique!', 4, 5),
+        (1, '1715351778', 'Hi, Henrique from Rodrigo!', 5, 4),
+        (2, '1715351715', 'Hello, Bruno from Rodrigo!', 5, 6),
+        (3, '1715351778', 'Hi, Rodrigo from Bruno!', 6, 5),
+        (4, '1715351715', 'Hello, Henrique from Bruno!', 6, 4),
+        (5, '1715351778', 'Hi, Bruno from Henrique!', 4, 6);

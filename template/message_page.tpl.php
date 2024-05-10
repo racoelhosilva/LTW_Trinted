@@ -26,26 +26,36 @@
 
 
 <?php function drawChatSection() { ?>
+    <?php 
+        $otherUserID = 6;
+        $db = new PDO("sqlite:" . DB_PATH);
+        $otherUser = User::getUserByID($db, $otherUserID);    
+    ?>
     <section id="chat">
         <div id="contact">
-            <img src="https://picsum.photos/seed/picsum/200/" width="40" height="40" class="avatar">
-            Vasco Palmeirim
+            <img src="<?= $otherUser->profilePicture->url?>" width="40" height="40" class="avatar">
+            <?= $otherUser->name ?>
         </div>
 
         <div id="messages">
-            <p class="message user1">Hello</p>
-            <p class="message user2">Hello</p>
-            <p class="message user1">Helloaeluvsfdgbhuaklcw hvkjsdgc,.nwaids chgbskedjfby.huykse vfn,.d usekjb,undfhiyur,msdyfbgykae,jybs ivehjrtdszfvyuewrkhynsvky uahweu.cd tufjrgfa uyvsehr fgbueksrjgvyrf7eyrsjdb,rygfkyervajrlhysfviweukcraklhrs7vckubcgdksx vhjeyrgaibtyeq6riauvbshyrk ayebgoyskve8oifbwueabhjlysrekagstuyvjeyrbsgboyfvjegksrbciukrjbg tachuesvbghucvaeisdvtgirfuwebkusvdrtfgbevak6stgbfiuclka wuv</p>
-            <p class="message user2">Helloaeluvsfdgbhuaklcw hvkjsdgc,.nwaids chgbskedjfby.huykse vfn,.d usekjb,undfhiyur,msdyfbgykae,jybs ivehjrtdszfvyuewrkhynsvky uahweu.cd tufjrgfa uyvsehr fgbueksrjgvyrf7eyrsjdb,rygfkyervajrlhysfviweukcraklhrs7vckubcgdksx vhjeyrgaibtyeq6riauvbshyrk ayebgoyskve8oifbwueabhjlysrekagstuyvjeyrbsgboyfvjegksrbciukrjbg tachuesvbghucvaeisdvtgirfuwebkusvdrtfgbevak6stgbfiuclka wuv</p>
-            <p class="message user1">Hello</p>
-            <p class="message user2">Hello</p>
-            <p class="message user1">Helloaeluvsfdgbhuaklcw hvkjsdgc,.nwaids chgbskedjfby.huykse vfn,.d usekjb,undfhiyur,msdyfbgykae,jybs ivehjrtdszfvyuewrkhynsvky uahweu.cd tufjrgfa uyvsehr fgbueksrjgvyrf7eyrsjdb,rygfkyervajrlhysfviweukcraklhrs7vckubcgdksx vhjeyrgaibtyeq6riauvbshyrk ayebgoyskve8oifbwueabhjlysrekagstuyvjeyrbsgboyfvjegksrbciukrjbg tachuesvbghucvaeisdvtgirfuwebkusvdrtfgbevak6stgbfiuclka wuv</p>
-            <p class="message user2">Helloaeluvsfdgbhuaklcw hvkjsdgc,.nwaids chgbskedjfby.huykse vfn,.d usekjb,undfhiyur,msdyfbgykae,jybs ivehjrtdszfvyuewrkhynsvky uahweu.cd tufjrgfa uyvsehr fgbueksrjgvyrf7eyrsjdb,rygfkyervajrlhysfviweukcraklhrs7vckubcgdksx vhjeyrgaibtyeq6riauvbshyrk ayebgoyskve8oifbwueabhjlysrekagstuyvjeyrbsgboyfvjegksrbciukrjbg tachuesvbghucvaeisdvtgirfuwebkusvdrtfgbevak6stgbfiuclka wuv</p>
+            <?php
+            $db = new PDO("sqlite:" . DB_PATH);
+            $messages = Message::getMessages($db, User::getUserByID($db, $_SESSION['user_id']), $otherUser);
+            
+            foreach ($messages as $message) {
+                if ($message['sender'] == $_SESSION['user_id']) {?>
+                    <p class="message user1"><?= $message['content'] ?></p>
+                <?php } else { ?>
+                    <p class="message user2"><?= $message['content'] ?></p>
+                <?php }
+            }
+            ?>
+
         </div>
 
         <div id="writemessage">
             <input type="text" id="newmessage" name="newmessage" placeholder="Type your text here...">
-            <input type="submit" value="Send">
+            <input type="button" id="sendbutton" value="Send">
         </div>
     </section>
 <?php } ?>
