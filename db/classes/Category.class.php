@@ -31,4 +31,14 @@ class Category
         }
         return new Category($categoryName["name"]);
     }
+
+    public static function getAll(PDO $db): array
+    {
+        $stmt = $db->prepare("SELECT name FROM Category");
+        $stmt->execute();
+        $categories = array_map(function ($category) {
+            return new Category($category["name"]);
+        }, $stmt->fetchAll());
+        return $categories;
+    }
 }

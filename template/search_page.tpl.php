@@ -59,14 +59,8 @@ include_once('template/product.tpl.php');
 
 <?php function drawSearchDrawer() { ?>
     <?php
-    $search_filters = [
-        ["woman", "Woman/Female"],
-        ["man", "Man/Male"],
-        ["child", "Child"],
-        ["home", "Home"],
-        ["entertainment", "Entertainment"],
-        ["pets", "Pets"],
-    ];
+    $db = new PDO('sqlite:' . DB_PATH);
+    $categories = Category::getAll($db);
     $condition_filters = [
         ["new", "New"],
         ["barely-used", "Barely-Used"],
@@ -81,22 +75,22 @@ include_once('template/product.tpl.php');
     ];
     ?>
     <section id="search-drawer">
-        <h1>Search</h1>
+        <h1>Category</h1>
         <ul>
-            <?php foreach ($search_filters as $filter) {
-                drawSearchFilter($filter[0], $filter[1]);
+            <?php foreach ($categories as $category) {
+                drawSearchFilter("category-" . $category->category, $category->category);
             } ?>
         </ul>
         <h1>Condition</h1>
         <ul>
-            <?php foreach ($condition_filters as $filter) {
-                drawSearchFilter($filter[0], $filter[1]);
+            <?php foreach ($categories as $category) {
+                drawSearchFilter("category-" . $category->category, $category->category);
             } ?>
         </ul>
         <h1>Size</h1>
         <ul>
             <?php foreach ($size_filters as $filter) {
-                drawSearchFilter($filter[0], $filter[1]);
+                drawSearchFilter($filter[1], $filter[1]);
             } ?>
         </ul>
     </section>
