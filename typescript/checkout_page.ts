@@ -32,18 +32,32 @@ function createOrderItemCard(post: { [key: string]: any }): HTMLElement {
   return orderItemCard;
 }
 
+function updateTotal(checkoutSubtotal: HTMLElement, checkoutTotal: HTMLElement, subtotal: number): void {
+  checkoutSubtotal.innerHTML = subtotal.toFixed(2);
+  checkoutTotal.innerHTML = (subtotal + 10).toFixed(2);
+}
+
 const orderItemsSection: HTMLElement | null = document.querySelector('#order-items');
 const payNowButton: HTMLButtonElement | null = document.querySelector('#pay-now-button');
 const checkoutInfoForm: HTMLFormElement | null = document.querySelector('#checkout-info-form');
+const checkoutSubtotal: HTMLElement | null = document.querySelector('#checkout-subtotal');
+const checkoutShipping: HTMLElement | null = document.querySelector('#checkout-shipping');  // TODO: Implement shipping costs
+const checkoutTotal: HTMLElement | null = document.querySelector('#checkout-total');
 
 if (orderItemsSection) {
   getCart()
     .then(json => {
+      let subtotal: number = 0;
+
       const cart: Array<{ [key: string]: any }> = json.cart;
       for (const post of cart) {
         const orderItemCard = createOrderItemCard(post);
         orderItemsSection.appendChild(orderItemCard);
+        subtotal += post.price;
       }
+
+      if (checkoutSubtotal && checkoutTotal)
+        updateTotal(checkoutSubtotal, checkoutTotal, subtotal);
     });
 }
 

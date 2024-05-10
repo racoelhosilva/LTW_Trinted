@@ -31,18 +31,18 @@ include_once('db/classes/Post.class.php');
 <?php function drawCheckoutSummary() { ?>
     <section id="checkout-summary">
         <h1>Summary</h1>
-        <div id="checkout-total">
+        <div>
             <div>
                 <h1>Subtotal</h1>
-                <p>$100.00</p>
+                <p id="checkout-subtotal" class="price">0.00</p>
             </div>
             <div>
                 <h1>Shipping</h1>
-                <p>$10.00</p>
+                <p class="price">10.00</p>
             </div>
             <div>
                 <h1>Total</h1>
-                <p>$110.00</p>
+                <p id="checkout-total" class="price">0.00</p>
             </div>
             <button id="pay-now-button" class="submit-button">Pay now</button>
         </div>

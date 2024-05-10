@@ -24,17 +24,28 @@ function createOrderItemCard(post) {
     orderItemCard.appendChild(itemPrice);
     return orderItemCard;
 }
+function updateTotal(checkoutSubtotal, checkoutTotal, subtotal) {
+    checkoutSubtotal.innerHTML = subtotal.toFixed(2);
+    checkoutTotal.innerHTML = (subtotal + 10).toFixed(2);
+}
 const orderItemsSection = document.querySelector('#order-items');
 const payNowButton = document.querySelector('#pay-now-button');
 const checkoutInfoForm = document.querySelector('#checkout-info-form');
+const checkoutSubtotal = document.querySelector('#checkout-subtotal');
+const checkoutShipping = document.querySelector('#checkout-shipping'); // TODO: Implement shipping costs
+const checkoutTotal = document.querySelector('#checkout-total');
 if (orderItemsSection) {
     getCart()
         .then(json => {
+        let subtotal = 0;
         const cart = json.cart;
         for (const post of cart) {
             const orderItemCard = createOrderItemCard(post);
             orderItemsSection.appendChild(orderItemCard);
+            subtotal += post.price;
         }
+        if (checkoutSubtotal && checkoutTotal)
+            updateTotal(checkoutSubtotal, checkoutTotal, subtotal);
     });
 }
 if (payNowButton && checkoutInfoForm) {
