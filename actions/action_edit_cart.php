@@ -4,7 +4,7 @@ declare(strict_types=1);
 include_once(__DIR__ . '/../db/classes/Post.class.php');
 
 if (!isset($_POST['post_id']) || !in_array($_POST['remove'], [true, false]))
-    exit();
+    die("Invalid request");
 
 session_start();
 
@@ -45,7 +45,7 @@ try {
     $post_id = (int)$post_id;
     $post = Post::getPostByID($db, (int)$post_id);
 } catch (Exception $e) {
-    exit();
+    die("Error fetching post with id " . $post_id);
 }
 
 $success = isset($post) && (($remove && addToCart($post_id)) || ($remove && removeFromCart($post_id)));
