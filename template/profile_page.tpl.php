@@ -30,6 +30,12 @@
 <?php function drawUserButtons(User $user) { ?>
     <div id="user-buttons">
     <?php
+    if ($user->type == "admin"){ ?>
+        <!-- User is admin -->
+
+        <button disabled id="admin-button">User is <?php echo $user->type ?></button>
+    <?php }
+
     if ($_SESSION['user_id'] == $user->id){?>
         <!-- I'm on my profile -->
 
@@ -37,16 +43,13 @@
             <button type="submit" id="logout-button">Logout</button>
         </form>
 
-    <?php }
-    else if ($_SESSION['type'] == "admin"){?>
+    <?php } else if ($_SESSION['type'] == "admin"){?>
         <!-- I'm an admin on another profile -->
         <?php 
-        if ($user->type == "admin") { ?>
-            <button disabled id="admin-btn">User is <?php echo $user->type ?></button>
-        <?php } else { ?>
+        if ($user->type != "admin") { ?>
             <form method="post" action="/actions/make_admin.php">
                 <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
-                <button type="submit" id="admin-btn">Make Admin</button>
+                <button type="submit" id="admin-button">Make Admin</button>
             </form>
         <?php }
         }
