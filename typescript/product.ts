@@ -11,6 +11,6 @@ for (let i = 0; i < productCards.length; i++) {
 	});
 }
 
-function goToProduct(id) {
+function goToProduct(id: string): void {
 	window.location.href = "product?id=".concat(id);
 }
