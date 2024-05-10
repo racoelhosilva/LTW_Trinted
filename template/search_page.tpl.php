@@ -61,12 +61,7 @@ include_once('template/product.tpl.php');
     <?php
     $db = new PDO('sqlite:' . DB_PATH);
     $categories = Category::getAll($db);
-    $condition_filters = [
-        ["new", "New"],
-        ["barely-used", "Barely-Used"],
-        ["used", "Used"],
-        ["damaged", "Damaged"],
-    ];
+    $conditions = Condition::getAll($db);
     $size_filters = [
         ["s", "S"],
         ["m", "M"],
@@ -83,8 +78,8 @@ include_once('template/product.tpl.php');
         </ul>
         <h1>Condition</h1>
         <ul>
-            <?php foreach ($categories as $category) {
-                drawSearchFilter("category-" . $category->category, $category->category);
+            <?php foreach ($conditions as $condition) {
+                drawSearchFilter("condition-" . $category->category, $category->category);
             } ?>
         </ul>
         <h1>Size</h1>
