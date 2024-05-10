@@ -9,5 +9,6 @@
     --darker: #094d53;
     --accent: #0079a8;
     --secondary: #b0d4d8;
-    --info: #3da008;
+    --success: #3da008;
+    --error: #e3322d;
 }

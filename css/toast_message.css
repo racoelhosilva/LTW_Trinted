@@ -50,3 +50,11 @@
     opacity: 0;
   }
 }
+
+.toast-message.success {
+  background-color: var(--success);
+}
+
+.toast-message.error {
+  background-color: var(--error);
+}
