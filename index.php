@@ -7,34 +7,35 @@ require_once __DIR__ . '/framework/Autoload.php';
 $routes = [
     '/' => [
         'controller' => 'Controller@index',
-        'middlewares' => []
+        'middlewares' => [new BannedMiddleware()]
     ],
     '/login' => [
         'controller' => 'Controller@login',
-        'middlewares' => []
+        'middlewares' => [new BannedMiddleware()]
     ],
     '/search' => [
         'controller' => 'Controller@search',
+        'middlewares' => [new BannedMiddleware()]
     ],
     '/profile' => [
         'controller' => 'Controller@profile',
-        'middlewares' => [new AuthenticationMiddleware()]
+        'middlewares' => [new AuthenticationMiddleware(), new BannedMiddleware()]
     ],
     '/product' => [
         'controller' => 'Controller@product',
-        'middlewares' => []
+        'middlewares' => [new BannedMiddleware()]
     ],
     '/checkout' => [
         'controller' => 'Controller@checkout',
-        'middlewares' => []
+        'middlewares' => [new BannedMiddleware()]
     ],
     '/help' => [
         'controller' => 'Controller@help',
-        'middlewares' => []
+        'middlewares' => [new BannedMiddleware()]
     ],
     '/about' => [
         'controller' => 'Controller@about',
-        'middlewares' => []
+        'middlewares' => [new BannedMiddleware()]
     ]
 ];
 
@@ -63,6 +64,6 @@ if ($route) {
 
 } else {
     // Display 404 page if route is not defined
-    include_once('pages/404_page.php');
+    include_once ('pages/404_page.php');
     draw404Page();
 }

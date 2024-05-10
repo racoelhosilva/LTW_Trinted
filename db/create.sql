@@ -34,6 +34,9 @@ CREATE TABLE User
     registerDatetime DATETIME
         CONSTRAINT RegisterDatetimeNotNull NOT NULL,
     profilePicture   VARCHAR(64),
+    isBanned        BOOLEAN
+        CONSTRAINT IsBannedNotNull NOT NULL
+        CONSTRAINT IsBannedDefault DEFAULT FALSE,
     type             VARCHAR(6)
         CONSTRAINT TypeNotNull NOT NULL
         CONSTRAINT ValidType CHECK (type IN ('seller', 'buyer', 'admin')),

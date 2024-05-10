@@ -12,6 +12,7 @@ class User
     public int $registerDateTime;
     public Image $profilePicture;
     public string $type;
+    public bool $isBanned;
 
     public function __construct(int $id, string $email, string $name, string $password, int $registerDateTime, Image $profilePicture, string $type)
     {
@@ -22,6 +23,7 @@ class User
         $this->registerDateTime = $registerDateTime;
         $this->profilePicture = $profilePicture;
         $this->type = $type;
+        $this->isBanned = false;
     }
 
     public function validatePassword(string $password): bool
@@ -107,5 +109,26 @@ class User
         return array_map(function ($post) use ($db) {
             return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), $this, Item::getItem($db, $post["item"]));
         }, $posts);
+    }
+
+    public function isBanned(PDO $db): bool
+    {
+        $stmt = $db->prepare("SELECT isBanned FROM User WHERE id = :id");
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+        $isBanned = $stmt->fetch();
+        if ($isBanned === false) {
+            throw new Exception("User not found");
+        }
+        $this->isBanned = boolval($isBanned["isBanned"]);
+        return boolval($isBanned["isBanned"]);
+    }
+
+    public function ban(PDO $db): void
+    {
+        $stmt = $db->prepare("UPDATE User SET isBanned = 1 WHERE id = :id");
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+        $this->isBanned = true;
     }
 }
