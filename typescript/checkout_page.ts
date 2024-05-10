@@ -10,7 +10,7 @@ for (let i = 0; i < orderItemCards.length; i++) {
 
 const payNowButton = document.querySelector<HTMLElement>('#pay-now-button');
 const checkoutInfoForm = document.querySelector<HTMLFormElement>('#checkout-info-form');
-const paymentSuccessfulMessage = document.querySelector<HTMLElement>('#payment-successful-message');
+const paymentSuccessfulMessage = document.querySelector<HTMLElement>('#payment-success-message');
 if (payNowButton && checkoutInfoForm && paymentSuccessfulMessage) {
   payNowButton.addEventListener('click', (event) => {
     if (!checkoutInfoForm.checkValidity()) {
@@ -18,7 +18,6 @@ if (payNowButton && checkoutInfoForm && paymentSuccessfulMessage) {
       return;
     }
 
-    const payNowButtonClone = payNowButton.cloneNode(true) as HTMLElement;
     const loadingSpinner = document.createElement('div');
     loadingSpinner.classList.add('spinner');
     loadingSpinner.appendChild(document.createElement('div'));

@@ -73,3 +73,8 @@ include_once('db/classes/Post.class.php');
         </form>
     </section>
 <?php } ?>
+
+<?php function drawPaymentSuccess() {
+    drawSuccessMessage("Payment successful!", "payment-success-message");
+} ?>
+

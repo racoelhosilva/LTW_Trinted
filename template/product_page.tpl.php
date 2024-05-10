@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-include_once ('template/common.tpl.php');
+include_once('template/common.tpl.php');
+include_once('template/toast_message.tpl.php');
 ?>
 
 <?php function drawProductPhotos(Post $post)
@@ -91,4 +92,12 @@ include_once ('template/common.tpl.php');
     $db = new PDO("sqlite:" . DB_PATH);
     $posts = Post::getNPosts($db, 10);
     drawProductSection($posts, "Related Products (" . count($posts) . ")");
+} ?>
+
+<?php function drawAddedToCartSuccess() {
+    drawSuccessMessage("Added to cart!", "added-to-cart-message");
+} ?>
+
+<?php function drawRemovedFromCartSuccess() {
+    drawSuccessMessage("Removed from cart!", "removed-from-cart-message");
 } ?>

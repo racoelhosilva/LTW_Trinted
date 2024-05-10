@@ -1,8 +1,10 @@
 "use strict";
-const prevPhotoButton = document.getElementById('prev-photo');
-const nextPhotoButton = document.getElementById('next-photo');
-const photoBadges = document.getElementsByClassName('photo-badge');
+const prevPhotoButton = document.querySelector('#prev-photo');
+const nextPhotoButton = document.querySelector('#next-photo');
+const photoBadges = document.querySelectorAll('.photo-badge');
 const cartButton = document.querySelector('.add-cart-button');
+const addedToCartMessage = document.querySelector('#added-to-cart-message');
+const removedFromCartMessage = document.querySelector('#removed-from-cart-message');
 let currentIndex = 0;
 updatePhotoIndex(currentIndex);
 function updatePhotoIndex(index) {
@@ -63,13 +65,34 @@ function removeItemFromCart(postId) {
     return postData('../actions/action_edit_cart.php', { post_id: postId, remove: true })
         .then(response => response.json());
 }
+const changeToastMessage = (function () {
+    let timer;
+    return function (itemAdded, addedToCartMessage, removedFromCartMessage) {
+        if (!addedToCartMessage || !removedFromCartMessage)
+            return;
+        window.clearTimeout(timer);
+        if (itemAdded) {
+            removedFromCartMessage.classList.remove('show');
+            addedToCartMessage.classList.add('show');
+            timer = window.setTimeout(() => {
+                addedToCartMessage.classList.remove('show');
+            }, 5000);
+        }
+        else {
+            addedToCartMessage.classList.remove('show');
+            removedFromCartMessage.classList.add('show');
+            timer = window.setTimeout(() => {
+                removedFromCartMessage.classList.remove('show');
+            }, 5000);
+        }
+    };
+})();
 if (cartButton) {
     const postId = parseInt(document.location.search.split('=')[1]);
     let itemSelected = false;
     getCart(postId)
         .then(json => {
         const cart = json.cart;
-        console.log(cart);
         itemSelected = cart.includes(postId);
         updateCartButtonText(cartButton, itemSelected);
     })
@@ -81,6 +104,7 @@ if (cartButton) {
             if (json.success) {
                 itemSelected = !itemSelected;
                 updateCartButtonText(cartButton, itemSelected);
+                changeToastMessage(itemSelected, addedToCartMessage, removedFromCartMessage);
             }
             else {
                 console.log("Error");

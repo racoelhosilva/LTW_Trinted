@@ -57,6 +57,10 @@ button {
   margin: 0.5em;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Responsive UI */
 
 @media (max-width: 1200px) {

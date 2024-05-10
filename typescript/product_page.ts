@@ -1,7 +1,9 @@
-const prevPhotoButton: HTMLElement | null = document.getElementById('prev-photo');
-const nextPhotoButton: HTMLElement | null = document.getElementById('next-photo');
-const photoBadges: HTMLCollectionOf<Element> | null = document.getElementsByClassName('photo-badge');
+const prevPhotoButton: HTMLElement | null = document.querySelector('#prev-photo');
+const nextPhotoButton: HTMLElement | null = document.querySelector('#next-photo');
+const photoBadges: NodeListOf<HTMLElement> | null = document.querySelectorAll('.photo-badge');
 const cartButton: HTMLElement | null = document.querySelector('.add-cart-button');
+const addedToCartMessage: HTMLElement | null = document.querySelector('#added-to-cart-message');
+const removedFromCartMessage: HTMLElement | null = document.querySelector('#removed-from-cart-message');
 
 let currentIndex: number = 0;
 updatePhotoIndex(currentIndex);
@@ -74,6 +76,31 @@ function removeItemFromCart(postId: number): Promise<any> {
     .then(response => response.json());
 }
 
+const changeToastMessage = (function() {
+  let timer: number;
+  return function(itemAdded: boolean, addedToCartMessage: HTMLElement | null, removedFromCartMessage: HTMLElement | null): void {
+    if (!addedToCartMessage || !removedFromCartMessage)
+      return;
+
+    window.clearTimeout(timer);
+    if (itemAdded) {
+      removedFromCartMessage.classList.remove('show');
+      addedToCartMessage.classList.add('show');
+
+      timer = window.setTimeout(() => {
+        addedToCartMessage.classList.remove('show');
+      }, 5000);
+    } else {
+      addedToCartMessage.classList.remove('show');
+      removedFromCartMessage.classList.add('show');
+      
+      timer = window.setTimeout(() => {
+        removedFromCartMessage.classList.remove('show');
+      }, 5000);
+    }
+  }
+})();
+
 if (cartButton) {
   const postId = parseInt(document.location.search.split('=')[1]);
   let itemSelected = false;
@@ -81,7 +108,6 @@ if (cartButton) {
   getCart(postId)
     .then(json => {
       const cart: Array<number> = json.cart;
-      console.log(cart);
 
       itemSelected = cart.includes(postId);
       updateCartButtonText(cartButton, itemSelected);
@@ -95,6 +121,7 @@ if (cartButton) {
         if (json.success) {
           itemSelected = !itemSelected;
           updateCartButtonText(cartButton, itemSelected);
+          changeToastMessage(itemSelected, addedToCartMessage, removedFromCartMessage);
         } else {
           console.log("Error");
         }

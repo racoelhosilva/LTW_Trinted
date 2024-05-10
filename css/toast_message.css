@@ -1,13 +1,13 @@
 .toast-message {
   visibility: hidden;
   top: -1em;
-  right: 1em;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: var(--info);
   color: white;
   position: fixed;
   z-index: 1;
-  padding-block: 0.5em;
-  width: 14em;
+  padding: 0.5em 1em;
   text-align: center;
   font-size: 1.2em;
   font-weight: bold;
