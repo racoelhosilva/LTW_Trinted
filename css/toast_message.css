@@ -17,6 +17,7 @@
 #toast-message .material-symbols-outlined {
   font-size: 1.5em;
   vertical-align: middle;
+  padding-right: 0.2em;
 }
 
 @keyframes toast-appear {

@@ -74,7 +74,10 @@ if (cartButton) {
         itemSelected = cart.includes(postId);
         updateCartButtonText(cartButton, itemSelected);
     })
-        .catch(error => console.log(error));
+        .catch(error => {
+        sendToastMessage('An unexpected error occurred, try again', 'error');
+        console.error(error);
+    });
     cartButton.addEventListener('click', () => {
         let response = !itemSelected ? addItemToCart(postId) : removeItemFromCart(postId);
         response
@@ -85,9 +88,12 @@ if (cartButton) {
                 sendToastMessage(itemSelected ? 'Added to cart' : 'Removed from cart', 'success');
             }
             else {
-                console.log("Error");
+                sendToastMessage('Could not ' + (!itemSelected ? 'add item to cart' : 'remove item from cart'), 'error');
             }
         })
-            .catch(error => console.log(error));
+            .catch(error => {
+            sendToastMessage('An unexpected error occurred, try again', 'error');
+            console.error(error);
+        });
     });
 }
