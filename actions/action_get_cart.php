@@ -2,15 +2,8 @@
 declare(strict_types=1);
 
 include_once(__DIR__ . '/../db/classes/Post.class.php');
+include_once(__DIR__ . '/utils.php');
 
 session_start();
 
-function validate($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-echo json_encode(array('cart' => json_decode($_COOKIE['cart'] ?? '[]')));
+echo json_encode(array('success' => true, 'cart' => getCookie('cart') ?? []));

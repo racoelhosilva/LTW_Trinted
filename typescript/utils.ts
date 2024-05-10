@@ -56,17 +56,10 @@ const sendToastMessage = (function () {
   }
 })();
 
-function getCart(): Promise<any> {
-  return getData('../actions/action_get_cart.php')
-    .then(response => response.json());
-}
-
-function addItemToCart(postId: number): Promise<any> {
-  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: false })
-    .then(response => response.json());
-}
-
-function removeItemFromCart(postId: number): Promise<any> {
-  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: true })
-    .then(response => response.json());
+function convertToObject(formData: FormData): {[key: string]: any} {
+  let object: {[key: string]: any} = {};
+  formData.forEach((value, key) => {
+    object[key] = value;
+  });
+  return object;
 }

@@ -3,13 +3,7 @@ declare(strict_types=1);
 
 include_once(__DIR__ . '/../db/classes/Post.class.php');
 include_once(__DIR__ . '/../db/classes/Payment.class.php');
-
-function validate(string $data): string {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+include_once(__DIR__ . '/utils.php');
 
 function getSubtotal(array $cart): float {
     $subtotal = 0;
@@ -51,23 +45,19 @@ if (!isset($_SESSION['user_id'])) {
     die(json_encode(array('success' => false, 'error' => 'User not logged in')));
 }
 
-$cart = json_decode($_COOKIE['cart'] ?? '[]');
+$cart = getCookie('cart') ?? [];
 if ($cart == []) {
     die(json_encode(array('success' => false, 'error' => 'Shopping cart empty')));
 }
 
 try {
     $payment = parsePayment($cart);
-} catch (Exception $e) {
-    die(json_encode(array('success' => false, 'error' => $e->getMessage())));
-}
 
-try {
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
     submitPaymentToDb($payment, $db, $cart);
 } catch (Exception $e) {
     die(json_encode(array('success' => false, 'error' => $e->getMessage())));
 }
 
-setcookie('cart', '[]', ['samesite' => 'strict', 'expires' => 0, 'path' => '/']);
-header('Location: /');
+putCookie('cart', []);
+die(json_encode(array('success' => true)));

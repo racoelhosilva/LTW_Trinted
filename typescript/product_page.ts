@@ -1,3 +1,18 @@
+function getCart(): Promise<any> {
+  return getData('../actions/action_get_cart.php')
+    .then(response => response.json());
+}
+
+function addItemToCart(postId: number): Promise<any> {
+  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: false })
+    .then(response => response.json());
+}
+
+function removeItemFromCart(postId: number): Promise<any> {
+  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: true })
+    .then(response => response.json());
+}
+
 const prevPhotoButton: HTMLElement | null = document.querySelector('#prev-photo');
 const nextPhotoButton: HTMLElement | null = document.querySelector('#next-photo');
 const photoBadges: NodeListOf<HTMLElement> | null = document.querySelectorAll('.photo-badge');
