@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 include_once(__DIR__ . '/../db/classes/Post.class.php');
 include_once(__DIR__ . '/../db/classes/Payment.class.php');
@@ -18,33 +19,36 @@ function getSubtotal(array $cart): float {
     return $subtotal;
 }
 
-function parsePayment(): Payment {
-    $firstName = validate($_POST['firstName']);
-    $lastName = validate($_POST['lastName']);
+function parsePayment(array $cart): Payment {
+    $firstName = validate($_POST['first-name']);
+    $lastName = validate($_POST['last-name']);
     $email = validate($_POST['email']);
     $phone = validate($_POST['phone']);
     $address = validate($_POST['address']);
-    $zipCode = validate($_POST['zipCode']);
-    $city = validate($_POST['city']);
+    $zipCode = validate($_POST['zip']);
+    $town = validate($_POST['town']);
     $country = validate($_POST['country']);
     $shipping = validate($_POST['shipping']);
     $paymentDatetime = time();
-    return new Payment(getSubtotal(json_decode($_COOKIE['cart'])), $shipping, $firstName, $lastName, $email, $phone, $address, $zipCode, $city, $country, $paymentDatetime);
+    return new Payment(getSubtotal($cart), $shipping, $firstName, $lastName, $email, $phone, $address, $zipCode, $town, $country, $paymentDatetime);
 }
 
-function submitPaymentToDb(Payment $payment, PDO $db): void {
+function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
     $payment->upload($db);
-    foreach ($_COOKIE['cart'] as $item) {
-        $post = Post::getPostByID($db, $item->id);
-        $post->associateToPayment($db, $payment->id);
-        $post->upload($db);
+    foreach ($cart as $item) {
+        $post = Post::getPostByID($db, (int)$item->id);
+        $post->associateToPayment($db, (int)$payment->id);
     }
 }
 
 session_start();
 
-if (!isset($_POST['firstName']) || !isset($_POST['lastName']) || !isset($_POST['email']) || !isset($_POST['phone']) || !isset($_POST['address']) || !isset($_POST['zipCode']) || !isset($_POST['city']) || !isset($_POST['country']) || !isset($_POST['shipping'])) {
+if (!isset($_POST['first-name']) || !isset($_POST['last-name']) || !isset($_POST['email']) || !isset($_POST['phone']) || !isset($_POST['address']) || !isset($_POST['zip']) || !isset($_POST['town']) || !isset($_POST['country']) || !isset($_POST['shipping'])) {
     die(json_encode(array('success' => false, 'error' => 'Missing fields')));
+}
+
+if (!isset($_SESSION['user_id'])) {
+    die(json_encode(array('success' => false, 'error' => 'User not logged in')));
 }
 
 $cart = json_decode($_COOKIE['cart'] ?? '[]');
@@ -53,15 +57,16 @@ if ($cart == []) {
 }
 
 try {
-    $payment = parsePayment();
-} catch (PDOException $e) {
-    die(json_encode(array('success' => false, 'error' => 'Error while parsing payment')));
+    $payment = parsePayment($cart);
+} catch (Exception $e) {
+    die(json_encode(array('success' => false, 'error' => $e->getMessage())));
 }
 
 try {
-    submitPaymentToDb($payment, $db);
-} catch (PDOException $e) {
-    die(json_encode(array('success' => false, 'error' => 'Database error')));
+    $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
+    submitPaymentToDb($payment, $db, $cart);
+} catch (Exception $e) {
+    die(json_encode(array('success' => false, 'error' => $e->getMessage())));
 }
 
-die(json_encode(array('success' => true)));
+header('Location: /');

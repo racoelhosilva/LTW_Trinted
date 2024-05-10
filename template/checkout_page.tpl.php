@@ -52,7 +52,8 @@ include_once('db/classes/Post.class.php');
 <?php function drawCheckoutForm() { ?>
     <section id="checkout-form">
         <h1>Shipping Information</h1>
-        <form id="checkout-info-form" action="" method="post">
+        <form id="checkout-info-form" action="actions/action_pay.php" method="post">
+            <input type="hidden" name="shipping" value="10.00">
             <div>
                 <input type="text" name="first-name" aria-label="First Name" placeholder="First Name*" required>
                 <input type="text" name="last-name" aria-label="Last Name" placeholder="Last Name*" required>

@@ -12,11 +12,11 @@ class Payment {
     public string $phone;
     public string $address;
     public string $zipCode;
-    public string $city;
+    public string $town;
     public string $country;
     public int $paymentDatetime;
 
-    public function __construct(float $subtotal, string $shipping, string $firstName, string $lastName, string $email, string $phone, string $address, string $zipCode, string $city, string $country, int $paymentDatetime) {
+    public function __construct(float $subtotal, string $shipping, string $firstName, string $lastName, string $email, string $phone, string $address, string $zipCode, string $town, string $country, int $paymentDatetime) {
         $this->subtotal = $subtotal;
         $this->shipping = $shipping;
         $this->firstName = $firstName;
@@ -25,13 +25,13 @@ class Payment {
         $this->phone = $phone;
         $this->address = $address;
         $this->zipCode = $zipCode;
-        $this->city = $city;
+        $this->town = $town;
         $this->country = $country;
         $this->paymentDatetime = $paymentDatetime;
     }
 
     public function upload(PDO $db): void {
-        $stmt = $db->prepare("INSERT INTO Payment (subtotal, shipping, firstName, lastName, email, phone, address, zipCode, city, country, paymentDatetime) VALUES (:subtotal, :shipping, :firstName, :lastName, :email, :phone, :address, :zipCode, :city, :country, :paymentDatetime)");
+        $stmt = $db->prepare("INSERT INTO Payment (subtotal, shipping, firstName, lastName, email, phone, address, zipCode, town, country, paymentDatetime) VALUES (:subtotal, :shipping, :firstName, :lastName, :email, :phone, :address, :zipCode, :town, :country, :paymentDatetime)");
         $stmt->bindParam(":subtotal", $this->subtotal);
         $stmt->bindParam(":shipping", $this->shipping);
         $stmt->bindParam(":firstName", $this->firstName);
@@ -40,7 +40,7 @@ class Payment {
         $stmt->bindParam(":phone", $this->phone);
         $stmt->bindParam(":address", $this->address);
         $stmt->bindParam(":zipCode", $this->zipCode);
-        $stmt->bindParam(":city", $this->city);
+        $stmt->bindParam(":town", $this->town);
         $stmt->bindParam(":country", $this->country);
         $stmt->bindParam(":paymentDatetime", $this->paymentDatetime);
         $stmt->execute();
@@ -76,7 +76,7 @@ class Payment {
             $payment["phone"],
             $payment["address"],
             $payment["zipCode"],
-            $payment["city"],
+            $payment["town"],
             $payment["country"],
             $payment["paymentDatetime"],
         );

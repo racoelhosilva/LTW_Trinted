@@ -108,6 +108,7 @@ class Post
         $stmt = $db->prepare("UPDATE Post SET payment = :paymentId WHERE id = :postId");
         $stmt->bindParam(":paymentId", $paymentId);
         $stmt->bindParam(":postId", $this->id);
-        $this->payment = Payment::getPaymentById($db, $paymentId);
+        $stmt->execute();
+        $this->payment = Payment::getPaymentById($db, (int)$paymentId);
     }
 }
