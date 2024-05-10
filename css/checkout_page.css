@@ -36,7 +36,7 @@
   object-fit: cover;
 }
 
-.order-item-card > div {
+.order-item-card > div, .order-item-card > p {
   margin-inline: 0.5em 1em;
 }
 
@@ -45,13 +45,13 @@
   color: var(--primary);
 }
 
-.order-item-card > div > p {
-  margin: 0;
+.order-item-card > p, .order-item-card > div > p {
+  margin-block: 0;
   font-size: 1.2em;
   color: var(--halftone);
 }
 
-.order-item-card > div:last-child {
+.order-item-card > :last-child {
   justify-self: end;
   text-align: end;
 }
@@ -63,6 +63,10 @@
 
 .order-item-card > div > .num-items::after {
   content: "\00D7";
+}
+
+.price::after {
+  content: "€";
 }
 
 #checkout-summary {

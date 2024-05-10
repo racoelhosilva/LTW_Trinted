@@ -1,14 +1,42 @@
 "use strict";
-const orderItemCards = document.querySelectorAll('.order-item-card');
-for (let i = 0; i < orderItemCards.length; i++) {
-    const itemCard = orderItemCards[i];
-    const itemImage = itemCard.getElementsByTagName('img')[0];
-    itemImage.addEventListener('click', () => {
-        window.location.href = `/product?id=${itemCard.dataset.postId}`;
-    });
+function itemCardOnClick(event, postId) {
+    document.location.assign(`/product?id=${postId}`);
 }
+function createOrderItemCard(post) {
+    const orderItemCard = document.createElement('div');
+    orderItemCard.classList.add('order-item-card');
+    const image = document.createElement('img');
+    image.src = post.images[0];
+    image.alt = 'Product Image';
+    orderItemCard.appendChild(image);
+    image.addEventListener('click', (event) => itemCardOnClick(event, post.id));
+    const itemTitle = document.createElement('h1');
+    itemTitle.innerHTML = post.title;
+    const itemDetails = document.createElement('p');
+    itemDetails.innerHTML = `${post.size} - ${post.condition}`;
+    const itemInfo = document.createElement('div');
+    itemInfo.appendChild(itemTitle);
+    itemInfo.appendChild(itemDetails);
+    orderItemCard.appendChild(itemInfo);
+    const itemPrice = document.createElement('p');
+    itemPrice.classList.add('price');
+    itemPrice.innerHTML = `${post.price}`;
+    orderItemCard.appendChild(itemPrice);
+    return orderItemCard;
+}
+const orderItemsSection = document.querySelector('#order-items');
 const payNowButton = document.querySelector('#pay-now-button');
 const checkoutInfoForm = document.querySelector('#checkout-info-form');
+if (orderItemsSection) {
+    getCart()
+        .then(json => {
+        const cart = json.cart;
+        for (const post of cart) {
+            const orderItemCard = createOrderItemCard(post);
+            orderItemsSection.appendChild(orderItemCard);
+        }
+    });
+}
 if (payNowButton && checkoutInfoForm) {
     payNowButton.addEventListener('click', (event) => {
         if (!checkoutInfoForm.checkValidity()) {

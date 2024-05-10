@@ -53,22 +53,10 @@ function updateCartButtonText(cartButton, itemSelected) {
     else
         cartButton.innerHTML = 'Add to Cart';
 }
-function getCart(postId) {
-    return getData('../actions/action_get_cart.php')
-        .then(response => response.json());
-}
-function addItemToCart(postId) {
-    return postData('../actions/action_edit_cart.php', { post_id: postId, remove: false })
-        .then(response => response.json());
-}
-function removeItemFromCart(postId) {
-    return postData('../actions/action_edit_cart.php', { post_id: postId, remove: true })
-        .then(response => response.json());
-}
 if (cartButton) {
     const postId = parseInt(document.location.search.split('=')[1]);
     let itemSelected = false;
-    getCart(postId)
+    getCart()
         .then(json => {
         const cart = json.cart;
         itemSelected = cart.map(item => item.id).includes(postId);

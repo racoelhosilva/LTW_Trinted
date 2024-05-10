@@ -61,26 +61,11 @@ function updateCartButtonText(cartButton: HTMLElement, itemSelected: boolean): v
     cartButton.innerHTML = 'Add to Cart';
 }
 
-function getCart(postId: number): Promise<any> {
-  return getData('../actions/action_get_cart.php')
-    .then(response => response.json());
-}
-
-function addItemToCart(postId: number): Promise<any> {
-  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: false })
-    .then(response => response.json());
-}
-
-function removeItemFromCart(postId: number): Promise<any> {
-  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: true })
-    .then(response => response.json());
-}
-
 if (cartButton) {
   const postId = parseInt(document.location.search.split('=')[1]);
   let itemSelected = false;
 
-  getCart(postId)
+  getCart()
     .then(json => {
       const cart: Array<{ [key: string]: any }> = json.cart;
 
