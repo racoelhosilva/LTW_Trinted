@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 include_once('template/common.tpl.php');
-include_once('template/toast_message.tpl.php');
 ?>
 
 <?php function drawProductPhotos(Post $post)
@@ -65,7 +64,7 @@ include_once('template/toast_message.tpl.php');
                 src="<?= $post->seller->profilePicture->url ?>" class="avatar"></a>
         <div class="details">
             <h1><?= $post->title ?></h1>
-            <p class="price"><?= $post->price ?>€</p>
+            <p class="price"><?= $post->price ?></p>
             <p>
                 <strong>Size: </strong>
                 <?= $post->item->size->size ?>

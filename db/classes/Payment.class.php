@@ -1,5 +1,7 @@
 <?php
 
+include_once(__DIR__ . "/Post.class.php");
+
 class Payment {
     public int $id;
     public float $subtotal;
@@ -48,7 +50,7 @@ class Payment {
         $this->id = $id[0];
     }
 
-    public function getPosts(PDO $db): array {
+    public function getAssociatedPosts(PDO $db): array {
         $stmt = $db->prepare("SELECT id FROM Post WHERE payment = :payment");
         $stmt->bindParam(":payment", $this->id);
         $stmt->execute();
@@ -56,5 +58,27 @@ class Payment {
         return array_map(function ($post) use ($db) {
             return Post::getPostByID($db, $post["id"]);
         }, $posts);
+    }
+
+    public static function getPaymentById(PDO $db, int $id): ?Payment {
+        $stmt = $db->prepare("SELECT * FROM Payment WHERE id = :id");
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        $payment = $stmt->fetch();
+        if (!isset($payment["id"]))
+            return null;
+        return new Payment(
+            $payment["subtotal"],
+            $payment["shipping"],
+            $payment["firstName"],
+            $payment["lastName"],
+            $payment["email"],
+            $payment["phone"],
+            $payment["address"],
+            $payment["zipCode"],
+            $payment["city"],
+            $payment["country"],
+            $payment["paymentDatetime"],
+        );
     }
 }

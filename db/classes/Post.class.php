@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 include_once(__DIR__ . "/User.class.php");
 include_once(__DIR__ . "/Item.class.php");
+include_once(__DIR__ . "/Payment.class.php");
 
 class Post
 {
@@ -16,7 +17,7 @@ class Post
     public Item $item;
     public ?Payment $payment = null;
 
-    public function __construct(int $id, string $title, float $price, string $description, int $publishDateTime, User $seller, Item $item)
+    public function __construct(int $id, string $title, float $price, string $description, int $publishDateTime, User $seller, Item $item, ?Payment $payment = null)
     {
         $this->id = $id;
         $this->title = $title;
@@ -25,17 +26,19 @@ class Post
         $this->publishDateTime = $publishDateTime;
         $this->seller = $seller;
         $this->item = $item;
+        $this->payment = $payment;
     }
 
     public function upload(PDO $db)
     {
-        $stmt = $db->prepare("INSERT INTO Post (title, price, description, publishDatetime, seller, item) VALUES (:title, :price, :description, :publishDateTime, :seller, :item)");
+        $stmt = $db->prepare("INSERT INTO Post (title, price, description, publishDatetime, seller, item, payment) VALUES (:title, :price, :description, :publishDateTime, :seller, :item, :payment)");
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":price", $this->price);
         $stmt->bindParam(":description", $this->description);
         $stmt->bindParam(":publishDateTime", $this->publishDateTime);
         $stmt->bindParam(":seller", $this->seller->id);
         $stmt->bindParam(":item", $this->item->id);
+        $stmt->bindParam(":payment", $this->payment->id);
         $stmt->execute();
         $stmt = $db->prepare("SELECT last_insert_rowid()");
         $stmt->execute();
@@ -67,7 +70,7 @@ class Post
         $post = $stmt->fetch();
         if (!isset($post["id"]))
             return null;
-        return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
+        return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]), isset($post["payment"]) ? Payment::getPaymentById($db, $post["payment"]) : null);
     }
 
     public static function getPostsByCategory(PDO $db, Category $category): array{
@@ -76,7 +79,7 @@ class Post
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]), isset($post["payment"]) ? Payment::getPaymentById($db, $post["payment"]) : null);
         }, $posts);
     }
 
@@ -86,7 +89,7 @@ class Post
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]), isset($post["payment"]) ? Payment::getPaymentById($db, $post["payment"]) : null);
         }, $posts);
     }
 
@@ -97,7 +100,14 @@ class Post
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]));
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]), isset($post["payment"]) ? Payment::getPaymentById($db, $post["payment"]) : null);
         }, $posts);
+    }
+
+    public function associateToPayment(PDO $db, int $paymentId): void {
+        $stmt = $db->prepare("UPDATE Post SET payment = :paymentId WHERE id = :postId");
+        $stmt->bindParam(":paymentId", $paymentId);
+        $stmt->bindParam(":postId", $this->id);
+        $this->payment = Payment::getPaymentById($db, $paymentId);
     }
 }
