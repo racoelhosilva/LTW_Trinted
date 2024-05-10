@@ -23,37 +23,37 @@ function validate($data)
 $newusername = validate($_POST['newusername']);
 $newemail = validate($_POST['newemail']);
 $newpassword = validate($_POST['newpassword']);
+$currentpassword = validate($_POST['currentpassword']);
 
-if (!empty($newusername)) {
-    try {
-        $user->setName($db, $newusername);
-    } catch (Exception $e) {
-        header("Location: /profile");
-        exit();
-    }
-} 
-
-if (!empty($newemail)) {
-    try {
-        $user->setEmail($db, $newemail);
-    } catch (Exception $e) {
-        header("Location: /profile");
-        exit();
-    }
-} 
-
-
-if (!empty($newpassword)) {
-    try {
-        $user->setPassword($db, $newpassword);
-    } catch (Exception $e) {
-        header("Location: /profile");
-        exit();
+if ($user->validatePassword($currentpassword)){
+    if (!empty($newusername)) {
+        try {
+            $user->setName($db, $newusername);
+        } catch (Exception $e) {
+            header("Location: /profile");
+            exit();
+        }
+    } 
+    if (!empty($newemail)) {
+        try {
+            $user->setEmail($db, $newemail);
+        } catch (Exception $e) {
+            header("Location: /profile");
+            exit();
+        }
+    } 
+    if (!empty($newpassword)) {
+        try {
+            $user->setPassword($db, $newpassword);
+        } catch (Exception $e) {
+            header("Location: /profile");
+            exit();
+        }
     }
 }
 
 $_SESSION['user_id'] = $user->id;
-$_SESSION['email'] = $newemail;
-$_SESSION['name'] = $newusername;
+$_SESSION['email'] = $user->email;
+$_SESSION['name'] = $user->name;
 header("Location: /actions/go_to_profile.php");
 exit();

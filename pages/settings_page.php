@@ -21,6 +21,11 @@ include_once('template/common.tpl.php');
                     <h3>Change Password</h3>
                     <input type="password" id="password" name="newpassword" placeholder="Password">
                 </div>
+                <br>
+                <div class="information-field">
+                    <h3>Validate with Current Password</h3>
+                    <input type="password" id="password" required name="currentpassword" placeholder="Password">
+                </div>
                 <input type="submit" value="Save">
             </form>
         </section>
