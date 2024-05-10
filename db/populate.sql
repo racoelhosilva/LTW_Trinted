@@ -207,7 +207,9 @@ VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf8
 INSERT INTO Message (id, datetime, content, sender, receiver)
 VALUES  (0, '1715351715', 'Hello, Rodrigo from Henrique!', 4, 5),
         (1, '1715351778', 'Hi, Henrique from Rodrigo!', 5, 4),
-        (2, '1715351715', 'Hello, Bruno from Rodrigo!', 5, 6),
-        (3, '1715351778', 'Hi, Rodrigo from Bruno!', 6, 5),
-        (4, '1715351715', 'Hello, Henrique from Bruno!', 6, 4),
-        (5, '1715351778', 'Hi, Bruno from Henrique!', 4, 6);
+        (2, '1715351716', 'Hello, Bruno from Rodrigo!', 5, 6),
+        (3, '1715351779', 'Hi, Rodrigo from Bruno!', 6, 5),
+        (4, '1715351717', 'Hello, Henrique from Bruno!', 6, 4),
+        (5, '1715351780', 'Hi, Bruno from Henrique!', 4, 6),
+        (6, '1715351718', 'Hello, professor from Rodrigo!', 5, 7),
+        (7, '1715351818', 'Hello, professor from Rodrigo!', 7, 5);

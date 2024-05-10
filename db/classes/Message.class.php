@@ -40,4 +40,12 @@ class Message
         $messages = $stmt->fetchAll();
         return $messages;
     }
+
+    public static function getRecentContacts(PDO $db, User $user) {
+        $stmt = $db->prepare("SELECT sender FROM Message WHERE receiver == :user ORDER BY datetime DESC");
+        $stmt->bindParam(":user", $user->id);
+        $stmt->execute();
+        $contacts = $stmt->fetchAll();
+        return $contacts;
+    }
 }

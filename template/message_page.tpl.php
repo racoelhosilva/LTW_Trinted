@@ -4,22 +4,20 @@
     <section id="contacts">
         <h1>Recent contacts</h1>
         <ul>
-        <li id="contact-side">
-            <img src="https://picsum.photos/seed/picsum/200/" width="40" height="40" class="avatar">
-            Vasco Palmeirim
-        </li>
-        <li id="contact-side">
-            <img src="https://picsum.photos/seed/picsum/200/" width="40" height="40" class="avatar">
-            Vasco Palmeirim
-        </li>
-        <li id="contact-side">
-            <img src="https://picsum.photos/seed/picsum/200/" width="40" height="40" class="avatar">
-            Vasco Palmeirim
-        </li>
-        <li id="contact-side">
-            <img src="https://picsum.photos/seed/picsum/200/" width="40" height="40" class="avatar">
-            Vasco Palmeirim
-        </li>
+        <?php
+        $db = new PDO("sqlite:" . DB_PATH);
+        $contacts = Message::getRecentContacts($db, User::getUserByID($db, $_SESSION['user_id']));
+
+        foreach ($contacts as $contact) { 
+            $user = User::getUserByID($db, $contact['sender']);
+            ?>
+            <li id="contact-side">
+                <img src="<?= $user->profilePicture->url ?>" width="40" height="40" class="avatar">
+                <?= $user->name ?>
+            </li>            
+        <?php
+        }
+        ?>
         </ul>
     </section>
 <?php } ?>
