@@ -26,7 +26,7 @@ $routes = [
     ],
     '/checkout' => [
         'controller' => 'Controller@checkout',
-        'middlewares' => []
+        'middlewares' => [new AuthenticationMiddleware()]
     ],
     '/help' => [
         'controller' => 'Controller@help',
