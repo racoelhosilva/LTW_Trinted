@@ -13,7 +13,7 @@ include_once('template/message_page.tpl.php');
 <?php } ?>
 
 <?php 
-function drawMessagePage() {
+function drawMessagePage(Request $request) {
     createPage(function () {
         drawMainHeader();
         drawMessagePageContent();
@@ -21,5 +21,3 @@ function drawMessagePage() {
     });
 }
 ?>
-
-<?php drawMessagePage(); ?>
