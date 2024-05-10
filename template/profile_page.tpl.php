@@ -31,9 +31,22 @@
     <div id="user-buttons">
     <?php
     if ($_SESSION['user_id'] == $user->id){?>
+        <!-- I'm on my profile -->
+
         <form method="post" action="/actions/logout.php">
             <button type="submit" id="logout-button">Logout</button>
-        </form> 
+        </form>
+
+    <?php }
+    else if ($_SESSION['type'] == "admin"){?>
+        <!-- I'm an admin on another profile -->
+
+        <form method="post" action="/actions/make_admin.php">
+            User is <?php echo $user->type ?>
+            <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
+            <button type="submit" id="make-admin">Make Admin</button>
+        </form>
+
     <?php }
     ?> </div> <?php
 } ?>

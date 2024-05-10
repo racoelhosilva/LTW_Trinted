@@ -44,5 +44,6 @@ try {
 $_SESSION['user_id'] = $user->id;
 $_SESSION['email'] = $email;
 $_SESSION['name'] = $name;
+$_SESSION['type'] = $user->type;
 header("Location: /profile");
 exit();
