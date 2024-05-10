@@ -69,4 +69,5 @@ try {
     die(json_encode(array('success' => false, 'error' => $e->getMessage())));
 }
 
+setcookie('cart', '[]', ['samesite' => 'strict', 'expires' => 0, 'path' => '/']);
 header('Location: /');

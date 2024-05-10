@@ -13,7 +13,7 @@ include_once('pages/404_page.php');
     <?php
     $db = new PDO("sqlite:" . DB_PATH);
     $post = Post::getPostByID($db, intval($request->get('id')));
-    if (!isset($post) || isset($post->payment)) {
+    if (!isset($post)) {
         draw404PageContent();
         return;
     }

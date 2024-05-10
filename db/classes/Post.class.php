@@ -17,8 +17,7 @@ class Post
     public Item $item;
     public ?Payment $payment = null;
 
-    public function __construct(int $id, string $title, float $price, string $description, int $publishDateTime, User $seller, Item $item, ?Payment $payment = null)
-    {
+    public function __construct(int $id, string $title, float $price, string $description, int $publishDateTime, User $seller, Item $item, ?Payment $payment = null) {
         $this->id = $id;
         $this->title = $title;
         $this->price = $price;
@@ -29,8 +28,7 @@ class Post
         $this->payment = $payment;
     }
 
-    public function upload(PDO $db)
-    {
+    public function upload(PDO $db) {
         $stmt = $db->prepare("INSERT INTO Post (title, price, description, publishDatetime, seller, item, payment) VALUES (:title, :price, :description, :publishDateTime, :seller, :item, :payment)");
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":price", $this->price);
@@ -46,8 +44,7 @@ class Post
         $this->id = $id[0];
     }
 
-    public function getAllImages(PDO $db): array
-    {
+    public function getAllImages(PDO $db): array {
         $stmt = $db->prepare("SELECT * FROM PostImage WHERE post = :post");
         $stmt->bindParam(":post", $this->id);
         $stmt->execute();
@@ -57,48 +54,62 @@ class Post
         }, $images);
     }
 
-    public function getItem(PDO $db): Item
-    {
+    public function getItem(PDO $db): Item {
         return Item::getItem($db, $this->item->id);
     }
 
-    public static function getPostByID(PDO $db, int $id): ?Post
-    {
+    public static function getPostByID(PDO $db, int $id, bool $onlyValid = true): ?Post {
         $stmt = $db->prepare("SELECT * FROM Post WHERE id = :id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
         $post = $stmt->fetch();
         if (!isset($post["id"]))
             return null;
+        if ($onlyValid && isset($post["payment"]))
+            return null;
         return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]), isset($post["payment"]) ? Payment::getPaymentById($db, $post["payment"]) : null);
     }
 
-    public static function getPostsByCategory(PDO $db, Category $category): array{
+    public static function getPostsByCategory(PDO $db, Category $category, bool $onlyValid = true): array {
         $stmt = $db->prepare("SELECT * FROM Post WHERE item IN (SELECT id FROM Item WHERE category = :category)");
         $stmt->bindParam(":category", $category->category);
         $stmt->execute();
         $posts = $stmt->fetchAll();
+        if ($onlyValid) {
+            $posts = array_filter($posts, function ($post) {
+                return $post["payment"] == null;
+            });
+        }
         return array_map(function ($post) use ($db) {
             return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]), isset($post["payment"]) ? Payment::getPaymentById($db, $post["payment"]) : null);
         }, $posts);
     }
 
-    public static function getPostsByBrand(PDO $db, Brand $brand) : array {
+    public static function getPostsByBrand(PDO $db, Brand $brand, bool $onlyValid = true) : array {
         $stmt = $db->prepare("SELECT * FROM Post WHERE item IN (SELECT item FROM ItemBrand WHERE brand = :brand)");
         $stmt->bindParam(":brand", $brand->name);
         $stmt->execute();
         $posts = $stmt->fetchAll();
+        if ($onlyValid) {
+            $posts = array_filter($posts, function ($post) {
+                return $post["payment"] == null;
+            });
+        }
         return array_map(function ($post) use ($db) {
             return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]), isset($post["payment"]) ? Payment::getPaymentById($db, $post["payment"]) : null);
         }, $posts);
     }
 
-    public static function getNPosts(PDO $db, int $n): array
-    {
+    public static function getNPosts(PDO $db, int $n, bool $onlyValid = true): array {
         $stmt = $db->prepare("SELECT * FROM Post WHERE id <= :n");
         $stmt->bindParam(":n", $n);
         $stmt->execute();
         $posts = $stmt->fetchAll();
+        if ($onlyValid) {
+            $posts = array_filter($posts, function ($post) {
+                return $post["payment"] == null;
+            });
+        }
         return array_map(function ($post) use ($db) {
             return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), User::getUserByID($db, $post["seller"]), Item::getItem($db, $post["item"]), isset($post["payment"]) ? Payment::getPaymentById($db, $post["payment"]) : null);
         }, $posts);
