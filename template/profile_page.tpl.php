@@ -40,14 +40,16 @@
     <?php }
     else if ($_SESSION['type'] == "admin"){?>
         <!-- I'm an admin on another profile -->
-
-        <form method="post" action="/actions/make_admin.php">
-            User is <?php echo $user->type ?>
-            <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
-            <button type="submit" id="make-admin">Make Admin</button>
-        </form>
-
-    <?php }
+        <?php 
+        if ($user->type == "admin") { ?>
+            <button disabled id="admin-btn">User is <?php echo $user->type ?></button>
+        <?php } else { ?>
+            <form method="post" action="/actions/make_admin.php">
+                <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
+                <button type="submit" id="admin-btn">Make Admin</button>
+            </form>
+        <?php }
+        }
     ?> </div> <?php
 } ?>
 
