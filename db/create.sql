@@ -217,6 +217,8 @@ CREATE TABLE Payment
         CONSTRAINT CityNotNull NOT NULL,
     country     VARCHAR(32)
         CONSTRAINT CountryNotNull NOT NULL,
+    paymentDatetime DATETIME
+        CONSTRAINT PaymentDatetimeNotNull NOT NULL,
     CONSTRAINT IdPK PRIMARY KEY (id)
 );
 

@@ -14,6 +14,7 @@ class Post
     public int $publishDateTime;
     public User $seller;
     public Item $item;
+    public ?Payment $payment = null;
 
     public function __construct(int $id, string $title, float $price, string $description, int $publishDateTime, User $seller, Item $item)
     {
