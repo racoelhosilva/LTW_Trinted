@@ -27,7 +27,7 @@ $routes = [
     ],
     '/checkout' => [
         'controller' => 'Controller@checkout',
-        'middlewares' => [new BannedMiddleware()]
+        'middlewares' => [new AuthenticationMiddleware(), new BannedMiddleware()]
     ],
     '/help' => [
         'controller' => 'Controller@help',
