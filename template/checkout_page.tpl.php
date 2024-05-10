@@ -4,11 +4,10 @@ declare(strict_types=1);
 include_once('db/classes/Post.class.php');
 ?>
 
-<?php function drawOrderItems() { ?>
-    <?php $db = new PDO("sqlite:" . DB_PATH); ?>
+<?php function drawOrderItems(array $posts) { ?>
     <section id="order-items">
         <h1>Order</h1>
-        <?php foreach (Post::getNPosts($db, 10) as $post) { ?>
+        <?php foreach ($posts as $post) { ?>
             <?php drawOrderItemCard($post); ?>
         <?php } ?>
     </section>

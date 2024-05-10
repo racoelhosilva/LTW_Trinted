@@ -18,7 +18,25 @@ function setCart(array $cart): void {
     setcookie('cart', json_encode($cart), ['samesite' => 'strict', 'expires' => 0, 'path' => '/']);
 }
 
-function addToCart(Post $post): bool {
+function getUrl(Image $img): string {
+    return $img->url;
+}
+
+function parsePost(Post $post, PDO $db): array {
+    $parsedPost = array(
+        'id' => $post->id,
+        'title' => $post->title,
+        'price' => $post->price,
+        'size' => $post->item->size->size,
+        'condition' => $post->item->condition->condition,
+        'seller' => $post->seller->id,
+        'description' => $post->description,
+        'images' => array_map('getUrl', $post->getAllImages($db))
+    );
+    return $parsedPost;
+}
+
+function addToCart(Post $post, PDO $db): bool {
     $cart = getCart();
     foreach ($cart as $cart_item) {
         if ($cart_item->id == $post->id) {
@@ -26,7 +44,7 @@ function addToCart(Post $post): bool {
         }
     }
 
-    $cart[] = $post;
+    $cart[] = parsePost($post, $db);
     setCart($cart);
     return true;
 }
@@ -60,5 +78,5 @@ try {
     die("Error fetching post with id " . $post_id);
 }
 
-$success = isset($post) && (($remove && addToCart($post)) || ($remove && removeFromCart($post)));
+$success = isset($post) && (($remove && addToCart($post, $db)) || ($remove && removeFromCart($post)));
 echo json_encode(array('success' => $success));

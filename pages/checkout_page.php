@@ -7,9 +7,8 @@ include_once('db/classes/Post.class.php');
 ?>
 
 <?php function drawCheckoutPageContent() { ?>
-    <?php $db = new PDO("sqlite:" . DB_PATH); ?>
     <main id="checkout-page">
-        <?php drawOrderItems(); ?>
+        <?php drawOrderItems([]); ?>
         <?php drawCheckoutSummary(); ?>
         <?php drawCheckoutForm(); ?>
     </main>
