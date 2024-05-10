@@ -24,11 +24,19 @@
         <?php
         }
         ?>
+    </div>
+<?php } ?>
+
+<?php function drawUserButtons(User $user) { ?>
+    <div id="user-buttons">
+    <?php
+    if ($_SESSION['user_id'] == $user->id){?>
         <form method="post" action="/actions/logout.php">
             <button type="submit" id="logout-button">Logout</button>
         </form> 
-    </div>
-<?php } ?>
+    <?php }
+    ?> </div> <?php
+} ?>
 
 <?php function drawUserProductSection(User $user)
 {
