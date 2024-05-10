@@ -20,6 +20,7 @@ if (payNowButton && checkoutInfoForm) {
         loadingSpinner.appendChild(document.createElement('div'));
         payNowButton.replaceWith(loadingSpinner);
         window.setTimeout(() => {
+            payNowButton.disabled = true;
             loadingSpinner.replaceWith(payNowButton);
             sendToastMessage('Payment successful!', 'success')
                 .then(() => checkoutInfoForm.submit());

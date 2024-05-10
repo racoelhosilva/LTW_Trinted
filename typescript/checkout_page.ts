@@ -8,7 +8,7 @@ for (let i = 0; i < orderItemCards.length; i++) {
   });
 }
 
-const payNowButton = document.querySelector<HTMLElement>('#pay-now-button');
+const payNowButton = document.querySelector<HTMLButtonElement>('#pay-now-button');
 const checkoutInfoForm = document.querySelector<HTMLFormElement>('#checkout-info-form');
 if (payNowButton && checkoutInfoForm) {
   payNowButton.addEventListener('click', (event) => {
@@ -23,6 +23,7 @@ if (payNowButton && checkoutInfoForm) {
     payNowButton.replaceWith(loadingSpinner);
 
     window.setTimeout(() => {
+      payNowButton.disabled = true;
       loadingSpinner.replaceWith(payNowButton);
 
       sendToastMessage('Payment successful!', 'success')
