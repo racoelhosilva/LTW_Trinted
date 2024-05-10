@@ -18,23 +18,23 @@ function setCart(array $cart): void {
     setcookie('cart', json_encode($cart), ['samesite' => 'strict', 'expires' => 0, 'path' => '/']);
 }
 
-function addToCart(int $post_id): bool {
+function addToCart(Post $post): bool {
     $cart = getCart();
-    foreach ($cart as $index => $cart_post_id) {
-        if ($cart_post_id == $post_id) {
+    foreach ($cart as $cart_item) {
+        if ($cart_item->id == $post->id) {
             return false;
         }
     }
 
-    $cart[] = $post_id;
+    $cart[] = $post;
     setCart($cart);
     return true;
 }
 
-function removeFromCart(int $post_id): bool {
+function removeFromCart(Post $post): bool {
     $cart = getCart();
-    foreach ($cart as $index => $cart_post_id) {
-        if ($cart_post_id == $post_id) {
+    foreach ($cart as $index => $cart_item) {
+        if ($cart_item->id == $post->id) {
             array_splice($cart, $index, 1);
             setCart($cart);
             return true;
@@ -60,5 +60,5 @@ try {
     die("Error fetching post with id " . $post_id);
 }
 
-$success = isset($post) && (($remove && addToCart($post_id)) || ($remove && removeFromCart($post_id)));
+$success = isset($post) && (($remove && addToCart($post)) || ($remove && removeFromCart($post)));
 echo json_encode(array('success' => $success));

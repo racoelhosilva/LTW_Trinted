@@ -82,9 +82,9 @@ if (cartButton) {
 
   getCart(postId)
     .then(json => {
-      const cart: Array<number> = json.cart;
+      const cart: Array<{ [key: string]: any }> = json.cart;
 
-      itemSelected = cart.includes(postId);
+      itemSelected = cart.map(item => item.id).includes(postId);
       updateCartButtonText(cartButton, itemSelected);
     })
     .catch(error => {

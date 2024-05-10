@@ -71,7 +71,7 @@ if (cartButton) {
     getCart(postId)
         .then(json => {
         const cart = json.cart;
-        itemSelected = cart.includes(postId);
+        itemSelected = cart.map(item => item.id).includes(postId);
         updateCartButtonText(cartButton, itemSelected);
     })
         .catch(error => {
