@@ -12,7 +12,9 @@
             $user = User::getUserByID($db, $contact['sender']);
             ?>
             <li id="contact-side">
-                <img src="<?= $user->profilePicture->url ?>" width="40" height="40" class="avatar">
+                <a href="/profile?id=<?= $user->id ?>">
+                    <img src="<?= $user->profilePicture->url ?>" width="40" height="40" class="avatar">
+                </a>
                 <?= $user->name ?>
             </li>            
         <?php
@@ -31,7 +33,9 @@
     ?>
     <section id="chat">
         <div id="contact">
-            <img src="<?= $otherUser->profilePicture->url?>" width="40" height="40" class="avatar">
+            <a href="/profile?id=<?= $otherUser->id ?>">
+                <img src="<?= $otherUser->profilePicture->url?>" width="40" height="40" class="avatar">
+            </a>
             <?= $otherUser->name ?>
         </div>
 
