@@ -147,7 +147,7 @@
 
 @media (max-width: 500px) {
 	#login-page .title {
-		font-size: calc(20vw);
+		font-size: 20vw;
 	}
 
 	#login-page form {

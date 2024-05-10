@@ -1,4 +1,43 @@
 #main-footer {
-    height: 7em;
     background-color: var(--darker);
+    display: flex;
+    justify-content: center;
+}
+
+#footer-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40vw;
+    padding: 2em;
+}
+
+#footer-content h1 {
+    color: var(--background-primary);
+    font-size: 24px;
+}
+
+#footer-content ul {
+    list-style-type: none;
+    padding: 0em;
+}
+
+#main-footer li, #main-footer li a {
+    color: var(--background-primary);
+    text-decoration: none;
+}
+
+#footer-content #legal {
+    grid-row: 2 3;
+    grid-column: 1 / 3;
+
+    li {
+        display: inline;
+    }
+}
+
+#footer-content #legal li:not(:last-child):after {
+    content: "  |";
+    right: 10px;
+    left: 10px;
+    color: var(--backgroud-secondary);
 }

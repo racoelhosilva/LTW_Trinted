@@ -1,27 +1,36 @@
 <?php
+
 declare(strict_types=1);
 
 include_once('template/common.tpl.php');
 include_once('template/profile_page.tpl.php');
 ?>
 
-<?php function drawProfilePageContent() { ?>
-    <?php $num_products = 10 ?>
+<?php function drawProfilePageContent(User $user)
+{ ?>
     <main id="profile-page">
         <section id="profile-section">
-            <?php drawProfileImage("") ?>
-            <?php drawUserInfo() ?>
+            <?php
+            $db = new PDO("sqlite:" . DB_PATH);
+            drawProfileImage($user->getProfilePicture($db)->url);
+            ?>
+            <?php drawUserInfo($user); ?>
+            <?php drawUserButtons($user); ?>
         </section>
         <!-- TODO: Check if user is seller -->
-        <?php drawProductSection("Products by the seller ($num_products)") ?>
+        <?php drawUserProductSection($user) ?>
     </main>
-<?php } ?>
-
-<?php
-function drawProfilePage(Request $request) {
+    <?php } ?>
+    
+    <?php
+function drawProfilePage(Request $request)
+{
     createPage(function () {
         drawMainHeader();
-        drawProfilePageContent();
+        session_start();
+
+        $db = new PDO("sqlite:" . DB_PATH);
+        drawProfilePageContent(User::getUserByID($db, intval($_GET['id'])));
         drawFooter();
     });
 }

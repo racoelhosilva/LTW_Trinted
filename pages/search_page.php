@@ -15,18 +15,20 @@ include_once('template/search_page.tpl.php');
     return $products;
 } ?>
 
-<?php function drawSearchPageContent(Request $request)
-{ ?>
-    <?php $page = (int) $request->get('page') ?>
+<?php function drawSearchPageContent(Request $request) { ?>
+    <?php
+    $page = (int) $request->get('page');
+    $db = new PDO("sqlite:" . DB_PATH);
+    $posts = array_merge(Post::getNPosts($db, 10), Post::getNPosts($db, 10), Post::getNPosts($db, 10), Post::getNPosts($db, 10), Post::getNPosts($db, 10), Post::getNPosts($db, 10), Post::getNPosts($db, 10), Post::getNPosts($db, 10), Post::getNPosts($db, 10));
+    $num_pages = (int)ceil(count($posts) / 15);
+    ?>
     <main id="search-page">
         <?php drawSearchDrawer(); ?>
         <section id="results">
-            <h1>Found 200 results</h1>
             <!-- TODO: use real search -->
             <?php
-            $db = new PDO("sqlite:" . DB_PATH);
-            drawProducts(Post::getNPosts($db, 10)); ?>
-            <?php drawPagination(10, $page); ?>
+            drawSearchedProducts($posts, $page); ?>
+            <?php drawPagination($num_pages, $page); ?>
         </section>
     </main>
 <?php } ?>
