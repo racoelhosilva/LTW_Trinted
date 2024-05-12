@@ -49,7 +49,7 @@ include_once('template/product.tpl.php');
 <?php } ?>
 
 <?php function drawSearchFilter(string $name, string $text) { ?>
-    <li>
+    <li class="search-filter">
         <label>
             <?= $text ?>
             <input type="checkbox" name="<?= $name ?>">
@@ -62,12 +62,7 @@ include_once('template/product.tpl.php');
     $db = new PDO('sqlite:' . DB_PATH);
     $categories = Category::getAll($db);
     $conditions = Condition::getAll($db);
-    $size_filters = [
-        ["s", "S"],
-        ["m", "M"],
-        ["l", "L"],
-        ["xl", "XL"],
-    ];
+    $sizes = Size::getAll($db);
     ?>
     <section id="search-drawer">
         <h1>Category</h1>
@@ -79,13 +74,13 @@ include_once('template/product.tpl.php');
         <h1>Condition</h1>
         <ul>
             <?php foreach ($conditions as $condition) {
-                drawSearchFilter("condition-" . $category->category, $category->category);
+                drawSearchFilter("condition-" . $condition->condition, $condition->condition);
             } ?>
         </ul>
         <h1>Size</h1>
         <ul>
-            <?php foreach ($size_filters as $filter) {
-                drawSearchFilter($filter[1], $filter[1]);
+            <?php foreach ($sizes as $size) {
+                drawSearchFilter("size-" . $size->size, $size->size);
             } ?>
         </ul>
     </section>
