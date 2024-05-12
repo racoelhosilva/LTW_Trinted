@@ -9,23 +9,30 @@ function matchesFilters(post: {[key: string]: string}, searchFilters: {[key: str
     return true;
 }
 
-function performSearch(searchedProducts: HTMLElement, searchQuery: string, searchFilters: {[key: string]: Array<string>}) {
-    getData(`../actions/action_search.php?search=${searchQuery}`)
+function updateProducts(
+    posts: Array<{[key: string]: string}>,
+    searchedProducts: HTMLElement,
+    filters: {[key: string]: Array<string>},
+): void {
+    searchedProducts.innerHTML = '';
+
+    const productSectionTitle = document.createElement('h1');
+    productSectionTitle.innerHTML = posts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
+    searchedProducts.appendChild(productSectionTitle);
+
+    posts.forEach((post: {[key: string]: string}) => {
+        const productCard = drawProductCard(post);
+        searchedProducts.appendChild(productCard);
+    });
+}
+
+async function performSearch(searchedProducts: HTMLElement, searchQuery: string): Promise<Array<{[key: string]: string}>> {
+    return getData(`../actions/action_search.php?search=${searchQuery}`)
         .then(response => response.json())
         .then(json => {
             if (json.success) {
-                searchedProducts.innerHTML = '';
-
-                const productSectionTitle = document.createElement('h1');
-                productSectionTitle.innerHTML = json.posts.length === 0 ? 'No results found' : `Found ${json.posts.length} results`;
-                searchedProducts.appendChild(productSectionTitle);
-
-                json.posts
-                    .filter((post: {[key: string]: string}) => matchesFilters(post, searchFilters))
-                    .forEach((post: {[key: string]: string}) => {
-                        const productCard = drawProductCard(post);
-                        searchedProducts.appendChild(productCard);
-                    });
+                console.log(json.posts);
+                return json.posts;
             } else {
                 sendToastMessage('An unexpected error occurred', 'error');
                 console.error(json.error);
@@ -44,26 +51,56 @@ const searchedProducts: HTMLElement | null = searchResults?.querySelector('#prod
 if (searchDrawer && searchResults && searchedProducts) {
     const searchInput: HTMLInputElement | null = document.querySelector('#search-input');
     const searchButton: HTMLElement | null = document.querySelector('#search-button');
-    const searchFilterElems: NodeListOf<HTMLElement> = document.querySelectorAll('.search-filter');
+    const searchFilterElems: NodeListOf<HTMLInputElement> = document.querySelectorAll('.search-filter');
     const searchFilters: {[key: string]: Array<string>} = {
         'condition': [],
         'category': [],
         'price': [],
     };
+    let posts: Array<{[key: string]: string}> = [];
 
+    const urlParams = new URLSearchParams(window.location.search);
+    performSearch(searchedProducts, urlParams.get('search') ?? '')
+        .then(result => {
+            posts = result;
+            updateProducts(posts, searchedProducts, searchFilters);
+        });
+    
     if (searchButton) {
         searchButton.addEventListener('click', event => {
             event.preventDefault();
-            performSearch(searchedProducts, searchInput?.value ?? '', searchFilters);
+            performSearch(searchedProducts, urlParams.get('search') ?? '')
+            .then(result => {
+                posts = result;
+                updateProducts(posts, searchedProducts, searchFilters);
+            });
         });
     }
 
     if (searchInput) {
-        searchInput.addEventListener('input', event => performSearch(searchedProducts, searchInput.value, searchFilters));
+        searchInput.addEventListener('input', () => {
+            performSearch(searchedProducts, urlParams.get('search') ?? '')
+            .then(result => {
+                posts = result;
+                updateProducts(posts, searchedProducts, searchFilters);
+            });
+        });
     }
     
-    const urlParams = new URLSearchParams(window.location.search);
-    performSearch(searchedProducts, urlParams.get('search') ?? '', searchFilters);
+    searchFilterElems.forEach(filterElem => {
+        filterElem.addEventListener('click', () => {
+            const filterType = filterElem.dataset.type;
+            const filterValue = filterElem.dataset.value;
+
+            if (filterType) {
+                if (filterElem.checked)
+                    searchFilters[filterType].push(filterElem.value);
+                else
+                    searchFilters[filterType] = searchFilters[filterType].filter(value => value !== filterValue);
+                updateProducts(posts, searchedProducts, searchFilters);
+            }
+        });
+    });
 }
 
 

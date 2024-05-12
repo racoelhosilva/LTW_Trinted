@@ -15,7 +15,7 @@ function parsePost(Post $post, PDO $db): array {
         'description' => $post->description,
         'price' => $post->price,
         'publishDatetime' => $post->publishDateTime,
-        'seller' => $post->seller,
+        'seller' => $post->seller->id,
         'username' => $post->seller->name,
         'category' => $post->item->category,
         'size' => $post->item->size,

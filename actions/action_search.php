@@ -13,7 +13,9 @@ function searchPosts(PDO $db, string $search): array {
         SELECT id
         FROM Post
         WHERE title LIKE :search
-            OR EXISTS (SELECT *
+        OR description LIKE :search
+        OR price LIKE :search
+        OR EXISTS (SELECT *
             FROM Item
             WHERE Item.id = Post.item
             AND ((category LIKE :search OR size LIKE :search OR condition LIKE :search
@@ -36,11 +38,11 @@ function searchPosts(PDO $db, string $search): array {
             'description' => $post->description,
             'price' => $post->price,
             'publishDatetime' => $post->publishDateTime,
-            'seller' => $post->seller,
+            'seller' => $post->seller->id,
             'username' => $post->seller->name,
-            'category' => $post->item->category,
-            'size' => $post->item->size,
-            'condition' => $post->item->condition,
+            'category' => $post->item->category->category,
+            'size' => $post->item->size->size,
+            'condition' => $post->item->condition->condition,
             'images' => array_map('getUrl', $post->getAllImages($db))
         ];
     }
