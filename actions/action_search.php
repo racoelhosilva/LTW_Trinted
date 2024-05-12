@@ -8,21 +8,6 @@ include_once(__DIR__ . '/../db/classes/Size.class.php');
 include_once(__DIR__ . '/../db/classes/Condition.class.php');
 include_once(__DIR__ . '/../db/classes/Category.class.php');
 
-function filterSearch(array $results): array {
-    if (!isset($_GET['filters']))
-        return $results;
-    $filters = $_GET['filters'];
-
-    foreach (['category', 'condition', 'size'] as $filter) {
-        if (!empty($filters[$filter])) {
-            $results = array_filter($results, function ($post) use ($filters, $filter) {
-                return in_array($post[$filter], $filters[$filter]);
-            });
-        }
-    }
-    return $filters;
-}
-
 function searchPosts(PDO $db, string $search): array {
     $query = '
         SELECT id
@@ -73,7 +58,6 @@ if (!isset($_GET['search']))
 try {
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
     $posts = searchPosts($db, validate($_GET['search']));
-    $posts = filterSearch($posts);
 } catch (Exception $e) {
     die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }
