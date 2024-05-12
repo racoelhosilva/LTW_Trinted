@@ -1,4 +1,4 @@
-const filterTypes = ['condition', 'category', 'price'];
+const filterTypes = ['condition', 'category', 'size'];
 
 function matchesFilters(post: {[key: string]: string}, searchFilters: {[key: string]: Array<string>}) {
     filterTypes.forEach(filterType => {
@@ -52,11 +52,8 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchInput: HTMLInputElement | null = document.querySelector('#search-input');
     const searchButton: HTMLElement | null = document.querySelector('#search-button');
     const searchFilterElems: NodeListOf<HTMLInputElement> = document.querySelectorAll('.search-filter');
-    const searchFilters: {[key: string]: Array<string>} = {
-        'condition': [],
-        'category': [],
-        'price': [],
-    };
+    const searchFilters: {[key: string]: Array<string>} =
+        filterTypes.reduce((acc, filterType) => ({...acc, [filterType]: []}), {});
     let posts: Array<{[key: string]: string}> = [];
 
     const urlParams = new URLSearchParams(window.location.search);

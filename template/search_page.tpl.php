@@ -49,7 +49,7 @@ include_once('template/product.tpl.php');
 <?php } ?>
 
 <?php function drawSearchFilter(string $text, string $type) { ?>
-    <li class="search-filter" data-type="type" data-value="<?= $text ?>">
+    <li class="search-filter" data-type="<?= $type ?>" data-value="<?= $text ?>">
         <label>
             <?= $text ?>
             <input type="checkbox">

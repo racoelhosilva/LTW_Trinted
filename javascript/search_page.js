@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a, _b;
-const filterTypes = ['condition', 'category', 'price'];
+const filterTypes = ['condition', 'category', 'size'];
 function matchesFilters(post, searchFilters) {
     filterTypes.forEach(filterType => {
         if (searchFilters[filterType].length !== 0 && !searchFilters[filterType].includes(post[filterType])) {
@@ -55,11 +55,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchInput = document.querySelector('#search-input');
     const searchButton = document.querySelector('#search-button');
     const searchFilterElems = document.querySelectorAll('.search-filter');
-    const searchFilters = {
-        'condition': [],
-        'category': [],
-        'price': [],
-    };
+    const searchFilters = filterTypes.reduce((acc, filterType) => (Object.assign(Object.assign({}, acc), { [filterType]: [] })), {});
     let posts = [];
     const urlParams = new URLSearchParams(window.location.search);
     performSearch(searchedProducts, (_b = urlParams.get('search')) !== null && _b !== void 0 ? _b : '')
