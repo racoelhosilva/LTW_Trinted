@@ -14,8 +14,7 @@ function updateProducts(
     filters: {[key: string]: Array<string>},
 ): void {
     searchedProducts.innerHTML = '';
-    const filteredPosts = posts.filter(post => { console.log(matchesFilters(post, filters)); return matchesFilters(post, filters); });
-    console.log(posts);
+    const filteredPosts = posts.filter(post => matchesFilters(post, filters));
 
     const productSectionTitle = document.createElement('h1');
     productSectionTitle.innerHTML = filteredPosts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
@@ -32,7 +31,6 @@ async function performSearch(searchedProducts: HTMLElement, searchQuery: string)
         .then(response => response.json())
         .then(json => {
             if (json.success) {
-                console.log(json.posts);
                 return json.posts;
             } else {
                 sendToastMessage('An unexpected error occurred', 'error');
@@ -52,10 +50,9 @@ const searchedProducts: HTMLElement | null = searchResults?.querySelector('#prod
 if (searchDrawer && searchResults && searchedProducts) {
     const searchInput: HTMLInputElement | null = document.querySelector('#search-input');
     const searchButton: HTMLElement | null = document.querySelector('#search-button');
-    const searchFilterElems: NodeListOf<HTMLInputElement> = document.querySelectorAll('.search-filter');
+    const searchFilterElems: NodeListOf<HTMLElement> = document.querySelectorAll('.search-filter');
     const searchFilters: {[key: string]: Array<string>} =
         filterTypes.reduce((acc, filterType) => ({...acc, [filterType]: []}), {});
-    searchFilters['size'].push('M');
     let posts: Array<{[key: string]: string}> = [];
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -89,14 +86,16 @@ if (searchDrawer && searchResults && searchedProducts) {
     }
     
     searchFilterElems.forEach(filterElem => {
-        filterElem.addEventListener('click', () => {
-            console.log(filterElem);
+        const filterInput: HTMLInputElement | null = filterElem.querySelector('input');
+        if (!filterInput)
+            return;
+        filterInput.addEventListener('click', () => {
             const filterType = filterElem.dataset.type;
             const filterValue = filterElem.dataset.value;
 
             if (filterType && filterValue) {
-                if (filterElem.checked)
-                    searchFilters[filterType].push(filterElem.value);
+                if (filterInput!.checked)
+                    searchFilters[filterType].push(filterValue);
                 else
                     searchFilters[filterType] = searchFilters[filterType].filter(value => value !== filterValue);
                 updateProducts(posts, searchedProducts, searchFilters);

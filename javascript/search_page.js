@@ -19,8 +19,7 @@ function matchesFilters(post, searchFilters) {
 }
 function updateProducts(posts, searchedProducts, filters) {
     searchedProducts.innerHTML = '';
-    const filteredPosts = posts.filter(post => { console.log(matchesFilters(post, filters)); return matchesFilters(post, filters); });
-    console.log(posts);
+    const filteredPosts = posts.filter(post => matchesFilters(post, filters));
     const productSectionTitle = document.createElement('h1');
     productSectionTitle.innerHTML = filteredPosts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
     searchedProducts.appendChild(productSectionTitle);
@@ -35,7 +34,6 @@ function performSearch(searchedProducts, searchQuery) {
             .then(response => response.json())
             .then(json => {
             if (json.success) {
-                console.log(json.posts);
                 return json.posts;
             }
             else {
@@ -57,7 +55,6 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchButton = document.querySelector('#search-button');
     const searchFilterElems = document.querySelectorAll('.search-filter');
     const searchFilters = filterTypes.reduce((acc, filterType) => (Object.assign(Object.assign({}, acc), { [filterType]: [] })), {});
-    searchFilters['size'].push('M');
     let posts = [];
     const urlParams = new URLSearchParams(window.location.search);
     performSearch(searchedProducts, (_b = urlParams.get('search')) !== null && _b !== void 0 ? _b : '')
@@ -87,13 +84,15 @@ if (searchDrawer && searchResults && searchedProducts) {
         });
     }
     searchFilterElems.forEach(filterElem => {
-        filterElem.addEventListener('click', () => {
-            console.log(filterElem);
+        const filterInput = filterElem.querySelector('input');
+        if (!filterInput)
+            return;
+        filterInput.addEventListener('click', () => {
             const filterType = filterElem.dataset.type;
             const filterValue = filterElem.dataset.value;
             if (filterType && filterValue) {
-                if (filterElem.checked)
-                    searchFilters[filterType].push(filterElem.value);
+                if (filterInput.checked)
+                    searchFilters[filterType].push(filterValue);
                 else
                     searchFilters[filterType] = searchFilters[filterType].filter(value => value !== filterValue);
                 updateProducts(posts, searchedProducts, searchFilters);
