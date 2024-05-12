@@ -48,11 +48,11 @@ include_once('template/product.tpl.php');
     </div>
 <?php } ?>
 
-<?php function drawSearchFilter(string $name, string $text) { ?>
+<?php function drawSearchFilter(string $text) { ?>
     <li class="search-filter">
         <label>
             <?= $text ?>
-            <input type="checkbox" name="<?= $name ?>">
+            <input type="checkbox">
         </label>
     </li>
 <?php } ?>
@@ -68,19 +68,19 @@ include_once('template/product.tpl.php');
         <h1>Category</h1>
         <ul>
             <?php foreach ($categories as $category) {
-                drawSearchFilter("category-" . $category->category, $category->category);
+                drawSearchFilter($category->category);
             } ?>
         </ul>
         <h1>Condition</h1>
         <ul>
             <?php foreach ($conditions as $condition) {
-                drawSearchFilter("condition-" . $condition->condition, $condition->condition);
+                drawSearchFilter($condition->condition);
             } ?>
         </ul>
         <h1>Size</h1>
         <ul>
             <?php foreach ($sizes as $size) {
-                drawSearchFilter("size-" . $size->size, $size->size);
+                drawSearchFilter($size->size);
             } ?>
         </ul>
     </section>
