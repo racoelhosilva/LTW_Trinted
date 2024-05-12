@@ -7,6 +7,3 @@ for (let i = 0; i < productCards.length; i++) {
         return;
     });
 }
-function goToProduct(id) {
-    window.location.href = "product?id=".concat(id);
-}

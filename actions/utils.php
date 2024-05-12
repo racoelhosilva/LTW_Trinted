@@ -15,3 +15,7 @@ function putCookie(string $name, array $data): void {
 function getCookie(string $name): mixed {
     return isset($_COOKIE[$name]) ? json_decode($_COOKIE[$name]) : null;
 }
+
+function getUrl(Image $img): string {
+    return $img->url;
+}

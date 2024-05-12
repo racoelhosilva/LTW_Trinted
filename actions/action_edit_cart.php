@@ -8,10 +8,6 @@ function setCart(array $cart): void {
     putCookie('cart', $cart);
 }
 
-function getUrl(Image $img): string {
-    return $img->url;
-}
-
 function parsePost(Post $post, PDO $db): array {
     $parsedPost = array(
         'id' => $post->id,

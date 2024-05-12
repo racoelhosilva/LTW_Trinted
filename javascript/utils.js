@@ -79,9 +79,17 @@ function drawLikeButton() {
     likeButton.appendChild(label);
     return likeButton;
 }
+function goToProduct(id) {
+    window.location.href = `product?id=${id}`;
+}
+function onLikeButtonClick(event) {
+    event.stopPropagation();
+    return;
+}
 function drawProductCard(post) {
     const productCard = document.createElement('div');
     productCard.classList.add('product-card');
+    productCard.addEventListener('click', () => goToProduct(post.id));
     const productImage = document.createElement('img');
     productImage.src = post.images[0];
     productImage.alt = post.title;
@@ -91,6 +99,7 @@ function drawProductCard(post) {
     productPrice.classList.add('price');
     productPrice.innerHTML = post.price;
     const likeButton = drawLikeButton();
+    likeButton.addEventListener('click', onLikeButtonClick);
     productCard.appendChild(productImage);
     productCard.appendChild(productTitle);
     productCard.appendChild(productPrice);

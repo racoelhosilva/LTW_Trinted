@@ -6,7 +6,7 @@ include_once('template/product.tpl.php');
 ?>
 
 <?php function drawSearchedProducts(array $posts, int $page) {
-    drawProductSection(array_slice($posts, ($page - 1) * 15, 15), "Found " . count($posts) . " results");
+    drawProductSection([], "Found " . count($posts) . " results");
 } ?>
 
 <?php function drawPagination(int $pages, int $current) { ?>

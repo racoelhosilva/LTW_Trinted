@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 ?>
-<?php function drawLikeButton(string $product)
+<?php function drawLikeButton()
 { ?>
     <div class="like-button">
         <label class="material-symbols-outlined">
@@ -16,10 +16,10 @@ declare(strict_types=1);
 {
     $db = new PDO("sqlite:" . DB_PATH);
 ?>
-    <div class="product-card" onClick="goToProduct(<?= $post->id ?>)">
+    <div class="product-card" data-post-id="<?= $post->id ?>">
         <img src="<?= $post->getAllImages($db)[0]->url ?>" alt="<?= $post->item->name ?>">
         <h1><?= $post->title ?></h1>
-        <p><?= $post->price ?>€</p>
-        <?php drawLikeButton($post->title); ?>
+        <p class="price"><?= $post->price ?></p>
+        <?php drawLikeButton(); ?>
     </div>
 <?php } ?>
