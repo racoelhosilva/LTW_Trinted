@@ -41,12 +41,10 @@ if (searchDrawer && searchResults && searchedProducts) {
         });
     }
 
-    // if (searchInput) {
-    //     searchInput.addEventListener('keypress', event => {
-    //         event.preventDefault();
-    //         performSearch(searchedProducts, searchInput.value);
-    //     });
-    // }
+    if (searchInput) {
+        searchInput.addEventListener('input', event => performSearch(searchedProducts, searchInput.value));
+
+    }
     
     if (document.location.search.split('=')[0] === '?query') {
         getData('../actions/action_search.php?search=' + document.location.search.split('=')[1])

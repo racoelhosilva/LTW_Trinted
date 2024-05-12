@@ -37,12 +37,9 @@ if (searchDrawer && searchResults && searchedProducts) {
             performSearch(searchedProducts, (_a = searchInput === null || searchInput === void 0 ? void 0 : searchInput.value) !== null && _a !== void 0 ? _a : '');
         });
     }
-    // if (searchInput) {
-    //     searchInput.addEventListener('keypress', event => {
-    //         event.preventDefault();
-    //         performSearch(searchedProducts, searchInput.value);
-    //     });
-    // }
+    if (searchInput) {
+        searchInput.addEventListener('input', event => performSearch(searchedProducts, searchInput.value));
+    }
     if (document.location.search.split('=')[0] === '?query') {
         getData('../actions/action_search.php?search=' + document.location.search.split('=')[1])
             .then(response => response.json())
