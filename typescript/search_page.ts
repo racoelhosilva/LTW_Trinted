@@ -1,12 +1,11 @@
 const filterTypes = ['condition', 'category', 'size'];
 
-function matchesFilters(post: {[key: string]: string}, searchFilters: {[key: string]: Array<string>}) {
-    filterTypes.forEach(filterType => {
-        if (searchFilters[filterType].length !== 0 && !searchFilters[filterType].includes(post[filterType])) {
-            return false;
+function matchesFilters(post: {[key: string]: string}, searchFilters: {[key: string]: Array<string>}): boolean {
+    return filterTypes.every(filterType => {
+        if (searchFilters[filterType].length === 0 || searchFilters[filterType].includes(post[filterType])) {
+            return true;
         }
     });
-    return true;
 }
 
 function updateProducts(
@@ -15,12 +14,14 @@ function updateProducts(
     filters: {[key: string]: Array<string>},
 ): void {
     searchedProducts.innerHTML = '';
+    const filteredPosts = posts.filter(post => { console.log(matchesFilters(post, filters)); return matchesFilters(post, filters); });
+    console.log(posts);
 
     const productSectionTitle = document.createElement('h1');
-    productSectionTitle.innerHTML = posts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
+    productSectionTitle.innerHTML = filteredPosts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
     searchedProducts.appendChild(productSectionTitle);
 
-    posts.forEach((post: {[key: string]: string}) => {
+    filteredPosts.forEach((post: {[key: string]: string}) => {
         const productCard = drawProductCard(post);
         searchedProducts.appendChild(productCard);
     });
@@ -54,42 +55,46 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchFilterElems: NodeListOf<HTMLInputElement> = document.querySelectorAll('.search-filter');
     const searchFilters: {[key: string]: Array<string>} =
         filterTypes.reduce((acc, filterType) => ({...acc, [filterType]: []}), {});
+    searchFilters['size'].push('M');
     let posts: Array<{[key: string]: string}> = [];
 
     const urlParams = new URLSearchParams(window.location.search);
     performSearch(searchedProducts, urlParams.get('search') ?? '')
         .then(result => {
             posts = result;
-            updateProducts(posts, searchedProducts, searchFilters);
+            updateProducts(result, searchedProducts, searchFilters);
         });
     
-    if (searchButton) {
+    if (searchButton && searchInput) {
         searchButton.addEventListener('click', event => {
             event.preventDefault();
-            performSearch(searchedProducts, urlParams.get('search') ?? '')
+            window.history.pushState({}, '', `search?search=${searchInput.value}`);
+            performSearch(searchedProducts, searchInput.value)
             .then(result => {
+                window.history.pushState({}, '', `search?search=${urlParams.get('search')}`);
                 posts = result;
-                updateProducts(posts, searchedProducts, searchFilters);
+                updateProducts(result, searchedProducts, searchFilters);
             });
         });
-    }
 
-    if (searchInput) {
         searchInput.addEventListener('input', () => {
-            performSearch(searchedProducts, urlParams.get('search') ?? '')
+            window.history.pushState({}, '', `search?search=${searchInput.value}`);
+            performSearch(searchedProducts, searchInput.value)
+            performSearch(searchedProducts, searchInput.value)
             .then(result => {
                 posts = result;
-                updateProducts(posts, searchedProducts, searchFilters);
+                updateProducts(result, searchedProducts, searchFilters);
             });
         });
     }
     
     searchFilterElems.forEach(filterElem => {
         filterElem.addEventListener('click', () => {
+            console.log(filterElem);
             const filterType = filterElem.dataset.type;
             const filterValue = filterElem.dataset.value;
 
-            if (filterType) {
+            if (filterType && filterValue) {
                 if (filterElem.checked)
                     searchFilters[filterType].push(filterElem.value);
                 else

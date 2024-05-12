@@ -11,19 +11,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var _a, _b;
 const filterTypes = ['condition', 'category', 'size'];
 function matchesFilters(post, searchFilters) {
-    filterTypes.forEach(filterType => {
-        if (searchFilters[filterType].length !== 0 && !searchFilters[filterType].includes(post[filterType])) {
-            return false;
+    return filterTypes.every(filterType => {
+        if (searchFilters[filterType].length === 0 || searchFilters[filterType].includes(post[filterType])) {
+            return true;
         }
     });
-    return true;
 }
 function updateProducts(posts, searchedProducts, filters) {
     searchedProducts.innerHTML = '';
+    const filteredPosts = posts.filter(post => { console.log(matchesFilters(post, filters)); return matchesFilters(post, filters); });
+    console.log(posts);
     const productSectionTitle = document.createElement('h1');
-    productSectionTitle.innerHTML = posts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
+    productSectionTitle.innerHTML = filteredPosts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
     searchedProducts.appendChild(productSectionTitle);
-    posts.forEach((post) => {
+    filteredPosts.forEach((post) => {
         const productCard = drawProductCard(post);
         searchedProducts.appendChild(productCard);
     });
@@ -56,39 +57,41 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchButton = document.querySelector('#search-button');
     const searchFilterElems = document.querySelectorAll('.search-filter');
     const searchFilters = filterTypes.reduce((acc, filterType) => (Object.assign(Object.assign({}, acc), { [filterType]: [] })), {});
+    searchFilters['size'].push('M');
     let posts = [];
     const urlParams = new URLSearchParams(window.location.search);
     performSearch(searchedProducts, (_b = urlParams.get('search')) !== null && _b !== void 0 ? _b : '')
         .then(result => {
         posts = result;
-        updateProducts(posts, searchedProducts, searchFilters);
+        updateProducts(result, searchedProducts, searchFilters);
     });
-    if (searchButton) {
+    if (searchButton && searchInput) {
         searchButton.addEventListener('click', event => {
-            var _a;
             event.preventDefault();
-            performSearch(searchedProducts, (_a = urlParams.get('search')) !== null && _a !== void 0 ? _a : '')
+            window.history.pushState({}, '', `search?search=${searchInput.value}`);
+            performSearch(searchedProducts, searchInput.value)
                 .then(result => {
+                window.history.pushState({}, '', `search?search=${urlParams.get('search')}`);
                 posts = result;
-                updateProducts(posts, searchedProducts, searchFilters);
+                updateProducts(result, searchedProducts, searchFilters);
             });
         });
-    }
-    if (searchInput) {
         searchInput.addEventListener('input', () => {
-            var _a;
-            performSearch(searchedProducts, (_a = urlParams.get('search')) !== null && _a !== void 0 ? _a : '')
+            window.history.pushState({}, '', `search?search=${searchInput.value}`);
+            performSearch(searchedProducts, searchInput.value);
+            performSearch(searchedProducts, searchInput.value)
                 .then(result => {
                 posts = result;
-                updateProducts(posts, searchedProducts, searchFilters);
+                updateProducts(result, searchedProducts, searchFilters);
             });
         });
     }
     searchFilterElems.forEach(filterElem => {
         filterElem.addEventListener('click', () => {
+            console.log(filterElem);
             const filterType = filterElem.dataset.type;
             const filterValue = filterElem.dataset.value;
-            if (filterType) {
+            if (filterType && filterValue) {
                 if (filterElem.checked)
                     searchFilters[filterType].push(filterElem.value);
                 else
