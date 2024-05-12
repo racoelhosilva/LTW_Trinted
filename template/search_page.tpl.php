@@ -6,7 +6,7 @@ include_once('template/product.tpl.php');
 ?>
 
 <?php function drawSearchedProducts(array $posts, int $page) {
-    drawProductSection([], "Found " . count($posts) . " results");
+    drawProductSection([], "No results found");
 } ?>
 
 <?php function drawPagination(int $pages, int $current) { ?>
@@ -48,8 +48,8 @@ include_once('template/product.tpl.php');
     </div>
 <?php } ?>
 
-<?php function drawSearchFilter(string $text) { ?>
-    <li class="search-filter">
+<?php function drawSearchFilter(string $text, string $type) { ?>
+    <li class="search-filter" data-type="type">
         <label>
             <?= $text ?>
             <input type="checkbox">
@@ -68,19 +68,19 @@ include_once('template/product.tpl.php');
         <h1>Category</h1>
         <ul>
             <?php foreach ($categories as $category) {
-                drawSearchFilter($category->category);
+                drawSearchFilter($category->category, 'category');
             } ?>
         </ul>
         <h1>Condition</h1>
         <ul>
             <?php foreach ($conditions as $condition) {
-                drawSearchFilter($condition->condition);
+                drawSearchFilter($condition->condition, 'condition');
             } ?>
         </ul>
         <h1>Size</h1>
         <ul>
             <?php foreach ($sizes as $size) {
-                drawSearchFilter($size->size);
+                drawSearchFilter($size->size, 'size');
             } ?>
         </ul>
     </section>
