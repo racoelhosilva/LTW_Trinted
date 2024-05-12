@@ -16,12 +16,15 @@ function parsePost(Post $post, PDO $db): array {
     $parsedPost = array(
         'id' => $post->id,
         'title' => $post->title,
-        'price' => $post->price,
-        'size' => $post->item->size->size,
-        'condition' => $post->item->condition->condition,
-        'seller' => $post->seller->id,
         'description' => $post->description,
-        'images' => array_map('getUrl', $post->getAllImages($db))
+        'price' => $post->price,
+        'publishDatetime' => $post->publishDateTime,
+        'seller' => $post->seller,
+        'username' => $post->seller->name,
+        'category' => $post->item->category,
+        'size' => $post->item->size,
+        'condition' => $post->item->condition,
+        'images' => array_map('getUrl', $post->getAllImages($db)),
     );
     return $parsedPost;
 }

@@ -18,6 +18,14 @@ async function postData(url: string, data: Object): Promise<Response> {
   });
 }
 
+function convertToObject(formData: FormData): {[key: string]: any} {
+  let object: {[key: string]: any} = {};
+  formData.forEach((value, key) => {
+    object[key] = value;
+  });
+  return object;
+}
+
 const sendToastMessage = (function () {
   let timer: number;
   
@@ -56,10 +64,46 @@ const sendToastMessage = (function () {
   }
 })();
 
-function convertToObject(formData: FormData): {[key: string]: any} {
-  let object: {[key: string]: any} = {};
-  formData.forEach((value, key) => {
-    object[key] = value;
-  });
-  return object;
+function drawLikeButton(): HTMLElement {
+  const likeButton = document.createElement('div');
+  likeButton.classList.add('like-button');
+
+  const label = document.createElement('label');
+  label.classList.add('material-symbols-outlined');
+
+  const input = document.createElement('input');
+  input.type = 'checkbox';
+
+  label.appendChild(input);
+  label.innerHTML += 'favorite_border';
+
+  likeButton.appendChild(label);
+
+  return likeButton;
 }
+
+function drawProductCard(post: {[key: string]: string}): HTMLElement {
+  const productCard = document.createElement('div');
+  productCard.classList.add('product-card');
+
+  const productImage = document.createElement('img');
+  productImage.src = post.images[0];
+  productImage.alt = post.title;
+
+  const productTitle = document.createElement('h1');
+  productTitle.innerHTML = post.title;
+
+  const productPrice = document.createElement('p');
+  productPrice.classList.add('price');
+  productPrice.innerHTML = post.price;
+
+  const likeButton = drawLikeButton();
+
+  productCard.appendChild(productImage);
+  productCard.appendChild(productTitle);
+  productCard.appendChild(productPrice);
+  productCard.appendChild(likeButton);
+
+  return productCard;
+}
+

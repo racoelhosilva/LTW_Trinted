@@ -36,12 +36,12 @@ function searchPosts(PDO $db, string $search): array {
             'description' => $post->description,
             'price' => $post->price,
             'publishDatetime' => $post->publishDateTime,
-            'item' => $post->item,
             'seller' => $post->seller,
             'username' => $post->seller->name,
             'category' => $post->item->category,
             'size' => $post->item->size,
             'condition' => $post->item->condition,
+            'images' => array_map('getUrl', $post->getAllImages($db))
         ];
     }
     return $posts;
