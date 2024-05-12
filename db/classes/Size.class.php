@@ -36,10 +36,9 @@ class Size
     {
         $stmt = $db->prepare("SELECT name FROM Size");
         $stmt->execute();
-        $sizes = [];
-        foreach ($stmt->fetchAll() as $size) {
-            $sizes[] = new Size($size["name"]);
-        }
+        $sizes = array_map(function ($size) {
+            return new Size($size["name"]);
+        }, $stmt->fetchAll());
         return $sizes;
     }
 }
