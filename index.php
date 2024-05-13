@@ -7,15 +7,15 @@ require_once __DIR__ . '/framework/Autoload.php';
 $routes = [
     '/' => [
         'controller' => 'Controller@index',
-        'middlewares' => [new BannedMiddleware()]
+        'middlewares' => []
     ],
     '/login' => [
         'controller' => 'Controller@login',
-        'middlewares' => [new BannedMiddleware()]
+        'middlewares' => []
     ],
     '/search' => [
         'controller' => 'Controller@search',
-        'middlewares' => [new BannedMiddleware()]
+        'middlewares' => []
     ],
     '/profile' => [
         'controller' => 'Controller@profile',
@@ -23,7 +23,11 @@ $routes = [
     ],
     '/product' => [
         'controller' => 'Controller@product',
-        'middlewares' => [new BannedMiddleware()]
+        'middlewares' => []
+    ],
+    '/banned' => [
+        'controller' => 'Controller@banned',
+        'middlewares' => []
     ],
     '/checkout' => [
         'controller' => 'Controller@checkout',
@@ -31,11 +35,11 @@ $routes = [
     ],
     '/help' => [
         'controller' => 'Controller@help',
-        'middlewares' => [new BannedMiddleware()]
+        'middlewares' => []
     ],
     '/about' => [
         'controller' => 'Controller@about',
-        'middlewares' => [new BannedMiddleware()]
+        'middlewares' => []
     ]
 ];
 

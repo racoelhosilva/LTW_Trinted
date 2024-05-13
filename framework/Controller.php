@@ -43,7 +43,7 @@ class Controller {
 
     public function banned() {
         include_once('pages/banned_page.php');
-        return drawBannedPage($this->request);
+        return drawBannedPage();
     }
 
     /**
