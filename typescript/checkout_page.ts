@@ -32,9 +32,11 @@ function createOrderItemCard(post: { [key: string]: any }): HTMLElement {
   return orderItemCard;
 }
 
-function updateTotal(checkoutSubtotal: HTMLElement, checkoutTotal: HTMLElement, subtotal: number): void {
+function updateTotal(checkoutSubtotal: HTMLElement, checkoutShipping: HTMLElement,
+  checkoutTotal: HTMLElement, subtotal: number, shipping: number): void {
   checkoutSubtotal.innerHTML = subtotal.toFixed(2);
-  checkoutTotal.innerHTML = (subtotal + 10).toFixed(2);
+  checkoutShipping.innerHTML = shipping >= 0 ? shipping.toFixed(2) : '-';
+  checkoutTotal.innerHTML = shipping >= 0 ? (subtotal + shipping).toFixed(2) : '-';
 }
 
 async function submitCheckoutForm(checkoutForm: HTMLFormElement): Promise<any> {
@@ -46,7 +48,7 @@ const orderItemsSection: HTMLElement | null = document.querySelector('#order-ite
 const payNowButton: HTMLButtonElement | null = document.querySelector('#pay-now-button');
 const checkoutInfoForm: HTMLFormElement | null = document.querySelector('#checkout-info-form');
 const checkoutSubtotal: HTMLElement | null = document.querySelector('#checkout-subtotal');
-const checkoutShipping: HTMLElement | null = document.querySelector('#checkout-shipping');  // TODO: Implement shipping costs
+const checkoutShipping: HTMLElement | null = document.querySelector('#checkout-shipping');
 const checkoutTotal: HTMLElement | null = document.querySelector('#checkout-total');
 
 if (orderItemsSection) {
@@ -62,8 +64,8 @@ if (orderItemsSection) {
           subtotal += post.price;
         }
 
-        if (checkoutSubtotal && checkoutTotal)
-          updateTotal(checkoutSubtotal, checkoutTotal, subtotal);
+        if (checkoutSubtotal && checkoutShipping && checkoutTotal)
+          updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, subtotal, -1);
       } else {
         sendToastMessage('Could not get cart, try again later', 'error');
         console.error(json.error);

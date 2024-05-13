@@ -38,11 +38,11 @@ include_once('db/classes/Post.class.php');
             </div>
             <div>
                 <h1>Shipping</h1>
-                <p class="price">10.00</p>
+                <p id="checkout-shipping">-</p>
             </div>
             <div>
                 <h1>Total</h1>
-                <p id="checkout-total" class="price">0.00</p>
+                <p id="checkout-total">-</p>
             </div>
             <button id="pay-now-button" class="submit-button">Pay now</button>
         </div>

@@ -33,9 +33,10 @@ function createOrderItemCard(post) {
     orderItemCard.appendChild(itemPrice);
     return orderItemCard;
 }
-function updateTotal(checkoutSubtotal, checkoutTotal, subtotal) {
+function updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, subtotal, shipping) {
     checkoutSubtotal.innerHTML = subtotal.toFixed(2);
-    checkoutTotal.innerHTML = (subtotal + 10).toFixed(2);
+    checkoutShipping.innerHTML = shipping >= 0 ? shipping.toFixed(2) : '-';
+    checkoutTotal.innerHTML = shipping >= 0 ? (subtotal + shipping).toFixed(2) : '-';
 }
 function submitCheckoutForm(checkoutForm) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -47,7 +48,7 @@ const orderItemsSection = document.querySelector('#order-items');
 const payNowButton = document.querySelector('#pay-now-button');
 const checkoutInfoForm = document.querySelector('#checkout-info-form');
 const checkoutSubtotal = document.querySelector('#checkout-subtotal');
-const checkoutShipping = document.querySelector('#checkout-shipping'); // TODO: Implement shipping costs
+const checkoutShipping = document.querySelector('#checkout-shipping');
 const checkoutTotal = document.querySelector('#checkout-total');
 if (orderItemsSection) {
     getCart()
@@ -60,8 +61,8 @@ if (orderItemsSection) {
                 orderItemsSection.appendChild(orderItemCard);
                 subtotal += post.price;
             }
-            if (checkoutSubtotal && checkoutTotal)
-                updateTotal(checkoutSubtotal, checkoutTotal, subtotal);
+            if (checkoutSubtotal && checkoutShipping && checkoutTotal)
+                updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, subtotal, -1);
         }
         else {
             sendToastMessage('Could not get cart, try again later', 'error');
