@@ -3,14 +3,14 @@
 include_once(__DIR__ . '/utils.php');
 
 session_start();
-if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+if ($_SERVER['REQUEST_METHOD'] !== 'GET')
     die(json_encode(['success' => false, 'error' => 'Invalid request method']));
 
-if (!isset($_POST['address']) || !isset($_POST['zip']) || !isset($_POST['town']) || !isset($_POST['country']))
+if (!isset($_GET['address']) || !isset($_GET['zip']) || !isset($_GET['town']) || !isset($_GET['country']))
     die(json_encode(['success' => false, 'error' => 'Missing fields']));
 
-$town = validate($_POST['town']);
-$country = validate($_POST['country']);
+$town = validate($_GET['town']);
+$country = validate($_GET['country']);
 
 srand(crc32($town . $country));
-die(['success' => true, 'shipping' => rand(1, 200) / 20 - 0.01]);
+die(json_encode(['success' => true, 'shipping' => mt_rand(1, 200) / 2 - 0.01]));
