@@ -67,11 +67,22 @@
                             <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
                             <button type="submit" id="admin-button">Unban</button>
                         </form>
-                <?php }
-                }
+                <?php } ?>
+                    <script>
+
+
+                    <?php if (isset($_GET['unban_success']) && $_GET['unban_success'] == "true") { ?>
+
+                            alert("User unbanned successfully!");
+                    <?php }
+                    if (isset($_GET['ban_success']) && $_GET['ban_success'] == "true") { ?>
+                                alert("User banned successfully!");
+                <?php } ?>                                        
+                    </script>
+                            <?php }
         }
         ?>
-    </div> <?php
+        </div> <?php
 } ?>
 
 <?php function drawUserProductSection(User $user)

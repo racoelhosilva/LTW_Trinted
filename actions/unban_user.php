@@ -18,5 +18,6 @@ if ($user->type == "admin") {
 }
 
 $user->unban($db);
-header("Location: /profile?id=" . $user->id);
+header("Location: /profile?id=" . $user->id . "&unban_success=true");
+
 exit();

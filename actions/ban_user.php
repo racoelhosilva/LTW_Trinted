@@ -19,5 +19,6 @@ if ($user->type == "admin") {
 
 $user->ban($db);
 
-header("Location: /profile?id=" . $user->id);
+header("Location: /profile?id=" . $user->id . "&ban_success=true");
+
 exit();
