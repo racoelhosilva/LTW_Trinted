@@ -94,9 +94,12 @@ include_once('template/product.tpl.php');
     <div class="spinner"><div></div></div>
 <?php } ?>
 
-<?php function drawProductSection(array $posts, string $title) { ?>
+<?php function drawProductSection(array $posts, string $title, string $emptyMessage = "No products here") { ?>
     <section id="product-section">
         <h1><?= $title ?></h1>
+            <?php if (count($posts) === 0) { ?>
+                <h2><?= $emptyMessage ?></h2>
+                <?php return; } ?>
             <?php
             foreach ($posts as $post) {
                 drawProductCard($post);
