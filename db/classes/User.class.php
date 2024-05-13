@@ -189,4 +189,12 @@ class User
         $stmt->bindParam(":post", $postId);
         $stmt->execute();
     }
+
+    public function isInWishlist(PDO $db, int $postId): bool {
+        $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user AND post = :post");
+        $stmt->bindParam(":user", $this->id);
+        $stmt->bindParam(":post", $postId);
+        $stmt->execute();
+        return $stmt->fetch() !== false;
+    }
 }
