@@ -39,3 +39,19 @@ function dateFormat(int $datetime): string {
         return "Just now";
     }
 }
+
+function parsePost(PDO $db, Post $post): array {
+    return [
+        'id' => $post->id,
+        'title' => $post->title,
+        'description' => $post->description,
+        'price' => $post->price,
+        'publishDatetime' => $post->publishDateTime,
+        'seller' => $post->seller->id,
+        'username' => $post->seller->name,
+        'category' => $post->item->category->category,
+        'size' => $post->item->size->size,
+        'condition' => $post->item->condition->condition,
+        'images' => array_map('getUrl', $post->getAllImages($db)),
+    ];
+}
