@@ -3,6 +3,7 @@ PRAGMA foreign_keys = ON;
 DROP TABLE IF EXISTS Message;
 DROP TABLE IF EXISTS PostImage;
 DROP TABLE IF EXISTS Post;
+DROP TABLE IF EXISTS Payment;
 DROP TABLE IF EXISTS ItemBrand;
 DROP TABLE IF EXISTS Brand;
 DROP TABLE IF EXISTS Item;
@@ -111,6 +112,38 @@ CREATE TABLE ItemBrand
     CONSTRAINT BrandFK FOREIGN KEY (brand) REFERENCES Brand (name)
 );
 
+
+
+CREATE TABLE Payment
+(
+    id       INTEGER,
+    subtotal DECIMAL(5, 2)
+        CONSTRAINT SubtotalNotNull NOT NULL
+        CONSTRAINT SubtotalNotNegative CHECK (subtotal >= 0),
+    shipping DECIMAL(5, 2)
+        CONSTRAINT ShippingNotNull NOT NULL
+        CONSTRAINT ShippingNotNegative CHECK (shipping >= 0),
+    firstName VARCHAR(32)
+        CONSTRAINT FirstNameNotNull NOT NULL,
+    lastName  VARCHAR(32)
+        CONSTRAINT LastNameNotNull NOT NULL,
+    email     VARCHAR(64)
+        CONSTRAINT EmailNotNull NOT NULL,
+    phone     VARCHAR(9)
+        CONSTRAINT PhoneNotNull NOT NULL,
+    address   VARCHAR(64)
+        CONSTRAINT AddressNotNull NOT NULL,
+    zipCode   VARCHAR(8)
+        CONSTRAINT ZipCodeNotNull NOT NULL,
+    town      VARCHAR(32)
+        CONSTRAINT CityNotNull NOT NULL,
+    country     VARCHAR(32)
+        CONSTRAINT CountryNotNull NOT NULL,
+    paymentDatetime DATETIME
+        CONSTRAINT PaymentDatetimeNotNull NOT NULL,
+    CONSTRAINT IdPK PRIMARY KEY (id)
+);
+
 CREATE TABLE Post
 (
     id              INTEGER,
@@ -126,9 +159,11 @@ CREATE TABLE Post
         CONSTRAINT SellerNotNull NOT NULL,
     item            INT
         CONSTRAINT ItemNotNull NOT NULL,
+    payment         INTEGER,
     CONSTRAINT IdPK PRIMARY KEY (id),
     CONSTRAINT SellerFK FOREIGN KEY (seller) REFERENCES User (id),
-    CONSTRAINT ItemFK FOREIGN KEY (item) REFERENCES Item (id)
+    CONSTRAINT ItemFK FOREIGN KEY (item) REFERENCES Item (id),
+    CONSTRAINT PaymentFK FOREIGN KEY (Payment) REFERENCES Payment (id)
 );
 
 CREATE TRIGGER PostPublisherIsSeller

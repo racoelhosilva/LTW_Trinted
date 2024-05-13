@@ -24,7 +24,7 @@ include_once('template/search_page.tpl.php');
     ?>
     <main id="search-page">
         <?php drawSearchDrawer(); ?>
-        <section id="results">
+        <section id="search-results">
             <!-- TODO: use real search -->
             <?php
             drawSearchedProducts($posts, $page); ?>

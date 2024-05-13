@@ -1,6 +1,24 @@
-const prevPhotoButton: HTMLElement | null = document.getElementById('prev-photo');
-const nextPhotoButton: HTMLElement | null = document.getElementById('next-photo');
-const photoBadges: HTMLCollectionOf<Element> | null = document.getElementsByClassName('photo-badge');
+function getCart(): Promise<any> {
+  return getData('../actions/action_get_cart.php')
+    .then(response => response.json());
+}
+
+function addItemToCart(postId: number): Promise<any> {
+  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: false })
+    .then(response => response.json());
+}
+
+function removeItemFromCart(postId: number): Promise<any> {
+  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: true })
+    .then(response => response.json());
+}
+
+const prevPhotoButton: HTMLElement | null = document.querySelector('#prev-photo');
+const nextPhotoButton: HTMLElement | null = document.querySelector('#next-photo');
+const photoBadges: NodeListOf<HTMLElement> | null = document.querySelectorAll('.photo-badge');
+const cartButton: HTMLElement | null = document.querySelector('.add-cart-button');
+const addedToCartMessage: HTMLElement | null = document.querySelector('#added-to-cart-message');
+const removedFromCartMessage: HTMLElement | null = document.querySelector('#removed-from-cart-message');
 
 let currentIndex: number = 0;
 updatePhotoIndex(currentIndex);
@@ -49,4 +67,46 @@ if (photoBadges) {
       updatePhotoIndex(i);
     });
   }
+}
+
+function updateCartButtonText(cartButton: HTMLElement, itemSelected: boolean): void {
+  if (itemSelected)
+    cartButton.innerHTML = 'Remove from Cart';
+  else
+    cartButton.innerHTML = 'Add to Cart';
+}
+
+if (cartButton) {
+  const postId = parseInt(document.location.search.split('=')[1]);
+  let itemSelected = false;
+
+  getCart()
+    .then(json => {
+      const cart: Array<{ [key: string]: any }> = json.cart;
+
+      itemSelected = cart.map(item => item.id).includes(postId);
+      updateCartButtonText(cartButton, itemSelected);
+    })
+    .catch(error => {
+      sendToastMessage('An unexpected error occurred, try again', 'error');
+      console.error(error);
+    });
+
+  cartButton.addEventListener('click', () => {
+    let response = !itemSelected ? addItemToCart(postId) : removeItemFromCart(postId);
+    response
+      .then(json => {
+        if (json.success) {
+          itemSelected = !itemSelected;
+          updateCartButtonText(cartButton, itemSelected);
+          sendToastMessage(itemSelected ? 'Added to cart' : 'Removed from cart', 'success');
+        } else {
+          sendToastMessage('Could not ' + (!itemSelected ? 'add item to cart' : 'remove item from cart'), 'error');
+        }
+      })
+      .catch(error => {
+        sendToastMessage('An unexpected error occurred, try again', 'error');
+        console.error(error);
+      });
+  });
 }

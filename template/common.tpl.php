@@ -28,12 +28,15 @@ include_once('template/product.tpl.php');
             <link rel="stylesheet" href="css/checkout_page.css">
             <link rel="stylesheet" href="css/help_page.css">
             <link rel="stylesheet" href="css/about_page.css">
-            <link rel="stylesheet" href="css/banned_page.css">
-            <script src="typescript/product_page.js" defer></script>
-            <script src="typescript/product.js" defer></script>
-            <script src="typescript/main_page.js" defer></script>
-            <script src="typescript/main_header.js" defer></script>
-            <script src="typescript/checkout_page.js" defer></script>
+            <link rel="stylesheet" href="css/toast_message.css">
+            <link rel="stylesheet" href="css/banned_page">
+            <script src="javascript/utils.js" defer></script>
+            <script src="javascript/product_page.js" defer></script>
+            <script src="javascript/product.js" defer></script>
+            <script src="javascript/main_page.js" defer></script>
+            <script src="javascript/main_header.js" defer></script>
+            <script src="javascript/checkout_page.js" defer></script>
+            <script src="javascript/search_page.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>
@@ -79,6 +82,10 @@ include_once('template/product.tpl.php');
         </div>
     </div>
     </footer>
+<?php } ?>
+
+<?php function drawLoadingSpinner() { ?>
+    <div class="spinner"><div></div></div>
 <?php } ?>
 
 <?php function drawProductSection(array $posts, string $title) { ?>
