@@ -8,12 +8,38 @@ function addMessage(message: { [key: string]: any }) {
     contentParagraph.textContent = message.content;
 
     const datetimeParagraph = document.createElement('p');
-    datetimeParagraph.textContent = message.datetime;
+    datetimeParagraph.textContent = dateFormat(message.datetime);
 
     divElement.appendChild(contentParagraph);
     divElement.appendChild(datetimeParagraph);
 
     allMessages!.prepend(divElement);
+}
+
+function dateFormat(datetime: number): string {
+    const timestamp = new Date(datetime * 1000);
+    const current = new Date();
+    const timediff = Math.floor((current.getTime() - timestamp.getTime()) / 1000);
+
+    const years = Math.floor(timediff / (365 * 24 * 60 * 60));
+    const months = Math.floor(timediff / (30 * 24 * 60 * 60));
+    const days = Math.floor(timediff / (24 * 60 * 60));
+    const hours = Math.floor(timediff / (60 * 60));
+    const minutes = Math.floor(timediff / 60);
+
+    if (years > 0) {
+        return years === 1 ? `${years} year` : `${years} years`;
+    } else if (months > 0) {
+        return months === 1 ? `${months} month` : `${months} months`;
+    } else if (days > 0) {
+        return days === 1 ? `${days} day` : `${days} days`;
+    } else if (hours > 0) {
+        return hours === 1 ? `${hours} hour` : `${hours} hours`;
+    } else if (minutes > 0) {
+        return minutes === 1 ? `${minutes} minute` : `${minutes} minutes`;
+    } else {
+        return "Just now";
+    }
 }
 
 async function sendMessage(message: string, dest: number): Promise<any> {
@@ -43,7 +69,7 @@ if (destinationId && newmessage && messageBox && sendButton) {
             });
     });
 
-
+    
 
 
 } else {

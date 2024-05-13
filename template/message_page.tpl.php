@@ -1,4 +1,7 @@
-<?php declare(strict_types=1); ?>
+<?php declare(strict_types=1);
+
+include_once __DIR__ . '/../actions/utils.php';
+?>
 
 <?php function drawContactSection() { ?>
     <section id="contacts">
@@ -29,7 +32,7 @@
         if (isset($_GET['id'])) {
         $otherUserID = (int)$_GET['id'];
         $db = new PDO("sqlite:" . DB_PATH);
-        $otherUser = User::getUserByID($db, $otherUserID);    
+        $otherUser = User::getUserByID($db, $otherUserID); 
     ?>
         <div id="contact">
             <a href="/profile?id=<?= $otherUser->id ?>">
@@ -41,22 +44,19 @@
         <div id="messages">
             <?php
             $db = new PDO("sqlite:" . DB_PATH);
-            $messages = Message::getMessages($db, User::getUserByID($db, $_SESSION['user_id']), $otherUser);
-            
+            $messages = Message::getMessages($db, User::getUserByID($db, $_SESSION['user_id']), $otherUser);      
 
             foreach ($messages as $message) {
-                $timestamp = new DateTime(date('Y-m-d h:i:s', $message['datetime']));
-                $current = new DateTime(date('Y-m-d h:i:s'));
-                $timediff = $current->diff($timestamp);
+                $timeDiff = dateFormat($message['datetime']);
                 if ($message['sender'] == $_SESSION['user_id']) {?>
                     <div class="message user1" data-message-id="<?= $message['id'] ?>">
                         <p><?= $message['content'] ?></p>
-                        <p><?= $message['datetime'] ?></p>
+                        <p><?= $timeDiff ?></p>
                     </div>
                 <?php } else { ?>
                     <div class="message user2" data-message-id="<?= $message['id'] ?>">
                         <p><?= $message['content'] ?></p>
-                        <p><?= $message['datetime'] ?> </p>                    
+                        <p><?= $timeDiff ?> </p>                    
                     </div>
                 <?php }
             } 
