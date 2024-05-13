@@ -26,12 +26,13 @@
 
 
 <?php function drawChatSection() { ?>
+    <section id="chat">
     <?php 
-        $otherUserID = 6;
+        if (isset($_GET['id'])) {
+        $otherUserID = (int)$_GET['id'];
         $db = new PDO("sqlite:" . DB_PATH);
         $otherUser = User::getUserByID($db, $otherUserID);    
     ?>
-    <section id="chat">
         <div id="contact">
             <a href="/profile?id=<?= $otherUser->id ?>">
                 <img src="<?= $otherUser->profilePicture->url?>" width="40" height="40" class="avatar">
@@ -50,10 +51,19 @@
                 <?php } else { ?>
                     <p class="message user2"><?= $message['content'] ?></p>
                 <?php }
-            }
-            ?>
-
+            } 
+        ?>
         </div>
+        <?php 
+        } else { ?>
+            <div id="contact">
+            </div> 
+            <div id="messages">
+            </div>
+        <?php 
+        }
+        ?>
+
 
         <div id="writemessage">
             <input type="text" id="newmessage" name="newmessage" placeholder="Type your text here...">
