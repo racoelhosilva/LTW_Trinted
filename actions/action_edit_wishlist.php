@@ -23,7 +23,7 @@ try {
     $post_id = (int)$post_id;
     $remove = $remove === 'true';
     $user = User::getUserByID($db, (int)$_SESSION['user_id']);
-    
+
     if (!$remove)
         $user->addToWishlist($db, $post_id);
     else

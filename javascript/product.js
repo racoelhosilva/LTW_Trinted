@@ -53,11 +53,11 @@ function removeFromWishlist(postId) {
 const productCards = document.querySelectorAll(".product-card");
 productCards.forEach((productCard) => {
     var _a;
+    productCard.addEventListener("click", () => goToProduct(productCard.dataset.postId));
     let likeButton = productCard.querySelector(".like-button");
     let likeButtonInput = (_a = likeButton === null || likeButton === void 0 ? void 0 : likeButton.querySelector("input")) !== null && _a !== void 0 ? _a : null;
     if (!likeButton || !likeButtonInput || !productCard.dataset.postId)
         return;
-    productCard.addEventListener("click", () => goToProduct(productCard.dataset.postId));
     likeButton.addEventListener("click", (event) => {
         event.stopPropagation();
         event.preventDefault();

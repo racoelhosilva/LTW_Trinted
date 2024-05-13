@@ -39,12 +39,12 @@ async function removeFromWishlist(postId: string): Promise<boolean> {
 const productCards: NodeListOf<HTMLElement> = document.querySelectorAll(".product-card");
 
 productCards.forEach((productCard) => {
+	productCard.addEventListener("click", () => goToProduct(productCard.dataset.postId!));
+
 	let likeButton: HTMLElement | null = productCard.querySelector(".like-button");
 	let likeButtonInput: HTMLInputElement | null = likeButton?.querySelector("input") ?? null;
 	if (!likeButton || !likeButtonInput || !productCard.dataset.postId)
 		return;
-
-	productCard.addEventListener("click", () => goToProduct(productCard.dataset.postId!));
 	likeButton.addEventListener("click", (event) => {
 		event.stopPropagation();
 		event.preventDefault();

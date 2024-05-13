@@ -95,6 +95,10 @@ include_once('template/product.tpl.php');
 <?php } ?>
 
 <?php function drawProductSection(array $posts, string $title, string $emptyMessage = "No products here") { ?>
+    <?php
+        if (isset($_SESSION['user_id']))
+            $loggedInUser = User::getUserByID(new PDO("sqlite:" . DB_PATH), $_SESSION['user_id']);
+    ?>
     <section id="product-section">
         <h1><?= $title ?></h1>
             <?php if (count($posts) === 0) { ?>
@@ -102,7 +106,7 @@ include_once('template/product.tpl.php');
                 <?php return; } ?>
             <?php
             foreach ($posts as $post) {
-                drawProductCard($post);
+                drawProductCard($post, $loggedInUser);
             }
             ?>
     </section>

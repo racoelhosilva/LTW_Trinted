@@ -42,14 +42,7 @@ include_once('template/common.tpl.php');
         return $p->id != $post->id;
     });
     ?>
-    <section id="product-section">
-        <h1>Related products (<?= count($posts) ?>)</h1>
-        <?php
-        foreach ($posts as $post) {
-            drawProductCard($post);
-        }
-        ?>
-    </section>
+    <?php drawProductSection($posts, "Related Products (" . count($posts) . ")"); ?>
 <?php } ?>
 
 
