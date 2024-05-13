@@ -20,6 +20,23 @@ function addMessage(message) {
     divElement.appendChild(datetimeParagraph);
     allMessages.prepend(divElement);
 }
+function reloadMessage(message) {
+    const divElement = document.createElement('div');
+    if (message.receiver == destinationId) {
+        divElement.className = 'message user1';
+    }
+    else if (message.sender == destinationId) {
+        divElement.className = 'message user2';
+    }
+    divElement.setAttribute('data-message-id', message.id.toString());
+    const contentParagraph = document.createElement('p');
+    contentParagraph.textContent = message.content;
+    const datetimeParagraph = document.createElement('p');
+    datetimeParagraph.textContent = dateFormat(message.datetime);
+    divElement.appendChild(contentParagraph);
+    divElement.appendChild(datetimeParagraph);
+    allMessages.append(divElement);
+}
 function dateFormat(datetime) {
     const timestamp = new Date(datetime * 1000);
     const current = new Date();
@@ -52,6 +69,10 @@ function reloadMessages() {
     fetchMessages(destinationId)
         .then(messages => {
         console.log(messages);
+        allMessages.innerHTML = "";
+        for (const message of messages) {
+            reloadMessage(message);
+        }
     })
         .catch(error => {
         console.error(error);
