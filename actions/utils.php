@@ -53,6 +53,6 @@ function parsePost(PDO $db, Post $post): array {
         'size' => $post->item->size->size,
         'condition' => $post->item->condition->condition,
         'images' => array_map('getUrl', $post->getAllImages($db)),
-        'inWishlist' => isset($_SESSION['user_id']) ? User::getUserByID($db, $_SESSION['user_id'])->isInWishlist($db, $post->id) : false
+        'inWishlist' => isset($_SESSION['user_id']) ? User::getUserByID($db, $_SESSION['user_id'])->isInWishlist($db, (int)$post->id) : false
     ];
 }
