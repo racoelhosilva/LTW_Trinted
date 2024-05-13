@@ -131,4 +131,11 @@ class User
         $stmt->execute();
         $this->isBanned = true;
     }
+    public function unban(PDO $db): void
+    {
+        $stmt = $db->prepare("UPDATE User SET isBanned = 0 WHERE id = :id");
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+        $this->isBanned = false;
+    }
 }

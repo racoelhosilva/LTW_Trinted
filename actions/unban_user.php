@@ -17,7 +17,6 @@ if ($user->type == "admin") {
     exit();
 }
 
-$user->ban($db);
-
+$user->unban($db);
 header("Location: /profile?id=" . $user->id);
 exit();
