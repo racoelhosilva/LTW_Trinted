@@ -52,7 +52,7 @@
 	margin: 1em;
 }
 
-#admin-button {
+.admin-button {
 	font-family: "Hanken Grotesk", sans-serif;
 	font-size: 16px;
 	padding: 1em 1.5em;
@@ -63,6 +63,7 @@
 	margin: 1em;
 	cursor: cursor;
 }
+
 #is-admin-button {
 	font-family: "Hanken Grotesk", sans-serif;
 	font-size: 16px;

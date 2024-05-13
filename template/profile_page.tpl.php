@@ -54,35 +54,33 @@
                     <?php
                     if (!$user->isBanned(new PDO("sqlite:" . DB_PATH))) { ?>
                         <form method="post" action="/actions/make_admin.php">
-                            <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
-                            <button type="submit" id="admin-button">Make Admin</button>
+                            <input type="hidden" name="user_id" value="<?= $user->id; ?>">
+                            <button type="submit" class="admin-button">Make Admin</button>
                         </form>
-                        <form method="post" action="/actions/ban_user.php">
-                            <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
-                            <button type="submit" id="admin-button">Ban</button>
-                        </form>
+                        <!-- <form method="post" action="/actions/ban_user.php"> -->
+                            <!-- <input type="hidden" name="user_id" value="<?= $user->id; ?>"> -->
+                            <button type="submit" class="admin-button" id="ban-button">Ban</button>
+                        <!-- </form> -->
 
                 <?php } else { ?>
-                        <form method="post" action="/actions/unban_user.php">
-                            <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
-                            <button type="submit" id="admin-button">Unban</button>
-                        </form>
+                        <!-- <form method="post" action="/actions/unban_user.php"> -->
+                            <!-- <input type="hidden" name="user_id" value="<?= $user->id; ?>"> -->
+                            <button type="submit" class="admin-button" id="unban-button">Unban</button>
+                        <!-- </form> -->
                 <?php } ?>
                     <script>
 
 
                     <?php if (isset($_GET['unban_success']) && $_GET['unban_success'] == "true") { ?>
-
-                            alert("User unbanned successfully!");
+                        // sendToastMessage("User unbanned successfully!", "success");
                     <?php }
                     if (isset($_GET['ban_success']) && $_GET['ban_success'] == "true") { ?>
-                                alert("User banned successfully!");
-                <?php } ?>                                        
+                                            //  alert("User banned successfully!");
+                   <?php } ?>                                        
                     </script>
-                            <?php }
-        }
-        ?>
-        </div> <?php
+        <?php }
+        } ?>
+                </div> <?php
 } ?>
 
 <?php function drawUserProductSection(User $user)

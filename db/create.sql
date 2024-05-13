@@ -89,9 +89,9 @@ CREATE TRIGGER ItemOwnerIsSeller
     FOR EACH ROW
     WHEN (SELECT type
           FROM User
-          WHERE id = New.seller) <> 'seller'
+          WHERE id = New.seller) = 'buyer'
 BEGIN
-    SELECT RAISE(FAIL, 'Item cannot belong to non-seller user');
+    SELECT RAISE(FAIL, 'Item cannot belong to non-seller or non-admin user');
 END;
 
 CREATE TABLE Brand
