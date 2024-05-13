@@ -129,13 +129,37 @@
     border-radius: 25px;
 }
 
+.message > p {
+    margin: 0.5em 0em;
+}
+
+.message > p:last-child {
+    padding: 0;
+    margin: 0;
+    font-size: 11px;
+    font-weight: 600;
+}
+
 .user1 {
     background-color: var(--primary);
     align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+}
+
+.user1 > p:last-child {
+    align-self: flex-start;
 }
 
 .user2 {
     background-color: var(--lighter);
     align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.user2 > p:last-child {
+    align-self: flex-end;
 }
 

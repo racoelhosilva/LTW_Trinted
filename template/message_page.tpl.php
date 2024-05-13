@@ -43,24 +43,30 @@
             $db = new PDO("sqlite:" . DB_PATH);
             $messages = Message::getMessages($db, User::getUserByID($db, $_SESSION['user_id']), $otherUser);
             
+
             foreach ($messages as $message) {
+                $timestamp = new DateTime(date('Y-m-d h:i:s', $message['datetime']));
+                $current = new DateTime(date('Y-m-d h:i:s'));
+                $timediff = $current->diff($timestamp);
+                print_r($timediff);
                 if ($message['sender'] == $_SESSION['user_id']) {?>
-                    <p class="message user1"><?= $message['content'] ?></p>
+                    <div class="message user1" data-message-id="<?= $message['id'] ?>">
+                        <p><?= $message['content'] ?></p>
+                        <p><?= $message['datetime'] ?></p>
+                    </div>
                 <?php } else { ?>
-                    <p class="message user2"><?= $message['content'] ?></p>
+                    <div class="message user2" data-message-id="<?= $message['id'] ?>">
+                        <p><?= $message['content'] ?></p>
+                        <p><?= $message['datetime'] ?> </p>                    
+                    </div>
                 <?php }
             } 
         ?>
         </div>
-        <?php 
-        } else { ?>
-            <div id="contact">
-            </div> 
-            <div id="messages">
-            </div>
-        <?php 
-        }
-        ?>
+        <?php } else { ?>
+            <div id="contact"></div> 
+            <div id="messages"></div>
+        <?php } ?>
 
 
         <div id="writemessage">
