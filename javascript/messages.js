@@ -48,6 +48,35 @@ function dateFormat(datetime) {
         return "Just now";
     }
 }
+function reloadMessages() {
+    fetchMessages(destinationId)
+        .then(messages => {
+        console.log(messages);
+    })
+        .catch(error => {
+        console.error(error);
+        sendToastMessage('An unexpected error occurred', 'error');
+    });
+}
+function fetchMessages(dest) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return getData(`../actions/action_get_messages.php?id=${dest}`)
+            .then(response => response.json())
+            .then(json => {
+            if (json.success) {
+                return json.messages;
+            }
+            else {
+                sendToastMessage('Could not load messages, try again later', 'error');
+                console.error(json.error);
+            }
+        })
+            .catch(error => {
+            sendToastMessage('An unexpected error occurred', 'error');
+            console.error(error);
+        });
+    });
+}
 function sendMessage(message, dest) {
     return __awaiter(this, void 0, void 0, function* () {
         return postData("../actions/action_send_message.php", { message: message, destID: dest })
@@ -73,6 +102,7 @@ if (destinationId && newmessage && messageBox && sendButton) {
             }
         });
     });
+    window.setInterval(reloadMessages, 10000);
 }
 else {
     console.log("CCCC");

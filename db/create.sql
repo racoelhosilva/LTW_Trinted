@@ -209,7 +209,7 @@ CREATE TABLE PostImage
 
 CREATE TABLE Message
 (
-    id       INT,
+    id       INTEGER,
     datetime DATETIME
         CONSTRAINT DatetimeNotNull NOT NULL,
     content  TEXT

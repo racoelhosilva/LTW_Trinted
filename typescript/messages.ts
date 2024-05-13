@@ -42,6 +42,35 @@ function dateFormat(datetime: number): string {
     }
 }
 
+function reloadMessages() {
+    fetchMessages(destinationId)
+        .then(messages => {
+            console.log(messages);
+        })
+        .catch(error =>{
+            console.error(error);
+            sendToastMessage('An unexpected error occurred', 'error');
+        });
+}
+
+async function fetchMessages(dest: any) {
+    return getData(`../actions/action_get_messages.php?id=${dest}`)
+        .then(response => response.json())
+        .then(json => {
+            if (json.success) {
+                return json.messages;
+            } else {
+                sendToastMessage('Could not load messages, try again later', 'error');
+                console.error(json.error);
+            }
+        })
+        .catch(error =>{
+            sendToastMessage('An unexpected error occurred', 'error');
+            console.error(error);
+
+        });
+}
+
 async function sendMessage(message: string, dest: number): Promise<any> {
     return postData("../actions/action_send_message.php",  {message: message, destID: dest})
       .then(response => response.json());
@@ -69,7 +98,7 @@ if (destinationId && newmessage && messageBox && sendButton) {
             });
     });
 
-    
+    window.setInterval(reloadMessages, 10000);
 
 
 } else {
