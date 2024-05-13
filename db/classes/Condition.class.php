@@ -31,4 +31,14 @@ class Condition
         }
         return new Condition($conditionName["name"]);
     }
+
+    public static function getAll(PDO $db): array
+    {
+        $stmt = $db->prepare("SELECT name FROM Condition");
+        $stmt->execute();
+        $conditions = array_map(function ($condition) {
+            return new Condition($condition["name"]);
+        }, $stmt->fetchAll());
+        return $conditions;
+    }
 }
