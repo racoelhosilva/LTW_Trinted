@@ -11,10 +11,8 @@
         foreach ($contacts as $contact) { 
             $user = User::getUserByID($db, $contact['sender']);
             ?>
-            <li id="contact-side">
-                <a href="/profile?id=<?= $user->id ?>">
-                    <img src="<?= $user->profilePicture->url ?>" width="40" height="40" class="avatar">
-                </a>
+            <li class="contact-side" data-user-id="<?= $user->id ?>">
+                <img src="<?= $user->profilePicture->url ?>" width="40" height="40" class="avatar contact-avatar">
                 <?= $user->name ?>
             </li>            
         <?php

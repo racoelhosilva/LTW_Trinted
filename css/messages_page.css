@@ -50,7 +50,7 @@
     font-size: 18px;
 }
 
-#contact-side:hover {
+.contact-side:hover {
     font-weight: bold;
     color: var(--primary);
     background-color: var(--secondary);
