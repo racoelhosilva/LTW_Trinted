@@ -32,10 +32,46 @@ function createOrderItemCard(post: { [key: string]: any }): HTMLElement {
   return orderItemCard;
 }
 
-function updateTotal(checkoutSubtotal: HTMLElement, checkoutTotal: HTMLElement, subtotal: number): void {
+function updateTotal(checkoutSubtotal: HTMLElement, checkoutShipping: HTMLElement, checkoutTotal: HTMLElement,
+  shippingInput: HTMLInputElement, subtotal: number, shipping: number): void {
   checkoutSubtotal.innerHTML = subtotal.toFixed(2);
-  checkoutTotal.innerHTML = (subtotal + 10).toFixed(2);
+  if (shipping >= 0) {
+    checkoutShipping.innerHTML = shipping.toFixed(2);
+    checkoutShipping.classList.add('price');
+    checkoutTotal.innerHTML = (subtotal + shipping).toFixed(2);
+    checkoutTotal.classList.add('price');
+    shippingInput.value = shipping.toFixed(2);
+  } else {
+    checkoutShipping.innerHTML = checkoutTotal.innerHTML = '-';
+    checkoutShipping.classList.remove('price');
+    checkoutTotal.classList.remove('price');
+    shippingInput.value = '0.00';
+  }
 }
+
+async function getShippingCost(checkoutForm: HTMLFormElement): Promise<number> {
+  const formData = convertToObject(new FormData(checkoutForm));
+  if (formData.address && formData.zip && formData.town && formData.country) {
+    return getData(`../actions/action_shipping.php?address=${formData.address}&zip=${formData.zip}&town=${formData.town}&country=${formData.country}`)
+      .then(response => response.json())
+      .then(json => {
+        if (json.success) {
+          return json.shipping;
+        } else {
+          sendToastMessage('An unexpected error occurred', 'error');
+          console.error(json.error);
+          return -1;
+        }
+      })
+      .catch(error => {
+        sendToastMessage('An unexpected error occurred', 'error');
+        console.error(error);
+        return -1;
+      });
+  } else {
+    return -1;
+  }
+};
 
 async function submitCheckoutForm(checkoutForm: HTMLFormElement): Promise<any> {
   return postData(checkoutForm.action, convertToObject(new FormData(checkoutForm)))
@@ -46,15 +82,15 @@ const orderItemsSection: HTMLElement | null = document.querySelector('#order-ite
 const payNowButton: HTMLButtonElement | null = document.querySelector('#pay-now-button');
 const checkoutInfoForm: HTMLFormElement | null = document.querySelector('#checkout-info-form');
 const checkoutSubtotal: HTMLElement | null = document.querySelector('#checkout-subtotal');
-const checkoutShipping: HTMLElement | null = document.querySelector('#checkout-shipping');  // TODO: Implement shipping costs
+const checkoutShipping: HTMLElement | null = document.querySelector('#checkout-shipping');
 const checkoutTotal: HTMLElement | null = document.querySelector('#checkout-total');
+const shippingInput: HTMLInputElement | null = checkoutInfoForm?.querySelector('input[name="shipping"]') ?? null;
+let subtotal: number = 0;
 
-if (orderItemsSection) {
+if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal && checkoutShipping && checkoutTotal && shippingInput) {
   getCart()
     .then(json => {
       if (json.success) {
-        let subtotal: number = 0;
-
         const cart: Array<{ [key: string]: any }> = json.cart;
         for (const post of cart) {
           const orderItemCard = createOrderItemCard(post);
@@ -62,8 +98,8 @@ if (orderItemsSection) {
           subtotal += post.price;
         }
 
-        if (checkoutSubtotal && checkoutTotal)
-          updateTotal(checkoutSubtotal, checkoutTotal, subtotal);
+        if (checkoutSubtotal && checkoutShipping && checkoutTotal)
+          updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, -1);
       } else {
         sendToastMessage('Could not get cart, try again later', 'error');
         console.error(json.error);
@@ -73,9 +109,15 @@ if (orderItemsSection) {
       sendToastMessage('An unexpected error occurred', 'error');
       console.error(error);
     });
-}
+  
+  const formInputs: NodeListOf<HTMLElement> = checkoutInfoForm.querySelectorAll('input');
+  formInputs.forEach(formInput => {
+    formInput.addEventListener('blur', () => {
+      getShippingCost(checkoutInfoForm)
+        .then(shipping => updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, shipping));
+    });
+  });
 
-if (payNowButton && checkoutInfoForm) {
   payNowButton.addEventListener('click', () => {
     if (!checkoutInfoForm.checkValidity()) {
       checkoutInfoForm.reportValidity();

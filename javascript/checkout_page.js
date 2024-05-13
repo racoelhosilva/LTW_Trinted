@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 function itemCardOnClick(event, postId) {
     document.location.assign(`/product?id=${postId}`);
 }
@@ -33,10 +34,50 @@ function createOrderItemCard(post) {
     orderItemCard.appendChild(itemPrice);
     return orderItemCard;
 }
-function updateTotal(checkoutSubtotal, checkoutTotal, subtotal) {
+function updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, shipping) {
     checkoutSubtotal.innerHTML = subtotal.toFixed(2);
-    checkoutTotal.innerHTML = (subtotal + 10).toFixed(2);
+    if (shipping >= 0) {
+        checkoutShipping.innerHTML = shipping.toFixed(2);
+        checkoutShipping.classList.add('price');
+        checkoutTotal.innerHTML = (subtotal + shipping).toFixed(2);
+        checkoutTotal.classList.add('price');
+        shippingInput.value = shipping.toFixed(2);
+    }
+    else {
+        checkoutShipping.innerHTML = checkoutTotal.innerHTML = '-';
+        checkoutShipping.classList.remove('price');
+        checkoutTotal.classList.remove('price');
+        shippingInput.value = '0.00';
+    }
 }
+function getShippingCost(checkoutForm) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const formData = convertToObject(new FormData(checkoutForm));
+        if (formData.address && formData.zip && formData.town && formData.country) {
+            return getData(`../actions/action_shipping.php?address=${formData.address}&zip=${formData.zip}&town=${formData.town}&country=${formData.country}`)
+                .then(response => response.json())
+                .then(json => {
+                if (json.success) {
+                    return json.shipping;
+                }
+                else {
+                    sendToastMessage('An unexpected error occurred', 'error');
+                    console.error(json.error);
+                    return -1;
+                }
+            })
+                .catch(error => {
+                sendToastMessage('An unexpected error occurred', 'error');
+                console.error(error);
+                return -1;
+            });
+        }
+        else {
+            return -1;
+        }
+    });
+}
+;
 function submitCheckoutForm(checkoutForm) {
     return __awaiter(this, void 0, void 0, function* () {
         return postData(checkoutForm.action, convertToObject(new FormData(checkoutForm)))
@@ -47,21 +88,22 @@ const orderItemsSection = document.querySelector('#order-items');
 const payNowButton = document.querySelector('#pay-now-button');
 const checkoutInfoForm = document.querySelector('#checkout-info-form');
 const checkoutSubtotal = document.querySelector('#checkout-subtotal');
-const checkoutShipping = document.querySelector('#checkout-shipping'); // TODO: Implement shipping costs
+const checkoutShipping = document.querySelector('#checkout-shipping');
 const checkoutTotal = document.querySelector('#checkout-total');
-if (orderItemsSection) {
+const shippingInput = (_a = checkoutInfoForm === null || checkoutInfoForm === void 0 ? void 0 : checkoutInfoForm.querySelector('input[name="shipping"]')) !== null && _a !== void 0 ? _a : null;
+let subtotal = 0;
+if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal && checkoutShipping && checkoutTotal && shippingInput) {
     getCart()
         .then(json => {
         if (json.success) {
-            let subtotal = 0;
             const cart = json.cart;
             for (const post of cart) {
                 const orderItemCard = createOrderItemCard(post);
                 orderItemsSection.appendChild(orderItemCard);
                 subtotal += post.price;
             }
-            if (checkoutSubtotal && checkoutTotal)
-                updateTotal(checkoutSubtotal, checkoutTotal, subtotal);
+            if (checkoutSubtotal && checkoutShipping && checkoutTotal)
+                updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, -1);
         }
         else {
             sendToastMessage('Could not get cart, try again later', 'error');
@@ -72,8 +114,13 @@ if (orderItemsSection) {
         sendToastMessage('An unexpected error occurred', 'error');
         console.error(error);
     });
-}
-if (payNowButton && checkoutInfoForm) {
+    const formInputs = checkoutInfoForm.querySelectorAll('input');
+    formInputs.forEach(formInput => {
+        formInput.addEventListener('blur', () => {
+            getShippingCost(checkoutInfoForm)
+                .then(shipping => updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, shipping));
+        });
+    });
     payNowButton.addEventListener('click', () => {
         if (!checkoutInfoForm.checkValidity()) {
             checkoutInfoForm.reportValidity();

@@ -38,11 +38,11 @@ include_once('db/classes/Post.class.php');
             </div>
             <div>
                 <h1>Shipping</h1>
-                <p class="price">10.00</p>
+                <p id="checkout-shipping">-</p>
             </div>
             <div>
                 <h1>Total</h1>
-                <p id="checkout-total" class="price">0.00</p>
+                <p id="checkout-total">-</p>
             </div>
             <button id="pay-now-button" class="submit-button">Pay now</button>
         </div>
@@ -53,7 +53,7 @@ include_once('db/classes/Post.class.php');
     <section id="checkout-form">
         <h1>Shipping Information</h1>
         <form id="checkout-info-form" action="actions/action_pay.php" method="post">
-            <input type="hidden" name="shipping" value="10.00">
+            <input type="hidden" name="shipping" value="0.00">
             <div>
                 <input type="text" name="first-name" aria-label="First Name" placeholder="First Name*" required>
                 <input type="text" name="last-name" aria-label="Last Name" placeholder="Last Name*" required>

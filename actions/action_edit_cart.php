@@ -8,20 +8,19 @@ function setCart(array $cart): void {
     putCookie('cart', $cart);
 }
 
-function getUrl(Image $img): string {
-    return $img->url;
-}
-
 function parsePost(Post $post, PDO $db): array {
     $parsedPost = array(
         'id' => $post->id,
         'title' => $post->title,
+        'description' => $post->description,
         'price' => $post->price,
+        'publishDatetime' => $post->publishDateTime,
+        'seller' => $post->seller->id,
+        'username' => $post->seller->name,
+        'category' => $post->item->category->category,
         'size' => $post->item->size->size,
         'condition' => $post->item->condition->condition,
-        'seller' => $post->seller->id,
-        'description' => $post->description,
-        'images' => array_map('getUrl', $post->getAllImages($db))
+        'images' => array_map('getUrl', $post->getAllImages($db)),
     );
     return $parsedPost;
 }

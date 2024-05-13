@@ -106,11 +106,12 @@
 }
 
 #checkout-summary > div > .spinner {
-  margin: 3em auto 0;
+  font-size: 1.2em;
+  height: 3.5em;
 }
 
 #checkout-total:has(.spinner) {
-  padding-bottom: 2.7em;
+  padding-bottom: 1em;
 }
 
 #pay-now-button {
