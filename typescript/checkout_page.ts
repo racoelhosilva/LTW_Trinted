@@ -35,9 +35,41 @@ function createOrderItemCard(post: { [key: string]: any }): HTMLElement {
 function updateTotal(checkoutSubtotal: HTMLElement, checkoutShipping: HTMLElement,
   checkoutTotal: HTMLElement, subtotal: number, shipping: number): void {
   checkoutSubtotal.innerHTML = subtotal.toFixed(2);
-  checkoutShipping.innerHTML = shipping >= 0 ? shipping.toFixed(2) : '-';
-  checkoutTotal.innerHTML = shipping >= 0 ? (subtotal + shipping).toFixed(2) : '-';
+  if (shipping >= 0) {
+    checkoutShipping.innerHTML = shipping.toFixed(2);
+    checkoutShipping.classList.add('price');
+    checkoutTotal.innerHTML = (subtotal + shipping).toFixed(2);
+    checkoutTotal.classList.add('price');
+  } else {
+    checkoutShipping.innerHTML = checkoutTotal.innerHTML = '-';
+    checkoutShipping.classList.remove('price');
+    checkoutTotal.classList.remove('price');
+  }
 }
+
+async function getShippingCost(checkoutForm: HTMLFormElement): Promise<number> {
+  const formData = convertToObject(new FormData(checkoutForm));
+  if (formData.address && formData.zip && formData.town && formData.country) {
+    return getData(`../actions/action_shipping.php?address=${formData.address}&zip=${formData.zip}&town=${formData.town}&country=${formData.country}`)
+      .then(response => response.json())
+      .then(json => {
+        if (json.success) {
+          return json.shipping;
+        } else {
+          sendToastMessage('An unexpected error occurred', 'error');
+          console.error(json.error);
+          return -1;
+        }
+      })
+      .catch(error => {
+        sendToastMessage('An unexpected error occurred', 'error');
+        console.error(error);
+        return -1;
+      });
+  } else {
+    return -1;
+  }
+};
 
 async function submitCheckoutForm(checkoutForm: HTMLFormElement): Promise<any> {
   return postData(checkoutForm.action, convertToObject(new FormData(checkoutForm)))
@@ -50,8 +82,9 @@ const checkoutInfoForm: HTMLFormElement | null = document.querySelector('#checko
 const checkoutSubtotal: HTMLElement | null = document.querySelector('#checkout-subtotal');
 const checkoutShipping: HTMLElement | null = document.querySelector('#checkout-shipping');
 const checkoutTotal: HTMLElement | null = document.querySelector('#checkout-total');
+let subtotal: number = 0;
 
-if (orderItemsSection) {
+if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal && checkoutShipping && checkoutTotal) {
   getCart()
     .then(json => {
       if (json.success) {
@@ -75,9 +108,15 @@ if (orderItemsSection) {
       sendToastMessage('An unexpected error occurred', 'error');
       console.error(error);
     });
-}
+  
+  const formInputs: NodeListOf<HTMLElement> = checkoutInfoForm.querySelectorAll('input');
+  formInputs.forEach(formInput => {
+    formInput.addEventListener('blur', () => {
+      getShippingCost(checkoutInfoForm)
+        .then(shipping => updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, subtotal, shipping));
+    });
+  });
 
-if (payNowButton && checkoutInfoForm) {
   payNowButton.addEventListener('click', () => {
     if (!checkoutInfoForm.checkValidity()) {
       checkoutInfoForm.reportValidity();
