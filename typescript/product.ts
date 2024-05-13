@@ -1,14 +1,15 @@
-const productCards: HTMLCollectionOf<Element> =
-	document.getElementsByClassName("product-card");
+const productCards: NodeListOf<HTMLElement> = document.querySelectorAll(".product-card");
 
-for (let i = 0; i < productCards.length; i++) {
-	let likeButton = <HTMLInputElement>(
-		productCards[i].querySelector(".like-button")
-	);
+productCards.forEach((productCard) => {
+	
+	let likeButton: HTMLInputElement | null = productCard.querySelector(".like-button");
+	if (!likeButton || !productCard.dataset.postId)
+		return;
+
+	productCard.addEventListener("click", () => goToProduct(productCard.dataset.postId!));
 	likeButton.addEventListener("click", (event) => {
 		event.stopPropagation();
 		return;
 	});
-}
-
+});
 

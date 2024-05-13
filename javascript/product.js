@@ -1,9 +1,12 @@
 "use strict";
-const productCards = document.getElementsByClassName("product-card");
-for (let i = 0; i < productCards.length; i++) {
-    let likeButton = (productCards[i].querySelector(".like-button"));
+const productCards = document.querySelectorAll(".product-card");
+productCards.forEach((productCard) => {
+    let likeButton = productCard.querySelector(".like-button");
+    if (!likeButton || !productCard.dataset.postId)
+        return;
+    productCard.addEventListener("click", () => goToProduct(productCard.dataset.postId));
     likeButton.addEventListener("click", (event) => {
         event.stopPropagation();
         return;
     });
-}
+});
