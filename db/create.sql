@@ -103,7 +103,7 @@ CREATE TABLE Brand
 
 CREATE TABLE ItemBrand
 (
-    item  INT
+    item  INTEGER
         CONSTRAINT ItemNotNull NOT NULL,
     brand VARCHAR(16)
         CONSTRAINT BrandNotNull NOT NULL,
@@ -201,13 +201,24 @@ END;
 
 CREATE TABLE PostImage
 (
-    post  INT
+    post  INTEGER
         CONSTRAINT PostNotNull NOT NULL,
     image VARCHAR(64)
         CONSTRAINT ImageNotNull NOT NULL,
     CONSTRAINT PostPK PRIMARY KEY (image),
     CONSTRAINT PostFK FOREIGN KEY (post) REFERENCES Post (id),
     CONSTRAINT ImageFK FOREIGN KEY (image) REFERENCES Image (url)
+);
+
+CREATE TABLE Wishes
+(
+    user INTEGER
+        CONSTRAINT UserNotNull NOT NULL,
+    post INTEGER
+        CONSTRAINT PostNotNull NOT NULL,
+    CONSTRAINT UserItemPK PRIMARY KEY (user, post),
+    CONSTRAINT UserFK FOREIGN KEY (user) REFERENCES User (id),
+    CONSTRAINT PostFK FOREIGN KEY (post) REFERENCES Post (id)
 );
 
 CREATE TABLE Message
