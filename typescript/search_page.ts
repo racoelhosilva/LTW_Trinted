@@ -27,7 +27,7 @@ function updateProducts(
 }
 
 async function performSearch(searchedProducts: HTMLElement, searchQuery: string): Promise<Array<{[key: string]: string}>> {
-    return getData(`../actions/action_search.php?search=${searchQuery}`)
+    return getData(`../actions/action_search.php?query=${searchQuery}`)
         .then(response => response.json())
         .then(json => {
             if (json.success) {
@@ -56,7 +56,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     let posts: Array<{[key: string]: string}> = [];
 
     const urlParams = new URLSearchParams(window.location.search);
-    performSearch(searchedProducts, urlParams.get('search') ?? '')
+    performSearch(searchedProducts, urlParams.get('query') ?? '')
         .then(result => {
             posts = result;
             updateProducts(result, searchedProducts, searchFilters);
@@ -65,17 +65,16 @@ if (searchDrawer && searchResults && searchedProducts) {
     if (searchButton && searchInput) {
         searchButton.addEventListener('click', event => {
             event.preventDefault();
-            window.history.pushState({}, '', `search?search=${searchInput.value}`);
+            window.history.pushState({}, '', `search?query=${searchInput.value}`);
             performSearch(searchedProducts, searchInput.value)
             .then(result => {
-                window.history.pushState({}, '', `search?search=${urlParams.get('search')}`);
                 posts = result;
                 updateProducts(result, searchedProducts, searchFilters);
             });
         });
 
         searchInput.addEventListener('input', () => {
-            window.history.pushState({}, '', `search?search=${searchInput.value}`);
+            window.history.pushState({}, '', `search?query=${searchInput.value}`);
             performSearch(searchedProducts, searchInput.value)
             performSearch(searchedProducts, searchInput.value)
             .then(result => {

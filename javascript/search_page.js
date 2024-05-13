@@ -30,7 +30,7 @@ function updateProducts(posts, searchedProducts, filters) {
 }
 function performSearch(searchedProducts, searchQuery) {
     return __awaiter(this, void 0, void 0, function* () {
-        return getData(`../actions/action_search.php?search=${searchQuery}`)
+        return getData(`../actions/action_search.php?query=${searchQuery}`)
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -57,7 +57,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchFilters = filterTypes.reduce((acc, filterType) => (Object.assign(Object.assign({}, acc), { [filterType]: [] })), {});
     let posts = [];
     const urlParams = new URLSearchParams(window.location.search);
-    performSearch(searchedProducts, (_b = urlParams.get('search')) !== null && _b !== void 0 ? _b : '')
+    performSearch(searchedProducts, (_b = urlParams.get('query')) !== null && _b !== void 0 ? _b : '')
         .then(result => {
         posts = result;
         updateProducts(result, searchedProducts, searchFilters);
@@ -65,16 +65,15 @@ if (searchDrawer && searchResults && searchedProducts) {
     if (searchButton && searchInput) {
         searchButton.addEventListener('click', event => {
             event.preventDefault();
-            window.history.pushState({}, '', `search?search=${searchInput.value}`);
+            window.history.pushState({}, '', `search?query=${searchInput.value}`);
             performSearch(searchedProducts, searchInput.value)
                 .then(result => {
-                window.history.pushState({}, '', `search?search=${urlParams.get('search')}`);
                 posts = result;
                 updateProducts(result, searchedProducts, searchFilters);
             });
         });
         searchInput.addEventListener('input', () => {
-            window.history.pushState({}, '', `search?search=${searchInput.value}`);
+            window.history.pushState({}, '', `search?query=${searchInput.value}`);
             performSearch(searchedProducts, searchInput.value);
             performSearch(searchedProducts, searchInput.value)
                 .then(result => {

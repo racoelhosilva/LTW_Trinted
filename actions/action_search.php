@@ -54,12 +54,12 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] !== 'GET')
     die(json_encode(['success' => false, 'error' => 'Invalid request method']));
 
-if (!isset($_GET['search']))
+if (!isset($_GET['query']))
     die(['success' => false, 'error' => 'Missing fields']);
 
 try {
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
-    $posts = searchPosts($db, validate($_GET['search']));
+    $posts = searchPosts($db, validate($_GET['query']));
 } catch (Exception $e) {
     die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }
