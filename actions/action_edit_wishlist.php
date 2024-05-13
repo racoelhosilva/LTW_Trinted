@@ -21,7 +21,9 @@ $remove = $_POST['remove'];
 try {
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
     $post_id = (int)$post_id;
+    $remove = $remove === 'true';
     $user = User::getUserByID($db, (int)$_SESSION['user_id']);
+    
     if (!$remove)
         $user->addToWishlist($db, $post_id);
     else
@@ -30,4 +32,4 @@ try {
     die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }
 
-die(json_encode(['success' => true]));
+die(json_encode(['success' => true, 'remove' => gettype($remove)]));
