@@ -17,9 +17,9 @@ function parsePost(Post $post, PDO $db): array {
         'publishDatetime' => $post->publishDateTime,
         'seller' => $post->seller->id,
         'username' => $post->seller->name,
-        'category' => $post->item->category,
-        'size' => $post->item->size,
-        'condition' => $post->item->condition,
+        'category' => $post->item->category->category,
+        'size' => $post->item->size->size,
+        'condition' => $post->item->condition->condition,
         'images' => array_map('getUrl', $post->getAllImages($db)),
     );
     return $parsedPost;
