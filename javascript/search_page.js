@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a, _b;
+var _a, _b, _c;
 const filterTypes = ['condition', 'category', 'size'];
 function matchesFilters(post, searchFilters) {
     return filterTypes.every(filterType => {
@@ -72,6 +72,7 @@ if (searchDrawer && searchResults && searchedProducts) {
                 updateProducts(result, searchedProducts, searchFilters);
             });
         });
+        searchInput.value = (_c = urlParams.get('query')) !== null && _c !== void 0 ? _c : '';
         searchInput.addEventListener('input', () => {
             window.history.pushState({}, '', `search?query=${searchInput.value}`);
             performSearch(searchedProducts, searchInput.value);

@@ -73,6 +73,7 @@ if (searchDrawer && searchResults && searchedProducts) {
             });
         });
 
+        searchInput.value = urlParams.get('query') ?? '';
         searchInput.addEventListener('input', () => {
             window.history.pushState({}, '', `search?query=${searchInput.value}`);
             performSearch(searchedProducts, searchInput.value)
