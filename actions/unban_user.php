@@ -2,6 +2,7 @@
 session_start();
 
 require_once '../db/classes/User.class.php';
+require_once '../template/profile_page.tpl.php';
 
 if ($_SESSION['type'] != "admin") {
     echo json_encode(array('error' => 'Access denied'));
@@ -18,6 +19,8 @@ if ($user->type == "admin") {
 }
 
 $user->unban($db);
-echo json_encode(array('success' => "User unbanned successfully"));
+// echo json_encode(array('success' => "User unbanned successfully"));
+
+drawUserButtons($user);
 
 exit();

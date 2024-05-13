@@ -52,7 +52,7 @@
                 <?php
                 if ($user->type != "admin") { ?>
                     <?php
-                    if (!$user->isBanned(new PDO("sqlite:" . DB_PATH))) { ?>
+                    if (!$user->isBanned(new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db'))) { ?>
                         <form method="post" action="/actions/make_admin.php">
                             <input type="hidden" name="user_id" value="<?= $user->id; ?>">
                             <button type="submit" class="admin-button">Make Admin</button>
