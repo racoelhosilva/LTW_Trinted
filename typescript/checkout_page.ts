@@ -32,18 +32,20 @@ function createOrderItemCard(post: { [key: string]: any }): HTMLElement {
   return orderItemCard;
 }
 
-function updateTotal(checkoutSubtotal: HTMLElement, checkoutShipping: HTMLElement,
-  checkoutTotal: HTMLElement, subtotal: number, shipping: number): void {
+function updateTotal(checkoutSubtotal: HTMLElement, checkoutShipping: HTMLElement, checkoutTotal: HTMLElement,
+  shippingInput: HTMLInputElement, subtotal: number, shipping: number): void {
   checkoutSubtotal.innerHTML = subtotal.toFixed(2);
   if (shipping >= 0) {
     checkoutShipping.innerHTML = shipping.toFixed(2);
     checkoutShipping.classList.add('price');
     checkoutTotal.innerHTML = (subtotal + shipping).toFixed(2);
     checkoutTotal.classList.add('price');
+    shippingInput.value = shipping.toFixed(2);
   } else {
     checkoutShipping.innerHTML = checkoutTotal.innerHTML = '-';
     checkoutShipping.classList.remove('price');
     checkoutTotal.classList.remove('price');
+    shippingInput.value = '0.00';
   }
 }
 
@@ -82,14 +84,13 @@ const checkoutInfoForm: HTMLFormElement | null = document.querySelector('#checko
 const checkoutSubtotal: HTMLElement | null = document.querySelector('#checkout-subtotal');
 const checkoutShipping: HTMLElement | null = document.querySelector('#checkout-shipping');
 const checkoutTotal: HTMLElement | null = document.querySelector('#checkout-total');
+const shippingInput: HTMLInputElement | null = checkoutInfoForm?.querySelector('input[name="shipping"]') ?? null;
 let subtotal: number = 0;
 
-if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal && checkoutShipping && checkoutTotal) {
+if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal && checkoutShipping && checkoutTotal && shippingInput) {
   getCart()
     .then(json => {
       if (json.success) {
-        let subtotal: number = 0;
-
         const cart: Array<{ [key: string]: any }> = json.cart;
         for (const post of cart) {
           const orderItemCard = createOrderItemCard(post);
@@ -98,7 +99,7 @@ if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal &&
         }
 
         if (checkoutSubtotal && checkoutShipping && checkoutTotal)
-          updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, subtotal, -1);
+          updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, -1);
       } else {
         sendToastMessage('Could not get cart, try again later', 'error');
         console.error(json.error);
@@ -113,7 +114,7 @@ if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal &&
   formInputs.forEach(formInput => {
     formInput.addEventListener('blur', () => {
       getShippingCost(checkoutInfoForm)
-        .then(shipping => updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, subtotal, shipping));
+        .then(shipping => updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, shipping));
     });
   });
 

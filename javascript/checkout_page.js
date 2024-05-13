@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
 function itemCardOnClick(event, postId) {
     document.location.assign(`/product?id=${postId}`);
 }
@@ -33,18 +34,20 @@ function createOrderItemCard(post) {
     orderItemCard.appendChild(itemPrice);
     return orderItemCard;
 }
-function updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, subtotal, shipping) {
+function updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, shipping) {
     checkoutSubtotal.innerHTML = subtotal.toFixed(2);
     if (shipping >= 0) {
         checkoutShipping.innerHTML = shipping.toFixed(2);
         checkoutShipping.classList.add('price');
         checkoutTotal.innerHTML = (subtotal + shipping).toFixed(2);
         checkoutTotal.classList.add('price');
+        shippingInput.value = shipping.toFixed(2);
     }
     else {
         checkoutShipping.innerHTML = checkoutTotal.innerHTML = '-';
         checkoutShipping.classList.remove('price');
         checkoutTotal.classList.remove('price');
+        shippingInput.value = '0.00';
     }
 }
 function getShippingCost(checkoutForm) {
@@ -87,12 +90,12 @@ const checkoutInfoForm = document.querySelector('#checkout-info-form');
 const checkoutSubtotal = document.querySelector('#checkout-subtotal');
 const checkoutShipping = document.querySelector('#checkout-shipping');
 const checkoutTotal = document.querySelector('#checkout-total');
+const shippingInput = (_a = checkoutInfoForm === null || checkoutInfoForm === void 0 ? void 0 : checkoutInfoForm.querySelector('input[name="shipping"]')) !== null && _a !== void 0 ? _a : null;
 let subtotal = 0;
-if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal && checkoutShipping && checkoutTotal) {
+if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal && checkoutShipping && checkoutTotal && shippingInput) {
     getCart()
         .then(json => {
         if (json.success) {
-            let subtotal = 0;
             const cart = json.cart;
             for (const post of cart) {
                 const orderItemCard = createOrderItemCard(post);
@@ -100,7 +103,7 @@ if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal &&
                 subtotal += post.price;
             }
             if (checkoutSubtotal && checkoutShipping && checkoutTotal)
-                updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, subtotal, -1);
+                updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, -1);
         }
         else {
             sendToastMessage('Could not get cart, try again later', 'error');
@@ -115,7 +118,7 @@ if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal &&
     formInputs.forEach(formInput => {
         formInput.addEventListener('blur', () => {
             getShippingCost(checkoutInfoForm)
-                .then(shipping => updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, subtotal, shipping));
+                .then(shipping => updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, shipping));
         });
     });
     payNowButton.addEventListener('click', () => {

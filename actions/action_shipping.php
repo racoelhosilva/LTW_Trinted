@@ -13,4 +13,4 @@ $town = validate($_GET['town']);
 $country = validate($_GET['country']);
 
 srand(crc32($town . $country));
-die(json_encode(['success' => true, 'shipping' => mt_rand(1, 200) / 2 - 0.01]));
+die(json_encode(['success' => true, 'shipping' => mt_rand(1, 40) / 2 - 0.01]));
