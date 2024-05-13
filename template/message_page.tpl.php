@@ -48,7 +48,6 @@
                 $timestamp = new DateTime(date('Y-m-d h:i:s', $message['datetime']));
                 $current = new DateTime(date('Y-m-d h:i:s'));
                 $timediff = $current->diff($timestamp);
-                print_r($timediff);
                 if ($message['sender'] == $_SESSION['user_id']) {?>
                     <div class="message user1" data-message-id="<?= $message['id'] ?>">
                         <p><?= $message['content'] ?></p>
