@@ -39,11 +39,9 @@
     if ($_SESSION['user_id'] != $user->id){?>
         <!-- I'm on another profile -->
 
-        <a href="/message?id=<?= $user->id ?>">
-            <button class="header-button" id="message-button">
-                <label class="material-symbols-outlined">message</label>
-            </button>
-        </a>
+        <button class="header-button" id="message-button" data-user-id="<?= $user->id ?>">
+            <label class="material-symbols-outlined">message</label>
+        </button>
     <?php }
 
     if ($_SESSION['user_id'] == $user->id){?>

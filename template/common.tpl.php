@@ -39,6 +39,7 @@ include_once('template/product.tpl.php');
             <script src="javascript/search_page.js" defer></script>
             <script src="javascript/contacts.js" defer></script>
             <script src="javascript/messages.js" defer></script>
+            <script src="javascript/profile.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>
