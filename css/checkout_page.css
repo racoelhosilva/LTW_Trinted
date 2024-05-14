@@ -33,9 +33,10 @@
   height: 8em;
   border-radius: 0.5em;
   cursor: pointer;
+  object-fit: cover;
 }
 
-.order-item-card > div {
+.order-item-card > div, .order-item-card > p {
   margin-inline: 0.5em 1em;
 }
 
@@ -44,13 +45,13 @@
   color: var(--primary);
 }
 
-.order-item-card > div > p {
-  margin: 0;
+.order-item-card > p, .order-item-card > div > p {
+  margin-block: 0;
   font-size: 1.2em;
   color: var(--halftone);
 }
 
-.order-item-card > div:last-child {
+.order-item-card > :last-child {
   justify-self: end;
   text-align: end;
 }
@@ -64,39 +65,53 @@
   content: "\00D7";
 }
 
-#checkout-summary {
-  grid-area: checkout-summary;
+.price::after {
+  content: "€";
 }
 
-#checkout-total {
+#checkout-summary {
+  grid-area: checkout-summary;
+  margin-bottom: 2em;
+}
+
+#checkout-summary > div {
   margin: 0.5em;
   padding: 0.5em;
   background-color: var(--background-secondary);
   border-radius: 1em;
 }
 
-#checkout-total > div {
+#checkout-summary > div > div:not(.spinner) {
   display: grid;
   grid-template-columns: auto auto;
   align-items: center;
   margin: 1em 0.5em;
 }
 
-#checkout-total > div:nth-child(2) {
+#checkout-summary > div > div:nth-child(2) {
   margin: 1em 0.5em 5em;
 }
 
-#checkout-total > div > h1 {
+#checkout-summary > div h1 {
   margin: 0;
   color: var(--primary);
   justify-self: start;
 }
 
-#checkout-total > div > p {
+#checkout-summary > div p {
   margin: 0;
   font-size: 1.2em;
   color: var(--halftone);
   justify-self: end;
+}
+
+#checkout-summary > div > .spinner {
+  font-size: 1.2em;
+  height: 3.5em;
+}
+
+#checkout-total:has(.spinner) {
+  padding-bottom: 1em;
 }
 
 #pay-now-button {

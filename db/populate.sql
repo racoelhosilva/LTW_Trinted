@@ -54,6 +54,8 @@ INSERT INTO Image (url)
 VALUES ('https://br.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M45321_PM2_Front%20view.jpg');
 INSERT INTO Image (url)
 VALUES ('https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
+INSERT INTO Image (url)
+VALUES ('https://i1.rgstatic.net/ii/profile.image/823368932679681-1573317859494_Q512/Andre-Restivo.jpg');
 
 -- Create Users
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
@@ -85,6 +87,10 @@ INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, t
 VALUES (6, 'up202208700@up.pt', 'Bruno Oliveira',
         '$2y$10$Vo/ZYT5.CrKgk876Ha9DmOywwqlyMTtRi.C5ywYgPIgDTWrvVte.K', '1656513143',
         'https://i.ibb.co/7SDQjf8/ae83d24e3101503ae176fa79b8416272.png', 'seller');
+INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
+VALUES (7, 'arestivo@gmail.com', 'André Restivo',
+        '$2y$10$Vo/ZYT5.CrKgk876Ha9DmOywwqlyMTtRi.C5ywYgPIgDTWrvVte.K', '1656513144',
+        'https://i1.rgstatic.net/ii/profile.image/823368932679681-1573317859494_Q512/Andre-Restivo.jpg', 'admin');
 
 
 -- Create Sizes
@@ -195,6 +201,6 @@ VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf8
        (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s'),
        (4,
         'https://br.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M45321_PM2_Front%20view.jpg'),
-        (5, 'https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
+       (5, 'https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
 
 -- Create Messages

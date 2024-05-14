@@ -6,7 +6,7 @@ include_once('template/product.tpl.php');
 ?>
 
 <?php function drawSearchedProducts(array $posts, int $page) {
-    drawProductSection(array_slice($posts, ($page - 1) * 15, 15), "Found " . count($posts) . " results");
+    drawProductSection([], "No results found");
 } ?>
 
 <?php function drawPagination(int $pages, int $current) { ?>
@@ -48,55 +48,39 @@ include_once('template/product.tpl.php');
     </div>
 <?php } ?>
 
-<?php function drawSearchFilter(string $name, string $text) { ?>
-    <li>
+<?php function drawSearchFilter(string $text, string $type) { ?>
+    <li class="search-filter" data-type="<?= $type ?>" data-value="<?= $text ?>">
         <label>
             <?= $text ?>
-            <input type="checkbox" name="<?= $name ?>">
+            <input type="checkbox">
         </label>
     </li>
 <?php } ?>
 
 <?php function drawSearchDrawer() { ?>
     <?php
-    $search_filters = [
-        ["woman", "Woman/Female"],
-        ["man", "Man/Male"],
-        ["child", "Child"],
-        ["home", "Home"],
-        ["entertainment", "Entertainment"],
-        ["pets", "Pets"],
-    ];
-    $condition_filters = [
-        ["new", "New"],
-        ["barely-used", "Barely-Used"],
-        ["used", "Used"],
-        ["damaged", "Damaged"],
-    ];
-    $size_filters = [
-        ["s", "S"],
-        ["m", "M"],
-        ["l", "L"],
-        ["xl", "XL"],
-    ];
+    $db = new PDO('sqlite:' . DB_PATH);
+    $categories = Category::getAll($db);
+    $conditions = Condition::getAll($db);
+    $sizes = Size::getAll($db);
     ?>
     <section id="search-drawer">
-        <h1>Search</h1>
+        <h1>Category</h1>
         <ul>
-            <?php foreach ($search_filters as $filter) {
-                drawSearchFilter($filter[0], $filter[1]);
+            <?php foreach ($categories as $category) {
+                drawSearchFilter($category->category, 'category');
             } ?>
         </ul>
         <h1>Condition</h1>
         <ul>
-            <?php foreach ($condition_filters as $filter) {
-                drawSearchFilter($filter[0], $filter[1]);
+            <?php foreach ($conditions as $condition) {
+                drawSearchFilter($condition->condition, 'condition');
             } ?>
         </ul>
         <h1>Size</h1>
         <ul>
-            <?php foreach ($size_filters as $filter) {
-                drawSearchFilter($filter[0], $filter[1]);
+            <?php foreach ($sizes as $size) {
+                drawSearchFilter($size->size, 'size');
             } ?>
         </ul>
     </section>

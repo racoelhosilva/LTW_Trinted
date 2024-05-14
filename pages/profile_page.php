@@ -14,7 +14,8 @@ include_once('template/profile_page.tpl.php');
             $db = new PDO("sqlite:" . DB_PATH);
             drawProfileImage($user->getProfilePicture($db)->url);
             ?>
-            <?php drawUserInfo($user) ?>
+            <?php drawUserInfo($user); ?>
+            <?php drawUserButtons($user); ?>
         </section>
         <!-- TODO: Check if user is seller -->
         <?php drawUserProductSection($user) ?>

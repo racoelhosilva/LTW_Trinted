@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+include_once(__DIR__ . '/User.class.php');
+include_once(__DIR__ . '/Size.class.php');
+include_once(__DIR__ . '/Category.class.php');
+include_once(__DIR__ . '/Condition.class.php');
+
 class Item
 {
     public int $id;

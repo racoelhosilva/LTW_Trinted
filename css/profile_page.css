@@ -6,10 +6,11 @@
   height: 40em;
   justify-content: end;
   align-items: end;
+  flex-direction: column;
 }
 
-#user-info {
-  margin: 0 8em 5em 8em;
+#user-info, #user-buttons {
+  margin: 0 8em 1em 8em;
   text-align: end;
 }
 
@@ -35,6 +36,10 @@
   z-index: -1;
 }
 
+#user-buttons {
+  display: flex;
+}
+
 #logout-button {
   font-family: "Hanken Grotesk", sans-serif;
 	font-size: 16px;
@@ -44,6 +49,18 @@
 	border-radius: 30px;
 	color: #b61e0d;
 	margin: 1em;
+}
+
+#admin-button {
+  font-family: "Hanken Grotesk", sans-serif;
+	font-size: 16px;
+  padding: 1em 1.5em;
+	background-color: var(--secondary);
+	border: 1px solid var(--primary);
+	border-radius: 30px;
+	color: var(--primary);
+	margin: 1em;
+  cursor: default;
 }
 
 /* Responsive UI */

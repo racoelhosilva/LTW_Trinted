@@ -31,4 +31,14 @@ class Size
         }
         return new Size($sizeName["name"]);
     }
+
+    public static function getAll(PDO $db): array
+    {
+        $stmt = $db->prepare("SELECT name FROM Size");
+        $stmt->execute();
+        $sizes = array_map(function ($size) {
+            return new Size($size["name"]);
+        }, $stmt->fetchAll());
+        return $sizes;
+    }
 }

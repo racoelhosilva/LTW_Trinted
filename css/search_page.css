@@ -1,16 +1,11 @@
 #search-page {
-  display: grid;
   gap: 0;
-  grid-template-areas: "drawer results";
-  grid-template-columns: 20em auto;
   transition: all 1s ease-in-out;
+  position: relative;
+  padding-left: 20em;
 }
 
-#results {
-  grid-area: results;
-}
-
-#results > h1 {
+#search-results > h1 {
   margin: 2em 8em 0.5em;
 }
 
@@ -46,16 +41,20 @@
 }
 
 #search-drawer {
-  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20em;
   height: 100%;
   box-sizing: border-box;
-  overflow-y: scroll;
+  overflow-y: auto;
   text-overflow: clip;
   display: block;
   grid-area: drawer;
   padding-bottom: 1em;
   background-color: var(--background-secondary);
   transition: all 1s ease-in-out;
+  align-items: start;
 }
 
 #search-drawer > h1 {
@@ -93,7 +92,7 @@
 }
 
 body:has(#hamburger-button:not(:checked)) #search-page {
-  grid-template-columns: 0 auto;
+  padding-left: 0;
 }
 
 body:has(#hamburger-button:not(:checked)) #search-drawer {
@@ -108,22 +107,20 @@ body:has(#hamburger-button:not(:checked)) #search-drawer * {
 /* Responsive UI */
 
 @media (max-width: 1500px) {
-  #results > #product-section {
+  #search-results > #product-section {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  #results > #product-section > h1 {
+  #search-results > #product-section > h1 {
     font-size: 1.5em;
     grid-column-end: span 3;
   }
 }
 
 @media (max-width: 1000px) {
-  #search-page {
-    display: block;
-  }
-
   #search-drawer {
+    position: static;
+    padding-left: 0;
     width: 100%;
     height: 20em;
     overflow-y: scroll;
@@ -136,18 +133,18 @@ body:has(#hamburger-button:not(:checked)) #search-drawer * {
     padding: 0;
   }
 
-  #results > h1 {
+  #search-results > h1 {
     margin: 2em 0 0.5em;
     text-align: center;
   }
 }
 
 @media (max-width: 450px) {
-  #results > #product-section {
+  #search-results > #product-section {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  #results > #product-section > h1 {
+  #search-results > #product-section > h1 {
     font-size: 1em;
     grid-column-end: span 2;
   }

@@ -43,5 +43,6 @@ if (!$isPasswordCorrect) {
 $_SESSION['user_id'] = $user->id;
 $_SESSION['email'] = $email;
 $_SESSION['name'] = $user->name;
+$_SESSION['type'] = $user->type;
 header("Location: /actions/go_to_profile.php?id=" . $user->id);
 exit();
