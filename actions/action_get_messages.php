@@ -39,7 +39,7 @@ if (!isset($_SESSION['user_id'])) {
 
 try {
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
-    $messages = Message::getMessages($db, User::getUserByID($db, (int)($_SESSION['user_id'])), User::getUserByID($db, (int)($_GET['id'])));
+    $messages = Message::getMessages($db, User::getUserByID($db, (int)($_SESSION['user_id'])), User::getUserByID($db, (int)($_GET['id'])), isset($_GET['lastId']) ? (int)($_GET['lastId']) : PHP_INT_MAX);
 } catch (Exception $e) {
     die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }

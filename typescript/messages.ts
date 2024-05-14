@@ -16,7 +16,7 @@ function addMessage(message: { [key: string]: any }) {
     allMessages!.prepend(divElement);
 }
 
-function reloadMessage(message: { [key: string]: any }) {
+function drawMessage(message: { [key: string]: any }) {
 
     const divElement = document.createElement('div');
     if (message.receiver == destinationId){
@@ -65,13 +65,15 @@ function dateFormat(datetime: number): string {
     }
 }
 
-function reloadMessages() {
-    fetchMessages(destinationId)
+function loadNewMessages() {
+    console.log("Looking for new messages...");
+    fetchNewMessages(destinationId)
         .then(messages => {
             allMessages!.innerHTML = "";
             for (const message of messages){
-                reloadMessage(message);
+                drawMessage(message);
             }
+            resetObserver();
         })
         .catch(error =>{
             console.error(error);
@@ -79,8 +81,41 @@ function reloadMessages() {
         });
 }
 
-async function fetchMessages(dest: any) {
+async function fetchNewMessages(dest: any) {
     return getData(`../actions/action_get_messages.php?id=${dest}`)
+        .then(response => response.json())
+        .then(json => {
+            if (json.success) {
+                return json.messages;
+            } else {
+                sendToastMessage('Could not load messages, try again later', 'error');
+                console.error(json.error);
+            }
+        })
+        .catch(error =>{
+            sendToastMessage('An unexpected error occurred', 'error');
+            console.error(error);
+
+        });
+}
+
+function loadOldMessages() {
+    console.log("Looking for old messages...");
+    fetchOldMessages(destinationId)
+        .then(messages => {
+            for (const message of messages){
+                drawMessage(message);
+            }
+            resetObserver();
+        })
+        .catch(error =>{
+            console.error(error);
+            sendToastMessage('An unexpected error occurred', 'error');
+        });
+}
+
+async function fetchOldMessages(dest: any) {
+    return getData(`../actions/action_get_messages.php?id=${dest}&lastId=${allMessages?.lastElementChild?.getAttribute('data-message-id')}`)
         .then(response => response.json())
         .then(json => {
             if (json.success) {
@@ -101,6 +136,27 @@ async function sendMessage(message: string, dest: number): Promise<any> {
     return postData("../actions/action_send_message.php",  {message: message, destID: dest})
       .then(response => response.json());
 }
+
+function resetObserver() {
+    oldObserver.observe(allMessages?.lastElementChild!);
+    newObserver.observe(allMessages?.firstElementChild!);
+}
+
+const newObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            setTimeout(loadNewMessages, 1000);
+        }
+    });
+}, { threshold: 1 });
+
+const oldObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            setTimeout(loadOldMessages, 1000);
+        }
+    });
+}, { threshold: 0.5 });
 
 const destinationId = new URLSearchParams(window.location.search).get('id'); 
 const allMessages: HTMLElement | null = document.querySelector("#messages");
@@ -124,9 +180,9 @@ if (destinationId && newmessage && messageBox && sendButton) {
             });
     });
 
-    window.setInterval(reloadMessages, 10000);
-
+    oldObserver.observe(allMessages?.lastElementChild!);
+    newObserver.observe(allMessages?.firstElementChild!);
 
 } else {
-    console.log("CCCC");
+    console.log("Error, page rendered incorrectly");
 }

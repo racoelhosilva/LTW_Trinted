@@ -20,7 +20,7 @@ function addMessage(message) {
     divElement.appendChild(datetimeParagraph);
     allMessages.prepend(divElement);
 }
-function reloadMessage(message) {
+function drawMessage(message) {
     const divElement = document.createElement('div');
     if (message.receiver == destinationId) {
         divElement.className = 'message user1';
@@ -65,23 +65,58 @@ function dateFormat(datetime) {
         return "Just now";
     }
 }
-function reloadMessages() {
-    fetchMessages(destinationId)
+function loadNewMessages() {
+    console.log("Looking for new messages...");
+    fetchNewMessages(destinationId)
         .then(messages => {
-        console.log(messages);
         allMessages.innerHTML = "";
         for (const message of messages) {
-            reloadMessage(message);
+            drawMessage(message);
         }
+        resetObserver();
     })
         .catch(error => {
         console.error(error);
         sendToastMessage('An unexpected error occurred', 'error');
     });
 }
-function fetchMessages(dest) {
+function fetchNewMessages(dest) {
     return __awaiter(this, void 0, void 0, function* () {
         return getData(`../actions/action_get_messages.php?id=${dest}`)
+            .then(response => response.json())
+            .then(json => {
+            if (json.success) {
+                return json.messages;
+            }
+            else {
+                sendToastMessage('Could not load messages, try again later', 'error');
+                console.error(json.error);
+            }
+        })
+            .catch(error => {
+            sendToastMessage('An unexpected error occurred', 'error');
+            console.error(error);
+        });
+    });
+}
+function loadOldMessages() {
+    console.log("Looking for old messages...");
+    fetchOldMessages(destinationId)
+        .then(messages => {
+        for (const message of messages) {
+            drawMessage(message);
+        }
+        resetObserver();
+    })
+        .catch(error => {
+        console.error(error);
+        sendToastMessage('An unexpected error occurred', 'error');
+    });
+}
+function fetchOldMessages(dest) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var _a;
+        return getData(`../actions/action_get_messages.php?id=${dest}&lastId=${(_a = allMessages === null || allMessages === void 0 ? void 0 : allMessages.lastElementChild) === null || _a === void 0 ? void 0 : _a.getAttribute('data-message-id')}`)
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -104,6 +139,24 @@ function sendMessage(message, dest) {
             .then(response => response.json());
     });
 }
+function resetObserver() {
+    oldObserver.observe(allMessages === null || allMessages === void 0 ? void 0 : allMessages.lastElementChild);
+    newObserver.observe(allMessages === null || allMessages === void 0 ? void 0 : allMessages.firstElementChild);
+}
+const newObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            setTimeout(loadNewMessages, 1000);
+        }
+    });
+}, { threshold: 1 });
+const oldObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            setTimeout(loadOldMessages, 1000);
+        }
+    });
+}, { threshold: 0.5 });
 const destinationId = new URLSearchParams(window.location.search).get('id');
 const allMessages = document.querySelector("#messages");
 const newmessage = document.querySelector("#writemessage");
@@ -123,8 +176,9 @@ if (destinationId && newmessage && messageBox && sendButton) {
             }
         });
     });
-    window.setInterval(reloadMessages, 10000);
+    oldObserver.observe(allMessages === null || allMessages === void 0 ? void 0 : allMessages.lastElementChild);
+    newObserver.observe(allMessages === null || allMessages === void 0 ? void 0 : allMessages.firstElementChild);
 }
 else {
-    console.log("CCCC");
+    console.log("Error, page rendered incorrectly");
 }

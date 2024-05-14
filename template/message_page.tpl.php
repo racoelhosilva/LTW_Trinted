@@ -44,7 +44,7 @@ include_once __DIR__ . '/../actions/utils.php';
         <div id="messages">
             <?php
             $db = new PDO("sqlite:" . DB_PATH);
-            $messages = Message::getMessages($db, User::getUserByID($db, $_SESSION['user_id']), $otherUser);      
+            $messages = Message::getMessages($db, User::getUserByID($db, $_SESSION['user_id']), $otherUser, PHP_INT_MAX);      
 
             foreach ($messages as $message) {
                 $timeDiff = dateFormat($message['datetime']);
