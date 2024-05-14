@@ -33,7 +33,7 @@ class Message
     }
 
     public static function getMessages(PDO $db, User $user1, User $user2, int $last_id) {
-        $stmt = $db->prepare("SELECT * FROM Message WHERE (id < :last_id) AND ((sender == :user1 AND receiver == :user2) OR (sender == :user2 AND receiver == :user1)) ORDER BY datetime DESC LIMIT 10");
+        $stmt = $db->prepare("SELECT * FROM Message WHERE (id < :last_id) AND ((sender == :user1 AND receiver == :user2) OR (sender == :user2 AND receiver == :user1)) ORDER BY datetime DESC LIMIT 16");
         $stmt->bindParam(":user1", $user1->id);
         $stmt->bindParam(":user2", $user2->id);
         $stmt->bindParam(":last_id", $last_id);
