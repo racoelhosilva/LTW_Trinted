@@ -36,6 +36,16 @@
         <button disabled id="admin-button">User is <?php echo $user->type ?></button>
     <?php }
 
+    if ($_SESSION['user_id'] != $user->id){?>
+        <!-- I'm on another profile -->
+
+        <a href="/message?id=<?= $user->id ?>">
+            <button class="header-button" id="message-button">
+                <label class="material-symbols-outlined">message</label>
+            </button>
+        </a>
+    <?php }
+
     if ($_SESSION['user_id'] == $user->id){?>
         <!-- I'm on my profile -->
 
