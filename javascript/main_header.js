@@ -11,3 +11,9 @@ if (checkoutButton) {
         location.href = 'checkout';
     });
 }
+const settingsButton = document.getElementById('settings');
+if (settingsButton) {
+    settingsButton.addEventListener('click', () => {
+        location.href = 'settings';
+    });
+}
