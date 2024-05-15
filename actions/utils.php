@@ -56,3 +56,19 @@ function parsePost(PDO $db, Post $post): array {
         'inWishlist' => isset($_SESSION['user_id']) ? User::getUserByID($db, $_SESSION['user_id'])->isInWishlist($db, (int)$post->id) : false
     ];
 }
+
+function paramsExist(string $method, array $params): bool {
+    foreach ($params as $param) {
+        switch ($method) {
+            case 'GET':
+                if (!isset($_GET[$param]))
+                    return false;
+                break;
+            case 'POST':
+                if (!isset($_POST[$param]))
+                    return false;
+                break;
+        }
+    }
+    return true;
+}

@@ -8,7 +8,7 @@ include_once(__DIR__ . '/../db/classes/Size.class.php');
 include_once(__DIR__ . '/../db/classes/Condition.class.php');
 include_once(__DIR__ . '/../db/classes/Category.class.php');
 
-function searchPosts(PDO $db, string $search): array {
+function searchPosts(PDO $db, string $search, int $start, int $limit): array {
     $query = '
         SELECT id
         FROM Post
@@ -24,27 +24,20 @@ function searchPosts(PDO $db, string $search): array {
                 WHERE ItemBrand.item = Item.id AND brand LIKE :search)
             OR EXISTS (SELECT *
                 FROM User
-                WHERE User.id = Post.seller AND name LIKE :search))))';
+                WHERE User.id = Post.seller AND name LIKE :search))))
+            ORDER BY publishDatetime
+            LIMIT :limit OFFSET :start';
+    
     $stmt = $db->prepare($query);
     $stmt->bindValue(':search', '%' . $search . '%');
+    $stmt->bindValue(':limit', $limit);
+    $stmt->bindValue(':start', $start);
     $stmt->execute();
     
     $posts = [];
     foreach ($stmt->fetchAll() as $row) {
         $post = Post::getPostByID($db, $row['id']);
-        $posts[] = [
-            'id' => $post->id,
-            'title' => $post->title,
-            'description' => $post->description,
-            'price' => $post->price,
-            'publishDatetime' => $post->publishDateTime,
-            'seller' => $post->seller->id,
-            'username' => $post->seller->name,
-            'category' => $post->item->category->category,
-            'size' => $post->item->size->size,
-            'condition' => $post->item->condition->condition,
-            'images' => array_map('getUrl', $post->getAllImages($db))
-        ];
+        $posts[] = parsePost($post, $db);
     }
     return $posts;
 }
@@ -54,12 +47,12 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] !== 'GET')
     die(json_encode(['success' => false, 'error' => 'Invalid request method']));
 
-if (!isset($_GET['query']))
+if (!paramsExist('GET', ['query']))
     die(['success' => false, 'error' => 'Missing fields']);
 
 try {
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
-    $posts = searchPosts($db, validate($_GET['query']));
+    $posts = searchPosts($db, validate($_GET['query']), $_GET['start'] ?? 0, $_GET['limit'] ?? PHP_INT_MAX);
 } catch (Exception $e) {
     die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }
