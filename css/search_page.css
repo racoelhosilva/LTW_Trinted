@@ -16,8 +16,9 @@
   margin-block: 1em 3em;
 }
 
-#pagination a {
+#pagination span {
   color: var(--text);
+  color: black;
   text-decoration: none;
   font-weight: bold;
   width: 2.5em;
@@ -28,15 +29,15 @@
   border-radius: 1.25em;
 }
 
-#pagination a.active {
+#pagination span.active {
   color: var(--primary);
 }
 
-#pagination a:not(.active, .ellipsis):hover {
+#pagination span:not(.active, .ellipsis):hover {
   background: var(--secondary);
 }
 
-#pagination a.blocked {
+#pagination span.blocked {
   visibility: hidden;
 }
 
