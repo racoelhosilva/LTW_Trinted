@@ -1,10 +1,7 @@
 "use strict";
-const unbanButton = document.getElementById("unban-button");
-const banButton = document.getElementById("ban-button");
-const makeAdminBUtton = document.getElementById("make-admin-button");
 const url = new URL(window.location.href);
-var idParam = url.searchParams.get("id");
-var userId;
+const idParam = url.searchParams.get("id");
+let userId;
 if (idParam == null) {
     userId = 0;
 }
