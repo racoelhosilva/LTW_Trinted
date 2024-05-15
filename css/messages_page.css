@@ -10,6 +10,7 @@
     height: 900px;
     border-radius: 25px;
     border: 2px solid var(--primary);
+    overflow: scroll;
 }
 
 #chat {
