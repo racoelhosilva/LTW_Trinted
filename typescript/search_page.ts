@@ -36,14 +36,14 @@ async function performSearch(searchQuery: string, filters: Array<string>, start:
 }
 
 async function getNumberResults(searchQuery: string, filters: Array<string>): Promise<number> {
-    let actionUrl = `../actions/action_search.php?query=${searchQuery}`;
+    let actionUrl = `../actions/action_search.php?query=${searchQuery}&count=true`;
     filters.forEach(filter => actionUrl += `&${filter}`);
 
     return getData(actionUrl)
         .then(response => response.json())
         .then(json => {
             if (json.success) {
-                return json.posts.length;
+                return json.count;
             } else {
                 sendToastMessage('An unexpected error occurred', 'error');
                 console.error(json.error);
@@ -150,8 +150,6 @@ if (searchDrawer && searchResults && searchedProducts) {
     searchResults.appendChild(pagination);
 
     async function updatePage(query: string, page: number): Promise<void> {
-        numResults = await getNumberResults(query, searchFilters);
-        totalPages = Math.ceil(numResults / postsPerPage);
         currentPage = page;
         const results = await performSearch(query, searchFilters, (currentPage - 1) * postsPerPage, postsPerPage);
         updateProducts(results, numResults, searchedProducts!);
@@ -164,13 +162,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     async function updateSearchResults(query: string): Promise<void> {
         numResults = await getNumberResults(query, searchFilters);
         totalPages = Math.ceil(numResults / postsPerPage);
-        currentPage = 1;
-        const results = await performSearch(query, searchFilters, (currentPage - 1) * postsPerPage, postsPerPage);
-        updateProducts(results, numResults, searchedProducts!);
-        
-        pagination.remove();
-        pagination = drawPagination(totalPages, currentPage, (page) => updatePage(query, page));
-        searchResults!.appendChild(pagination);
+        updatePage(query, 1);
     }
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -180,13 +172,13 @@ if (searchDrawer && searchResults && searchedProducts) {
         searchButton.addEventListener('click', event => {
             event.preventDefault();
             window.history.pushState({}, '', `search?query=${searchInput.value}`);
-            updatePage(searchInput.value, 1);
+            updateSearchResults(searchInput.value);
         });
 
         searchInput.value = urlParams.get('query') ?? '';
         searchInput.addEventListener('input', () => {
             window.history.pushState({}, '', `search?query=${searchInput.value}`);
-            updatePage(searchInput.value, 1);
+            updateSearchResults(searchInput.value);
         });
     }
     
@@ -205,7 +197,7 @@ if (searchDrawer && searchResults && searchedProducts) {
                 else
                     searchFilters = searchFilters.filter(value => value !== filterString);
                 
-                updatePage(searchInput.value, 1);
+                updateSearchResults(searchInput.value);
             }
         });
     });

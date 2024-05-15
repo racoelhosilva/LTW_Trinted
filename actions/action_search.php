@@ -10,7 +10,7 @@ include_once(__DIR__ . '/../db/classes/Category.class.php');
 
 $filterTypes = ['category', 'size', 'condition'];
 
-function searchPosts(PDO $db, string $search, int $start, int $limit): array {
+function searchPosts(PDO $db, string $search): array {
     $query = '
         SELECT id
         FROM Post
@@ -72,15 +72,11 @@ function limitResults(array $posts, int $start, int $limit): array {
     return array_slice($posts, $start, $limit);
 }
 
-// const filterTypes = ['condition', 'category', 'size'];
-
-// function matchesFilters(post: {[key: string]: string}, searchFilters: {[key: string]: Array<string>}): boolean {
-//     return filterTypes.every(filterType => {
-//         if (searchFilters[filterType].length === 0 || searchFilters[filterType].includes(post[filterType])) {
-//             return true;
-//         }
-//     });
-// }
+function countPosts(PDO $db, string $search, array $filters): int {
+    return count(array_filter(searchPosts($db, $search), function($post) use ($filters) {
+        return matchesFilters($post, $filters);
+    }));
+}
 
 session_start();
 
@@ -92,17 +88,26 @@ if (!paramsExist('GET', ['query']))
 
 try {
     $query = validate($_GET['query']);
+    $count = isset($_GET['count']) && $_GET['count'] === 'true';
     $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : PHP_INT_MAX;
 
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
     $filters = getFilters();
-    $posts = searchPosts($db, $query, $start, $limit);
-    $posts = filterResults($db, $posts, $filters);
-    $posts = limitResults($posts, $start, $limit);
+
+    if (!$count) {
+        $posts = searchPosts($db, $query);
+        $posts = filterResults($db, $posts, $filters);
+        $posts = limitResults($posts, $start, $limit);
+
+        die(json_encode(['success' => true, 'posts' => $posts]));
+    } else {
+        $count = countPosts($db, $query, $filters);
+
+        die(json_encode(['success' => true, 'count' => $count]));
+    }
+        
 } catch (Exception $e) {
     die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }
-
-die(json_encode(['success' => true, 'posts' => $posts]));
 
