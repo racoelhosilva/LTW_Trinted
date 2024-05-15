@@ -8,6 +8,8 @@ include_once(__DIR__ . '/../db/classes/Size.class.php');
 include_once(__DIR__ . '/../db/classes/Condition.class.php');
 include_once(__DIR__ . '/../db/classes/Category.class.php');
 
+$filterTypes = ['category', 'size', 'condition'];
+
 function searchPosts(PDO $db, string $search, int $start, int $limit): array {
     $query = '
         SELECT id
@@ -25,13 +27,10 @@ function searchPosts(PDO $db, string $search, int $start, int $limit): array {
             OR EXISTS (SELECT *
                 FROM User
                 WHERE User.id = Post.seller AND name LIKE :search))))
-            ORDER BY publishDatetime
-            LIMIT :limit OFFSET :start';
+            ORDER BY publishDatetime;';
     
     $stmt = $db->prepare($query);
     $stmt->bindValue(':search', '%' . $search . '%');
-    $stmt->bindValue(':limit', $limit);
-    $stmt->bindValue(':start', $start);
     $stmt->execute();
     
     $posts = [];
@@ -41,6 +40,47 @@ function searchPosts(PDO $db, string $search, int $start, int $limit): array {
     }
     return $posts;
 }
+
+function getFilters(): array {
+    global $filterTypes;
+    $filters = [];
+    foreach ($filterTypes as $filterType) {
+        $filters[$filterType] = $_GET[$filterType] ?? [];
+    }
+    return $filters;
+}
+
+function matchesFilters(array $post, array $filters): bool {
+    global $filterTypes;
+
+    foreach ($filterTypes as $filterType) {
+        if ($filters[$filterType] != [] && !in_array($post[$filterType], $filters[$filterType])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function filterResults(PDO $db, array $posts, array $filters): array {
+    return array_filter($posts, function($post) use ($filters) {
+        return matchesFilters($post, $filters);
+    });
+}
+
+function limitResults(array $posts, int $start, int $limit): array {
+    return array_slice($posts, $start, $limit);
+}
+
+// const filterTypes = ['condition', 'category', 'size'];
+
+// function matchesFilters(post: {[key: string]: string}, searchFilters: {[key: string]: Array<string>}): boolean {
+//     return filterTypes.every(filterType => {
+//         if (searchFilters[filterType].length === 0 || searchFilters[filterType].includes(post[filterType])) {
+//             return true;
+//         }
+//     });
+// }
 
 session_start();
 
@@ -56,7 +96,10 @@ $limit = $_GET['limit'] ?? PHP_INT_MAX;
 
 try {
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
+    $filters = getFilters();
     $posts = searchPosts($db, $query, $start, $limit);
+    $posts = filterResults($db, $posts, $filters);
+    $posts = limitResults($posts, $start, $limit);
 } catch (Exception $e) {
     die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }
