@@ -18,6 +18,12 @@ if ($user->type == "admin") {
     exit();
 }
 
+if ($user->isBanned($db)) {
+    echo json_encode(array('status' => 'error', 'message' => "A banned user can't be made admin"));
+
+    exit();
+}
+
 $user->setType($db, "admin");
 
 echo json_encode(array('status' => 'success', 'message' => "User has been made admin"));
