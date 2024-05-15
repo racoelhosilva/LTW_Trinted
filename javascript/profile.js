@@ -4,12 +4,10 @@ const banButton = document.getElementById("ban-button");
 document.addEventListener("click", function (event) {
     const target = event.target;
     if (target.matches("#unban-button")) {
-        sendToastMessage("User unbanned", "success");
         const userId = 4;
         unbanUser(userId);
     }
     else if (target.matches("#ban-button")) {
-        sendToastMessage("User banned", "error");
         const userId = 4;
         banUser(userId);
     }
@@ -18,19 +16,34 @@ function banUser(userId) {
     var xhr = new XMLHttpRequest();
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
-            console.log(this.responseText);
+            var response = JSON.parse(this.responseText);
+            console.log(response.message);
+            if (response.status == "success") {
+                setBannedButtons();
+                sendToastMessage("User banned", "success");
+            }
+            else {
+                sendToastMessage(response.message, "error");
+            }
         }
     });
     xhr.open("POST", "actions/ban_user.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("user_id=" + userId);
-    setBannedButtons();
 }
 function unbanUser(userId) {
     var xhr = new XMLHttpRequest();
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
-            console.log(this.responseText);
+            var response = JSON.parse(this.responseText);
+            console.log(response.message);
+            if (response.status == "success") {
+                setUnbannedButtons();
+                sendToastMessage("User unbanned", "success");
+            }
+            else {
+                sendToastMessage(response.message, "error");
+            }
         }
     });
     xhr.open("POST", "actions/unban_user.php", true);
