@@ -1,13 +1,21 @@
 const unbanButton: HTMLElement | null = document.getElementById("unban-button");
 const banButton: HTMLElement | null = document.getElementById("ban-button");
 
+const url = new URL(window.location.href);
+var idParam = url.searchParams.get("id");
+var userId: number;
+
+if (idParam == null) {
+	userId = 0;
+} else {
+	userId = parseInt(idParam);
+}
+
 document.addEventListener("click", function (event) {
 	const target = event.target as HTMLElement;
 	if (target.matches("#unban-button")) {
-		const userId = 4;
 		unbanUser(userId);
 	} else if (target.matches("#ban-button")) {
-		const userId = 4;
 		banUser(userId);
 	}
 });
