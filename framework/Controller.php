@@ -41,6 +41,11 @@ class Controller {
         return drawProfilePage($this->request);
     }
 
+    public function banned() {
+        include_once('pages/banned_page.php');
+        return drawBannedPage();
+    }
+
     /**
      * @brief Generates product page
      */

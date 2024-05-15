@@ -29,6 +29,7 @@ include_once('template/product.tpl.php');
             <link rel="stylesheet" href="css/help_page.css">
             <link rel="stylesheet" href="css/about_page.css">
             <link rel="stylesheet" href="css/toast_message.css">
+            <link rel="stylesheet" href="css/banned_page.css">
             <script src="javascript/utils.js" defer></script>
             <script src="javascript/product_page.js" defer></script>
             <script src="javascript/product.js" defer></script>
@@ -36,6 +37,7 @@ include_once('template/product.tpl.php');
             <script src="javascript/main_header.js" defer></script>
             <script src="javascript/checkout_page.js" defer></script>
             <script src="javascript/search_page.js" defer></script>
+            <script src="javascript/profile.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>
