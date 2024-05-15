@@ -92,7 +92,7 @@ function setUnbannedButtons() {
     if (buttonsContainer) {
         let buttonsHtml = "";
         buttonsHtml += `
-<form method="post" action="/actions/make_admin.php">
+<form method="post" action="/api/make_admin.php">
 <input type="hidden" name="user_id" value="<?= $user->id; ?>">
 <button type="submit" class="admin-button">Make Admin</button>
 </form>
