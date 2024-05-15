@@ -90,11 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET')
 if (!paramsExist('GET', ['query']))
     die(['success' => false, 'error' => 'Missing fields']);
 
-$query = validate($_GET['query']);
-$start = $_GET['start'] ?? 0;
-$limit = $_GET['limit'] ?? PHP_INT_MAX;
-
 try {
+    $query = validate($_GET['query']);
+    $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
+    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : PHP_INT_MAX;
+
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
     $filters = getFilters();
     $posts = searchPosts($db, $query, $start, $limit);

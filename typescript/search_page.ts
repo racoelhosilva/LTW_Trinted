@@ -6,7 +6,7 @@ function updateProducts(
     searchedProducts.innerHTML = '';
 
     const productSectionTitle = document.createElement('h1');
-    productSectionTitle.innerHTML = posts.length === 0 ? 'No results found' : `Found ${numResults} results`;
+    productSectionTitle.innerHTML = numResults === 0 ? 'No results found' : `Found ${numResults} results`;
     searchedProducts.appendChild(productSectionTitle);
 
     posts.forEach((post: {[key: string]: string}) => {
@@ -15,8 +15,8 @@ function updateProducts(
     });
 }
 
-async function performSearch(searchQuery: string, filters: Array<string>): Promise<Array<{[key: string]: string}>> {
-    let actionUrl = `../actions/action_search.php?query=${searchQuery}`;
+async function performSearch(searchQuery: string, filters: Array<string>, start: number, limit: number): Promise<Array<{[key: string]: string}>> {
+    let actionUrl = `../actions/action_search.php?query=${searchQuery}&start=${start}&limit=${limit}`;
     filters.forEach(filter => actionUrl += `&${filter}`);
 
     return getData(actionUrl)
@@ -142,7 +142,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchFilterElems: NodeListOf<HTMLElement> = document.querySelectorAll('.search-filter');
     let searchFilters: Array<string> = [];
 
-    const postsPerPage = 15;
+    const postsPerPage = 1;
     let numResults: number;
     let totalPages: number;
     let currentPage: number;
@@ -151,9 +151,9 @@ if (searchDrawer && searchResults && searchedProducts) {
 
     async function updatePage(query: string, page: number): Promise<void> {
         numResults = await getNumberResults(query, searchFilters);
-        totalPages = Math.ceil(numResults / postsPerPage) + 10;
+        totalPages = Math.ceil(numResults / postsPerPage);
         currentPage = page;
-        const results = await performSearch(query, searchFilters);
+        const results = await performSearch(query, searchFilters, (currentPage - 1) * postsPerPage, postsPerPage);
         updateProducts(results, numResults, searchedProducts!);
         
         pagination.remove();
@@ -163,9 +163,9 @@ if (searchDrawer && searchResults && searchedProducts) {
 
     async function updateSearchResults(query: string): Promise<void> {
         numResults = await getNumberResults(query, searchFilters);
-        totalPages = Math.ceil(numResults / postsPerPage) + 10;
+        totalPages = Math.ceil(numResults / postsPerPage);
         currentPage = 1;
-        const results = await performSearch(query, searchFilters);
+        const results = await performSearch(query, searchFilters, (currentPage - 1) * postsPerPage, postsPerPage);
         updateProducts(results, numResults, searchedProducts!);
         
         pagination.remove();

@@ -12,16 +12,16 @@ var _a, _b, _c;
 function updateProducts(posts, numResults, searchedProducts) {
     searchedProducts.innerHTML = '';
     const productSectionTitle = document.createElement('h1');
-    productSectionTitle.innerHTML = posts.length === 0 ? 'No results found' : `Found ${numResults} results`;
+    productSectionTitle.innerHTML = numResults === 0 ? 'No results found' : `Found ${numResults} results`;
     searchedProducts.appendChild(productSectionTitle);
     posts.forEach((post) => {
         const productCard = drawProductCard(post);
         searchedProducts.appendChild(productCard);
     });
 }
-function performSearch(searchQuery, filters) {
+function performSearch(searchQuery, filters, start, limit) {
     return __awaiter(this, void 0, void 0, function* () {
-        let actionUrl = `../actions/action_search.php?query=${searchQuery}`;
+        let actionUrl = `../actions/action_search.php?query=${searchQuery}&start=${start}&limit=${limit}`;
         filters.forEach(filter => actionUrl += `&${filter}`);
         return getData(actionUrl)
             .then(response => response.json())
@@ -138,7 +138,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchButton = document.querySelector('#search-button');
     const searchFilterElems = document.querySelectorAll('.search-filter');
     let searchFilters = [];
-    const postsPerPage = 15;
+    const postsPerPage = 1;
     let numResults;
     let totalPages;
     let currentPage;
@@ -147,9 +147,9 @@ if (searchDrawer && searchResults && searchedProducts) {
     function updatePage(query, page) {
         return __awaiter(this, void 0, void 0, function* () {
             numResults = yield getNumberResults(query, searchFilters);
-            totalPages = Math.ceil(numResults / postsPerPage) + 10;
+            totalPages = Math.ceil(numResults / postsPerPage);
             currentPage = page;
-            const results = yield performSearch(query, searchFilters);
+            const results = yield performSearch(query, searchFilters, (currentPage - 1) * postsPerPage, postsPerPage);
             updateProducts(results, numResults, searchedProducts);
             pagination.remove();
             pagination = drawPagination(totalPages, currentPage, (page) => updatePage(query, page));
@@ -159,9 +159,9 @@ if (searchDrawer && searchResults && searchedProducts) {
     function updateSearchResults(query) {
         return __awaiter(this, void 0, void 0, function* () {
             numResults = yield getNumberResults(query, searchFilters);
-            totalPages = Math.ceil(numResults / postsPerPage) + 10;
+            totalPages = Math.ceil(numResults / postsPerPage);
             currentPage = 1;
-            const results = yield performSearch(query, searchFilters);
+            const results = yield performSearch(query, searchFilters, (currentPage - 1) * postsPerPage, postsPerPage);
             updateProducts(results, numResults, searchedProducts);
             pagination.remove();
             pagination = drawPagination(totalPages, currentPage, (page) => updatePage(query, page));
