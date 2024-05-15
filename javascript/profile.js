@@ -1,6 +1,7 @@
 "use strict";
 const unbanButton = document.getElementById("unban-button");
 const banButton = document.getElementById("ban-button");
+const makeAdminBUtton = document.getElementById("make-admin-button");
 const url = new URL(window.location.href);
 var idParam = url.searchParams.get("id");
 var userId;
@@ -17,6 +18,9 @@ document.addEventListener("click", function (event) {
     }
     else if (target.matches("#ban-button")) {
         banUser(userId);
+    }
+    else if (target.matches("#make-admin-button")) {
+        makeUserAdmin(userId);
     }
 });
 function banUser(userId) {
@@ -56,7 +60,25 @@ function unbanUser(userId) {
     xhr.open("POST", "actions/unban_user.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("user_id=" + userId);
-    setUnbannedButtons();
+}
+function makeUserAdmin(userId) {
+    var xhr = new XMLHttpRequest();
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            var response = JSON.parse(this.responseText);
+            console.log(response.message);
+            if (response.status == "success") {
+                setAdminButton();
+                sendToastMessage("User is now an admin", "success");
+            }
+            else {
+                sendToastMessage(response.message, "error");
+            }
+        }
+    });
+    xhr.open("POST", "actions/make_admin.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("user_id=" + userId);
 }
 function setBannedButtons() {
     const buttonsContainer = document.getElementById("user-buttons");
@@ -80,6 +102,16 @@ function setUnbannedButtons() {
         `;
         buttonsHtml += `
         <button type="submit" class="admin-button" id="ban-button">Ban</button>
+            `;
+        buttonsContainer.innerHTML = buttonsHtml;
+    }
+}
+function setAdminButton() {
+    const buttonsContainer = document.getElementById("user-buttons");
+    if (buttonsContainer) {
+        let buttonsHtml = "";
+        buttonsHtml += `
+		<button disabled id="is-admin-button">User is admin</button>
             `;
         buttonsContainer.innerHTML = buttonsHtml;
     }

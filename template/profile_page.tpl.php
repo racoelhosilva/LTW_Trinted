@@ -53,34 +53,15 @@
                 if ($user->type != "admin") { ?>
                     <?php
                     if (!$user->isBanned(new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db'))) { ?>
-                        <form method="post" action="/actions/make_admin.php">
-                            <input type="hidden" name="user_id" value="<?= $user->id; ?>">
-                            <button type="submit" class="admin-button">Make Admin</button>
-                        </form>
-                        <!-- <form method="post" action="/actions/ban_user.php"> -->
-                            <!-- <input type="hidden" name="user_id" value="<?= $user->id; ?>"> -->
-                            <button type="submit" class="admin-button" id="ban-button">Ban</button>
-                        <!-- </form> -->
+                        <button type="submit" class="admin-button" id="make-admin-button">Make Admin</button>
+                        <button type="submit" class="admin-button" id="ban-button">Ban</button>
 
                 <?php } else { ?>
-                        <!-- <form method="post" action="/actions/unban_user.php"> -->
-                            <!-- <input type="hidden" name="user_id" value="<?= $user->id; ?>"> -->
-                            <button type="submit" class="admin-button" id="unban-button">Unban</button>
-                        <!-- </form> -->
-                <?php } ?>
-                    <script>
-
-
-                    <?php if (isset($_GET['unban_success']) && $_GET['unban_success'] == "true") { ?>
-                        // sendToastMessage("User unbanned successfully!", "success");
-                    <?php }
-                    if (isset($_GET['ban_success']) && $_GET['ban_success'] == "true") { ?>
-                                            //  alert("User banned successfully!");
-                   <?php } ?>                                        
-                    </script>
-        <?php }
+                        <button type="submit" class="admin-button" id="unban-button">Unban</button>
+                <?php }
+                }
         } ?>
-                </div> <?php
+    </div> <?php
 } ?>
 
 <?php function drawUserProductSection(User $user)
