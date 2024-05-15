@@ -19,8 +19,7 @@ if ($user->type == "admin") {
 }
 
 $user->unban($db);
-// echo json_encode(array('success' => "User unbanned successfully"));
+echo json_encode(array('success' => "User unbanned successfully"));
 
-drawUserButtons($user);
 
 exit();
