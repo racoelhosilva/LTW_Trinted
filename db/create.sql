@@ -248,8 +248,9 @@ CREATE INDEX ItemConditionIndex ON Item (condition);
 
 CREATE INDEX ItemBrandBrandIndex ON ItemBrand (brand);
 
-CREATE INDEX PostTileIndex ON Post (title);
+CREATE INDEX PostTitleIndex ON Post (title);
 CREATE INDEX PostPriceIndex ON Post (price);
+CREATE INDEX PostPublishDatetime ON Post (publishDatetime);
 
 CREATE INDEX PostImagePostIndex ON PostImage (post);
 
