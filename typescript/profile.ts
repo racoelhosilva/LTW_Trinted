@@ -34,7 +34,7 @@ function banUser(userId: number) {
         }
     });
 
-    xhr.open("POST", "actions/ban_user.php", true);
+    xhr.open("POST", "api/ban_user.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("user_id=" + userId);
 }
@@ -53,7 +53,7 @@ function unbanUser(userId: number) {
             }
         }
     });
-    xhr.open("POST", "actions/unban_user.php", true);
+    xhr.open("POST", "api/unban_user.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("user_id=" + userId);
 }
@@ -72,7 +72,7 @@ function makeUserAdmin(userId: number) {
             }
         }
     });
-    xhr.open("POST", "actions/make_admin.php", true);
+    xhr.open("POST", "api/make_admin.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("user_id=" + userId);
 }

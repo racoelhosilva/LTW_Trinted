@@ -18,6 +18,11 @@ if ($user->type == "admin") {
     exit();
 }
 
+if ($user->isBanned($db)) {
+    echo json_encode(array('status' => 'error', 'message' => "User is already banned"));
+    exit();
+}
+
 $user->ban($db);
 
 echo json_encode(array('status' => 'success', 'message' => "User banned successfully"));
