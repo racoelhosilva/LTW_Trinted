@@ -1,33 +1,24 @@
-const filterTypes = ['condition', 'category', 'size'];
-
-function matchesFilters(post: {[key: string]: string}, searchFilters: {[key: string]: Array<string>}): boolean {
-    return filterTypes.every(filterType => {
-        if (searchFilters[filterType].length === 0 || searchFilters[filterType].includes(post[filterType])) {
-            return true;
-        }
-    });
-}
-
 function updateProducts(
     posts: Array<{[key: string]: string}>,
     searchedProducts: HTMLElement,
-    filters: {[key: string]: Array<string>},
 ): void {
     searchedProducts.innerHTML = '';
-    const filteredPosts = posts.filter(post => matchesFilters(post, filters));
 
     const productSectionTitle = document.createElement('h1');
-    productSectionTitle.innerHTML = filteredPosts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
+    productSectionTitle.innerHTML = posts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
     searchedProducts.appendChild(productSectionTitle);
 
-    filteredPosts.forEach((post: {[key: string]: string}) => {
+    posts.forEach((post: {[key: string]: string}) => {
         const productCard = drawProductCard(post);
         searchedProducts.appendChild(productCard);
     });
 }
 
-async function performSearch(searchedProducts: HTMLElement, searchQuery: string): Promise<Array<{[key: string]: string}>> {
-    return getData(`../actions/action_search.php?query=${searchQuery}`)
+async function performSearch(searchQuery: string, filters: Array<string>): Promise<Array<{[key: string]: string}>> {
+    let actionUrl = `../actions/action_search.php?query=${searchQuery}`;
+    filters.forEach(filter => actionUrl += `&${filter}`);
+
+    return getData(actionUrl)
         .then(response => response.json())
         .then(json => {
             if (json.success) {
@@ -51,37 +42,25 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchInput: HTMLInputElement | null = document.querySelector('#search-input');
     const searchButton: HTMLElement | null = document.querySelector('#search-button');
     const searchFilterElems: NodeListOf<HTMLElement> = document.querySelectorAll('.search-filter');
-    const searchFilters: {[key: string]: Array<string>} =
-        filterTypes.reduce((acc, filterType) => ({...acc, [filterType]: []}), {});
-    let posts: Array<{[key: string]: string}> = [];
+    let searchFilters: Array<string> = [];
 
     const urlParams = new URLSearchParams(window.location.search);
-    performSearch(searchedProducts, urlParams.get('query') ?? '')
-        .then(result => {
-            posts = result;
-            updateProducts(result, searchedProducts, searchFilters);
-        });
+    performSearch(urlParams.get('query') ?? '', searchFilters)
+        .then(result => updateProducts(result, searchedProducts));
     
     if (searchButton && searchInput) {
         searchButton.addEventListener('click', event => {
             event.preventDefault();
             window.history.pushState({}, '', `search?query=${searchInput.value}`);
-            performSearch(searchedProducts, searchInput.value)
-            .then(result => {
-                posts = result;
-                updateProducts(result, searchedProducts, searchFilters);
-            });
+            performSearch(searchInput.value, searchFilters)
+            .then(result => updateProducts(result, searchedProducts));
         });
 
         searchInput.value = urlParams.get('query') ?? '';
         searchInput.addEventListener('input', () => {
             window.history.pushState({}, '', `search?query=${searchInput.value}`);
-            performSearch(searchedProducts, searchInput.value)
-            performSearch(searchedProducts, searchInput.value)
-            .then(result => {
-                posts = result;
-                updateProducts(result, searchedProducts, searchFilters);
-            });
+            performSearch(searchInput.value, searchFilters)
+                .then(result => updateProducts(result, searchedProducts));
         });
     }
     
@@ -93,12 +72,15 @@ if (searchDrawer && searchResults && searchedProducts) {
             const filterType = filterElem.dataset.type;
             const filterValue = filterElem.dataset.value;
 
-            if (filterType && filterValue) {
+            if (filterType && filterValue && searchInput) {
+                const filterString = `${filterType}[]=${filterValue}`;
                 if (filterInput!.checked)
-                    searchFilters[filterType].push(filterValue);
+                    searchFilters.push(filterString);
                 else
-                    searchFilters[filterType] = searchFilters[filterType].filter(value => value !== filterValue);
-                updateProducts(posts, searchedProducts, searchFilters);
+                    searchFilters = searchFilters.filter(value => value !== filterString);
+                
+                performSearch(searchInput.value, searchFilters)
+                    .then(result => updateProducts(result, searchedProducts));
             }
         });
     });

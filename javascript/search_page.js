@@ -9,28 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a, _b, _c;
-const filterTypes = ['condition', 'category', 'size'];
-function matchesFilters(post, searchFilters) {
-    return filterTypes.every(filterType => {
-        if (searchFilters[filterType].length === 0 || searchFilters[filterType].includes(post[filterType])) {
-            return true;
-        }
-    });
-}
-function updateProducts(posts, searchedProducts, filters) {
+function updateProducts(posts, searchedProducts) {
     searchedProducts.innerHTML = '';
-    const filteredPosts = posts.filter(post => matchesFilters(post, filters));
     const productSectionTitle = document.createElement('h1');
-    productSectionTitle.innerHTML = filteredPosts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
+    productSectionTitle.innerHTML = posts.length === 0 ? 'No results found' : `Found ${posts.length} results`;
     searchedProducts.appendChild(productSectionTitle);
-    filteredPosts.forEach((post) => {
+    posts.forEach((post) => {
         const productCard = drawProductCard(post);
         searchedProducts.appendChild(productCard);
     });
 }
-function performSearch(searchedProducts, searchQuery) {
+function performSearch(searchQuery, filters) {
     return __awaiter(this, void 0, void 0, function* () {
-        return getData(`../actions/action_search.php?query=${searchQuery}`)
+        let actionUrl = `../actions/action_search.php?query=${searchQuery}`;
+        filters.forEach(filter => actionUrl += `&${filter}`);
+        return getData(actionUrl)
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -54,33 +47,22 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchInput = document.querySelector('#search-input');
     const searchButton = document.querySelector('#search-button');
     const searchFilterElems = document.querySelectorAll('.search-filter');
-    const searchFilters = filterTypes.reduce((acc, filterType) => (Object.assign(Object.assign({}, acc), { [filterType]: [] })), {});
-    let posts = [];
+    let searchFilters = [];
     const urlParams = new URLSearchParams(window.location.search);
-    performSearch(searchedProducts, (_b = urlParams.get('query')) !== null && _b !== void 0 ? _b : '')
-        .then(result => {
-        posts = result;
-        updateProducts(result, searchedProducts, searchFilters);
-    });
+    performSearch((_b = urlParams.get('query')) !== null && _b !== void 0 ? _b : '', searchFilters)
+        .then(result => updateProducts(result, searchedProducts));
     if (searchButton && searchInput) {
         searchButton.addEventListener('click', event => {
             event.preventDefault();
             window.history.pushState({}, '', `search?query=${searchInput.value}`);
-            performSearch(searchedProducts, searchInput.value)
-                .then(result => {
-                posts = result;
-                updateProducts(result, searchedProducts, searchFilters);
-            });
+            performSearch(searchInput.value, searchFilters)
+                .then(result => updateProducts(result, searchedProducts));
         });
         searchInput.value = (_c = urlParams.get('query')) !== null && _c !== void 0 ? _c : '';
         searchInput.addEventListener('input', () => {
             window.history.pushState({}, '', `search?query=${searchInput.value}`);
-            performSearch(searchedProducts, searchInput.value);
-            performSearch(searchedProducts, searchInput.value)
-                .then(result => {
-                posts = result;
-                updateProducts(result, searchedProducts, searchFilters);
-            });
+            performSearch(searchInput.value, searchFilters)
+                .then(result => updateProducts(result, searchedProducts));
         });
     }
     searchFilterElems.forEach(filterElem => {
@@ -90,12 +72,14 @@ if (searchDrawer && searchResults && searchedProducts) {
         filterInput.addEventListener('click', () => {
             const filterType = filterElem.dataset.type;
             const filterValue = filterElem.dataset.value;
-            if (filterType && filterValue) {
+            if (filterType && filterValue && searchInput) {
+                const filterString = `${filterType}[]=${filterValue}`;
                 if (filterInput.checked)
-                    searchFilters[filterType].push(filterValue);
+                    searchFilters.push(filterString);
                 else
-                    searchFilters[filterType] = searchFilters[filterType].filter(value => value !== filterValue);
-                updateProducts(posts, searchedProducts, searchFilters);
+                    searchFilters = searchFilters.filter(value => value !== filterString);
+                performSearch(searchInput.value, searchFilters)
+                    .then(result => updateProducts(result, searchedProducts));
             }
         });
     });
