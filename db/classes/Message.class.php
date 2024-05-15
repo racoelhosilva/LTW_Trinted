@@ -43,7 +43,7 @@ class Message
     }
 
     public static function getRecentContacts(PDO $db, User $user) {
-        $stmt = $db->prepare("SELECT sender FROM Message WHERE receiver == :user ORDER BY datetime DESC");
+        $stmt = $db->prepare("SELECT DISTINCT sender FROM Message WHERE receiver == :user ORDER BY datetime ASC");
         $stmt->bindParam(":user", $user->id);
         $stmt->execute();
         $contacts = $stmt->fetchAll();
