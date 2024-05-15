@@ -12,7 +12,7 @@
 }
 
 #footer-content h1 {
-    color: var(--background-primary);
+    color: var(--light);
     font-size: 24px;
 }
 
@@ -22,7 +22,7 @@
 }
 
 #main-footer li, #main-footer li a {
-    color: var(--background-primary);
+    color: var(--light);
     text-decoration: none;
 }
 
@@ -39,5 +39,5 @@
     content: "  |";
     right: 10px;
     left: 10px;
-    color: var(--backgroud-secondary);
+    color: var(--light);
 }

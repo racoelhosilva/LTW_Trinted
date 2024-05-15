@@ -1,6 +1,6 @@
 #welcome-banner {
   background-color: var(--background-dark);
-  color: var(--background-primary);
+  color: var(--light);
   padding: 5em 1em 2em;
 }
 
@@ -45,7 +45,7 @@
   padding-inline: 1em;
   margin-inline: auto 0;
   background-color: var(--primary);
-  color: var(--background-primary);
+  color: var(--light);
   font-weight: bold;
   font-size: 1.5em;
 }

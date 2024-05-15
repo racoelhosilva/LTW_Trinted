@@ -3,6 +3,8 @@
 body {
   font-family: "Hanken Grotesk", sans-serif;
   margin: 0;
+  color: var(--text);
+  background-color: var(--background-primary);
 }
 
 header {
@@ -59,6 +61,14 @@ button {
 
 .hidden {
   display: none;
+}
+
+::placeholder {
+  color: var(--text);
+  opacity: 1; /* Firefox */
+}
+::-ms-input-placeholder { /* Edge 12 -18 */
+  color: var(--text);
 }
 
 /* Responsive UI */

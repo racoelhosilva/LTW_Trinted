@@ -17,11 +17,12 @@
 #user-info h1 {
   font-size: 4em;
   margin: 0;
+  color: var(--dark);
 }
 
 #user-info h2 {
   font-size: 1.5em;
-  color: var(--halftone);
+  color: var(--background-dark);
   margin: 0;
 }
 

@@ -1,4 +1,9 @@
 :root {
+    --light: #f2f2f2;
+    --dark: #2c2c2c;
+}
+
+:root {
     --text: #171717;
     --halftone: #514b48;
     --background-secondary: #d9d9d9;
@@ -11,4 +16,22 @@
     --secondary: #b0d4d8;
     --success: #3da008;
     --error: #e3322d;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #f2f2f2;
+        --halftone: #a3a3a3;
+        --background-secondary: #2c2c2c;
+        --background-primary: #171717;
+        --background-dark: #2c2c2c;
+        --lighter: #68a6ab;
+        --primary: #007580;
+        --darker: #094d53;
+        --accent: #0079a8;
+        --secondary: #b0d4d8;
+        --success: #3da008;
+        --error: #e3322d;
+    }
 }
