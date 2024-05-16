@@ -7,7 +7,6 @@ include_once('template/common.tpl.php');
 <?php function drawSettingsPageContent(Request $request) { 
     include_once('db/classes/User.class.php');
     $db = new PDO("sqlite:" . DB_PATH);
-    echo $request->session('user_id');
     $user = User::getUserByID($db, $request->session('user_id'));
     ?>
 
