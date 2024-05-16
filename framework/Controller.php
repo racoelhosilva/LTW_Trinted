@@ -41,6 +41,11 @@ class Controller {
         return drawProfilePage($this->request);
     }
 
+    public function banned() {
+        include_once('pages/banned_page.php');
+        return drawBannedPage();
+    }
+
     /**
      * @brief Generates product page
      */
@@ -49,6 +54,13 @@ class Controller {
         return drawProductPage($this->request);
     }
 
+    /**
+     * @brief Generates messages page
+     */
+    public function messages() {
+        include_once('pages/messages_page.php');
+        return drawMessagePage($this->request);
+    }
     /**
      * @brief Generates checkout page
      */

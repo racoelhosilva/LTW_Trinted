@@ -13,20 +13,29 @@ $routes = [
         'controller' => 'Controller@login',
         'middlewares' => []
     ],
+    '/messages' => [
+        'controller' => 'Controller@messages',
+        'middlewares' => [new AuthenticationMiddleware()]
+    ],
     '/search' => [
         'controller' => 'Controller@search',
+        'middlewares' => []
     ],
     '/profile' => [
         'controller' => 'Controller@profile',
-        'middlewares' => [new AuthenticationMiddleware()]
+        'middlewares' => [new AuthenticationMiddleware(), new BannedMiddleware()]
     ],
     '/product' => [
         'controller' => 'Controller@product',
         'middlewares' => []
     ],
+    '/banned' => [
+        'controller' => 'Controller@banned',
+        'middlewares' => []
+    ],
     '/checkout' => [
         'controller' => 'Controller@checkout',
-        'middlewares' => [new AuthenticationMiddleware()]
+        'middlewares' => [new AuthenticationMiddleware(), new BannedMiddleware()]
     ],
     '/help' => [
         'controller' => 'Controller@help',
@@ -63,6 +72,6 @@ if ($route) {
 
 } else {
     // Display 404 page if route is not defined
-    include_once('pages/404_page.php');
+    include_once ('pages/404_page.php');
     draw404Page();
 }

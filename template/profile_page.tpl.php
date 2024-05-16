@@ -1,6 +1,6 @@
-<?php include_once('template/product.tpl.php'); ?>
+<?php include_once ('template/product.tpl.php'); ?>
 
-<?php function drawProfileImage(String $url)
+<?php function drawProfileImage(string $url)
 { ?>
     <img src="<?= $url ?>" class="profile-image" alt="Profile Picture">
 <?php } ?>
@@ -14,47 +14,56 @@
         $joinDate = new DateTime(date('Y-m-d', $user->registerDateTime));
         $timeDifference = $joinDate->diff($currentDate)->y;
         if ($timeDifference == 0) {
-        ?> <h2>Joined less than a year ago</h2>
-        <?php
+            ?>
+            <h2>Joined less than a year ago</h2>
+            <?php
         } elseif ($timeDifference == 1) {
-        ?><h2>Joined one year ago</h2>
-        <?php
+            ?>
+            <h2>Joined one year ago</h2>
+            <?php
         } else {
-        ?> <h2>Joined <?= $timeDifference ?> years ago</h2>
-        <?php
+            ?>
+            <h2>Joined <?= $timeDifference ?> years ago</h2>
+            <?php
         }
         ?>
     </div>
 <?php } ?>
 
-<?php function drawUserButtons(User $user) { ?>
+<?php function drawUserButtons(User $user)
+{ ?>
     <div id="user-buttons">
-    <?php
-    if ($user->type == "admin"){ ?>
-        <!-- User is admin -->
+        <?php
 
-        <button disabled id="admin-button">User is <?php echo $user->type ?></button>
-    <?php }
-
-    if ($_SESSION['user_id'] == $user->id){?>
-        <!-- I'm on my profile -->
-
-        <form method="post" action="/actions/logout.php">
-            <button type="submit" id="logout-button">Logout</button>
-        </form>
-
-    <?php } else if ($_SESSION['type'] == "admin"){?>
-        <!-- I'm an admin on another profile -->
-        <?php 
-        if ($user->type != "admin") { ?>
-            <form method="post" action="/actions/make_admin.php">
-                <input type="hidden" name="user_id" value="<?php echo $user->id; ?>">
-                <button type="submit" id="admin-button">Make Admin</button>
+        if ($_SESSION['user_id'] == $user->id){ ?>
+            <form method="post" action="/actions/logout.php">
+                <button type="submit" class="red-button" id="logout-button">Logout</button>
             </form>
-        <?php }
+        <?php } else { ?>
+
+            <button class="blue-button" id="message-button" data-user-id="<?= $user->id ?>">
+                <label class="material-symbols-outlined">message</label>
+            </button>
+
+            <?php
+            if ($_SESSION['type'] == 'admin' && $user->type != 'admin') {
+
+                if (!$user->isBanned(new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db'))) { ?>
+                    <button type="submit" class="blue-button" id="make-admin-button">Make Admin</button>
+                    <button type="submit" class="blue-button" id="ban-button">Ban</button>
+            <?php } else { ?>
+                    <button type="submit" class="blue-button" id="unban-button">Unban</button>
+            <?php } 
+            }
         }
-    ?> </div> <?php
-} ?>
+
+        if ($user->type == "admin") { ?>
+            <!-- User is admin -->
+        <button disabled class="blue-button" id="is-admin-button">User is <?php echo $user->type ?></button>
+        <?php } ?>
+
+    </div> <?php
+}?>
 
 <?php function drawUserProductSection(User $user)
 {
