@@ -163,6 +163,12 @@ const newmessage = document.querySelector("#writemessage");
 const messageBox = newmessage === null || newmessage === void 0 ? void 0 : newmessage.querySelector("#newmessage");
 const sendButton = newmessage === null || newmessage === void 0 ? void 0 : newmessage.querySelector("#sendbutton");
 if (destinationId && newmessage && messageBox && sendButton) {
+    messageBox.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendButton.click();
+        }
+    });
     sendButton.addEventListener('click', () => {
         sendMessage(messageBox.value, Number(destinationId))
             .then(json => {

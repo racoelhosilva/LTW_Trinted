@@ -166,6 +166,13 @@ const sendButton: HTMLElement | null | undefined = newmessage?.querySelector("#s
 
 if (destinationId && newmessage && messageBox && sendButton) {
 
+    messageBox.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendButton.click();
+        }
+    })
+
     sendButton.addEventListener('click', () => {
         sendMessage(messageBox.value, Number(destinationId))
             .then(json => {
