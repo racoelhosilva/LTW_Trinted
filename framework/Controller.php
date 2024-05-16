@@ -92,4 +92,15 @@ class Controller {
         include_once('pages/about_page.php');
         return drawAboutPage($this->request);
     }
+
+    /**
+     * @brief Invokes an ApiController and performs a call to the API
+     */
+    public function api(array $args) {
+        include_once('ApiController.php');
+        $apiController = new ApiController($this->request);
+
+        [$resource, $args] = $args;
+        return $apiController->$resource($args);
+    }
 }
