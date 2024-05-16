@@ -15,7 +15,7 @@ $routes = [
     ],
     '/messages' => [
         'controller' => 'Controller@messages',
-        'middlewares' => [new AuthenticationMiddleware()]
+        'middlewares' => [new AuthenticationMiddleware(), new BannedMiddleware()]
     ],
     '/search' => [
         'controller' => 'Controller@search',
@@ -35,7 +35,7 @@ $routes = [
     ],
     '/settings' => [
         'controller' => 'Controller@settings',
-        'middlewares' => [new AuthenticationMiddleware()]
+        'middlewares' => [new AuthenticationMiddleware(), new BannedMiddleware()]
     ],
     '/checkout' => [
         'controller' => 'Controller@checkout',

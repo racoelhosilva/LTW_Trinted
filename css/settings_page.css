@@ -22,16 +22,17 @@
 #settings-page input {
     box-sizing: border-box;
 	font-family: "Hanken Grotesk", sans-serif;
-	border: 1px solid #b1b1b1;
+	border: 1px solid var(--halftone);
+    background-color: var(--background-secondary);
 	border-radius: 22px;
-	color: #514b48;
+	color: var(--text);
     padding: 0.7em;
     width: 100%;
 }
 
 #settings-page input[type="button"] {
 	font-weight: bold;
-	color: #f2f2f2;
-	background-color: #68a6ab;
-	border: 1px solid #007782;
+	color: var(--light);
+	background-color: var(--lighter);
+	border: 1px solid var(--primary);
 }
