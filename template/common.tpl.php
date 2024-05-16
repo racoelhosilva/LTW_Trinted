@@ -101,13 +101,12 @@ include_once('template/product.tpl.php');
     ?>
     <section id="product-section">
         <h1><?= $title ?></h1>
-            <?php if (count($posts) === 0) { ?>
-                <h2><?= $emptyMessage ?></h2>
-                <?php return; } ?>
-            <?php
-            foreach ($posts as $post) {
+        <?php if (count($posts) === 0) { ?>
+            <h2><?= $emptyMessage ?></h2>
+        <?php } else { ?>
+            <?php foreach ($posts as $post) {
                 drawProductCard($post, $loggedInUser);
-            }
-            ?>
+            } ?>
+        <?php } ?>
     </section>
 <?php } ?>
