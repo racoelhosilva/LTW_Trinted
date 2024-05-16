@@ -1,7 +1,6 @@
 const messageButton = document.getElementById('message-button');
 
 if (messageButton) {
-    console.log("AAAA");
     messageButton.addEventListener('click', () => {
         document.location.assign(`/messages?id=${messageButton.dataset.userId}`);
     })
@@ -28,104 +27,104 @@ document.addEventListener("click", function (event) {
 });
 
 function banUser(userId: number) {
-    var xhr = new XMLHttpRequest();
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === 4) {
-            var response = JSON.parse(this.responseText);
-            console.log(response.message);
-            if (response.status == "success") {
-                setBannedButtons();
-                sendToastMessage("User banned", "success");
-            } else {
-                sendToastMessage(response.message, "error");
-            }
+    postData("api/ban_user.php", {user_id: userId}).then(response => response.json()).then(json => {
+        console.log(json.message);
+        if (json.status === "success") {
+            setBannedButtons();
+            sendToastMessage(json.message, "success");
+        } else {
+            sendToastMessage(json.message, "error");
         }
     });
-
-    xhr.open("POST", "api/ban_user.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("user_id=" + userId);
 }
 
 function unbanUser(userId: number) {
-    var xhr = new XMLHttpRequest();
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === 4) {
-            var response = JSON.parse(this.responseText);
-            console.log(response.message);
-            if (response.status == "success") {
-                setUnbannedButtons();
-                sendToastMessage("User unbanned", "success");
-            } else {
-                sendToastMessage(response.message, "error");
-            }
+    postData("api/unban_user.php", {user_id: userId}).then(response => response.json()).then(json => {
+        console.log(json.message);
+        if (json.status === "success") {
+            setUnbannedButtons();
+            sendToastMessage(json.message, "success");
+        } else {
+            sendToastMessage(json.message, "error");
         }
     });
-    xhr.open("POST", "api/unban_user.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("user_id=" + userId);
 }
 
 function makeUserAdmin(userId: number) {
-    var xhr = new XMLHttpRequest();
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === 4) {
-            var response = JSON.parse(this.responseText);
-            console.log(response.message);
-            if (response.status == "success") {
-                setAdminButton();
-                sendToastMessage("User is now an admin", "success");
-            } else {
-                sendToastMessage(response.message, "error");
-            }
+    postData("api/make_admin.php", {user_id: userId}).then(response => response.json()).then(json => {
+        console.log(json.message);
+        if (json.status == "success") {
+            setAdminButton();
+            sendToastMessage(json.message, "success");
+        } else {
+            sendToastMessage(json.message, "error");
         }
     });
-    xhr.open("POST", "api/make_admin.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("user_id=" + userId);
 }
 
 function setBannedButtons(): void {
     const buttonsContainer = document.getElementById("user-buttons");
     if (buttonsContainer) {
-        let buttonsHtml = "";
-
-        buttonsHtml += `
-                <button type="submit" class="blue-button" id="unban-button">Unban</button>
-            `;
-
-        buttonsContainer.innerHTML = buttonsHtml;
+        const unbanButton = document.createElement('button');
+        unbanButton.className = "blue-button";
+        unbanButton.type = "submit";
+        unbanButton.id = "unban-button";
+        unbanButton.innerText = "Unban";
+        const banButton = document.getElementById("ban-button");
+        if (banButton) {
+            buttonsContainer.replaceChild(unbanButton, banButton)
+        }
+        const makeAdminButton = document.getElementById("make-admin-button");
+        if (makeAdminButton) {
+            buttonsContainer.removeChild(makeAdminButton);
+        }
     }
 }
 
 function setUnbannedButtons(): void {
     const buttonsContainer = document.getElementById("user-buttons");
     if (buttonsContainer) {
-        let buttonsHtml = "";
-        buttonsHtml += `
-<form method="post" action="/api/make_admin.php">
-<input type="hidden" name="user_id" value="<?= $user->id; ?>">
-<button type="submit" class="blue-button">Make Admin</button>
-</form>
-        `;
-
-        buttonsHtml += `
-        <button type="submit" class="blue-button" id="ban-button">Ban</button>
-            `;
-
-        buttonsContainer.innerHTML = buttonsHtml;
+        const banButton = document.createElement('button');
+        banButton.className = "blue-button";
+        banButton.type = "submit";
+        banButton.id = "ban-button";
+        banButton.innerText = "Ban";
+        const makeAdminButton = document.getElementById("make-admin-button");
+        if (!makeAdminButton) {
+            const newMakeAdminButton = document.createElement('button');
+            newMakeAdminButton.className = "blue-button";
+            newMakeAdminButton.type = "submit";
+            newMakeAdminButton.id = "make-admin-button";
+            newMakeAdminButton.innerText = "Make Admin";
+            buttonsContainer.appendChild(newMakeAdminButton);
+        }
+        const unbanButton = document.getElementById("unban-button");
+        if (unbanButton) {
+            buttonsContainer.removeChild(unbanButton);
+        }
+        buttonsContainer.appendChild(banButton);
     }
 }
 
 function setAdminButton(): void {
     const buttonsContainer = document.getElementById("user-buttons");
     if (buttonsContainer) {
-        let buttonsHtml = "";
-
-        buttonsHtml += `
-		<button disabled class="blue-button" id="is-admin-button">User is admin</button>
-            `;
-
-        buttonsContainer.innerHTML = buttonsHtml;
+        const adminButton = document.createElement('button');
+        adminButton.className = "blue-button";
+        adminButton.disabled = true;
+        adminButton.id = "is-admin-button";
+        adminButton.innerText = "User is admin";
+        const makeAdminButton = document.getElementById("make-admin-button");
+        if (makeAdminButton) {
+            buttonsContainer.replaceChild(adminButton, makeAdminButton);
+        }
+        const banButton = document.getElementById("ban-button");
+        if (banButton) {
+            buttonsContainer.removeChild(banButton);
+        }
+        const unbanButton = document.getElementById("unban-button");
+        if (unbanButton) {
+            buttonsContainer.removeChild(unbanButton);
+        }
     }
 }
