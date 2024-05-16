@@ -66,7 +66,6 @@ function dateFormat(datetime) {
     }
 }
 function loadNewMessages() {
-    console.log("Looking for new messages...");
     fetchNewMessages(destinationId)
         .then(messages => {
         allMessages.innerHTML = "";
@@ -100,7 +99,6 @@ function fetchNewMessages(dest) {
     });
 }
 function loadOldMessages() {
-    console.log("Looking for old messages...");
     fetchOldMessages(destinationId)
         .then(messages => {
         for (const message of messages) {

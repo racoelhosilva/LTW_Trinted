@@ -13,3 +13,11 @@ if (checkoutButton) {
         location.href = 'checkout';
     })
 }
+
+const messagesHeaderButton = document.getElementById('message');
+
+if (messagesHeaderButton) {
+    messagesHeaderButton.addEventListener('click', () => {
+        document.location.assign(`/messages`);
+    })
+}
