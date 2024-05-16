@@ -1,49 +1,50 @@
 #profile-section {
-  display: flex;
-  position: relative;
-  background-image: linear-gradient(to bottom right, #fff0, #ffff);
-  width: 100%;
-  height: 40em;
-  justify-content: end;
-  align-items: end;
-  flex-direction: column;
+	display: flex;
+	position: relative;
+	background-image: linear-gradient(to bottom right, #fff0, #ffff);
+	width: 100%;
+	height: 40em;
+	justify-content: end;
+	align-items: end;
+	flex-direction: column;
 }
 
-#user-info, #user-buttons {
-  margin: 0 8em 1em 8em;
-  text-align: end;
+#user-info,
+#user-buttons {
+	margin: 0 8em 1em 8em;
+	text-align: end;
 }
 
 #user-info h1 {
-  font-size: 4em;
-  margin: 0;
+	font-size: 4em;
+	margin: 0;
 }
 
 #user-info h2 {
-  font-size: 1.5em;
-  color: var(--halftone);
-  margin: 0;
+	font-size: 1.5em;
+	color: var(--halftone);
+	margin: 0;
 }
 
 .profile-image {
-  position: absolute;
-  object-fit: cover;
-  left: 0;
-  top: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+	position: absolute;
+	object-fit: cover;
+	left: 0;
+	top: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
 }
 
 #user-buttons {
-  display: flex;
+	display: flex;
 }
 
 #logout-button {
-  font-family: "Hanken Grotesk", sans-serif;
+	font-family: "Hanken Grotesk", sans-serif;
 	font-size: 16px;
-  padding: 1em 1.5em;
+	padding: 1em 1.5em;
 	background-color: #f58c8c;
 	border: 1px solid #b61e0d;
 	border-radius: 30px;
@@ -51,27 +52,40 @@
 	margin: 1em;
 }
 
-#admin-button, #message-button {
-  font-family: "Hanken Grotesk", sans-serif;
+.admin-button, #messages-button {
+	font-family: "Hanken Grotesk", sans-serif;
 	font-size: 16px;
-  padding: 1em 1.5em;
+	padding: 1em 1.5em;
 	background-color: var(--secondary);
 	border: 1px solid var(--primary);
 	border-radius: 30px;
 	color: var(--primary);
 	margin: 1em;
+	cursor: cursor;
+}
+
+#is-admin-button {
+	font-family: "Hanken Grotesk", sans-serif;
+	font-size: 16px;
+	padding: 1em 1.5em;
+	background-color: var(--secondary);
+	border: 1px solid var(--primary);
+	border-radius: 30px;
+	color: var(--primary);
+	margin: 1em;
+	cursor: default;
 }
 
 /* Responsive UI */
 
 @media (max-width: 800px) {
-  #profile-section {
-    height: 15em;
-  }
+	#profile-section {
+		height: 15em;
+	}
 
-  #user-info {
-    margin: 0 3em 3em 3em;
-  }
+	#user-info {
+		margin: 0 3em 3em 3em;
+	}
 
   #user-info h1 {
     font-size: 2em;
