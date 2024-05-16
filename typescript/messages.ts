@@ -66,7 +66,6 @@ function dateFormat(datetime: number): string {
 }
 
 function loadNewMessages() {
-    console.log("Looking for new messages...");
     fetchNewMessages(destinationId)
         .then(messages => {
             allMessages!.innerHTML = "";
@@ -100,7 +99,6 @@ async function fetchNewMessages(dest: any) {
 }
 
 function loadOldMessages() {
-    console.log("Looking for old messages...");
     fetchOldMessages(destinationId)
         .then(messages => {
             for (const message of messages){
@@ -190,6 +188,4 @@ if (destinationId && newmessage && messageBox && sendButton) {
     oldObserver.observe(allMessages?.lastElementChild!);
     newObserver.observe(allMessages?.firstElementChild!);
 
-} else {
-    console.log("Error, page rendered incorrectly");
 }

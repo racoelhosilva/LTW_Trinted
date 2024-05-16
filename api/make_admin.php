@@ -9,7 +9,7 @@ if ($_SESSION['type'] != "admin") {
 
 $db = new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 
-$user = User::getUserByID($db, $_POST['user_id']);
+$user = User::getUserByID($db, (int)($_POST['user_id']));
 
 if ($user->type == "admin") {
     die(json_encode(array('status' => 'error', 'message' => "User is already admin")));

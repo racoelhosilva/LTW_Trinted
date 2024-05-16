@@ -185,6 +185,3 @@ if (destinationId && newmessage && messageBox && sendButton) {
     oldObserver.observe(allMessages === null || allMessages === void 0 ? void 0 : allMessages.lastElementChild);
     newObserver.observe(allMessages === null || allMessages === void 0 ? void 0 : allMessages.firstElementChild);
 }
-else {
-    console.log("Error, page rendered incorrectly");
-}

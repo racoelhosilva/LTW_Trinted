@@ -41,7 +41,7 @@
 	display: flex;
 }
 
-#logout-button {
+.red-button {
 	font-family: "Hanken Grotesk", sans-serif;
 	font-size: 16px;
 	padding: 1em 1.5em;
@@ -52,7 +52,7 @@
 	margin: 1em;
 }
 
-.admin-button, #messages-button {
+.blue-button {
 	font-family: "Hanken Grotesk", sans-serif;
 	font-size: 16px;
 	padding: 1em 1.5em;
@@ -61,19 +61,10 @@
 	border-radius: 30px;
 	color: var(--primary);
 	margin: 1em;
-	cursor: cursor;
-}
 
-#is-admin-button {
-	font-family: "Hanken Grotesk", sans-serif;
-	font-size: 16px;
-	padding: 1em 1.5em;
-	background-color: var(--secondary);
-	border: 1px solid var(--primary);
-	border-radius: 30px;
-	color: var(--primary);
-	margin: 1em;
-	cursor: default;
+	label {
+		cursor: pointer;
+	}
 }
 
 /* Responsive UI */
