@@ -36,6 +36,9 @@ function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
     }
 }
 
+
+header('Content-Type: application/json');
+
 if (!isset($_POST['first-name']) || !isset($_POST['last-name']) || !isset($_POST['email']) || !isset($_POST['phone']) || !isset($_POST['address']) || !isset($_POST['zip']) || !isset($_POST['town']) || !isset($_POST['country']) || !isset($_POST['shipping'])) {
     die(json_encode(array('success' => false, 'error' => 'Missing fields')));
 }
@@ -61,9 +64,8 @@ try {
 
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
     submitPaymentToDb($payment, $db, $cart);
+    putCookie('cart', []);
 } catch (Exception $e) {
     die(json_encode(array('success' => false, 'error' => $e->getMessage())));
 }
-
-putCookie('cart', []);
 die(json_encode(array('success' => true)));

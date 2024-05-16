@@ -115,6 +115,29 @@ class Post
         }, $posts);
     }
 
+    public static function getAllPosts(PDO $db, bool $onlyValid = true): array {
+        $stmt = $db->prepare("SELECT * FROM Post");
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+        if ($onlyValid) {
+            $posts = array_filter($posts, function ($post) {
+                return $post["payment"] == null;
+            });
+        }
+        return array_map(function ($post) use ($db) {
+            return new Post(
+                $post["id"],
+                $post["title"],
+                $post["price"],
+                $post["description"],
+                strtotime($post["publishDatetime"]),
+                User::getUserByID($db, $post["seller"]),
+                Item::getItem($db, $post["item"]),
+                isset($post["payment"]) ? Payment::getPaymentById($db, $post["payment"]) : null,
+            );
+        }, $posts);
+    }
+
     public function associateToPayment(PDO $db, int $paymentId): void {
         $stmt = $db->prepare("UPDATE Post SET payment = :paymentId WHERE id = :postId");
         $stmt->bindParam(":paymentId", $paymentId);
