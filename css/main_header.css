@@ -3,6 +3,7 @@
 
 .material-symbols-outlined {
 	font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+	color: var(--text);
 }
 
 #main-header {
@@ -54,6 +55,7 @@
 	width: 30rem;
 	max-width: 30vw;
 	background-color: var(--background-primary);
+	color: var(--text);
 }
 
 #search-bar > input:focus {
@@ -74,7 +76,7 @@
 
 #search-bar > button > span {
 	font-size: 1.1rem;
-	color: var(--background-primary);
+	color: var(--light);
 }
 
 #hamburger-button {
