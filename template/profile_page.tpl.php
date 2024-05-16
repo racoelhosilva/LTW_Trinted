@@ -69,5 +69,12 @@
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $posts = $user->getUserPosts($db);
-    drawProductSection($posts, "Products by the seller (" . count($posts) . ")");
+    drawProductSection($posts, "Products by the seller" . (count($posts) != 0 ? " (" . count($posts) . ")" : ""));
+} ?>
+
+<?php function drawWishlist(User $user)
+{
+    $db = new PDO("sqlite:" . DB_PATH);
+    $wishlist = $user->getWishlist($db);
+    drawProductSection($wishlist, "Wishlist");
 } ?>

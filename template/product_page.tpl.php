@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 include_once('template/common.tpl.php');
+include_once('template/product.tpl.php');
 ?>
 
 <?php function drawProductPhotos(Post $post)
@@ -17,6 +18,9 @@ include_once('template/common.tpl.php');
                 <span class="material-symbols-outlined photo-badge">circle</span>
             <?php } ?>
         </div>
+        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $post->seller->id) {
+            drawLikeButton(User::getUserByID($db, (int)$_SESSION['user_id'])->isInWishlist($db, $_SESSION['user_id']));
+        } ?>
         <?php foreach ($images as $image) { ?>
             <img src="<?= $image->url ?>" class="product-photo">
         <?php } ?>
@@ -42,14 +46,7 @@ include_once('template/common.tpl.php');
         return $p->id != $post->id;
     });
     ?>
-    <section id="product-section">
-        <h1>Related products (<?= count($posts) ?>)</h1>
-        <?php
-        foreach ($posts as $post) {
-            drawProductCard($post);
-        }
-        ?>
-    </section>
+    <?php drawProductSection($posts, "Related Products (" . count($posts) . ")"); ?>
 <?php } ?>
 
 

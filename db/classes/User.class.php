@@ -89,7 +89,6 @@ class User
 
     public function setType(PDO $db, string $type): void
     {
-        // if name not int ["seller", "buyer", "admin"] stop
         if (!in_array($type, ["seller", "buyer", "admin"])) {
             throw new Exception("Invalid type");
         }
@@ -159,11 +158,43 @@ class User
         $stmt->execute();
         $this->isBanned = true;
     }
+    
     public function unban(PDO $db): void
     {
         $stmt = $db->prepare("UPDATE User SET isBanned = 0 WHERE id = :id");
         $stmt->bindParam(":id", $this->id);
         $stmt->execute();
         $this->isBanned = false;
+    }
+
+    public function getWishlist(PDO $db): array {
+        $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user");
+        $stmt->bindParam(":user", $this->id);
+        $stmt->execute();
+        return array_map(function ($postId) use ($db) {
+            return Post::getPostByID($db, $postId["post"]);
+        }, $stmt->fetchAll());
+    }
+
+    public function addToWishlist(PDO $db, int $postId): void {
+        $stmt = $db->prepare("INSERT INTO Wishes (user, post) VALUES (:user, :post)");
+        $stmt->bindParam(":user", $this->id);
+        $stmt->bindParam(":post", $postId);
+        $stmt->execute();
+    }
+
+    public function removeFromWishlist(PDO $db, int $postId): void {
+        $stmt = $db->prepare("DELETE FROM Wishes WHERE user = :user AND post = :post");
+        $stmt->bindParam(":user", $this->id);
+        $stmt->bindParam(":post", $postId);
+        $stmt->execute();
+    }
+
+    public function isInWishlist(PDO $db, int $postId): bool {
+        $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user AND post = :post");
+        $stmt->bindParam(":user", $this->id);
+        $stmt->bindParam(":post", $postId);
+        $stmt->execute();
+        return $stmt->fetch() !== false;
     }
 }
