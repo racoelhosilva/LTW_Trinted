@@ -8,23 +8,6 @@ function setCart(array $cart): void {
     putCookie('cart', $cart);
 }
 
-function parsePost(Post $post, PDO $db): array {
-    $parsedPost = array(
-        'id' => $post->id,
-        'title' => $post->title,
-        'description' => $post->description,
-        'price' => $post->price,
-        'publishDatetime' => $post->publishDateTime,
-        'seller' => $post->seller->id,
-        'username' => $post->seller->name,
-        'category' => $post->item->category->category,
-        'size' => $post->item->size->size,
-        'condition' => $post->item->condition->condition,
-        'images' => array_map('getUrl', $post->getAllImages($db)),
-    );
-    return $parsedPost;
-}
-
 function getCart(): array {
     return getCookie('cart') ?? [];
 }
@@ -37,7 +20,7 @@ function addToCart(Post $post, PDO $db): bool {
         }
     }
 
-    $cart[] = parsePost($post, $db);
+    $cart[] = parsePost($db, $post);
     setCart($cart);
     return true;
 }
@@ -61,7 +44,7 @@ if (!isset($_POST['post_id']) || !in_array($_POST['remove'], [true, false]))
 session_start();
 
 $post_id = validate($_POST['post_id']);
-$remove = validate($_POST['remove']);
+$remove = validate($_POST['remove']) === 'true';
 $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 
 try {
@@ -71,5 +54,5 @@ try {
     die(json_encode(array('success' => false, 'error' => $e->getMessage())));
 }
 
-$success = isset($post) && (($remove && addToCart($post, $db)) || ($remove && removeFromCart($post)));
+$success = isset($post) && ((!$remove && addToCart($post, $db)) || ($remove && removeFromCart($post)));
 echo json_encode(array('success' => $success));

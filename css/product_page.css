@@ -89,6 +89,12 @@
   'opsz' 24
 }
 
+#product-photos > .like-button {
+  position: absolute;
+  bottom: 0.5em;
+  left: 0.5em;
+}
+
 #product-info {
   display: grid;
   grid-template-columns: auto auto;

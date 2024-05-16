@@ -8,6 +8,8 @@ include_once('template/profile_page.tpl.php');
 
 <?php function drawProfilePageContent(User $user)
 { ?>
+    <?php
+    ?>
     <main id="profile-page">
         <section id="profile-section">
             <?php
@@ -18,7 +20,10 @@ include_once('template/profile_page.tpl.php');
             <?php drawUserButtons($user); ?>
         </section>
         <!-- TODO: Check if user is seller -->
-        <?php drawUserProductSection($user) ?>
+        <?php if (in_array($user->type, ['seller', 'admin']))
+            drawUserProductSection($user); ?>
+        <?php if ($_SESSION['user_id'] == $user->id)
+            drawWishlist($user); ?>
     </main>
     <?php } ?>
     
