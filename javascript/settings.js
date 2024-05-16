@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-function resetFields() {
-    usernameField.value = "";
-    emailField.value = "";
+function resetFields(username, email) {
+    usernameField.value = username;
+    emailField.value = email;
     newPasswordField.value = "";
     oldPasswordField.value = "";
 }
@@ -27,11 +27,15 @@ const emailField = settingsSection === null || settingsSection === void 0 ? void
 const newPasswordField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#new-password");
 const oldPasswordField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#old-password");
 if (settingsSection && changeSettingsButton && usernameField && emailField && newPasswordField && oldPasswordField) {
+    var username = usernameField.value;
+    var email = emailField.value;
     changeSettingsButton.addEventListener('click', () => {
         changeSettings(usernameField.value, emailField.value, newPasswordField.value, oldPasswordField.value)
             .then(json => {
             if (json.success) {
                 sendToastMessage('Profile changed successfully', 'success');
+                username = usernameField.value;
+                email = emailField.value;
             }
             else if (json.known) {
                 sendToastMessage(json.error, 'error');
@@ -40,7 +44,7 @@ if (settingsSection && changeSettingsButton && usernameField && emailField && ne
                 sendToastMessage('Could not change settings, try again later', 'error');
                 console.error(json.error);
             }
-            resetFields();
+            resetFields(username, email);
         });
     });
 }

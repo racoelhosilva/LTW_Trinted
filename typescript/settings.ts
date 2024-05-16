@@ -1,6 +1,6 @@
-function resetFields(){
-    usernameField!.value = "";
-    emailField!.value = "";
+function resetFields(username: string, email: string){
+    usernameField!.value = username;
+    emailField!.value = email;
     newPasswordField!.value = "";
     oldPasswordField!.value = "";
 }
@@ -19,11 +19,16 @@ const oldPasswordField: HTMLInputElement | null | undefined = settingsSection?.q
 
 if (settingsSection && changeSettingsButton && usernameField && emailField && newPasswordField && oldPasswordField) {
 
+    var username: string = usernameField.value;
+    var email: string = emailField.value;
+
     changeSettingsButton.addEventListener('click', () => {
         changeSettings(usernameField.value, emailField.value, newPasswordField.value, oldPasswordField.value)
             .then(json => {
                 if (json.success) {
                     sendToastMessage('Profile changed successfully', 'success');
+                    username = usernameField.value;
+                    email = emailField.value;
                 }
                 else if (json.known){
                     sendToastMessage(json.error, 'error');
@@ -32,7 +37,7 @@ if (settingsSection && changeSettingsButton && usernameField && emailField && ne
                     sendToastMessage('Could not change settings, try again later', 'error');
                     console.error(json.error);
                 }
-                resetFields();
+                resetFields(username, email);
             });
     });
 
