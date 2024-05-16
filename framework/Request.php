@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/Session.php';
+
 /**
  * @brief Encapsulates superglobals when requests are created
  */

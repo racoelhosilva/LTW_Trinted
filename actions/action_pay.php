@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 include_once(__DIR__ . '/../db/classes/Post.class.php');
 include_once(__DIR__ . '/../db/classes/Payment.class.php');
+include_once(__DIR__ . '/../framework/Session.class.php');
 include_once(__DIR__ . '/utils.php');
 
 function getSubtotal(array $cart): float {
@@ -35,13 +36,18 @@ function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
     }
 }
 
-session_start();
-
 if (!isset($_POST['first-name']) || !isset($_POST['last-name']) || !isset($_POST['email']) || !isset($_POST['phone']) || !isset($_POST['address']) || !isset($_POST['zip']) || !isset($_POST['town']) || !isset($_POST['country']) || !isset($_POST['shipping'])) {
     die(json_encode(array('success' => false, 'error' => 'Missing fields')));
 }
 
-if (!isset($_SESSION['user_id'])) {
+$request = new Request();
+$session = $request->getSession();
+
+$csrf = $request->post('csrf');
+if (!isset($csrf) || !$session->verifyCsrf($csrf)) {
+    die(json_encode(array('success' => false, 'error' => 'CSRF token missing or invalid')));
+}
+if (!userLoggedIn($request)) {
     die(json_encode(array('success' => false, 'error' => 'User not logged in')));
 }
 

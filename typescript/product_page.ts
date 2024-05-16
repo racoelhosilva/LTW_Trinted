@@ -77,7 +77,7 @@ function updateCartButtonText(cartButton: HTMLElement, itemSelected: boolean): v
 }
 
 if (cartButton) {
-  const postId = parseInt(document.location.search.split('=')[1]);
+  const postId = parseInt(document.location.pathname.split('/').pop() || '-1');
   let itemSelected = false;
 
   getCart()

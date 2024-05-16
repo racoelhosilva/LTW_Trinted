@@ -22,6 +22,10 @@ class Session {
         return $_SESSION[$key] ?? null;
     }
 
+    public function getCsrf() {
+        return $_SESSION['csrf'];
+    }
+
     public function verifyCsrf(string $token): bool {
         return $_SESSION['csrf'] == $token;
     }

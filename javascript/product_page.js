@@ -66,7 +66,7 @@ function updateCartButtonText(cartButton, itemSelected) {
         cartButton.innerHTML = 'Add to Cart';
 }
 if (cartButton) {
-    const postId = parseInt(document.location.search.split('=')[1]);
+    const postId = parseInt(document.location.pathname.split('/').pop() || '-1');
     let itemSelected = false;
     getCart()
         .then(json => {

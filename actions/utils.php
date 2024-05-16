@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+include_once(__DIR__ . '/../framework/Request.php');
+
 function validate(string $data): string {
     $data = trim($data);
     $data = stripslashes($data);
@@ -71,4 +73,8 @@ function paramsExist(string $method, array $params): bool {
         }
     }
     return true;
+}
+
+function userLoggedIn(Request $request): bool {
+    return $request->getSession()->get('user_id') !== null;
 }

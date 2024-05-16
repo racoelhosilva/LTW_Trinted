@@ -6,11 +6,11 @@ include_once('template/checkout_page.tpl.php');
 include_once('db/classes/Post.class.php');
 ?>
 
-<?php function drawCheckoutPageContent() { ?>
+<?php function drawCheckoutPageContent(Request $request) { ?>
     <main id="checkout-page">
         <?php drawOrderItems([]); ?>
         <?php drawCheckoutSummary(); ?>
-        <?php drawCheckoutForm(); ?>
+        <?php drawCheckoutForm($request->getSession()->getCsrf()); ?>
     </main>
     <!-- <main id="checkout-empty" class="hidden">
         <?php // drawEmptyCart(); ?>
@@ -19,9 +19,9 @@ include_once('db/classes/Post.class.php');
 
 <?php
 function drawCheckoutPage(Request $request) {
-    createPage(function () {
+    createPage(function () use ($request) {
         drawMainHeader();
-        drawCheckoutPageContent();
+        drawCheckoutPageContent($request);
         drawFooter();
     });
 }
