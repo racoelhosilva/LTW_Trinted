@@ -117,12 +117,22 @@ function setUnbannedButtons(): void {
 function setAdminButton(): void {
     const buttonsContainer = document.getElementById("user-buttons");
     if (buttonsContainer) {
-        let buttonsHtml = "";
-
-        buttonsHtml += `
-		<button disabled class="blue-button" id="is-admin-button">User is admin</button>
-            `;
-
-        buttonsContainer.innerHTML = buttonsHtml;
+        const adminButton = document.createElement('button');
+        adminButton.className = "blue-button";
+        adminButton.disabled = true;
+        adminButton.id = "is-admin-button";
+        adminButton.innerText = "User is admin";
+        const makeAdminButton = document.getElementById("make-admin-button");
+        if (makeAdminButton) {
+            buttonsContainer.replaceChild(adminButton, makeAdminButton);
+        }
+        const banButton = document.getElementById("ban-button");
+        if (banButton) {
+            buttonsContainer.removeChild(banButton);
+        }
+        const unbanButton = document.getElementById("unban-button");
+        if (unbanButton) {
+            buttonsContainer.removeChild(unbanButton);
+        }
     }
 }
