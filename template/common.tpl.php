@@ -26,6 +26,7 @@ include_once('template/product.tpl.php');
             <link rel="stylesheet" href="css/search_page.css">
             <link rel="stylesheet" href="css/profile_page.css">
             <link rel="stylesheet" href="css/product_page.css">
+            <link rel="stylesheet" href="css/settings_page.css">
             <link rel="stylesheet" href="css/checkout_page.css">
             <link rel="stylesheet" href="css/help_page.css">
             <link rel="stylesheet" href="css/about_page.css">
@@ -41,6 +42,7 @@ include_once('template/product.tpl.php');
             <script src="javascript/contacts.js" defer></script>
             <script src="javascript/messages.js" defer></script>
             <script src="javascript/profile.js" defer></script>
+            <script src="javascript/settings.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>

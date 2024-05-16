@@ -33,6 +33,10 @@ $routes = [
         'controller' => 'Controller@banned',
         'middlewares' => []
     ],
+    '/settings' => [
+        'controller' => 'Controller@settings',
+        'middlewares' => [new AuthenticationMiddleware()]
+    ],
     '/checkout' => [
         'controller' => 'Controller@checkout',
         'middlewares' => [new AuthenticationMiddleware(), new BannedMiddleware()]

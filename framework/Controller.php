@@ -55,6 +55,14 @@ class Controller {
     }
 
     /**
+     * @brief Generates settings page
+     */
+    public function settings() {
+        include_once('pages/settings_page.php');
+        return drawSettingsPage($this->request);
+    }
+
+    /**
      * @brief Generates messages page
      */
     public function messages() {

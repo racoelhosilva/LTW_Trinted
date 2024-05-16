@@ -14,6 +14,14 @@ if (checkoutButton) {
     })
 }
 
+const settingsButton = document.getElementById('settings');
+
+if (settingsButton) {
+    settingsButton.addEventListener('click', () => {
+        location.href = 'settings';
+    })
+}
+
 const messagesHeaderButton = document.getElementById('message');
 
 if (messagesHeaderButton) {
