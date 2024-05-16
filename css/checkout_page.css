@@ -138,11 +138,11 @@
 	font-family: "Hanken Grotesk", sans-serif;
 	padding: 0.7em;
   flex-grow: 1;
-	background-color: var(--background-primary);
-	border: 1px solid var(--background-secondary);
+	background-color: var(--background-secondary);
+	border: 1px solid var(--halftone);
 	border-radius: 200em;
   font-size: 1em;
-	color: var(--halftone);
+	color: var(--text);
 }
 
 #checkout-form input[name="email"] {
