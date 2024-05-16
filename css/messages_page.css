@@ -40,7 +40,7 @@
 #contacts > ul > li {
     list-style-type: none;
     padding: 1rem;
-    border-bottom: 1px solid var(--secondary);
+    border-bottom: 1px solid var(--background-primary);
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -92,10 +92,9 @@
 #writemessage input {
 	padding: 0.7em;
 	background-color: var(--background-primary);
-	border: 1px solid #b1b1b1;
 	border-radius: 22px;
-	color: #514b48;
 	margin-bottom: 1em;
+    border-style: solid;
 }
 
 #writemessage #newmessage {
@@ -104,9 +103,9 @@
 
 #writemessage #sendbutton {
 	font-weight: bold;
-	color: #f2f2f2;
-	background-color: #68a6ab;
-	border: 1px solid #007782;
+	color: var(--background-secondary);
+	background-color: var(--lighter);
+	border: 1px solid var(--primary);
 }
 
 #messages {
