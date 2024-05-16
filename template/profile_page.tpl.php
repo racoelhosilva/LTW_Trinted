@@ -36,7 +36,6 @@
         <?php
         if ($user->type == "admin") { ?>
             <!-- User is admin -->
-
         <button disabled id="admin-button">User is <?php echo $user->type ?></button>
     <?php }
 

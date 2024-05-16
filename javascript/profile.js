@@ -5,6 +5,7 @@ if (messageButton) {
     messageButton.addEventListener('click', () => {
         document.location.assign(`/messages?id=${messageButton.dataset.userId}`);
     });
+}
 const url = new URL(window.location.href);
 const idParam = url.searchParams.get("id");
 let userId;
