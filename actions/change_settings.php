@@ -28,26 +28,15 @@ if (empty($newusername) && empty($newemail) && empty($newpassword)) {
     die(json_encode(['success' => false, 'known' => true, 'error' => 'No fields to change']));
 }
 
-if (!empty($newusername)) {
-    try {
+try {
+    if (!empty($newusername))
         $user->setName($db, $newusername);
-    } catch (Exception $e) {
-        die(json_encode(['success' => false, 'error' => $e->getMessage()]));
-    }
-} 
-if (!empty($newemail)) {
-    try {
+    if (!empty($newemail))
         $user->setEmail($db, $newemail);
-    } catch (Exception $e) {
-        die(json_encode(['success' => false, 'error' => $e->getMessage()]));
-    }
-} 
-if (!empty($newpassword)) {
-    try {
+    if (!empty($newpassword))
         $user->setPassword($db, $newpassword);
-    } catch (Exception $e) {
-        die(json_encode(['success' => false, 'error' => $e->getMessage()]));
-    }
+} catch (Exception $e) {
+    die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }
 
 die(json_encode(['success' => true]));
