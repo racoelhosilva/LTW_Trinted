@@ -142,7 +142,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchFilterElems: NodeListOf<HTMLElement> = document.querySelectorAll('.search-filter');
     let searchFilters: Array<string> = [];
 
-    const postsPerPage = 1;
+    const postsPerPage = 15;
     let numResults: number;
     let totalPages: number;
     let currentPage: number;

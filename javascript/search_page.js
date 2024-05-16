@@ -138,7 +138,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchButton = document.querySelector('#search-button');
     const searchFilterElems = document.querySelectorAll('.search-filter');
     let searchFilters = [];
-    const postsPerPage = 1;
+    const postsPerPage = 15;
     let numResults;
     let totalPages;
     let currentPage;
