@@ -80,7 +80,7 @@ function drawLikeButton() {
     return likeButton;
 }
 function goToProduct(id) {
-    window.location.href = `product?id=${id}`;
+    document.location.assign(`/product/${id}`);
 }
 function onLikeButtonClick(event) {
     event.stopPropagation();

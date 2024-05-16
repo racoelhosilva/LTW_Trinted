@@ -1,7 +1,3 @@
-function itemCardOnClick(event: MouseEvent, postId: number): void {
-  document.location.assign(`/product?id=${postId}`);
-}
-
 function createOrderItemCard(post: { [key: string]: any }): HTMLElement {
   const orderItemCard = document.createElement('div');
   orderItemCard.classList.add('order-item-card');
@@ -11,7 +7,7 @@ function createOrderItemCard(post: { [key: string]: any }): HTMLElement {
   image.alt = 'Product Image';
   orderItemCard.appendChild(image);
 
-  image.addEventListener('click', (event) => itemCardOnClick(event, post.id));
+  image.addEventListener('click', (event) => goToProduct(post.id));
 
   const itemTitle = document.createElement('h1');
   itemTitle.innerHTML = post.title;

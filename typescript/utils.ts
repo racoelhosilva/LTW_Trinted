@@ -83,7 +83,7 @@ function drawLikeButton(): HTMLElement {
 }
 
 function goToProduct(id: string): void {
-	window.location.href = `product?id=${id}`;
+	document.location.assign(`/product/${id}`);
 }
 
 function onLikeButtonClick(event: Event): void {
