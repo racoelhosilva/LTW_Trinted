@@ -35,6 +35,9 @@ CREATE TABLE User
     registerDatetime DATETIME
         CONSTRAINT RegisterDatetimeNotNull NOT NULL,
     profilePicture   VARCHAR(64),
+    isBanned        BOOLEAN
+        CONSTRAINT IsBannedNotNull NOT NULL
+        CONSTRAINT IsBannedDefault DEFAULT FALSE,
     type             VARCHAR(6)
         CONSTRAINT TypeNotNull NOT NULL
         CONSTRAINT ValidType CHECK (type IN ('seller', 'buyer', 'admin')),
@@ -86,9 +89,9 @@ CREATE TRIGGER ItemOwnerIsSeller
     FOR EACH ROW
     WHEN (SELECT type
           FROM User
-          WHERE id = New.seller) <> 'seller'
+          WHERE id = New.seller) = 'buyer'
 BEGIN
-    SELECT RAISE(FAIL, 'Item cannot belong to non-seller user');
+    SELECT RAISE(FAIL, 'Item cannot belong to non-seller or non-admin user');
 END;
 
 CREATE TABLE Brand
