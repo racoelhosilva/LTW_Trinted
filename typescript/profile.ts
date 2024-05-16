@@ -16,7 +16,7 @@ if (idParam == null) {
 }
 
 document.addEventListener("click", function (event) {
-    var target = event.target as HTMLElement;
+    const target = event.target as HTMLElement;
     if (target.matches("#unban-button")) {
         unbanUser(userId);
     } else if (target.matches("#ban-button")) {
