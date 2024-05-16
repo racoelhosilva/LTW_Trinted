@@ -1,7 +1,6 @@
 const messageButton = document.getElementById('message-button');
 
 if (messageButton) {
-    console.log("AAAA");
     messageButton.addEventListener('click', () => {
         document.location.assign(`/messages?id=${messageButton.dataset.userId}`);
     })
@@ -17,7 +16,7 @@ if (idParam == null) {
 }
 
 document.addEventListener("click", function (event) {
-    const target = event.target as HTMLElement;
+    var target = event.target as HTMLElement;
     if (target.matches("#unban-button")) {
         unbanUser(userId);
     } else if (target.matches("#ban-button")) {
@@ -88,32 +87,30 @@ function makeUserAdmin(userId: number) {
 function setBannedButtons(): void {
     const buttonsContainer = document.getElementById("user-buttons");
     if (buttonsContainer) {
-        let buttonsHtml = "";
-
-        buttonsHtml += `
-                <button type="submit" class="blue-button" id="unban-button">Unban</button>
-            `;
-
-        buttonsContainer.innerHTML = buttonsHtml;
+        const unbanButton = document.createElement('button');
+        unbanButton.className = "blue-button";
+        unbanButton.type = "submit";
+        unbanButton.id = "unban-button";
+        unbanButton.innerText = "Unban";
+        const banButton = document.getElementById("ban-button");
+        if (banButton) {
+            buttonsContainer.replaceChild(unbanButton, banButton)
+        }
     }
 }
 
 function setUnbannedButtons(): void {
     const buttonsContainer = document.getElementById("user-buttons");
     if (buttonsContainer) {
-        let buttonsHtml = "";
-        buttonsHtml += `
-<form method="post" action="/api/make_admin.php">
-<input type="hidden" name="user_id" value="<?= $user->id; ?>">
-<button type="submit" class="blue-button">Make Admin</button>
-</form>
-        `;
-
-        buttonsHtml += `
-        <button type="submit" class="blue-button" id="ban-button">Ban</button>
-            `;
-
-        buttonsContainer.innerHTML = buttonsHtml;
+        const banButton = document.createElement('button');
+        banButton.className = "blue-button";
+        banButton.type = "submit";
+        banButton.id = "ban-button";
+        banButton.innerText = "Ban";
+        const unbanButton = document.getElementById("unban-button");
+        if (unbanButton) {
+            buttonsContainer.replaceChild(banButton, unbanButton);
+        }
     }
 }
 
