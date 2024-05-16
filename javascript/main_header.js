@@ -17,3 +17,9 @@ if (settingsButton) {
         location.href = 'settings';
     });
 }
+const messagesHeaderButton = document.getElementById('message');
+if (messagesHeaderButton) {
+    messagesHeaderButton.addEventListener('click', () => {
+        document.location.assign(`/messages`);
+    });
+}

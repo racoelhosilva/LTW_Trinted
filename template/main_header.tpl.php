@@ -19,6 +19,7 @@ declare(strict_types=1); ?>
 { ?>
     <div id="action-buttons">
         <?php drawHeaderButton('settings'); ?>
+        <?php drawHeaderButton('message'); ?>
         <?php drawHeaderButton('person'); ?>
         <?php drawHeaderButton('shopping_cart'); ?>
     </div>

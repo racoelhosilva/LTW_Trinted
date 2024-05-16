@@ -13,6 +13,10 @@ $routes = [
         'controller' => 'Controller@login',
         'middlewares' => []
     ],
+    '/messages' => [
+        'controller' => 'Controller@messages',
+        'middlewares' => [new AuthenticationMiddleware()]
+    ],
     '/search' => [
         'controller' => 'Controller@search',
         'middlewares' => []

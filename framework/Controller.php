@@ -63,6 +63,13 @@ class Controller {
     }
 
     /**
+     * @brief Generates messages page
+     */
+    public function messages() {
+        include_once('pages/messages_page.php');
+        return drawMessagePage($this->request);
+    }
+    /**
      * @brief Generates checkout page
      */
     public function checkout() {
