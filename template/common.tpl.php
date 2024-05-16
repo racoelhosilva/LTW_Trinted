@@ -70,13 +70,13 @@ include_once('template/product.tpl.php');
         <div id="about">
             <h1>About Us</h1>
             <ul>
-                <li><a href="about">About Us</a></li>
+                <li><a href="/about">About Us</a></li>
             </ul>
         </div>
         <div id="help">
             <h1>Help</h1>
             <ul>
-                <li><a href="help">Help & Tips</a></li>
+                <li><a href="/help">Help & Tips</a></li>
             </ul>
         </div>
         

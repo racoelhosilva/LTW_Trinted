@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 include_once('template/common.tpl.php');
 include_once('template/profile_page.tpl.php');
+include_once('pages/404_page.php');
 ?>
 
-<?php function drawProfilePageContent(User $user)
+<?php function drawProfilePageContent(int $userId)
 { ?>
     <?php
+    $db = new PDO("sqlite:" . DB_PATH);
+    $user = User::getUserByID($db, $userId);
+    if (!isset($user)) {
+        draw404PageContent();
+        return;
+    }
+
+    $profilePictureUrl = $user->getProfilePicture($db)->url;
     ?>
     <main id="profile-page">
         <section id="profile-section">
-            <?php
-            $db = new PDO("sqlite:" . DB_PATH);
-            drawProfileImage($user->getProfilePicture($db)->url);
-            ?>
+            <?php drawProfileImage($profilePictureUrl) ?>
             <?php drawUserInfo($user); ?>
             <?php drawUserButtons($user); ?>
         </section>
@@ -30,14 +36,11 @@ include_once('template/profile_page.tpl.php');
     <?php } ?>
     
     <?php
-function drawProfilePage(Request $request)
+function drawProfilePage(Request $request, int $userId)
 {
-    createPage(function () {
+    createPage(function () use ($userId) {
         drawMainHeader();
-        session_start();
-
-        $db = new PDO("sqlite:" . DB_PATH);
-        drawProfilePageContent(User::getUserByID($db, intval($_GET['id'])));
+        drawProfilePageContent($userId);
         drawFooter();
     });
 }

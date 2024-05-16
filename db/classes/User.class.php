@@ -53,26 +53,25 @@ class User
         $this->id = $id[0];
     }
 
-    public static function getUserByID(PDO $db, int $id): User
+    public static function getUserByID(PDO $db, int $id): ?User
     {
         $stmt = $db->prepare("SELECT * FROM User WHERE id = :id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
         $user = $stmt->fetch();
-        if ($user === false) {
-            throw new Exception("User not found");
-        }
+        if ($user == false)
+            return null;
         return new User($user["id"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
     }
 
-    public static function getUserByEmail(PDO $db, string $email): User
+    public static function getUserByEmail(PDO $db, string $email): ?User
     {
         $stmt = $db->prepare("SELECT * FROM User WHERE email = :email");
         $stmt->bindParam(":email", $email);
         $stmt->execute();
         $user = $stmt->fetch();
-        if ($user === false) {
-            throw new Exception("User not found");
+        if ($user == false) {
+            return null;
         }
         return new User($user["id"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
     }

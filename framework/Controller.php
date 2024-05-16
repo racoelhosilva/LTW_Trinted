@@ -38,7 +38,7 @@ class Controller {
      */
     public function profile(array $args) {
         include_once('pages/profile_page.php');
-        return drawProfilePage($this->request);
+        return drawProfilePage($this->request, $args[0]);
     }
 
     public function banned(array $args) {

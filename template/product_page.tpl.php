@@ -55,9 +55,9 @@ include_once('template/product.tpl.php');
     <div id="product-info">
         <div>
             <h2>Published on <?= date('m/d/Y', $post->publishDateTime) ?></h2>
-            <h2>By <a href="actions/go_to_profile.php?id=<?= $post->seller->id ?>"><?= $post->seller->name ?></a></h2>
+            <h2>By <a href="/actions/go_to_profile.php?id=<?= $post->seller->id ?>"><?= $post->seller->name ?></a></h2>
         </div>
-        <a href="actions/go_to_profile.php?id=<?= $post->seller->id ?>"><img alt="Profile Picture"
+        <a href="/actions/go_to_profile.php?id=<?= $post->seller->id ?>"><img alt="Profile Picture"
                 src="<?= $post->seller->profilePicture->url ?>" class="avatar"></a>
         <div class="details">
             <h1><?= $post->title ?></h1>
