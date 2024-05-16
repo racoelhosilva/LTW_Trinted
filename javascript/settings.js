@@ -37,7 +37,7 @@ if (settingsSection && changeSettingsButton && usernameField && emailField && ne
                 username = usernameField.value;
                 email = emailField.value;
             }
-            else if (json.known) {
+            else if (['Invalid request method', 'User not found', 'Incorrect password', 'No fields to change'].includes(json.error)) {
                 sendToastMessage(json.error, 'error');
             }
             else {
