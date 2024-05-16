@@ -76,7 +76,7 @@
 	background-color: var(--background-secondary);
 	border: 1px solid var(--halftone);
 	border-radius: 22px;
-	color: var(--halftone);
+	color: var(--text);
 	margin-bottom: 1em;
 }
 
