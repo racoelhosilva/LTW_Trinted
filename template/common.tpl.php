@@ -13,37 +13,37 @@ include_once('template/product.tpl.php');
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="icon" href="icon/logo.ico">
-            <link rel="stylesheet" href="css/styles.css">
-            <link rel="stylesheet" href="css/main_header.css">
-            <link rel="stylesheet" href="css/footer.css">
-            <link rel="stylesheet" href="css/404_page.css">
-            <link rel="stylesheet" href="css/main_page.css">
-            <link rel="stylesheet" href="css/messages_page.css">
-            <link rel="stylesheet" href="css/product.css">
-            <link rel="stylesheet" href="css/login_page.css">
-            <link rel="stylesheet" href="css/title.css">
-            <link rel="stylesheet" href="css/search_page.css">
-            <link rel="stylesheet" href="css/profile_page.css">
-            <link rel="stylesheet" href="css/product_page.css">
-            <link rel="stylesheet" href="css/settings_page.css">
-            <link rel="stylesheet" href="css/checkout_page.css">
-            <link rel="stylesheet" href="css/help_page.css">
-            <link rel="stylesheet" href="css/about_page.css">
-            <link rel="stylesheet" href="css/toast_message.css">
-            <link rel="stylesheet" href="css/banned_page.css">
+            <link rel="icon" href="/icon/logo.ico">
+            <link rel="stylesheet" href="/css/styles.css">
+            <link rel="stylesheet" href="/css/main_header.css">
+            <link rel="stylesheet" href="/css/footer.css">
+            <link rel="stylesheet" href="/css/404_page.css">
+            <link rel="stylesheet" href="/css/main_page.css">
+            <link rel="stylesheet" href="/css/messages_page.css">
+            <link rel="stylesheet" href="/css/product.css">
+            <link rel="stylesheet" href="/css/login_page.css">
+            <link rel="stylesheet" href="/css/title.css">
+            <link rel="stylesheet" href="/css/search_page.css">
+            <link rel="stylesheet" href="/css/profile_page.css">
+            <link rel="stylesheet" href="/css/product_page.css">
+            <link rel="stylesheet" href="/css/settings_page.css">
+            <link rel="stylesheet" href="/css/checkout_page.css">
+            <link rel="stylesheet" href="/css/about_page.css">
+            <link rel="stylesheet" href="/css/help_page.css">
+            <link rel="stylesheet" href="/css/toast_message.css">
+            <link rel="stylesheet" href="/css/banned_page.css">
             <link rel="stylesheet" href="css/shipping_form_page.css">
-            <script src="javascript/utils.js" defer></script>
-            <script src="javascript/product_page.js" defer></script>
-            <script src="javascript/product.js" defer></script>
-            <script src="javascript/main_page.js" defer></script>
-            <script src="javascript/main_header.js" defer></script>
-            <script src="javascript/checkout_page.js" defer></script>
-            <script src="javascript/search_page.js" defer></script>
-            <script src="javascript/contacts.js" defer></script>
-            <script src="javascript/messages.js" defer></script>
-            <script src="javascript/profile.js" defer></script>
-            <script src="javascript/settings.js" defer></script>
+            <script src="/javascript/utils.js" defer></script>
+            <script src="/javascript/product_page.js" defer></script>
+            <script src="/javascript/product.js" defer></script>
+            <script src="/javascript/main_page.js" defer></script>
+            <script src="/javascript/main_header.js" defer></script>
+            <script src="/javascript/checkout_page.js" defer></script>
+            <script src="/javascript/search_page.js" defer></script>
+            <script src="/javascript/contacts.js" defer></script>
+            <script src="/javascript/messages.js" defer></script>
+            <script src="/javascript/profile.js" defer></script>
+            <script src="/javascript/settings.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>

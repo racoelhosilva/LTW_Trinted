@@ -10,11 +10,11 @@ include_once('pages/404_page.php');
 include_once('db/classes/Payment.class.php');
 ?>
 
-<?php function drawProductPageContent(Request $request)
+<?php function drawProductPageContent(Request $request, int $postId)
 { ?>
     <?php
     $db = new PDO("sqlite:" . DB_PATH);
-    $post = Post::getPostByID($db, intval($request->get('id')), false);
+    $post = Post::getPostByID($db, $postId);
     if (!isset($post)) {
         draw404PageContent();
         return;
@@ -39,11 +39,11 @@ include_once('db/classes/Payment.class.php');
 } ?>
 
 <?php
-function drawProductPage(Request $request)
+function drawProductPage(Request $request, int $postId)
 {
-    createPage(function () use (&$request) {
+    createPage(function () use ($request, $postId) {
         drawMainHeader();
-        drawProductPageContent($request);
+        drawProductPageContent($request, $postId);
         drawFooter();
     });
 } ?>

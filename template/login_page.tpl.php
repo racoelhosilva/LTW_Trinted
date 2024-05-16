@@ -6,7 +6,7 @@ declare(strict_types=1); ?>
 { ?>
     <header id="login-header">
         <a href="/">
-            <img src="svg/logo_large.svg" alt="Trinted Logo" id="logo">
+            <img src="/svg/logo_large.svg" alt="Trinted Logo" id="logo">
         </a>
     </header>
 <?php } ?>

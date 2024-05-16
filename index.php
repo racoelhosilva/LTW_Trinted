@@ -48,13 +48,14 @@ $routes = [
     '/about' => [
         'controller' => 'Controller@about',
         'middlewares' => []
-    ]
+    ],
 ];
 
 // Extract the path from the URL and compare it to the defined routes
 $request_uri = $_SERVER['REQUEST_URI'];
 $path = parse_url($request_uri, PHP_URL_PATH);
-$route = $routes[$path] ?? null;
+[ , $location, $args[] ] = explode('/', $path);
+$route = $routes['/' . $location] ?? null;
 
 if ($route) {
     // Select which controller and action to load
@@ -72,8 +73,7 @@ if ($route) {
 
     // Create the controller and generate page
     $controller = new $controllerName($request);
-    echo $controller->$actionName();
-
+    echo $controller->$actionName($args);
 } else {
     // Display 404 page if route is not defined
     include_once ('pages/404_page.php');

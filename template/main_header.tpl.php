@@ -28,7 +28,7 @@ declare(strict_types=1); ?>
 <?php function drawHeaderLogo()
 { ?>
     <a href="/">
-        <img src="svg/logo_large.svg" alt="Trinted Logo" id="header-logo">
+        <img src="/svg/logo_large.svg" alt="Trinted Logo" id="header-logo">
     </a>
 <?php } ?>
 
