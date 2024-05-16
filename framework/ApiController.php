@@ -13,5 +13,25 @@ class ApiController {
         $this->request = $request;
     }
 
-    
+    public function handle(array $args) {
+        $subroutes = [
+            'post' => 'posts'
+        ];
+
+        $resource = $args[0];
+        $subroute = $subroutes[$resource];
+
+        if ($subroute)
+            $this->$subroute($args);
+        else
+            $this->notFound();
+    }
+
+    private function posts(array $args) {
+        require_once('rest_api/api_posts.php');
+    }
+
+    private function notFound() {
+        header('HTTP/1.1 404 Not Found');
+    }
 }

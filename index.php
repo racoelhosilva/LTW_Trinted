@@ -49,6 +49,10 @@ $routes = [
         'controller' => 'Controller@about',
         'middlewares' => []
     ],
+    '/api' => [
+        'controller' => 'ApiController@handle',
+        'middlewares' => []
+    ]
 ];
 
 // Extract the path from the URL and compare it to the defined routes

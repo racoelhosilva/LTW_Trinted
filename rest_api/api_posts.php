@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/utils.php';
+require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/../db/classes/Post.class.php';
 require_once __DIR__ . '/../framework/Request.php';
 require_once __DIR__ . '/utils.php';
@@ -14,9 +14,6 @@ function parsePost(Post $post, PDO $db): array {
         'description' => $post->description,
         'price' => $post->price,
         'publishDatetime' => $post->publishDateTime,
-        'sellerId' => $post->seller->id,
-        'seller' => $_SERVER['HTTP_HOST'] . '/api/user/' . $post->seller->id,
-        'username' => $post->seller->name,
         'category' => $post->item->category->category,
         'size' => $post->item->size->size,
         'condition' => $post->item->condition->condition,
@@ -25,7 +22,10 @@ function parsePost(Post $post, PDO $db): array {
             [
                 'rel' => 'self',
                 'href' => $_SERVER['HTTP_HOST'] . '/api/post/' . $post->id,
-                'action' => 'GET'
+            ],
+            [
+                'rel' => 'seller',
+                'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $post->seller->id,
             ]
         ]
     );
@@ -38,7 +38,7 @@ function parsePosts(array $posts, PDO $db): array {
 }
 
 
-$db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/../db/database.db');
+$db = getDatabaseConnection();
 $request = new Request();
 $method = getMethod($request);
 $endpoint = getEndpoint($request);
