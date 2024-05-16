@@ -1,7 +1,7 @@
 #profile-section {
 	display: flex;
 	position: relative;
-	background-image: linear-gradient(to bottom right, #fff0, #ffff);
+	background-image: linear-gradient(to bottom right, var(--gradient-start), var(--gradient-end));
 	width: 100%;
 	height: 40em;
 	justify-content: end;
@@ -18,12 +18,12 @@
 #user-info h1 {
   font-size: 4em;
   margin: 0;
-  color: var(--dark);
+  color: var(--complement);
 }
 
 #user-info h2 {
   font-size: 1.5em;
-  color: var(--background-dark);
+  color: var(--complement);
   margin: 0;
 }
 
@@ -64,6 +64,7 @@
 	margin: 1em;
 
 	label {
+		color: var(--primary);
 		cursor: pointer;
 	}
 }
