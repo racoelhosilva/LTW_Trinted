@@ -39,7 +39,7 @@
 	width: 25em;
 	max-width: 90vw;
 	padding-right: 5rem;
-	border-right: 1px solid #909090;
+	border-right: 1px solid var(--halftone);
 	text-align: center;
 }
 
@@ -47,7 +47,7 @@
 	width: 25em;
 	max-width: 90vw;
 	padding-left: 5rem;
-	border-left: 1px solid #909090;
+	border-left: 1px solid var(--halftone);
 	text-align: center;
 }
 
@@ -73,25 +73,25 @@
 #login-page input {
 	font-family: "Hanken Grotesk", sans-serif;
 	padding: 0.7em;
-	background-color: #d9d9d9;
-	border: 1px solid #b1b1b1;
+	background-color: var(--background-secondary);
+	border: 1px solid var(--halftone);
 	border-radius: 22px;
-	color: #514b48;
+	color: var(--halftone);
 	margin-bottom: 1em;
 }
 
 #login-page input[type="submit"] {
 	font-weight: bold;
-	color: #f2f2f2;
-	background-color: #68a6ab;
-	border: 1px solid #007782;
+	color: var(--light);
+	background-color: var(--lighter);
+	border: 1px solid var(--primary);
 }
 
 #login-page input[type="submit"]:hover {
 	font-weight: bold;
-	color: #007782;
-	background-color: #f2f2f2;
-	border: 1px solid #007782;
+	color: var(--primary);
+	background-color: var(--background-primary);
+	border: 1px solid var(--primary);
 	transition: 0.3s;
 	cursor: pointer;
 }

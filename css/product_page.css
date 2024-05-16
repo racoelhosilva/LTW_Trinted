@@ -125,7 +125,7 @@
 }
 
 #product-info a {
-  color: black;
+  color: var(--text);
   text-decoration: none;
 }
 
