@@ -9,7 +9,6 @@ if (!is_dir('../images/profiles')) mkdir('../images/profiles');
 
 // image is the name of the input in the form
 $tempFileName = $_FILES['image']['tmp_name'];
-die(json_encode($tempFileName));
 $image = @imagecreatefromjpeg($tempFileName);
 if (!$image) $image = @imagecreatefrompng($tempFileName);
 if (!$image) $image = @imagecreatefromgif($tempFileName);
@@ -40,7 +39,7 @@ try {
 
 
 imagejpeg($image, $_SERVER['DOCUMENT_ROOT'] . "/" . $filename);
-die(json_encode(array('status' => 'success', "message" => "Image uploaded successfully!")));
+die(json_encode(array('status' => 'success', 'path' => $filename, "message" => "Image uploaded successfully!")));
 
 
 

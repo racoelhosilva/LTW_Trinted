@@ -31,7 +31,8 @@ include_once('template/common.tpl.php');
             <div class="information-field">
                 <h3>Change Profile Picture</h3>
                 <input type="file" id="image-input" name="image">
-                <input type="submit" id="change-profile-picture" value="Upload">
+
+                <input type="submit" id="clear-profile-picture" value="Clear">
             </div>
             <br>
             <div class="information-field">

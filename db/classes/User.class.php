@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once 'Image.class.php';
+
 class User
 {
     public int $id;
@@ -35,6 +36,7 @@ class User
     {
         $this->password = password_hash($this->password, PASSWORD_DEFAULT, ['cost' >= 12]);
     }
+
     public function upload(PDO $db): void
     {
         $stmt = $db->prepare("INSERT INTO User (email, name, password, registerDatetime, profilePicture, type) VALUES (:email, :name, :password, :registerDateTime, :profilePicture, :type)");
@@ -127,6 +129,20 @@ class User
         $stmt->execute();
     }
 
+    public function setProfilePicture(PDO $db, string $profilePicture): void
+    {
+        $stmt = $db->prepare("UPDATE User SET profilePicture = :profilePicture WHERE id = :id");
+        $stmt->bindParam(":profilePicture", $profilePicture);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+        try {
+            $this->profilePicture = Image::getImage($db, $profilePicture);
+        } catch (Exception $e) {
+            echo "Fatal error: " . $e->getMessage();
+        }
+
+    }
+
     public function getUserPosts(PDO $db): array
     {
         $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller");
@@ -158,7 +174,7 @@ class User
         $stmt->execute();
         $this->isBanned = true;
     }
-    
+
     public function unban(PDO $db): void
     {
         $stmt = $db->prepare("UPDATE User SET isBanned = 0 WHERE id = :id");
@@ -167,7 +183,8 @@ class User
         $this->isBanned = false;
     }
 
-    public function getWishlist(PDO $db): array {
+    public function getWishlist(PDO $db): array
+    {
         $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user");
         $stmt->bindParam(":user", $this->id);
         $stmt->execute();
@@ -176,21 +193,24 @@ class User
         }, $stmt->fetchAll());
     }
 
-    public function addToWishlist(PDO $db, int $postId): void {
+    public function addToWishlist(PDO $db, int $postId): void
+    {
         $stmt = $db->prepare("INSERT INTO Wishes (user, post) VALUES (:user, :post)");
         $stmt->bindParam(":user", $this->id);
         $stmt->bindParam(":post", $postId);
         $stmt->execute();
     }
 
-    public function removeFromWishlist(PDO $db, int $postId): void {
+    public function removeFromWishlist(PDO $db, int $postId): void
+    {
         $stmt = $db->prepare("DELETE FROM Wishes WHERE user = :user AND post = :post");
         $stmt->bindParam(":user", $this->id);
         $stmt->bindParam(":post", $postId);
         $stmt->execute();
     }
 
-    public function isInWishlist(PDO $db, int $postId): bool {
+    public function isInWishlist(PDO $db, int $postId): bool
+    {
         $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user AND post = :post");
         $stmt->bindParam(":user", $this->id);
         $stmt->bindParam(":post", $postId);
