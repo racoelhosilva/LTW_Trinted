@@ -3,7 +3,7 @@
 class Session {
     private static $instance = null;
 
-    private function __construct() {
+    public function __construct() {
         session_start();
         if (!isset($_SESSION['csrf'])) {
             $_SESSION['csrf'] = Session::generateRandomToken();

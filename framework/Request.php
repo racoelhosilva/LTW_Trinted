@@ -1,16 +1,17 @@
 <?php
-session_start();
+declare(strict_types=1);
+
 /**
  * @brief Encapsulates superglobals when requests are created
  */
 class Request
 {
-    private $getParams;
-    private $postParams;
-    private $cookies;
-    private $headers;
-    private $files;
-    private $session;
+    private array $getParams;
+    private array $postParams;
+    private array $cookies;
+    private array $headers;
+    private array $files;
+    private Session $session;
 
     public function __construct()
     {
@@ -19,7 +20,7 @@ class Request
         $this->cookies = $_COOKIE;
         $this->headers = $_SERVER;
         $this->files = $_FILES;
-        $this->session = $_SESSION;
+        $this->session = new Session();
     }
 
     public function get($key, $default = null)
@@ -47,8 +48,8 @@ class Request
         return $this->files[$key] ?? null;
     }
 
-    public function session($key)
+    public function getSession() : Session
     {
-        return $this->session[$key] ?? null;
+        return $this->session;
     }
 }
