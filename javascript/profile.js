@@ -1,4 +1,11 @@
 "use strict";
+const messageButton = document.getElementById('message-button');
+if (messageButton) {
+    console.log("AAAA");
+    messageButton.addEventListener('click', () => {
+        document.location.assign(`/messages?id=${messageButton.dataset.userId}`);
+    });
+}
 const url = new URL(window.location.href);
 const idParam = url.searchParams.get("id");
 let userId;
@@ -82,7 +89,7 @@ function setBannedButtons() {
     if (buttonsContainer) {
         let buttonsHtml = "";
         buttonsHtml += `
-                <button type="submit" class="admin-button" id="unban-button">Unban</button>
+                <button type="submit" class="blue-button" id="unban-button">Unban</button>
             `;
         buttonsContainer.innerHTML = buttonsHtml;
     }
@@ -94,11 +101,11 @@ function setUnbannedButtons() {
         buttonsHtml += `
 <form method="post" action="/api/make_admin.php">
 <input type="hidden" name="user_id" value="<?= $user->id; ?>">
-<button type="submit" class="admin-button">Make Admin</button>
+<button type="submit" class="blue-button">Make Admin</button>
 </form>
         `;
         buttonsHtml += `
-        <button type="submit" class="admin-button" id="ban-button">Ban</button>
+        <button type="submit" class="blue-button" id="ban-button">Ban</button>
             `;
         buttonsContainer.innerHTML = buttonsHtml;
     }
@@ -108,7 +115,7 @@ function setAdminButton() {
     if (buttonsContainer) {
         let buttonsHtml = "";
         buttonsHtml += `
-		<button disabled id="is-admin-button">User is admin</button>
+		<button disabled class="blue-button" id="is-admin-button">User is admin</button>
             `;
         buttonsContainer.innerHTML = buttonsHtml;
     }

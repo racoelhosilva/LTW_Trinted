@@ -41,7 +41,7 @@
 	display: flex;
 }
 
-#logout-button {
+.red-button {
 	font-family: "Hanken Grotesk", sans-serif;
 	font-size: 16px;
 	padding: 1em 1.5em;
@@ -52,7 +52,7 @@
 	margin: 1em;
 }
 
-.admin-button {
+.blue-button {
 	font-family: "Hanken Grotesk", sans-serif;
 	font-size: 16px;
 	padding: 1em 1.5em;
@@ -61,19 +61,10 @@
 	border-radius: 30px;
 	color: var(--primary);
 	margin: 1em;
-	cursor: cursor;
-}
 
-#is-admin-button {
-	font-family: "Hanken Grotesk", sans-serif;
-	font-size: 16px;
-	padding: 1em 1.5em;
-	background-color: var(--secondary);
-	border: 1px solid var(--primary);
-	border-radius: 30px;
-	color: var(--primary);
-	margin: 1em;
-	cursor: default;
+	label {
+		cursor: pointer;
+	}
 }
 
 /* Responsive UI */
@@ -87,13 +78,17 @@
 		margin: 0 3em 3em 3em;
 	}
 
-	#user-info h1 {
-		font-size: 2em;
-	}
+  #user-info h1 {
+    font-size: 2em;
+  }
+  
+  #user-info h2 {
+    font-size: 1em;
+    color: var(--halftone);
+    margin: 0;
+  }
 
-	#user-info h2 {
-		font-size: 1em;
-		color: var(--halftone);
-		margin: 0;
-	}
+  #user-buttons {
+    margin: 0em 1em 0em 1em;
+  }
 }

@@ -18,6 +18,7 @@ declare(strict_types=1); ?>
 <?php function drawActionButtons()
 { ?>
     <div id="action-buttons">
+        <?php drawHeaderButton('message'); ?>
         <?php drawHeaderButton('person'); ?>
         <?php drawHeaderButton('shopping_cart'); ?>
     </div>
