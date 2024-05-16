@@ -189,7 +189,7 @@ VALUES ('T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but ne
        ('Coat', 5.99, 'Coat in good condition from Chanel',
         DATETIME('2024-04-23 14:02'), 6, 3),
        ('Bag', 67.99, 'Leather bag from Louis Vuitton', DATETIME('2024-05-01 09:12'), 4, 4),
-       ('Used dress', 2334.00, 'Pre owned 1996 chanel dress', DATETIME('2024-05-02 10:43'), 5, 5);
+       ('Used Chanel Dress', 2334.00, 'Pre owned 1996 chanel dress', DATETIME('2024-05-02 10:43'), 5, 5);
 
 
 -- Create PostImages

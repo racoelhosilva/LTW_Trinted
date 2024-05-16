@@ -3,8 +3,9 @@
   grid-template-areas: "img   img"
                        "name  like-button"
                        "price like-button";
+  grid-template-columns: auto 3em;
   width: 13em;
-  height: 17em;
+  height: 19em;
   background-color: var(--background-secondary);
   border-radius: 1em;
   cursor: pointer;
@@ -23,11 +24,14 @@
 .product-card > h1 {
   grid-area: name;
   margin: 0 0.5rem;
+  overflow: hidden;
   color: var(--primary);
+  font-size: 1.3em;
 }
 
 .product-card > p {
   grid-area: price;
+  overflow: hidden;
   margin: 0 0.5em 0.5em;
 }
 

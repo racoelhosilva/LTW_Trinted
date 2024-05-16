@@ -12,7 +12,7 @@ declare(strict_types=1);
     </div>
 <?php } ?>
 
-<?php function drawProductCard(Post $post, User $loggedInUser)
+<?php function drawProductCard(Post $post, ?User $loggedInUser)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     ?>
