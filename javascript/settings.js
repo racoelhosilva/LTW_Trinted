@@ -16,17 +16,38 @@ function resetFields(username, email) {
 }
 function changeSettings(username, email, newPassword, oldPassword) {
     return __awaiter(this, void 0, void 0, function* () {
-        return postData("../actions/change_settings.php", { username: username, email: email, old: oldPassword, new: newPassword })
+        return postData("../actions/change_settings.php", {
+            username: username,
+            email: email,
+            old: oldPassword,
+            new: newPassword
+        })
             .then(response => response.json());
     });
 }
+function uploadProfilePicture(file) {
+    var formData = new FormData();
+    formData.append("subfolder", "profiles");
+    formData.append("image", file);
+    var xhr = new XMLHttpRequest();
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            console.log(this.responseText);
+            // var response = JSON.parse(this.responseText);
+            // console.log(response.message);
+        }
+    });
+    xhr.open("POST", "api/upload_image.php", true);
+    xhr.send(formData);
+}
 const settingsSection = document.querySelector("#account-settings");
 const changeSettingsButton = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#settings-button");
+const changeProfilePictureButton = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#change-profile-picture");
 const usernameField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#new-username");
 const emailField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#new-email");
 const newPasswordField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#new-password");
 const oldPasswordField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#old-password");
-if (settingsSection && changeSettingsButton && usernameField && emailField && newPasswordField && oldPasswordField) {
+if (settingsSection && changeSettingsButton && changeProfilePictureButton && usernameField && emailField && newPasswordField && oldPasswordField) {
     var username = usernameField.value;
     var email = emailField.value;
     changeSettingsButton.addEventListener('click', () => {
@@ -46,5 +67,16 @@ if (settingsSection && changeSettingsButton && usernameField && emailField && ne
             }
             resetFields(username, email);
         });
+    });
+    changeProfilePictureButton.addEventListener('click', () => {
+        var _a;
+        const fileInput = document.getElementById('image-input');
+        const file = (_a = fileInput.files) === null || _a === void 0 ? void 0 : _a[0];
+        if (file) {
+            uploadProfilePicture(file);
+        }
+        else {
+            console.error('No file selected.');
+        }
     });
 }
