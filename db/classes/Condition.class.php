@@ -23,6 +23,12 @@ class Condition
         $stmt->execute();
     }
     
+    public static function getAllConditions(PDO $db) {
+        $stmt = $db->prepare("SELECT name FROM Condition");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     public static function getNumberOfConditions(PDO $db) {
         $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Condition");
         $stmt->execute();

@@ -19,30 +19,136 @@ include_once('db/classes/Size.class.php');
 
         <section id="dashboard-posts">
             <h2>Post Information</h2>
-            Total Number of Posts: <?= Post::getNumberOfPosts($db) ?>
-            Number of Active Posts: <?= Post::getNumberOfActivePosts($db) ?>
-            Number of Closed Posts: <?= Post::getNumberOfClosedPosts($db) ?>
+            <div class="dashboard-row">
+                <div class="stat-card">
+                    <h3><?= Post::getNumberOfPosts($db) ?></h3>
+                    <p>Total Posts</p> 
+                </div>
+                <div class="stat-card">
+                    <h3><?= Post::getNumberOfActivePosts($db) ?></h3>
+                    <p>Active Posts</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3><?= Post::getNumberOfClosedPosts($db) ?></h3>
+                    <p>Closed Posts</p>
+                </div>
+            </div>
         </section>
 
         <section id="dashboard-details">
             <h2>Details Information</h2>
+            
+            <div class="listable-detail-section">
 
-            Number of Brands: <?= Brand::getNumberOfBrands($db) ?>
-            Number of Categories: <?= Category::getNumberOfCategories($db) ?>
-            Number of Conditions: <?= Condition::getNumberOfConditions($db) ?>
-            Number of Sizes: <?= Size::getNumberOfSizes($db) ?>            
+                <div class="detailed-card">
+                        <?php $brands = Brand::getAllBrands($db); ?>
+                        <h3>
+                        Brands <span class="detail-count"><?= sizeof($brands) ?></span>
+                    </h3>
+                    <ul>
+                    <?php
+                    foreach ($brands as $brand) { ?>
+                        <li> <?= $brand['name'] ?> </li>
+                        <?php } ?>
+                    </ul>
+                    <div id="writing-space">
+                        <input type="text" class="new-detail" name="newsize" placeholder="Write here...">
+                        <input type="button" class="sendbutton" value="Add">
+                    </div>
+                </div>
+                <div class="detailed-card">
+                    <?php $categories = Category::getAllCategories($db); ?>
+                    <h3>
+                        Categories <span class="detail-count"><?= sizeof($categories) ?></span>
+                    </h3>
+                    <ul>
+                        <?php
+                    foreach ($categories as $category) { ?>
+                        <li> <?= $category['name'] ?> </li>
+                    <?php } ?>
+                    </ul>
+                    <div id="writing-space">
+                        <input type="text" class="new-detail" name="newsize" placeholder="Write here...">
+                        <input type="button" class="sendbutton" value="Add">
+                    </div>
+                </div>
+                <div class="detailed-card">
+                    <?php $conditions = Condition::getAllConditions($db); ?>
+                    <h3>
+                        Conditions <span class="detail-count"><?= sizeof($conditions) ?></span>
+                    </h3>
+                    <ul>
+                        <?php
+                    foreach ($conditions as $condition) { ?>
+                        <li> <?= $condition['name'] ?> </li>
+                        <?php } ?>
+                    </ul>
+                    <div id="writing-space">
+                        <input type="text" class="new-detail" name="newsize" placeholder="Write here...">
+                        <input type="button" class="sendbutton" value="Add">
+                    </div>
+                </div>
+                <div class="detailed-card">
+                    <?php $sizes = Size::getAllSizes($db); ?>
+                    <h3>
+                        Sizes <span class="detail-count"><?= sizeof($sizes) ?></span>
+                    </h3>
+                    <ul>
+                        <?php
+                    foreach ($sizes as $size) { ?>
+                        <li> <?= $size['name'] ?> </li>
+                        <?php } ?>
+                    </ul>
+                    <div id="writing-space">
+                        <input type="text" class="new-detail" name="newsize" placeholder="Write here...">
+                        <input type="button" class="sendbutton" value="Add">
+                    </div>
+                </div>        
+            </div>
         </section>
 
         <section id="dashboard-users">
             <h2>User Information</h2>
-            Total Number of User: <?= User::getNumberOfUsers($db) ?>
-            Number of Active Users: <?= User::getNumberOfActiveUsers($db) ?>
-            Number of Banned Users: <?= User::getNumberOfBannedUsers($db) ?>
-            Number of Admins: <?= User::getNumberOfAdmins($db) ?>
-            Number of Sellers: <?= User::getNumberOfSellers($db) ?>
-            Number of Buyers: <?= User::getNumberOfBuyers($db) ?>
+
+            <div class="dashboard-row">
+                <div class="stat-card">
+                    <h3><?= User::getNumberOfUsers($db) ?></h3>
+                    <p>Total Users</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3><?= User::getNumberOfActiveUsers($db) ?></h3>
+                    <p>Active Users</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3><?= User::getNumberOfBannedUsers($db) ?></h3>
+                    <p>Banned Users</p>
+                </div>
+            </div>
+            <div class="dashboard-row">
+                <div class="stat-card">
+                    <h3><?= User::getNumberOfAdmins($db) ?></h3>
+                    <p>Admins</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3><?= User::getNumberOfSellers($db) ?></h3>
+                    <p>Sellers</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3><?= User::getNumberOfBuyers($db) ?></h3>
+                    <p>Buyers</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3><?= Message::getNumberOfMessages($db) ?></h3>
+                    <p>Messages</p>
+                </div>
+            </div>
             
-            Number of Messages: <?= Message::getNumberOfMessages($db) ?>
         </section>
 
     </main> 

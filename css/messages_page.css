@@ -96,7 +96,6 @@
 	background-color: var(--background-primary);
     border: 1px solid var(--halftone);
 	border-radius: 22px;
-	margin-bottom: 1em;
     border-style: solid;
     color: var(--text);
 }

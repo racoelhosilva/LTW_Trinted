@@ -23,6 +23,12 @@ class Category
         $stmt->execute();
     }
 
+    public static function getAllCategories(PDO $db) {
+        $stmt = $db->prepare("SELECT name FROM Category ORDER BY name ASC");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     public static function getNumberOfCategories(PDO $db) {
         $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Category");
         $stmt->execute();
