@@ -28,7 +28,6 @@ include_once('template/search_page.tpl.php');
             <!-- TODO: use real search -->
             <?php
             drawSearchedProducts($posts, $page); ?>
-            <?php drawPagination($num_pages, $page); ?>
         </section>
     </main>
 <?php } ?>
