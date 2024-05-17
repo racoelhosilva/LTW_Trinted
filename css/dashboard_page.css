@@ -16,7 +16,7 @@
 #dashboard-page h2 {
     font-size: 1.5em;
     padding: 0.5em 0;
-    margin: 0;
+    margin: 0.5em 0;
     text-align: center;
     color: var(--halftone);
 }
@@ -61,7 +61,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 1em;
+    gap: 2em;
 }
 
 .detailed-card {
@@ -135,11 +135,16 @@
         align-items: center;
         gap: 1em;
     }
+
+    .listable-detail-section {
+        gap: 1.5em;
+    }
 }
 
 @media (max-width: 600px) {
     .listable-detail-section {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
+        gap: 1em;
     }
 }
