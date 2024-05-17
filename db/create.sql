@@ -3,9 +3,9 @@ PRAGMA foreign_keys = ON;
 DROP TABLE IF EXISTS Message;
 DROP TABLE IF EXISTS Wishes;
 DROP TABLE IF EXISTS ProductImage;
+DROP TABLE IF EXISTS ProductBrand;
 DROP TABLE IF EXISTS Product;
 DROP TABLE IF EXISTS Payment;
-DROP TABLE IF EXISTS ProductBrand;
 DROP TABLE IF EXISTS Brand;
 DROP TABLE IF EXISTS Condition;
 DROP TABLE IF EXISTS Category;
@@ -128,17 +128,6 @@ CREATE TABLE Product
     CONSTRAINT PaymentFK FOREIGN KEY (Payment) REFERENCES Payment (id)
 );
 
-CREATE TABLE ProductBrand
-(
-    product  INTEGER
-        CONSTRAINT ProductNotNull NOT NULL,
-    brand VARCHAR(16)
-        CONSTRAINT BrandNotNull NOT NULL,
-    CONSTRAINT ProductBrandPK PRIMARY KEY (product, brand),
-    CONSTRAINT ProductFK FOREIGN KEY (product) REFERENCES Product (id),
-    CONSTRAINT BrandFK FOREIGN KEY (brand) REFERENCES Brand (name)
-);
-
 CREATE TRIGGER ProductOwnerIsSeller
     BEFORE INSERT
     ON Product
@@ -160,6 +149,17 @@ CREATE TRIGGER ProductAfterUserRegister
 BEGIN
     SELECT RAISE(FAIL, 'The product cannot be publish before the respective seller being registered');
 END;
+
+CREATE TABLE ProductBrand
+(
+    product  INTEGER
+        CONSTRAINT ProductNotNull NOT NULL,
+    brand VARCHAR(16)
+        CONSTRAINT BrandNotNull NOT NULL,
+    CONSTRAINT ProductBrandPK PRIMARY KEY (product, brand),
+    CONSTRAINT ProductFK FOREIGN KEY (product) REFERENCES Product (id),
+    CONSTRAINT BrandFK FOREIGN KEY (brand) REFERENCES Brand (name)
+);
 
 CREATE TABLE ProductImage
 (

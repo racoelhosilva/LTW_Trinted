@@ -160,11 +160,11 @@ VALUES ('Nike'),
 
 -- Create Products
 INSERT INTO Product (title, price, description, publishDatetime, seller, size, category, condition)
-VALUES ('T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but never used it', DATETIME('2024-04-23 14:00'), 4, 'M', 'T-shirts', 'New without tag'),
-       ('Dress', 5.99, 'Almost new dress from Louis Vuitton', DATETIME('2024-04-23 14:01'), 5, 'S', 'Dresses', 'Like new'),
-       ('Coat', 5.99, 'Coat in good condition from Chanel', DATETIME('2024-04-23 14:02'), 6, 'L', 'Coats', 'Excellent'),
-       ('Bag', 67.99, 'Leather bag from Louis Vuitton', DATETIME('2024-05-01 09:12'), 4, 'M', 'Bags', 'New with tag'),
-       ('Used Chanel Dress', 2334.00, 'Pre owned 1996 chanel dress', DATETIME('2024-05-02 10:43'), 5, 'S', 'Dresses', 'Excellent');
+VALUES ('T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but never used it', DATETIME('2024-04-23 14:00'), 5, 'M', 'T-shirts', 'New without tag'),
+       ('Dress', 5.99, 'Almost new dress from Louis Vuitton', DATETIME('2024-04-23 14:01'), 6, 'S', 'Dresses', 'Like new'),
+       ('Coat', 5.99, 'Coat in good condition from Chanel', DATETIME('2024-04-23 14:02'), 7, 'L', 'Coats', 'Excellent'),
+       ('Bag', 67.99, 'Leather bag from Louis Vuitton', DATETIME('2024-05-01 09:12'), 5, 'M', 'Bags', 'New with tag'),
+       ('Used Chanel Dress', 2334.00, 'Pre owned 1996 chanel dress', DATETIME('2024-05-02 10:43'), 6, 'S', 'Dresses', 'Excellent');
 
 -- Create ProductBrands
 INSERT INTO ProductBrand (product, brand)
