@@ -6,7 +6,7 @@ require_once '../db/classes/User.class.php';
 
 if (isset($_POST['registername']) && isset($_POST["registeremail"]) && isset($_POST["registerpassword"])) {
 
-    function validate($data)
+    function sanitize($data)
     {
         $data = trim($data);
         $data = stripslashes($data);
@@ -15,9 +15,9 @@ if (isset($_POST['registername']) && isset($_POST["registeremail"]) && isset($_P
     }
 }
 
-$name = validate($_POST['registername']);
-$email = validate($_POST['registeremail']);
-$password = validate($_POST['registerpassword']);
+$name = sanitize($_POST['registername']);
+$email = sanitize($_POST['registeremail']);
+$password = sanitize($_POST['registerpassword']);
 
 if (empty($name)) {
     header("Location: /login?loginerror=Username is required");

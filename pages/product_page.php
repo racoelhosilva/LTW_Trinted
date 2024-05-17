@@ -10,26 +10,26 @@ include_once('pages/404_page.php');
 include_once('db/classes/Payment.class.php');
 ?>
 
-<?php function drawProductPageContent(Request $request, int $postId)
+<?php function drawProductPageContent(Request $request, int $productId)
 { ?>
     <?php
     $db = new PDO("sqlite:" . DB_PATH);
-    $post = Post::getPostByID($db, $postId);
-    if (!isset($post)) {
+    $product = Product::getProductByID($db, $productId);
+    if (!isset($product)) {
         draw404PageContent();
         return;
     }
 
-    if (is_null($post->payment)){ ?>
+    if (is_null($product->payment)){ ?>
         <main id="product-page">
-            <?php drawProductPhotos($post); ?>
-            <?php drawProductInfo($post); ?>
-            <?php drawRelatedProductsSection($post); ?>
+            <?php drawProductPhotos($product); ?>
+            <?php drawProductInfo($product); ?>
+            <?php drawRelatedProductsSection($product); ?>
         </main>
-    <?php } elseif ($request->session('user_id') == $post->seller->id) { ?>
+    <?php } elseif ($request->session('user_id') == $product->seller->id) { ?>
         <main id="shipping-form">
             <?php 
-                drawShippingForm($post); 
+                drawShippingForm($product); 
             ?>
         </main>
     <?php } else { 
@@ -39,11 +39,11 @@ include_once('db/classes/Payment.class.php');
 } ?>
 
 <?php
-function drawProductPage(Request $request, int $postId)
+function drawProductPage(Request $request, int $productId)
 {
-    createPage(function () use ($request, $postId) {
+    createPage(function () use ($request, $productId) {
         drawMainHeader();
-        drawProductPageContent($request, $postId);
+        drawProductPageContent($request, $productId);
         drawFooter();
     });
 } ?>

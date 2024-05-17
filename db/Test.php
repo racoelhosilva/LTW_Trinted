@@ -9,7 +9,7 @@ require_once("classes/Item.class.php");
 require_once("classes/ItemBrand.class.php");
 require_once("classes/Size.class.php");
 require_once("classes/User.class.php");
-require_once("classes/Post.class.php");
+require_once("classes/Product.class.php");
 $db = new PDO("sqlite:database.db");
 // $image = new Image("https://picsum.photos/1600/1200");
 // $image->upload($db);

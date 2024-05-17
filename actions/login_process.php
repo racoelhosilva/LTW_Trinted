@@ -7,7 +7,7 @@ require_once '../db/classes/User.class.php';
 
 if (isset($_POST['loginemail']) && isset($_POST["loginpassword"])) {
 
-    function validate($data)
+    function sanitize($data)
     {
         $data = trim($data);
         $data = stripslashes($data);
@@ -16,8 +16,8 @@ if (isset($_POST['loginemail']) && isset($_POST["loginpassword"])) {
     }
 }
 
-$email = validate($_POST['loginemail']);
-$password = validate($_POST['loginpassword']);
+$email = sanitize($_POST['loginemail']);
+$password = sanitize($_POST['loginpassword']);
 
 if (empty($email)) {
     header("Location: /login?loginerror=Email is required");

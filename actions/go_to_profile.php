@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-function validate($data)
+function sanitize($data)
 {
     $data = trim($data);
     $data = stripslashes($data);
@@ -14,7 +14,7 @@ if (!isset($_GET['id'])) {
     exit();
 }
 
-$userID = validate($_GET['id']);
+$userID = sanitize($_GET['id']);
 
 if (empty($userID)) {
     header("Location: /profile/" . $_SESSION['user_id']);

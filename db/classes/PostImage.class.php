@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-class PostImage {
-    public Post $post;
+class ProductImage {
+    public Product $product;
     public Image $image;
 
-    public function __construct(Post $post, Image $image){
-        $this->post = $post;
+    public function __construct(Product $product, Image $image){
+        $this->product = $product;
         $this->image = $image;
     }
 
     public function upload(PDO $db){
-        $stmt = $db->prepare("INSERT INTO PostImage (post, image) VALUES (:post, :image)");
-        $stmt->bindParam(":post", $this->post->id);
+        $stmt = $db->prepare("INSERT INTO ProductImage (product, image) VALUES (:product, :image)");
+        $stmt->bindParam(":product", $this->product->id);
         $stmt->bindParam(":image", $this->image->url);
         $stmt->execute();
     }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-include_once(__DIR__ . '/../db/classes/Post.class.php');
+include_once(__DIR__ . '/../db/classes/Product.class.php');
 include_once(__DIR__ . '/../db/classes/Payment.class.php');
 include_once(__DIR__ . '/../framework/Session.class.php');
 include_once(__DIR__ . '/utils.php');
@@ -15,15 +15,15 @@ function getSubtotal(array $cart): float {
 }
 
 function parsePayment(array $cart): Payment {
-    $firstName = validate($_POST['first-name']);
-    $lastName = validate($_POST['last-name']);
-    $email = validate($_POST['email']);
-    $phone = validate($_POST['phone']);
-    $address = validate($_POST['address']);
-    $zipCode = validate($_POST['zip']);
-    $town = validate($_POST['town']);
-    $country = validate($_POST['country']);
-    $shipping = validate($_POST['shipping']);
+    $firstName = sanitize($_POST['first-name']);
+    $lastName = sanitize($_POST['last-name']);
+    $email = sanitize($_POST['email']);
+    $phone = sanitize($_POST['phone']);
+    $address = sanitize($_POST['address']);
+    $zipCode = sanitize($_POST['zip']);
+    $town = sanitize($_POST['town']);
+    $country = sanitize($_POST['country']);
+    $shipping = sanitize($_POST['shipping']);
     $paymentDatetime = time();
     return new Payment(getSubtotal($cart), $shipping, $firstName, $lastName, $email, $phone, $address, $zipCode, $town, $country, $paymentDatetime);
 }
@@ -31,8 +31,8 @@ function parsePayment(array $cart): Payment {
 function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
     $payment->upload($db);
     foreach ($cart as $item) {
-        $post = Post::getPostByID($db, (int)$item->id);
-        $post->associateToPayment($db, (int)$payment->id);
+        $product = Product::getProductByID($db, (int)$item->id);
+        $product->associateToPayment($db, (int)$payment->id);
     }
 }
 
@@ -40,18 +40,17 @@ function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
 header('Content-Type: application/json');
 
 if (!isset($_POST['first-name']) || !isset($_POST['last-name']) || !isset($_POST['email']) || !isset($_POST['phone']) || !isset($_POST['address']) || !isset($_POST['zip']) || !isset($_POST['town']) || !isset($_POST['country']) || !isset($_POST['shipping'])) {
-    die(json_encode(array('success' => false, 'error' => 'Missing fields')));
+    returnMissingFields();
 }
 
 $request = new Request();
 $session = $request->getSession();
 
-$csrf = $request->post('csrf');
-if (!isset($csrf) || !$session->verifyCsrf($csrf)) {
-    die(json_encode(array('success' => false, 'error' => 'CSRF token missing or invalid')));
+if (!$request->verifyCsrf()) {
+    returnCrsfMismatch();
 }
 if (!userLoggedIn($request)) {
-    die(json_encode(array('success' => false, 'error' => 'User not logged in')));
+    returnUserNotLoggedIn();
 }
 
 $cart = getCookie('cart') ?? [];

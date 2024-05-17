@@ -91,22 +91,22 @@ function onLikeButtonClick(event: Event): void {
   return;
 }
 
-function drawProductCard(post: {[key: string]: string}): HTMLElement {
+function drawProductCard(product: {[key: string]: string}): HTMLElement {
   const productCard = document.createElement('div');
   productCard.classList.add('product-card');
 
-  productCard.addEventListener('click', () => goToProduct(post.id));
+  productCard.addEventListener('click', () => goToProduct(product.id));
 
   const productImage = document.createElement('img');
-  productImage.src = post.images[0];
-  productImage.alt = post.title;
+  productImage.src = product.images[0];
+  productImage.alt = product.title;
 
   const productTitle = document.createElement('h1');
-  productTitle.innerHTML = post.title;
+  productTitle.innerHTML = product.title;
 
   const productPrice = document.createElement('p');
   productPrice.classList.add('price');
-  productPrice.innerHTML = post.price;
+  productPrice.innerHTML = product.price;
 
   const likeButton = drawLikeButton();
   likeButton.addEventListener('click', onLikeButtonClick);

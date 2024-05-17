@@ -23,8 +23,8 @@ if (!isset($_POST['message']) || $_POST['message'] == "" || !isset($_POST['destI
 session_start();
 
 
-$messageText = validate($_POST['message']);
-$destID = (int)(validate($_POST['destID']));
+$messageText = sanitize($_POST['message']);
+$destID = (int)(sanitize($_POST['destID']));
 $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 
 

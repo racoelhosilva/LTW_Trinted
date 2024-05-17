@@ -142,9 +142,9 @@ class User
 
     }
 
-    public function getUserPosts(PDO $db): array
+    public function getUserProducts(PDO $db): array
     {
-        $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller AND (payment IS NULL)");
+        $stmt = $db->prepare("SELECT * FROM Product WHERE seller = :seller AND (payment IS NULL)");
         $stmt->bindParam(":seller", $this->id);
         $stmt->execute();
         $posts = $stmt->fetchAll();
@@ -158,10 +158,21 @@ class User
         $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller AND (NOT (payment IS NULL)) ");
         $stmt->bindParam(":seller", $this->id);
         $stmt->execute();
-        $posts = $stmt->fetchAll();
-        return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), $this, Item::getItem($db, $post["item"]));
-        }, $posts);
+        $products = $stmt->fetchAll();
+        return array_map(function ($product) use ($db) {
+            return new Product(
+                $product["id"],
+                $product["title"],
+                $product["price"],
+                $product["description"],
+                strtotime($product["publishDatetime"]),
+                User::getUserByID($db, $product["seller"]),
+                Size::getSize($db, $product["size"]),
+                Category::getCategory($db, $product["category"]),
+                Condition::getCondition($db, $product["condition"]),
+                isset($row["payment"]) ? Payment::getPaymentById($db, $product["payment"]) : null,
+            );
+        }, $products);
     }
 
     public function isBanned(PDO $db): bool
@@ -198,32 +209,32 @@ class User
         $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user");
         $stmt->bindParam(":user", $this->id);
         $stmt->execute();
-        return array_map(function ($postId) use ($db) {
-            return Post::getPostByID($db, $postId["post"]);
+        return array_map(function ($productId) use ($db) {
+            return Product::getProductByID($db, $productId["product"]);
         }, $stmt->fetchAll());
     }
 
-    public function addToWishlist(PDO $db, int $postId): void
+    public function addToWishlist(PDO $db, int $productId): void
     {
-        $stmt = $db->prepare("INSERT INTO Wishes (user, post) VALUES (:user, :post)");
+        $stmt = $db->prepare("INSERT INTO Wishes (user, product) VALUES (:user, :product)");
         $stmt->bindParam(":user", $this->id);
-        $stmt->bindParam(":post", $postId);
+        $stmt->bindParam(":product", $productId);
         $stmt->execute();
     }
 
-    public function removeFromWishlist(PDO $db, int $postId): void
+    public function removeFromWishlist(PDO $db, int $productId): void
     {
-        $stmt = $db->prepare("DELETE FROM Wishes WHERE user = :user AND post = :post");
+        $stmt = $db->prepare("DELETE FROM Wishes WHERE user = :user AND product = :product");
         $stmt->bindParam(":user", $this->id);
-        $stmt->bindParam(":post", $postId);
+        $stmt->bindParam(":product", $productId);
         $stmt->execute();
     }
 
-    public function isInWishlist(PDO $db, int $postId): bool
+    public function isInWishlist(PDO $db, int $productId): bool
     {
-        $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user AND post = :post");
+        $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user AND product = :product");
         $stmt->bindParam(":user", $this->id);
-        $stmt->bindParam(":post", $postId);
+        $stmt->bindParam(":product", $productId);
         $stmt->execute();
         return $stmt->fetch() !== false;
     }

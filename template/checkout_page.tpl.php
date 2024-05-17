@@ -1,28 +1,28 @@
 <?php
 declare(strict_types=1);
 
-include_once('db/classes/Post.class.php');
+include_once('db/classes/Product.class.php');
 ?>
 
-<?php function drawOrderItems(array $posts) { ?>
+<?php function drawOrderItems(array $products) { ?>
     <section id="order-items">
         <h1>Order</h1>
-        <?php foreach ($posts as $post) { ?>
-            <?php drawOrderItemCard($post); ?>
+        <?php foreach ($products as $product) { ?>
+            <?php drawOrderItemCard($product); ?>
         <?php } ?>
     </section>
 <?php } ?>
 
-<?php function drawOrderItemCard(Post $post) { ?>
+<?php function drawOrderItemCard(Product $product) { ?>
     <?php $db = new PDO("sqlite:" . DB_PATH); ?>
-    <div class="order-item-card" data-post-id="<?= $post->id ?>">
-        <img src="<?= $post->getAllImages($db)[0]->url ?>" alt="Product Image">
+    <div class="order-item-card" data-product-id="<?= $product->id ?>">
+        <img src="<?= $product->getAllImages($db)[0]->url ?>" alt="Product Image">
         <div>
-            <h1><?= $post->title ?></h1>
-            <p><?= $post->item->size->size ?> - <?= $post->item->condition->condition ?></p>
+            <h1><?= $product->title ?></h1>
+            <p><?= $product->size->name ?> - <?= $product->condition->name ?></p>
         </div>
         <div>
-            <p>$<?= $post->price ?></h1>
+            <p>$<?= $product->price ?></h1>
             <p class="num-items">2</p>
         </div>
     </div>

@@ -95,18 +95,17 @@ include_once('template/product.tpl.php');
     <div class="spinner"><div></div></div>
 <?php } ?>
 
-<?php function drawProductSection(array $posts, string $title, string $emptyMessage = "No products here") { ?>
+<?php function drawProductSection(array $products, string $title, string $emptyMessage = "No products here") { ?>
     <?php
-        if (isset($_SESSION['user_id']))
-            $loggedInUser = User::getUserByID(new PDO("sqlite:" . DB_PATH), $_SESSION['user_id']);
+        $loggedInUser = isset($_SESSION['user_id']) ? User::getUserByID(new PDO("sqlite:" . DB_PATH), $_SESSION['user_id']) : null;
     ?>
     <section id="product-section">
         <h1><?= $title ?></h1>
-        <?php if (count($posts) === 0) { ?>
+        <?php if (count($products) === 0) { ?>
             <h2><?= $emptyMessage ?></h2>
         <?php } else { ?>
-            <?php foreach ($posts as $post) {
-                drawProductCard($post, $loggedInUser);
+            <?php foreach ($products as $product) {
+                drawProductCard($product, $loggedInUser);
             } ?>
         <?php } ?>
     </section>

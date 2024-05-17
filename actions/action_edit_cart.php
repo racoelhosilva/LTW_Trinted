@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-include_once(__DIR__ . '/../db/classes/Post.class.php');
+require_once __DIR__ . '/../framework/Autoload.php';
 include_once(__DIR__ . '/utils.php');
 
 function setCart(array $cart): void {
@@ -12,23 +12,23 @@ function getCart(): array {
     return getCookie('cart') ?? [];
 }
 
-function addToCart(Post $post, PDO $db): bool {
+function addToCart(Product $product, PDO $db): bool {
     $cart = getCart();
     foreach ($cart as $cart_item) {
-        if ($cart_item->id == $post->id) {
+        if ($cart_item->id == $product->id) {
             return false;
         }
     }
 
-    $cart[] = parseProduct($db, $post);
+    $cart[] = parseProduct($db, $product);
     setCart($cart);
     return true;
 }
 
-function removeFromCart(Post $post): bool {
+function removeFromCart(Product $product): bool {
     $cart = getCart();
     foreach ($cart as $index => $cart_item) {
-        if ($cart_item->id == $post->id) {
+        if ($cart_item->id == $product->id) {
             array_splice($cart, $index, 1);
             setCart($cart);
             return true;
@@ -38,21 +38,21 @@ function removeFromCart(Post $post): bool {
     return false;
 }
 
-if (!isset($_POST['post_id']) || !in_array($_POST['remove'], [true, false]))
-    die("Invalid request");
+if (!isset($_POST['product_id']) || !in_array($_POST['remove'], [true, false]))
+    returnMissingFields();
 
 session_start();
 
-$post_id = validate($_POST['post_id']);
-$remove = validate($_POST['remove']) === 'true';
+$product_id = sanitize($_POST['product_id']);
+$remove = sanitize($_POST['remove']) === 'true';
 $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 
 try {
-    $post_id = (int)$post_id;
-    $post = Post::getPostByID($db, (int)$post_id);
+    $product_id = (int)$product_id;
+    $product = Product::getProductByID($db, (int)$product_id);
 } catch (Exception $e) {
     die(json_encode(array('success' => false, 'error' => $e->getMessage())));
 }
 
-$success = isset($post) && ((!$remove && addToCart($post, $db)) || ($remove && removeFromCart($post)));
+$success = isset($product) && ((!$remove && addToCart($product, $db)) || ($remove && removeFromCart($product)));
 echo json_encode(array('success' => $success));

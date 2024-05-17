@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 include_once(__DIR__ . '/utils.php');
-include_once(__DIR__ . '/../db/classes/Post.class.php');
+include_once(__DIR__ . '/../db/classes/Product.class.php');
 include_once(__DIR__ . '/../db/classes/User.class.php');
 include_once(__DIR__ . '/../db/classes/Size.class.php');
 include_once(__DIR__ . '/../db/classes/Condition.class.php');
@@ -10,35 +10,35 @@ include_once(__DIR__ . '/../db/classes/Category.class.php');
 
 $filterTypes = ['category', 'size', 'condition'];
 
-function searchPosts(PDO $db, string $search): array {
+function searchProducts(PDO $db, string $search): array {
     $query = '
         SELECT id
-        FROM Post
+        FROM Product
         WHERE title LIKE :search
         OR description LIKE :search
         OR price LIKE :search
         OR EXISTS (SELECT *
             FROM Item
-            WHERE Item.id = Post.item
+            WHERE Item.id = Product.item
             AND ((category LIKE :search OR size LIKE :search OR condition LIKE :search
             OR EXISTS (SELECT *
                 FROM ItemBrand
                 WHERE ItemBrand.item = Item.id AND brand LIKE :search)
             OR EXISTS (SELECT *
                 FROM User
-                WHERE User.id = Post.seller AND name LIKE :search))))
+                WHERE User.id = Product.seller AND name LIKE :search))))
             ORDER BY publishDatetime;';
     
     $stmt = $db->prepare($query);
     $stmt->bindValue(':search', '%' . $search . '%');
     $stmt->execute();
     
-    $posts = [];
+    $products = [];
     foreach ($stmt->fetchAll() as $row) {
-        $post = Post::getPostByID($db, $row['id']);
-        $posts[] = parseProduct($post, $db);
+        $product = Product::getProductByID($db, $row['id']);
+        $products[] = parseProduct($product, $db);
     }
-    return $posts;
+    return $products;
 }
 
 function getFilters(): array {
@@ -50,11 +50,11 @@ function getFilters(): array {
     return $filters;
 }
 
-function matchesFilters(array $post, array $filters): bool {
+function matchesFilters(array $product, array $filters): bool {
     global $filterTypes;
 
     foreach ($filterTypes as $filterType) {
-        if ($filters[$filterType] != [] && !in_array($post[$filterType], $filters[$filterType])) {
+        if ($filters[$filterType] != [] && !in_array($product[$filterType], $filters[$filterType])) {
             return false;
         }
     }
@@ -62,19 +62,19 @@ function matchesFilters(array $post, array $filters): bool {
     return true;
 }
 
-function filterResults(PDO $db, array $posts, array $filters): array {
-    return array_filter($posts, function($post) use ($filters) {
-        return matchesFilters($post, $filters);
+function filterResults(PDO $db, array $products, array $filters): array {
+    return array_filter($products, function($product) use ($filters) {
+        return matchesFilters($product, $filters);
     });
 }
 
-function limitResults(array $posts, int $start, int $limit): array {
-    return array_slice($posts, $start, $limit);
+function limitResults(array $products, int $start, int $limit): array {
+    return array_slice($products, $start, $limit);
 }
 
-function countPosts(PDO $db, string $search, array $filters): int {
-    return count(array_filter(searchPosts($db, $search), function($post) use ($filters) {
-        return matchesFilters($post, $filters);
+function countProducts(PDO $db, string $search, array $filters): int {
+    return count(array_filter(searchProducts($db, $search), function($product) use ($filters) {
+        return matchesFilters($product, $filters);
     }));
 }
 
@@ -83,11 +83,11 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] !== 'GET')
     die(json_encode(['success' => false, 'error' => 'Invalid request method']));
 
-if (!paramsExist('GET', ['query']))
+if (!$request->paramsExist('GET', ['query']))
     die(['success' => false, 'error' => 'Missing fields']);
 
 try {
-    $query = validate($_GET['query']);
+    $query = sanitize($_GET['query']);
     $count = isset($_GET['count']) && $_GET['count'] === 'true';
     $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : PHP_INT_MAX;
@@ -96,13 +96,13 @@ try {
     $filters = getFilters();
 
     if (!$count) {
-        $posts = searchPosts($db, $query);
-        $posts = filterResults($db, $posts, $filters);
-        $posts = limitResults($posts, $start, $limit);
+        $products = searchProducts($db, $query);
+        $products = filterResults($db, $products, $filters);
+        $products = limitResults($products, $start, $limit);
 
-        die(json_encode(['success' => true, 'posts' => $posts]));
+        die(json_encode(['success' => true, 'products' => $products]));
     } else {
-        $count = countPosts($db, $query, $filters);
+        $count = countProducts($db, $query, $filters);
 
         die(json_encode(['success' => true, 'count' => $count]));
     }

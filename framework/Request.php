@@ -25,19 +25,28 @@ class Request
         $this->session = new Session();
     }
 
+    private function sanitize(?string $data): string {
+        if ($data === null)
+            return '';
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
     public function get($key, $default = null)
     {
-        return $this->getParams[$key] ?? $default;
+        return sanitize($this->getParams[$key]) ?? $default;
     }
 
     public function post($key, $default = null)
     {
-        return $this->postParams[$key] ?? $default;
+        return sanitize($this->postParams[$key]) ?? $default;
     }
 
     public function cookie($key, $default = null)
     {
-        return $this->cookies[$key] ?? $default;
+        return sanitize($this->cookies[$key]) ?? $default;
     }
 
     public function header($key)
@@ -53,5 +62,24 @@ class Request
     public function getSession() : Session
     {
         return $this->session;
+    }
+
+    public function verifyCsrf() : bool
+    {
+        return $this->post('csrf') === $this->session->getCsrf();
+    }
+
+    public function paramsExist(string $method, array $params) : bool
+    {
+        $arrayName = '_' . $method;
+        $array = $$arrayName;
+        if (!isset($array))
+            return false;
+
+        foreach ($params as $param) {
+            if (!isset($array[$param]))
+                return false;
+        }
+        return true;
     }
 }

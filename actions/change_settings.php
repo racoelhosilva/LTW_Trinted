@@ -15,11 +15,11 @@ try {
     die(json_encode(['success' => false, 'error' => 'User not found']));
 }
 
-$newUsername = validate($_POST['username']);
-$newEmail = validate($_POST['email']);
-$newPassword = validate($_POST['new']);
-$currentPassword = validate($_POST['old']);
-$newProfilePicture = validate($_POST['profile_picture']);
+$newUsername = sanitize($_POST['username']);
+$newEmail = sanitize($_POST['email']);
+$newPassword = sanitize($_POST['new']);
+$currentPassword = sanitize($_POST['old']);
+$newProfilePicture = sanitize($_POST['profile_picture']);
 
 if (!$user->validatePassword($currentPassword)) {
     die(json_encode(['success' => false, 'error' => 'Incorrect password']));

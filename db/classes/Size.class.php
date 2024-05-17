@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 class Size
 {
-    public string $size;
-    public function __construct(string $size)
+    public string $name;
+    public function __construct(string $name)
     {
-        $this->size = $size;
+        $this->name = $name;
     }
 
     public function upload(PDO $db)
     {
         $stmt = $db->prepare("INSERT INTO Size (name) VALUES (:name)");
-        $stmt->bindParam(":name", $this->size);
+        $stmt->bindParam(":name", $this->name);
         $stmt->execute();
     }
 

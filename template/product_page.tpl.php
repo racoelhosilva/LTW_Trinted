@@ -5,10 +5,10 @@ include_once('template/common.tpl.php');
 include_once('template/product.tpl.php');
 ?>
 
-<?php function drawProductPhotos(Post $post)
+<?php function drawProductPhotos(Product $product)
 {
     $db = new PDO("sqlite:" . DB_PATH);
-    $images = $post->getAllImages($db);
+    $images = $product->getAllImages($db);
     ?>
     <div id="product-photos">
         <span class="material-symbols-outlined" id="prev-photo">navigate_before</span>
@@ -18,7 +18,7 @@ include_once('template/product.tpl.php');
                 <span class="material-symbols-outlined photo-badge">circle</span>
             <?php } ?>
         </div>
-        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $post->seller->id) {
+        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $product->seller->id) {
             drawLikeButton(User::getUserByID($db, (int)$_SESSION['user_id'])->isInWishlist($db, $_SESSION['user_id']));
         } ?>
         <?php foreach ($images as $image) { ?>
@@ -27,50 +27,50 @@ include_once('template/product.tpl.php');
     </div>
 <?php } ?>
 
-<?php function drawRelatedProductsSection(Post $post)
+<?php function drawRelatedProductsSection(Product $product)
 {
     $db = new PDO("sqlite:" . DB_PATH);
-    $postsByCategory = Post::getPostsByCategory($db, $post->item->category);
-    $user = $post->seller;
-    $postsBySeller = $user->getUserPosts($db);
+    $productsByCategory = Product::getProductsByCategory($db, $product->category);
+    $user = $product->seller;
+    $productsBySeller = $user->getUserProducts($db);
 
-    $postsByBrand = array();
-    $brands = $post->item->getBrands($db);
+    $productsByBrand = array();
+    $brands = $product->getBrands($db);
     foreach ($brands as $brand) {
-        $postsByBrand = array_merge($postsByBrand, Post::getPostsByBrand($db, $brand));
+        $productsByBrand = array_merge($productsByBrand, Product::getProductsByBrand($db, $brand));
     }
-    $posts = array_merge($postsByCategory, $postsBySeller);
-    $posts = array_merge($posts, $postsByBrand);
-    $posts = array_unique($posts, SORT_REGULAR);
-    $posts = array_filter($posts, function ($p) use ($post) {
-        return $p->id != $post->id;
+    $products = array_merge($productsByCategory, $productsBySeller);
+    $products = array_merge($products, $productsByBrand);
+    $products = array_unique($products, SORT_REGULAR);
+    $products = array_filter($products, function ($p) use ($product) {
+        return $p->id != $product->id;
     });
     ?>
-    <?php drawProductSection($posts, "Related Products (" . count($posts) . ")"); ?>
+    <?php drawProductSection($products, "Related Products (" . count($products) . ")"); ?>
 <?php } ?>
 
 
-<?php function drawProductInfo(Post $post)
+<?php function drawProductInfo(Product $product)
 { ?>
     <div id="product-info">
         <div>
-            <h2>Published on <?= date('m/d/Y', $post->publishDateTime) ?></h2>
-            <h2>By <a href="/actions/go_to_profile.php?id=<?= $post->seller->id ?>"><?= $post->seller->name ?></a></h2>
+            <h2>Published on <?= date('m/d/Y', $product->publishDateTime) ?></h2>
+            <h2>By <a href="/actions/go_to_profile.php?id=<?= $product->seller->id ?>"><?= $product->seller->name ?></a></h2>
         </div>
-        <a href="/actions/go_to_profile.php?id=<?= $post->seller->id ?>"><img alt="Profile Picture"
-                src="<?= $post->seller->profilePicture->url ?>" class="avatar"></a>
+        <a href="/actions/go_to_profile.php?id=<?= $product->seller->id ?>"><img alt="Profile Picture"
+                src="<?= $product->seller->profilePicture->url ?>" class="avatar"></a>
         <div class="details">
-            <h1><?= $post->title ?></h1>
-            <p class="price"><?= $post->price ?></p>
+            <h1><?= $product->title ?></h1>
+            <p class="price"><?= $product->price ?></p>
             <p>
                 <strong>Size: </strong>
-                <?= $post->item->size->size ?>
+                <?= $product->size->name ?>
             <p>
-            <p><strong>Condition: </strong><?= $post->item->condition->condition ?></p>
-            <p><strong>Category: </strong> <?= $post->item->category->category ?></p>
-            <p><strong>Brand: </strong> <?php
+            <p><strong>Condition: </strong><?= $product->condition->name ?></p>
+            <p><strong>Category: </strong> <?= $product->category->name ?></p>
+            <p><strong>Brands: </strong> <?php
             $db = new PDO("sqlite:" . DB_PATH);
-            $brands = $post->item->getBrands($db);
+            $brands = $product->getBrands($db);
             foreach ($brands as $brand) {
                 echo $brand->name . " ";
             }
@@ -78,7 +78,7 @@ include_once('template/product.tpl.php');
             <br>
             <p><strong>Description</strong></p>
         </div>
-        <p class="description"><?= $post->description ?></p>
+        <p class="description"><?= $product->description ?></p>
         <button class="add-cart-button">Add to Cart</button>
     </div>
 <?php } ?>
@@ -86,6 +86,6 @@ include_once('template/product.tpl.php');
 <?php function drawRelatedProducts()
 {
     $db = new PDO("sqlite:" . DB_PATH);
-    $posts = Post::getNPosts($db, 10);
-    drawProductSection($posts, "Related Products (" . count($posts) . ")");
+    $products = Product::getNProducts($db, 10);
+    drawProductSection($products, "Related Products (" . count($products) . ")");
 } ?>

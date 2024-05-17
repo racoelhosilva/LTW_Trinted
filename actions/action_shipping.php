@@ -9,8 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET')
 if (!isset($_GET['address']) || !isset($_GET['zip']) || !isset($_GET['town']) || !isset($_GET['country']))
     die(json_encode(['success' => false, 'error' => 'Missing fields']));
 
-$town = validate($_GET['town']);
-$country = validate($_GET['country']);
+$town = sanitize($_GET['town']);
+$country = sanitize($_GET['country']);
 
 srand(crc32($town . $country));
 die(json_encode(['success' => true, 'shipping' => mt_rand(1, 40) / 2 - 0.01]));

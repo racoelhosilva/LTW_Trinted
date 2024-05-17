@@ -1,5 +1,5 @@
-async function addToWishlist(postId: string): Promise<boolean> {
-	return postData("../actions/action_edit_wishlist.php", {post_id: postId, remove: false})
+async function addToWishlist(productId: string): Promise<boolean> {
+	return postData("../actions/action_edit_wishlist.php", {product_id: productId, remove: false})
 		.then(response => response.json())
 		.then(json => {
 			if (json.success) {
@@ -17,8 +17,8 @@ async function addToWishlist(postId: string): Promise<boolean> {
 		});
 }
 
-async function removeFromWishlist(postId: string): Promise<boolean> {
-	return postData("../actions/action_edit_wishlist.php", {post_id: postId, remove: true})
+async function removeFromWishlist(productId: string): Promise<boolean> {
+	return postData("../actions/action_edit_wishlist.php", {product_id: productId, remove: true})
 		.then(response => response.json())
 		.then(json => {
 			if (json.success) {
@@ -39,16 +39,16 @@ async function removeFromWishlist(postId: string): Promise<boolean> {
 const productCards: NodeListOf<HTMLElement> = document.querySelectorAll(".product-card");
 
 productCards.forEach((productCard) => {
-	productCard.addEventListener("click", () => goToProduct(productCard.dataset.postId!));
+	productCard.addEventListener("click", () => goToProduct(productCard.dataset.productId!));
 
 	let likeButton: HTMLElement | null = productCard.querySelector(".like-button");
 	let likeButtonInput: HTMLInputElement | null = likeButton?.querySelector("input") ?? null;
-	if (!likeButton || !likeButtonInput || !productCard.dataset.postId)
+	if (!likeButton || !likeButtonInput || !productCard.dataset.productId)
 		return;
 	likeButton.addEventListener("click", (event) => {
 		event.stopPropagation();
 		event.preventDefault();
-		const response = !likeButtonInput.checked ? addToWishlist(productCard.dataset.postId!) : removeFromWishlist(productCard.dataset.postId!);
+		const response = !likeButtonInput.checked ? addToWishlist(productCard.dataset.productId!) : removeFromWishlist(productCard.dataset.productId!);
 		response.then((result) => {
 			if (result)
 				likeButtonInput.checked = !likeButtonInput.checked;

@@ -9,25 +9,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a;
-function createOrderItemCard(post) {
+function createOrderItemCard(product) {
     const orderItemCard = document.createElement('div');
     orderItemCard.classList.add('order-item-card');
     const image = document.createElement('img');
-    image.src = post.images[0];
+    image.src = product.images[0];
     image.alt = 'Product Image';
     orderItemCard.appendChild(image);
-    image.addEventListener('click', (event) => goToProduct(post.id));
+    image.addEventListener('click', (event) => goToProduct(product.id));
     const itemTitle = document.createElement('h1');
-    itemTitle.innerHTML = post.title;
+    itemTitle.innerHTML = product.title;
     const itemDetails = document.createElement('p');
-    itemDetails.innerHTML = `${post.size} - ${post.condition}`;
+    itemDetails.innerHTML = `${product.size} - ${product.condition}`;
     const itemInfo = document.createElement('div');
     itemInfo.appendChild(itemTitle);
     itemInfo.appendChild(itemDetails);
     orderItemCard.appendChild(itemInfo);
     const itemPrice = document.createElement('p');
     itemPrice.classList.add('price');
-    itemPrice.innerHTML = `${post.price}`;
+    itemPrice.innerHTML = `${product.price}`;
     orderItemCard.appendChild(itemPrice);
     return orderItemCard;
 }
@@ -94,10 +94,10 @@ if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal &&
         .then(json => {
         if (json.success) {
             const cart = json.cart;
-            for (const post of cart) {
-                const orderItemCard = createOrderItemCard(post);
+            for (const product of cart) {
+                const orderItemCard = createOrderItemCard(product);
                 orderItemsSection.appendChild(orderItemCard);
-                subtotal += post.price;
+                subtotal += product.price;
             }
             if (checkoutSubtotal && checkoutShipping && checkoutTotal)
                 updateTotal(checkoutSubtotal, checkoutShipping, checkoutTotal, shippingInput, subtotal, -1);

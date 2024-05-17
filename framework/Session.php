@@ -26,10 +26,6 @@ class Session {
         return $_SESSION['csrf'];
     }
 
-    public function verifyCsrf(string $token): bool {
-        return $_SESSION['csrf'] == $token;
-    }
-
     public function remove($key) {
         unset($_SESSION[$key]);
     }

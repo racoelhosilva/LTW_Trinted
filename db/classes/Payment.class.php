@@ -1,6 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/Post.class.php");
+include_once(__DIR__ . "/Product.class.php");
 
 class Payment {
     public int $id;
@@ -50,15 +50,15 @@ class Payment {
         $this->id = $id[0];
     }
 
-    public function getAssociatedPostsFromSeller(PDO $db, int $sellerId): array {
-        $stmt = $db->prepare("SELECT id FROM Post WHERE payment = :payment AND seller = :seller");
+    public function getAssociatedProductsFromSeller(PDO $db, int $sellerId): array {
+        $stmt = $db->prepare("SELECT id FROM Product WHERE payment = :payment AND seller = :seller");
         $stmt->bindParam(":payment", $this->id);
         $stmt->bindParam(":seller", $sellerId);
         $stmt->execute();
-        $posts = $stmt->fetchAll();
-        return array_map(function ($post) use ($db) {
-            return Post::getPostByID($db, $post["id"], false);
-        }, $posts);
+        $products = $stmt->fetchAll();
+        return array_map(function ($product) use ($db) {
+            return Product::getProductByID($db, $product["id"], false);
+        }, $products);
     }
 
     public static function getPaymentById(PDO $db, int $id): ?Payment {

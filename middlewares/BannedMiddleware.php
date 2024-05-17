@@ -8,7 +8,8 @@ class BannedMiddleware implements Middleware
     public function handle(Request $request, callable $next)
     {
         $db = new PDO("sqlite:" . DB_PATH);
-        $user = User::getUserByID($db, $request->getSession()->get('user_id'));
+        $userId = $request->getSession()->get('user_id');
+        $user = $userId ? User::getUserByID($db, $userId) : null;
         
         $isBanned = $user->isBanned($db);
         if ($isBanned) {

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 class Condition
 {
-    public string $condition;
-    public function __construct(string $condition)
+    public string $name;
+    public function __construct(string $name)
     {
-        $this->condition = $condition;
+        $this->name = $name;
     }
 
     public function upload(PDO $db)
     {
         $stmt = $db->prepare("INSERT INTO Condition (name) VALUES (:name)");
-        $stmt->bindParam(":name", $this->condition);
+        $stmt->bindParam(":name", $this->name);
         $stmt->execute();
     }
 

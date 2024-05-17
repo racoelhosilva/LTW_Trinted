@@ -5,7 +5,7 @@ include_once('template/common.tpl.php');
 include_once('template/product.tpl.php');
 ?>
 
-<?php function drawSearchedProducts(array $posts, int $page) {
+<?php function drawSearchedProducts(array $products, int $page) {
     drawProductSection([], "No results found");
 } ?>
 
@@ -68,19 +68,19 @@ include_once('template/product.tpl.php');
         <h1>Category</h1>
         <ul>
             <?php foreach ($categories as $category) {
-                drawSearchFilter($category->category, 'category');
+                drawSearchFilter($category->name, 'category');
             } ?>
         </ul>
         <h1>Condition</h1>
         <ul>
             <?php foreach ($conditions as $condition) {
-                drawSearchFilter($condition->condition, 'condition');
+                drawSearchFilter($condition->name, 'condition');
             } ?>
         </ul>
         <h1>Size</h1>
         <ul>
             <?php foreach ($sizes as $size) {
-                drawSearchFilter($size->size, 'size');
+                drawSearchFilter($size->name, 'size');
             } ?>
         </ul>
     </section>

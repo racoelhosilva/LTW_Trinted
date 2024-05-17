@@ -1,19 +1,19 @@
-function createOrderItemCard(post: { [key: string]: any }): HTMLElement {
+function createOrderItemCard(product: { [key: string]: any }): HTMLElement {
   const orderItemCard = document.createElement('div');
   orderItemCard.classList.add('order-item-card');
 
   const image = document.createElement('img');
-  image.src = post.images[0];
+  image.src = product.images[0];
   image.alt = 'Product Image';
   orderItemCard.appendChild(image);
 
-  image.addEventListener('click', (event) => goToProduct(post.id));
+  image.addEventListener('click', (event) => goToProduct(product.id));
 
   const itemTitle = document.createElement('h1');
-  itemTitle.innerHTML = post.title;
+  itemTitle.innerHTML = product.title;
 
   const itemDetails = document.createElement('p');
-  itemDetails.innerHTML = `${post.size} - ${post.condition}`;
+  itemDetails.innerHTML = `${product.size} - ${product.condition}`;
 
   const itemInfo = document.createElement('div');
   itemInfo.appendChild(itemTitle);
@@ -22,7 +22,7 @@ function createOrderItemCard(post: { [key: string]: any }): HTMLElement {
 
   const itemPrice = document.createElement('p');
   itemPrice.classList.add('price');
-  itemPrice.innerHTML = `${post.price}`;
+  itemPrice.innerHTML = `${product.price}`;
   orderItemCard.appendChild(itemPrice);
 
   return orderItemCard;
@@ -88,10 +88,10 @@ if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal &&
     .then(json => {
       if (json.success) {
         const cart: Array<{ [key: string]: any }> = json.cart;
-        for (const post of cart) {
-          const orderItemCard = createOrderItemCard(post);
+        for (const product of cart) {
+          const orderItemCard = createOrderItemCard(product);
           orderItemsSection.appendChild(orderItemCard);
-          subtotal += post.price;
+          subtotal += product.price;
         }
 
         if (checkoutSubtotal && checkoutShipping && checkoutTotal)

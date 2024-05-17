@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-function addToWishlist(postId) {
+function addToWishlist(productId) {
     return __awaiter(this, void 0, void 0, function* () {
-        return postData("../actions/action_edit_wishlist.php", { post_id: postId, remove: false })
+        return postData("../actions/action_edit_wishlist.php", { product_id: productId, remove: false })
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -29,9 +29,9 @@ function addToWishlist(postId) {
         });
     });
 }
-function removeFromWishlist(postId) {
+function removeFromWishlist(productId) {
     return __awaiter(this, void 0, void 0, function* () {
-        return postData("../actions/action_edit_wishlist.php", { post_id: postId, remove: true })
+        return postData("../actions/action_edit_wishlist.php", { product_id: productId, remove: true })
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -53,15 +53,15 @@ function removeFromWishlist(postId) {
 const productCards = document.querySelectorAll(".product-card");
 productCards.forEach((productCard) => {
     var _a;
-    productCard.addEventListener("click", () => goToProduct(productCard.dataset.postId));
+    productCard.addEventListener("click", () => goToProduct(productCard.dataset.productId));
     let likeButton = productCard.querySelector(".like-button");
     let likeButtonInput = (_a = likeButton === null || likeButton === void 0 ? void 0 : likeButton.querySelector("input")) !== null && _a !== void 0 ? _a : null;
-    if (!likeButton || !likeButtonInput || !productCard.dataset.postId)
+    if (!likeButton || !likeButtonInput || !productCard.dataset.productId)
         return;
     likeButton.addEventListener("click", (event) => {
         event.stopPropagation();
         event.preventDefault();
-        const response = !likeButtonInput.checked ? addToWishlist(productCard.dataset.postId) : removeFromWishlist(productCard.dataset.postId);
+        const response = !likeButtonInput.checked ? addToWishlist(productCard.dataset.productId) : removeFromWishlist(productCard.dataset.productId);
         response.then((result) => {
             if (result)
                 likeButtonInput.checked = !likeButtonInput.checked;
