@@ -97,4 +97,24 @@
 	color: var(--background-secondary);
 	background-color: var(--lighter);
 	border: 1px solid var(--primary);
+    cursor: pointer;
+}
+
+
+/* Responsive UI */
+
+@media (max-width: 800px) {
+    .dashboard-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+    }
+}
+
+@media (max-width: 600px) {
+    .listable-detail-section {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
 }

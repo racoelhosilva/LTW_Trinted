@@ -53,7 +53,7 @@ include_once('db/classes/Size.class.php');
                         <?php } ?>
                     </ul>
                     <div id="writing-space">
-                        <input type="text" class="new-detail" name="newsize" placeholder="Write here...">
+                        <input type="text" class="new-detail" id="new brand" name="newbrand" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
                     </div>
                 </div>
@@ -69,7 +69,7 @@ include_once('db/classes/Size.class.php');
                     <?php } ?>
                     </ul>
                     <div id="writing-space">
-                        <input type="text" class="new-detail" name="newsize" placeholder="Write here...">
+                        <input type="text" class="new-detail" id="newcategory" name="newcategory" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
                     </div>
                 </div>
@@ -85,7 +85,7 @@ include_once('db/classes/Size.class.php');
                         <?php } ?>
                     </ul>
                     <div id="writing-space">
-                        <input type="text" class="new-detail" name="newsize" placeholder="Write here...">
+                        <input type="text" class="new-detail" id="newcondition" name="newcondition" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
                     </div>
                 </div>
@@ -101,7 +101,7 @@ include_once('db/classes/Size.class.php');
                         <?php } ?>
                     </ul>
                     <div id="writing-space">
-                        <input type="text" class="new-detail" name="newsize" placeholder="Write here...">
+                        <input type="text" class="new-detail" id="newsize" name="newsize" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
                     </div>
                 </div>        
