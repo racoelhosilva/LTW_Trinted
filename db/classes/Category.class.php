@@ -23,6 +23,12 @@ class Category
         $stmt->execute();
     }
 
+    public static function getNumberOfCategories(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Category");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
     public static function getCategory(PDO $db, string $category): Category
     {
         // At first glance, going to the database if we already now the category

@@ -22,6 +22,12 @@ class Condition
         $stmt->bindParam(":name", $this->name);
         $stmt->execute();
     }
+    
+    public static function getNumberOfConditions(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Condition");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
 
     public static function getCondition(PDO $db, string $condition): Condition
     {

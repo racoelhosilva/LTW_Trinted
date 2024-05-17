@@ -19,6 +19,12 @@ class Brand {
         $stmt->execute();
     }
 
+    public static function getNumberOfBrands(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Brand");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
     public static function getBrand(PDO $db, string $name): Brand{
         $stmt = $db->prepare("SELECT * FROM Brand WHERE name = :name ");
         $stmt->bindParam(":name", $name);

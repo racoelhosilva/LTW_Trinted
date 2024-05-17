@@ -23,6 +23,12 @@ class Size
         $stmt->execute();
     }
 
+    public static function getNumberOfSizes(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Size");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
     public static function getSize(PDO $db, string $size): Size
     {
         // At first glance, going to the database if we already now the size
