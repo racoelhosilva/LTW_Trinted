@@ -29,6 +29,6 @@ function drawMainPage(Request $request)
 <?php function drawHomeProductsSection()
 {
     $db = new PDO("sqlite:" . DB_PATH);
-    $products = Product::getNProducts($db, 10);
+    $products = Product::getNProducts($db, 15);
     drawProductSection($products, "Explore new items");
 } ?>

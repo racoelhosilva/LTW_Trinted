@@ -25,7 +25,7 @@ class Request
         $this->session = new Session();
     }
 
-    private function sanitize(?string $data): string {
+    private static function sanitize(?string $data): string {
         if ($data === null)
             return '';
         $data = trim($data);
@@ -36,17 +36,17 @@ class Request
 
     public function get($key, $default = null)
     {
-        return sanitize($this->getParams[$key]) ?? $default;
+        return Request::sanitize($this->getParams[$key]) ?? $default;
     }
 
     public function post($key, $default = null)
     {
-        return sanitize($this->postParams[$key]) ?? $default;
+        return Request::sanitize($this->postParams[$key]) ?? $default;
     }
 
     public function cookie($key, $default = null)
     {
-        return sanitize($this->cookies[$key]) ?? $default;
+        return Request::sanitize($this->cookies[$key]) ?? $default;
     }
 
     public function header($key)
@@ -69,12 +69,18 @@ class Request
         return $this->post('csrf') === $this->session->getCsrf();
     }
 
-    public function paramsExist(string $method, array $params) : bool
+    public function paramsExist(string $type, array $params) : bool
     {
-        $arrayName = '_' . $method;
-        $array = $$arrayName;
-        if (!isset($array))
-            return false;
+        switch ($type) {
+            case 'GET':
+                $array = $_GET;
+                break;
+            case 'POST':
+                $array = $_POST;
+                break;
+            default:
+                return false;
+        }
 
         foreach ($params as $param) {
             if (!isset($array[$param]))

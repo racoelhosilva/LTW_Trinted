@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . "/../../framework/Autoload.php";
+require_once __DIR__ . "/User.class.php";
+require_once __DIR__ . "/Size.class.php";
+require_once __DIR__ . "/Category.class.php";
+require_once __DIR__ . "/Condition.class.php";
+require_once __DIR__ . "/Payment.class.php";
 
 class Product
 {
@@ -12,12 +16,12 @@ class Product
     public string $description;
     public int $publishDateTime;
     public User $seller;
-    public Size $size;
-    public Category $category;
-    public Condition $condition;
-    public ?Payment $payment = null;
+    public ?Size $size;
+    public ?Category $category;
+    public ?Condition $condition;
+    public ?Payment $payment;
 
-    public function __construct(int $id, string $title, float $price, string $description, int $publishDateTime, User $seller, Size $size, Category $category, Condition $condition, ?Payment $payment = null) {
+    public function __construct(int $id, string $title, float $price, string $description, int $publishDateTime, User $seller, ?Size $size, ?Category $category, ?Condition $condition, ?Payment $payment = null) {
         $this->id = $id;
         $this->title = $title;
         $this->price = $price;
@@ -31,22 +35,28 @@ class Product
     }
 
     public function upload(PDO $db) {
+        $publishDatetime = date('m/d/Y H:i:s', $this->publishDateTime);
+        $size = $this->size?->name;
+        $category = $this->category?->name;
+        $condition = $this->condition?->name;
+        $paymentId = $this->payment?->id;
+
         $stmt = $db->prepare("INSERT INTO Product (title, price, description, publishDatetime, seller, size, category, condition, payment)
             VALUES (:title, :price, :description, :publishDateTime, :seller, :size, :category, :condition, :payment)");
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":price", $this->price);
         $stmt->bindParam(":description", $this->description);
-        $stmt->bindParam(":publishDateTime", $this->publishDateTime);
+        $stmt->bindParam(":publishDateTime", $publishDatetime);
         $stmt->bindParam(":seller", $this->seller->id);
-        $stmt->bindParam(":size", $this->size->name);
-        $stmt->bindParam(":category", $this->category->name);
-        $stmt->bindParam(":condition", $this->condition->name);
-        $stmt->bindParam(":payment", $this->payment->id);
+        $stmt->bindParam(":size", $size);
+        $stmt->bindParam(":category", $category);
+        $stmt->bindParam(":condition", $condition);
+        $stmt->bindParam(":payment", $paymentId);
         $stmt->execute();
         $stmt = $db->prepare("SELECT last_insert_rowid()");
         $stmt->execute();
         $id = $stmt->fetch();
-        $this->id = $id[0];
+        $this->id = (int)$id[0];
     }
 
     public function getBrands(PDO $db): array
@@ -76,11 +86,11 @@ class Product
             $row["title"],
             $row["price"],
             $row["description"],
-            strtotime($row["publishDatetime"]),
+            strtotime((string)$row["publishDatetime"]),
             User::getUserByID($db, $row["seller"]),
-            Size::getSize($db, $row["size"]),
-            Category::getCategory($db, $row["category"]),
-            Condition::getCondition($db, $row["condition"]),
+            $row["size"] ? Size::getSize($db, $row["size"]) : null,
+            $row["category"] ? Category::getCategory($db, $row["category"]) : null,
+            $row["condition"] ? Condition::getCondition($db, $row["condition"]) : null,
             isset($row["payment"]) ? Payment::getPaymentById($db, $row["payment"]) : null,
         );
     }

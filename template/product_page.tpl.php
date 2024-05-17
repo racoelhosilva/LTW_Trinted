@@ -30,7 +30,7 @@ include_once('template/product.tpl.php');
 <?php function drawRelatedProductsSection(Product $product)
 {
     $db = new PDO("sqlite:" . DB_PATH);
-    $productsByCategory = Product::getProductsByCategory($db, $product->category);
+    $productsByCategory = $product->category ? Product::getProductsByCategory($db, $product->category) : [];
     $user = $product->seller;
     $productsBySeller = $user->getUserProducts($db);
 

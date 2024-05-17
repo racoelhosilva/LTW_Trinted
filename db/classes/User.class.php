@@ -167,9 +167,9 @@ class User
                 $product["description"],
                 strtotime($product["publishDatetime"]),
                 User::getUserByID($db, $product["seller"]),
-                Size::getSize($db, $product["size"]),
-                Category::getCategory($db, $product["category"]),
-                Condition::getCondition($db, $product["condition"]),
+                $product["size"] ? Size::getSize($db, $product["size"]) : null,
+                $product["category"] ? Category::getCategory($db, $product["category"]) : null,
+                $product["condition"] ? Condition::getCondition($db, $product["condition"]) : null,
                 isset($row["payment"]) ? Payment::getPaymentById($db, $product["payment"]) : null,
             );
         }, $products);

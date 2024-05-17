@@ -73,3 +73,7 @@ function returnCrsfMismatch(): void {
 function returnMissingFields(): void {
     die(json_encode(array('success' => false, 'error' => 'Missing fields')));
 }
+
+function getLoggedInUser(Request $request): array {
+    return $request->getSession()->get('user');
+}

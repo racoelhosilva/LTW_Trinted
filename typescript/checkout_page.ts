@@ -9,16 +9,19 @@ function createOrderItemCard(product: { [key: string]: any }): HTMLElement {
 
   image.addEventListener('click', (event) => goToProduct(product.id));
 
+  const itemInfo = document.createElement('div');
+  orderItemCard.appendChild(itemInfo);
+
   const itemTitle = document.createElement('h1');
   itemTitle.innerHTML = product.title;
+  itemInfo.appendChild(itemTitle);
 
   const itemDetails = document.createElement('p');
-  itemDetails.innerHTML = `${product.size} - ${product.condition}`;
-
-  const itemInfo = document.createElement('div');
-  itemInfo.appendChild(itemTitle);
-  itemInfo.appendChild(itemDetails);
-  orderItemCard.appendChild(itemInfo);
+  const itemDetailsText = [product.size, product.condition].filter(detail => detail).join(' - ');
+  if (itemDetailsText !== '') {
+    itemDetails.innerHTML = itemDetailsText;
+    itemInfo.appendChild(itemDetails);
+  } 
 
   const itemPrice = document.createElement('p');
   itemPrice.classList.add('price');

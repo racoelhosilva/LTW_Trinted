@@ -10,3 +10,23 @@ function getMethod(Request $request): string {
 function getEndpoint(Request $request): string {
     return $request->header('PATH_INFO');
 }
+
+function userLoggedIn(Request $request): bool {
+    return $request->getSession()->get('user') !== null;
+}
+
+function returnUserNotLoggedIn(): void {
+    die(json_encode(array('success' => false, 'error' => 'User not logged in')));
+}
+
+function returnCrsfMismatch(): void {
+    die(json_encode(array('success' => false, 'error' => 'CSRF token missing or invalid')));
+}
+
+function returnMissingFields(): void {
+    die(json_encode(array('success' => false, 'error' => 'Missing fields')));
+}
+
+function getSessionUser(Request $request): array {
+    return $request->getSession()->get('user');
+}

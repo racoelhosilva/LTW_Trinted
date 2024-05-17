@@ -17,14 +17,17 @@ function createOrderItemCard(product) {
     image.alt = 'Product Image';
     orderItemCard.appendChild(image);
     image.addEventListener('click', (event) => goToProduct(product.id));
+    const itemInfo = document.createElement('div');
+    orderItemCard.appendChild(itemInfo);
     const itemTitle = document.createElement('h1');
     itemTitle.innerHTML = product.title;
-    const itemDetails = document.createElement('p');
-    itemDetails.innerHTML = `${product.size} - ${product.condition}`;
-    const itemInfo = document.createElement('div');
     itemInfo.appendChild(itemTitle);
-    itemInfo.appendChild(itemDetails);
-    orderItemCard.appendChild(itemInfo);
+    const itemDetails = document.createElement('p');
+    const itemDetailsText = [product.size, product.condition].filter(detail => detail).join(' - ');
+    if (itemDetailsText !== '') {
+        itemDetails.innerHTML = itemDetailsText;
+        itemInfo.appendChild(itemDetails);
+    }
     const itemPrice = document.createElement('p');
     itemPrice.classList.add('price');
     itemPrice.innerHTML = `${product.price}`;
