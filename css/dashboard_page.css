@@ -5,10 +5,20 @@
     justify-content: space-between;
 }
 
+#dashboard-page h1 {
+    font-size: 3.5em;
+    font-weight: 700;
+    margin: 0.3em 0;
+    color: var(--text);
+    text-align: center;
+}
+
 #dashboard-page h2 {
     font-size: 1.5em;
     padding: 0.5em 0;
+    margin: 0;
     text-align: center;
+    color: var(--halftone);
 }
 
 .dashboard-row {
@@ -29,16 +39,18 @@
     
 }
 
-.stat-card > h3, .detailed-card > h3 {
+.stat-card > h3 {
     text-align: center;
     font-size: 2em;
     margin: 0;
     padding: 0.3em 0 0 0;
+    color: var(--primary);
 }
 
 .stat-card > p {
     text-align: center;
     padding: 0.1em;
+    color: var(--halftone);
 }
 
 #dashboard-details {
@@ -66,10 +78,23 @@
     justify-content: space-between;
 }
 
+.detailed-card span {
+    color: var(--primary);
+}
+
+.detailed-card > h3 {
+    text-align: center;
+    font-size: 2em;
+    margin: 0;
+    padding: 0.3em 0 0 0;
+    color: var(--text);
+}
+
 .detailed-card > ul {
     overflow-y: auto;
     list-style-type: none;
     padding: 0 1em;
+    color: var(--text);
 }
 
 #writing-space {
