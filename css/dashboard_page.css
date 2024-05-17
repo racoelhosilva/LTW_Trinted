@@ -50,7 +50,7 @@
 .stat-card > p {
     text-align: center;
     padding: 0.1em;
-    color: var(--halftone);
+    color: var(--text);
 }
 
 #dashboard-details {
