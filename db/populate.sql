@@ -7,15 +7,13 @@ PRAGMA foreign_keys = ON;
 DELETE
 FROM Message;
 DELETE
-FROM PostImage;
+FROM ProductImage;
 DELETE
-FROM Post;
+FROM Product;
 DELETE
-FROM ItemBrand;
+FROM ProductBrand;
 DELETE
 FROM Brand;
-DELETE
-FROM Item;
 DELETE
 FROM Condition;
 DELETE
@@ -147,18 +145,6 @@ VALUES ('New with tag'),
        ('Very good'),
        ('Distressed');
 
--- Create Items
-INSERT INTO Item (name, seller, size, category, condition)
-VALUES ('T-shirt ', 4, 'M', 'T-shirts', 'New without tag');
-INSERT INTO Item (name, seller, size, category, condition)
-VALUES ('Dress', 5, 'S', 'Dresses', 'Like new');
-INSERT INTO Item (name, seller, size, category, condition)
-VALUES ('Coat', 6, 'L', 'Coats', 'Excellent');
-INSERT INTO Item (name, seller, size, category, condition)
-VALUES ('Bag', 4, 'M', 'Bags', 'New with tag');
-INSERT INTO Item (name, seller, size, category, condition)
-VALUES ('Used dress', 5, 'S', 'Dresses', 'Excellent');
-
 -- Create Brands
 INSERT INTO Brand (name)
 VALUES ('Nike'),
@@ -172,28 +158,24 @@ VALUES ('Nike'),
        ('Zara'),
        ('Rolex');
 
--- Create ItemBrands
-INSERT INTO ItemBrand (item, brand)
+-- Create Products
+INSERT INTO Product (title, price, description, publishDatetime, seller, size, category, condition)
+VALUES ('T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but never used it', DATETIME('2024-04-23 14:00'), 4, 'M', 'T-shirts', 'New without tag'),
+       ('Dress', 5.99, 'Almost new dress from Louis Vuitton', DATETIME('2024-04-23 14:01'), 5, 'S', 'Dresses', 'Like new'),
+       ('Coat', 5.99, 'Coat in good condition from Chanel', DATETIME('2024-04-23 14:02'), 6, 'L', 'Coats', 'Excellent'),
+       ('Bag', 67.99, 'Leather bag from Louis Vuitton', DATETIME('2024-05-01 09:12'), 4, 'M', 'Bags', 'New with tag'),
+       ('Used Chanel Dress', 2334.00, 'Pre owned 1996 chanel dress', DATETIME('2024-05-02 10:43'), 5, 'S', 'Dresses', 'Excellent');
+
+-- Create ProductBrands
+INSERT INTO ProductBrand (product, brand)
 VALUES (1, 'Gucci'),
        (2, 'Louis Vuitton'),
        (3, 'Chanel'),
        (4, 'Louis Vuitton'),
        (5, 'Chanel');
 
--- Create Posts
-INSERT INTO Post (title, price, description, publishDatetime, seller, item)
-VALUES ('T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but never used it',
-        DATETIME('2024-04-23 14:00'), 4, 1),
-       ('Dress', 5.99, 'Almost new dress from Louis Vuitton',
-        DATETIME('2024-04-23 14:01'), 5, 2),
-       ('Coat', 5.99, 'Coat in good condition from Chanel',
-        DATETIME('2024-04-23 14:02'), 6, 3),
-       ('Bag', 67.99, 'Leather bag from Louis Vuitton', DATETIME('2024-05-01 09:12'), 4, 4),
-       ('Used Chanel Dress', 2334.00, 'Pre owned 1996 chanel dress', DATETIME('2024-05-02 10:43'), 5, 5);
-
-
--- Create PostImages
-INSERT INTO PostImage (post, image)
+-- Create ProductImages
+INSERT INTO ProductImage (product, image)
 VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf86hwNJhBnREMUwWlvVpOCfTm8li5gmA&s'),
        (1,
         'https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg'),
