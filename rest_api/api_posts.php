@@ -7,34 +7,34 @@ require_once __DIR__ . '/../framework/Request.php';
 require_once __DIR__ . '/utils.php';
 
 
-function parsePost(Post $post, PDO $db): array {
+function parseProduct(Post $product, PDO $db): array {
     return array(
-        'id' => $post->id,
-        'title' => $post->title,
-        'description' => $post->description,
-        'price' => $post->price,
-        'publishDatetime' => $post->publishDateTime,
-        'category' => $post->item->category->category,
-        'size' => $post->item->size->size,
-        'condition' => $post->item->condition->condition,
-        'images' => $_SERVER['HTTP_HOST'] . '/api/post/' . $post->id . '/images',
+        'id' => $product->id,
+        'title' => $product->title,
+        'description' => $product->description,
+        'price' => $product->price,
+        'publishDatetime' => $product->publishDateTime,
+        'category' => $product->item->category->category,
+        'size' => $product->item->size->size,
+        'condition' => $product->item->condition->condition,
+        'images' => $_SERVER['HTTP_HOST'] . '/api/post/' . $product->id . '/images',
         'links' => [
             [
                 'rel' => 'self',
-                'href' => $_SERVER['HTTP_HOST'] . '/api/post/' . $post->id,
+                'href' => $_SERVER['HTTP_HOST'] . '/api/post/' . $product->id,
             ],
             [
                 'rel' => 'seller',
-                'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $post->seller->id,
+                'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $product->seller->id,
             ]
         ]
     );
 }
 
-function parsePosts(array $posts, PDO $db): array {
+function parseProducts(array $product, PDO $db): array {
     return array_map(function ($post) use ($db) {
-        return parsePost($post, $db);
-    }, $posts);
+        return parseProduct($post, $db);
+    }, $product);
 }
 
 
@@ -47,11 +47,13 @@ header('Content-Type: application/json');
 
 switch ($method) {
     case 'GET':
-        if ($endpoint === '/api/post') {
-            die(json_encode(parsePosts(Post::getAllPosts($db), $db)));
-        } elseif (preg_match('/^\/api\/post\/(\d+)$/', $endpoint, $matches)) {
+        if ($endpoint === '/api/product') {
+            die(json_encode(parseProducts(Post::getAllPosts($db), $db)));
+        } elseif (preg_match('/^\/api\/product\/(\d+)$/', $endpoint, $matches)) {
             $post = Post::getPostByID($db, (int)$matches[1]);
-            die(json_encode(['success' => true, 'post' => $post ? parsePost($post, $db) : null]));
+            die(json_encode(['success' => true, 'post' => $post ? parseProduct($post, $db) : null]));
         }
         break;
+
+    
 }

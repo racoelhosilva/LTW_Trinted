@@ -15,7 +15,7 @@ class ApiController {
 
     public function handle(array $args) {
         $subroutes = [
-            'post' => 'posts'
+            'product' => 'products'
         ];
 
         $resource = $args[0];
@@ -27,8 +27,8 @@ class ApiController {
             $this->notFound();
     }
 
-    private function posts(array $args) {
-        require_once('rest_api/api_posts.php');
+    private function products(array $args) {
+        require_once('rest_api/api_product.php');
     }
 
     private function notFound() {

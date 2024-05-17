@@ -6,7 +6,7 @@ include_once(__DIR__ . '/utils.php');
 
 function parseWishlist(PDO $db, array $wishlist): array {
     return array_map(function ($post) use ($db) {
-        return parsePost($db, $post);
+        return parseProduct($db, $post);
     }, $wishlist);
 }
 

@@ -20,7 +20,7 @@ function addToCart(Post $post, PDO $db): bool {
         }
     }
 
-    $cart[] = parsePost($db, $post);
+    $cart[] = parseProduct($db, $post);
     setCart($cart);
     return true;
 }

@@ -42,7 +42,7 @@ function dateFormat(int $datetime): string {
     }
 }
 
-function parsePost(PDO $db, Post $post): array {
+function parseProduct(PDO $db, Post $post): array {
     return [
         'id' => $post->id,
         'title' => $post->title,

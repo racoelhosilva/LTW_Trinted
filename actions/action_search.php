@@ -36,7 +36,7 @@ function searchPosts(PDO $db, string $search): array {
     $posts = [];
     foreach ($stmt->fetchAll() as $row) {
         $post = Post::getPostByID($db, $row['id']);
-        $posts[] = parsePost($post, $db);
+        $posts[] = parseProduct($post, $db);
     }
     return $posts;
 }
