@@ -20,7 +20,7 @@
     --gradient-end: #ffff;
 }
 
-/* Dark mode 
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
     :root {
         --text: #f2f2f2;
