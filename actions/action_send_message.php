@@ -29,7 +29,7 @@ $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 
 
 try {
-    $message = new Message(0, time(), $messageText, User::getUserByID($db, $_SESSION['user_id']), User::getUserByID($db, $destID));
+    $message = new Message(0, time(), $messageText, User::getUserByID($db, $_SESSION['user']['id']), User::getUserByID($db, $destID));
     $message->upload($db);
 } catch (Exception $e) {
     die(json_encode(array('success' => false, 'error' => $e->getMessage())));

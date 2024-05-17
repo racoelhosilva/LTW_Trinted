@@ -9,7 +9,7 @@ include_once __DIR__ . '/../actions/utils.php';
         <ul>
         <?php
         $db = new PDO("sqlite:" . DB_PATH);
-        $contacts = Message::getRecentContacts($db, User::getUserByID($db, $_SESSION['user_id']));
+        $contacts = Message::getRecentContacts($db, User::getUserByID($db, $_SESSION['user']['id']));
 
         foreach ($contacts as $contact) { 
             $user = User::getUserByID($db, $contact['sender']);
@@ -44,11 +44,11 @@ include_once __DIR__ . '/../actions/utils.php';
         <div id="messages">
             <?php
             $db = new PDO("sqlite:" . DB_PATH);
-            $messages = Message::getMessages($db, User::getUserByID($db, $_SESSION['user_id']), $otherUser, PHP_INT_MAX);      
+            $messages = Message::getMessages($db, User::getUserByID($db, $_SESSION['user']['id']), $otherUser, PHP_INT_MAX);      
 
             foreach ($messages as $message) {
                 $timeDiff = dateFormat($message['datetime']);
-                if ($message['sender'] == $_SESSION['user_id']) {?>
+                if ($message['sender'] == $_SESSION['user']['id']) {?>
                     <div class="message user1" data-message-id="<?= $message['id'] ?>">
                         <p><?= $message['content'] ?></p>
                         <p><?= $timeDiff ?></p>

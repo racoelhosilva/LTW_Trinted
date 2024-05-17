@@ -28,7 +28,7 @@ include_once('pages/404_page.php');
         <!-- TODO: Check if user is seller -->
         <?php if (in_array($user->type, ['seller', 'admin']))
             drawUserProductSection($user); ?>
-        <?php if ($_SESSION['user_id'] == $user->id) {
+        <?php if ($_SESSION['user']['id'] == $user->id) {
             drawWishlist($user);
             drawSoldItems($user);
         } ?>

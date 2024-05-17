@@ -11,7 +11,7 @@ include_once ('template/common.tpl.php');
         <span id="number">BANNED</span>
         <span id="message">You have been banned</span>
         <form method="post" action="/actions/logout.php">
-            <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
+            <input type="hidden" name="user_id" value="<?= $_SESSION['user']['id'] ?>">
             <button type="submit" id="ok-button">Ok</button>
         </form>
     </main>

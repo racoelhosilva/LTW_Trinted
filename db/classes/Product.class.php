@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-include_once(__DIR__ . "/User.class.php");
-include_once(__DIR__ . "/Payment.class.php");
+require_once __DIR__ . "/../../framework/Autoload.php";
 
 class Product
 {

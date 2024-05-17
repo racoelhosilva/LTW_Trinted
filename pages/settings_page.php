@@ -8,7 +8,7 @@ include_once('template/common.tpl.php');
 {
     include_once('db/classes/User.class.php');
     $db = new PDO("sqlite:" . DB_PATH);
-    $user = User::getUserByID($db, $request->session('user_id'));
+    $user = User::getUserByID($db, $request->getSession()->get('user')['id']);
     ?>
 
     <main id="settings-page">

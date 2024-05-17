@@ -35,7 +35,7 @@
     <div id="user-buttons">
         <?php
 
-        if ($_SESSION['user_id'] == $user->id){ ?>
+        if ($_SESSION['user']['id'] == $user->id){ ?>
             <form method="post" action="/actions/logout.php">
                 <button type="submit" class="red-button" id="logout-button">Logout</button>
             </form>
@@ -46,7 +46,7 @@
             </button>
 
             <?php
-            if ($_SESSION['type'] == 'admin' && $user->type != 'admin') {
+            if ($_SESSION['user']['type'] == 'admin' && $user->type != 'admin') {
 
                 if (!$user->isBanned(new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db'))) { ?>
                     <button type="submit" class="blue-button" id="make-admin-button">Make Admin</button>

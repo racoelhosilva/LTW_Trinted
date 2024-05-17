@@ -18,8 +18,8 @@ include_once('template/product.tpl.php');
                 <span class="material-symbols-outlined photo-badge">circle</span>
             <?php } ?>
         </div>
-        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != $product->seller->id) {
-            drawLikeButton(User::getUserByID($db, (int)$_SESSION['user_id'])->isInWishlist($db, $_SESSION['user_id']));
+        <?php if (isset($_SESSION['user']['id']) && $_SESSION['user']['id'] != $product->seller->id) {
+            drawLikeButton(User::getUserByID($db, (int)$_SESSION['user']['id'])->isInWishlist($db, $_SESSION['user']['id']));
         } ?>
         <?php foreach ($images as $image) { ?>
             <img src="<?= $image->url ?>" class="product-photo">

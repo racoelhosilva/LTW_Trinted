@@ -55,11 +55,11 @@ function parseProduct(PDO $db, Product $product): array {
         'size' => $product->condition->name,
         'condition' => $product->condition->name,
         'images' => array_map('getUrl', $product->getAllImages($db)),
-        'inWishlist' => isset($_SESSION['user_id']) ? User::getUserByID($db, $_SESSION['user_id'])->isInWishlist($db, (int)$product->id) : false
+        'inWishlist' => isset($_SESSION['user']) ? User::getUserByID($db, $_SESSION['user']['id'])->isInWishlist($db, (int)$product->id) : false
     ];
 }
 function userLoggedIn(Request $request): bool {
-    return $request->getSession()->get('user_id') !== null;
+    return $request->getSession()->get('user') !== null;
 }
 
 function returnUserNotLoggedIn(): void {

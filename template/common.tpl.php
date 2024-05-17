@@ -97,7 +97,7 @@ include_once('template/product.tpl.php');
 
 <?php function drawProductSection(array $products, string $title, string $emptyMessage = "No products here") { ?>
     <?php
-        $loggedInUser = isset($_SESSION['user_id']) ? User::getUserByID(new PDO("sqlite:" . DB_PATH), $_SESSION['user_id']) : null;
+        $loggedInUser = isset($_SESSION['user']['id']) ? User::getUserByID(new PDO("sqlite:" . DB_PATH), $_SESSION['user']['id']) : null;
     ?>
     <section id="product-section">
         <h1><?= $title ?></h1>

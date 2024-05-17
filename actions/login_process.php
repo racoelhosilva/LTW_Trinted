@@ -40,9 +40,13 @@ if (!$isPasswordCorrect) {
     header("Location: /login?loginerror=Invalid password");
     exit();
 }
-$_SESSION['user_id'] = $user->id;
-$_SESSION['email'] = $email;
-$_SESSION['name'] = $user->name;
-$_SESSION['type'] = $user->type;
+
+$_SESSION['user'] = [
+    'id' => $user->id,
+    'email' => $email,
+    'name' => $user->name,
+    'type' => $user->type,
+];
+
 header("Location: /actions/go_to_profile.php?id=" . $user->id);
 exit();

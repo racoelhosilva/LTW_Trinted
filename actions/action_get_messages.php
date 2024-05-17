@@ -33,13 +33,13 @@ if (!isset($_GET['id'])){
     die(['success' => false, 'error' => 'Missing fields']);
 }
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user']['id'])) {
     die(['success' => false, 'error' => 'Not logged in']);
 }
 
 try {
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
-    $messages = Message::getMessages($db, User::getUserByID($db, (int)($_SESSION['user_id'])), User::getUserByID($db, (int)($_GET['id'])), isset($_GET['lastId']) ? (int)($_GET['lastId']) : PHP_INT_MAX);
+    $messages = Message::getMessages($db, User::getUserByID($db, (int)($_SESSION['user']['id'])), User::getUserByID($db, (int)($_GET['id'])), isset($_GET['lastId']) ? (int)($_GET['lastId']) : PHP_INT_MAX);
 } catch (Exception $e) {
     die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }

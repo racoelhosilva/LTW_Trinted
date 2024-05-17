@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST')
 
 $db = new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 try {
-    $user = User::getUserByID($db, $_SESSION['user_id']);
+    $user = User::getUserByID($db, $_SESSION['user']['id']);
 } catch (Exception $e) {
     die(json_encode(['success' => false, 'error' => 'User not found']));
 }

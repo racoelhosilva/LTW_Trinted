@@ -41,9 +41,12 @@ try {
     exit();
 }
 
-$_SESSION['user_id'] = $user->id;
-$_SESSION['email'] = $email;
-$_SESSION['name'] = $name;
-$_SESSION['type'] = $user->type;
+$_SESSION['user'] = [
+    'id' => $user->id,
+    'email' => $email,
+    'name' => $name,
+    'type' => $user->type,
+];
+
 header("Location: /profile");
 exit();

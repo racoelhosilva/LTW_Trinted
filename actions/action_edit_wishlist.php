@@ -9,7 +9,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] !== 'POST')
     die(json_encode(['success' => false, 'error' => 'Invalid request method']));
 
-if (!isset($_SESSION['user_id']))
+if (!isset($_SESSION['user']['id']))
     die(json_encode(['success' => false, 'error' => 'User not logged in']));
 
 if (!isset($_POST['product_id']) || !isset($_POST['remove']))
@@ -22,7 +22,7 @@ try {
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
     $product_id = (int)$product_id;
     $remove = $remove === 'true';
-    $user = User::getUserByID($db, (int)$_SESSION['user_id']);
+    $user = User::getUserByID($db, (int)$_SESSION['user']['id']);
 
     if (!$remove)
         $user->addToWishlist($db, $product_id);
