@@ -45,7 +45,7 @@ $_SESSION['user'] = [
     'id' => $user->getId(),
     'email' => $email,
     'name' => $name,
-    'type' => $user->type,
+    'type' => $user->getType(),
 ];
 
 header("Location: /profile");

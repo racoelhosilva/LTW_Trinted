@@ -30,6 +30,9 @@ if (empty($email)) {
 $db = new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 try {
     $user = User::getUserByEmail($db, $email);
+    if ($user == null) {
+        throw new Exception();
+    }
 } catch (Exception $e) {
     header("Location: /login?loginerror=User not found");
     exit();

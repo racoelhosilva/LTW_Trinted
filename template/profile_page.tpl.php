@@ -33,9 +33,7 @@
 <?php function drawUserButtons(User $user)
 { ?>
     <div id="user-buttons">
-        <?php
-
-        if ($_SESSION['user']['id'] == $user->getId()){ ?>
+        <?php if ($_SESSION['user']['id'] == $user->getId()){ ?>
             <form method="post" action="/actions/logout.php">
                 <button type="submit" class="red-button" id="logout-button">Logout</button>
             </form>
@@ -46,7 +44,7 @@
             </button>
 
             <?php
-            if ($_SESSION['user']['type'] == 'admin' && $user->type != 'admin') {
+            if ($_SESSION['user']['type'] == 'admin' && $user->getType() != 'admin') {
 
                 if (!$user->isBanned(new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db'))) { ?>
                     <button type="submit" class="blue-button" id="make-admin-button">Make Admin</button>
@@ -57,9 +55,9 @@
             }
         }
 
-        if ($user->type == "admin") { ?>
+        if ($user->getType() == "admin") { ?>
             <!-- User is admin -->
-        <button disabled class="blue-button" id="is-admin-button">User is <?php echo $user->type ?></button>
+        <button disabled class="blue-button" id="is-admin-button">User is <?php echo $user->getType() ?></button>
         <?php } ?>
 
     </div> <?php

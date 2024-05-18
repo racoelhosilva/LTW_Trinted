@@ -11,7 +11,7 @@ class BannedMiddleware implements Middleware
         $userId = $request->session('user')['id'];
         $user = $userId ? User::getUserByID($db, $userId) : null;
         
-        $isBanned = $user->isBanned($db);
+        $isBanned = $user?->isBanned($db);
         if ($isBanned) {
             header("Location: /banned");
             return $next($request);

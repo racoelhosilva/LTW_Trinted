@@ -12,7 +12,7 @@ $db = new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
 
 $user = User::getUserByID($db, $_POST['user']['id']);
 
-if ($user->type == "admin") {
+if ($user->getType() == "admin") {
     die(json_encode(array('status' => 'error', 'message' => "Can't unban an admin user!")));
 }
 
