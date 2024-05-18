@@ -7,9 +7,9 @@ include_once(__DIR__ . '/utils.php');
 
 function parseMessage(Message $message): array {
     $parsedMessage = array(
-        'id' => $message->id,
-        'datetime' => $message->datetime,
-        'content' => $message->content,
+        'id' => $message->getId(),
+        'datetime' => $message->getDatetime(),
+        'content' => $message->getContent(),
         'sender' => $message->sender->getId(),
         'receiver' => $message->receiver->getId(),        
     );

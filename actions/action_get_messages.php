@@ -12,11 +12,11 @@ function parseMessages(array $messages): array {
     
     foreach ($messages as $message) {
         $parsedMessage = array(
-            'id' => $message['id'],
-            'datetime' => $message['datetime'],
-            'content' => $message['content'],
-            'sender' => $message['sender'],
-            'receiver' => $message['receiver'],        
+            'id' => $message->getId(),
+            'datetime' => $message->getDatetime(),
+            'content' => $message->getContent(),
+            'sender' => $message->getSender()->getId(),
+            'receiver' => $message->getReceiver()->getId(),        
         );
         
         $parsedMessages[] = $parsedMessage;

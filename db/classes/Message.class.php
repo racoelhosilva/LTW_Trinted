@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 class Message
 {
-    public int $id;
-    public int $datetime;
-    public string $content;
-    public User $sender;
-    public User $receiver;
+    private int $id;
+    private int $datetime;
+    private string $content;
+    private User $sender;
+    private User $receiver;
+
     public function __construct(int $id, int $datetime, string $content, User $sender, User $receiver)
     {
         $this->id = $id;
@@ -35,7 +36,32 @@ class Message
         $this->id = $id[0];
     }
 
-    public static function getMessages(PDO $db, User $user1, User $user2, int $lastId) {
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getDatetime(): int
+    {
+        return $this->datetime;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function getSender(): User
+    {
+        return $this->sender;
+    }
+
+    public function getReceiver(): User
+    {
+        return $this->receiver;
+    }
+
+    public static function getMessages(PDO $db, User $user1, User $user2, int $lastId): array {
         $userId1 = $user1->getId();
         $userId2 = $user2->getId();
 
@@ -44,8 +70,12 @@ class Message
         $stmt->bindParam(":user2", $userId2);
         $stmt->bindParam(":last_id", $lastId);
         $stmt->execute();
-        $messages = $stmt->fetchAll();
-        return $messages;
+
+        return array_map(function ($row) use ($db) {
+            $sender = User::getUserByID($db, $row['sender']);
+            $receiver = User::getUserByID($db, $row['receiver']);
+            return new Message($row['id'], $row['datetime'], $row['content'], $sender, $receiver);
+        }, $stmt->fetchAll());
     }
 
     public static function getRecentContacts(PDO $db, User $user) {
