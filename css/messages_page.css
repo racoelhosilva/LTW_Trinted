@@ -1,24 +1,26 @@
 #message-box {
+    margin: 1em 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #contacts {
-    width: 300px;
+    width: max(300px, 15vw);
     background-color: var(--lighter);
-    height: 900px;
-    border-radius: 25px;
-    border: 2px solid var(--primary);
+    height: 75vh;
+    border-radius: 1em;
+    border: 1px solid var(--primary);
     overflow: scroll;
+    flex-shrink: 3;
 }
 
 #chat {
-    border-radius: 25px;
-    width: 700px;
+    border-radius: 1em;
+    width: max(700px, 35vw);
     background-color: var(--background-secondary);
-    border: 2px solid var(--primary);
-    height: 900px;
+    border: 1px solid var(--primary);
+    height: 75vh;
 }
 
 #contacts > h1 {
@@ -45,7 +47,9 @@
     align-items: center;
     justify-content: flex-start;
     column-gap: 1rem;
+}
 
+#contacts > ul > li > h1 {
     font-weight: 500;
     color: var(--background-primary);
     font-size: 18px;
@@ -113,7 +117,7 @@
 #messages {
     flex-grow: 2;
 
-    max-height: 900px;
+    max-height: max(900px, 85vh);
     overflow: scroll;
     display: flex;
     flex-direction: column-reverse;
@@ -128,7 +132,7 @@
     display: block;
     padding: 1em;
     margin: 0.3rem;
-    border-radius: 25px;
+    border-radius: 1em;
 }
 
 .message > p {
@@ -160,8 +164,16 @@
     flex-direction: column;
 }
 
-
 .user2 > p:last-child {
     align-self: flex-end;
 }
 
+/* Responsive UI */
+
+/* Responsive UI */
+
+@media (max-width: 800px) {
+    #contacts {
+        display: none;
+    }
+}

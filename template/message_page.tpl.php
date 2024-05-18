@@ -16,7 +16,7 @@ include_once __DIR__ . '/../actions/utils.php';
             ?>
             <li class="contact-side" data-user-id="<?= $user->id ?>">
                 <img src="<?= $user->profilePicture->url ?>" width="40" height="40" class="avatar contact-avatar">
-                <?= $user->name ?>
+                <h1><?= $user->name ?></h1>
             </li>            
         <?php
         }
