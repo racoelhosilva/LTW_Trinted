@@ -20,7 +20,7 @@ include_once('db/classes/Payment.class.php');
         return;
     }
 
-    if (is_null($product->payment)){ ?>
+    if (is_null($product->getPayment())){ ?>
         <main id="product-page">
             <?php drawProductPhotos($product); ?>
             <?php drawProductInfo($product); ?>

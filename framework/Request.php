@@ -171,6 +171,6 @@ class Request
     }
 
     function getServerHost(): string {
-        return $this->header('HTTP_HOST');
+        return (empty($_SERVER['HTTPS']) ? 'http' : 'https') . '://' . $this->header('HTTP_HOST');
     }
 }

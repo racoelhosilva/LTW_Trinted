@@ -32,7 +32,7 @@ include_once('template/product.tpl.php');
             <link rel="stylesheet" href="/css/help_page.css">
             <link rel="stylesheet" href="/css/toast_message.css">
             <link rel="stylesheet" href="/css/banned_page.css">
-            <link rel="stylesheet" href="css/shipping_form_page.css">
+            <link rel="stylesheet" href="/css/shipping_form_page.css">
             <script src="/javascript/utils.js" defer></script>
             <script src="/javascript/product_page.js" defer></script>
             <script src="/javascript/product.js" defer></script>

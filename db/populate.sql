@@ -7,11 +7,15 @@ PRAGMA foreign_keys = ON;
 DELETE
 FROM Message;
 DELETE
+FROM Wishes;
+DELETE
 FROM ProductImage;
+DELETE
+FROM ProductBrand;
 DELETE
 FROM Product;
 DELETE
-FROM ProductBrand;
+FROM Payment;
 DELETE
 FROM Brand;
 DELETE

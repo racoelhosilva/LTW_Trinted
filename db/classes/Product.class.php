@@ -197,6 +197,12 @@ class Product
         $stmt->execute();
     }
 
+    public function removeBrands(PDO $db): void {
+        $stmt = $db->prepare("DELETE FROM ProductBrand WHERE product = :product");
+        $stmt->bindParam(":product", $this->id);
+        $stmt->execute();
+    }
+
     public function getAllImages(PDO $db): array {
         $stmt = $db->prepare("SELECT * FROM ProductImage WHERE product = :product");
         $stmt->bindParam(":product", $this->id);

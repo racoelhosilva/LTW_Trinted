@@ -23,7 +23,18 @@ function getProductBrandLinks(Product $product, Request $request): array {
     ];
 }
 
-function updateProductBrands(Product $product, array $add, array $remove, PDO $db): void {
+function updateProductBrands(Product $product, array $brands, PDO $db): void {
+    $product->removeBrands($db);
+
+    foreach ($brands as $brandName) {
+        $brand = Brand::getBrand($db, urlencode($brandName));
+        if ($brand !== null) {
+            $product->removeBrand($db, $brand);
+        }
+    }
+}
+
+function modifyProductBrands(Product $product, array $add, array $remove, PDO $db): void {
     foreach ($add as $brandName) {
         $brand = Brand::getBrand($db, urlencode($brandName));
         if ($brand !== null) {
@@ -72,6 +83,19 @@ switch ($method) {
                 'brands' => $brands,
                 'links' => getProductBrandLinks($product, $request),
             ]);
+        } elseif (preg_match('/^\/api\/product\/(\d+)\/images\/?$/', $endpoint, $matches)) {
+            $productId = (int)$matches[1];
+            $product = Product::getProductByID($db, $productId);
+            if ($product === null)
+                sendNotFound();
+
+            $images = $product->getAllImages($db);
+            $images = array_map(function($image) use ($request) {
+                return $image->url;
+            }, $images);
+            sendOk(['images' => $images]);
+            
+            
         } else {
             sendNotFound();
         }
@@ -88,8 +112,8 @@ switch ($method) {
                 sendForbidden('User must be seller or admin to create a product');
             if (!$request->paramsExist(['title', 'description', 'price']))
                 sendMissingFields();
-            if ($request->files('image') == null)
-                sendBadRequest('Image file missing');
+            if ($request->files('images') == null)
+                sendBadRequest('Image files missing');
 
             try {
                 $user = User::getUserByID($db, $user['id']);
@@ -136,7 +160,10 @@ switch ($method) {
             } else {
                 if (!in_array($user['type'], ['seller', 'admin']))
                     sendForbidden('User must be a seller or admin to create a product');
-
+    
+                if ($request->files('image') == null)
+                    sendBadRequest('Image file missing');
+                
                 try {
                     $user = User::getUserByID($db, $user['id']);
                     $product = createProductWithId($request, $user, $db, $productId);
@@ -163,19 +190,40 @@ switch ($method) {
             if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
                 sendForbidden('User must be the original seller or admin to update brands');
 
-            if (!$request->paramsExist(['add', 'remove']))
-                sendMissingFields();
-
             try {
-                $add = $request->put('add');
-                $remove = $request->put('remove');
-                updateProductBrands($product, $add, $remove, $db);
+                $brands = $request->put('brands', []);
+                updateProductBrands($product, $brands, $db);
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 sendInternalServerError();
             }
 
             sendOk(['links' => getProductBrandLinks($product, $request)]);
+        } elseif (preg_match('/^\/api\/product\/(\d+)\/images\/?$/', $endpoint, $matches)) {
+            $productId = (int)$matches[1];
+            $product = Product::getProductByID($db, $productId);
+            if ($product === null)
+                sendNotFound();
+
+            $product = Product::getProductByID($db, (int)$matches[1]);
+            if ($product === null)
+                sendNotFound();
+
+            if (!$request->verifyCsrf())
+                sendCrsfMismatch();
+            if (!isLoggedIn($request))
+                sendUserNotLoggedIn();
+
+            $user = getSessionUser($request);
+            if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
+                sendForbidden('User must be the original seller or admin to delete a product');
+            
+            try {
+                $product->delete($db);
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                sendInternalServerError();
+            }
         } else {
             sendNotFound();
         }
@@ -222,13 +270,19 @@ switch ($method) {
             try {
                 $add = $request->patch('add', []);
                 $remove = $request->patch('remove', []);
-                updateProductBrands($product, $add, $remove, $db);
+                modifyProductBrands($product, $add, $remove, $db);
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 sendInternalServerError();
             }
 
             sendOk(['links' => getProductBrandLinks($product, $request)]);
+        } elseif (preg_match('/^\/api\/product\/(\d+)\/images\/?$/', $endpoint, $matches)) {
+            $productId = (int)$matches[1];
+            $product = Product::getProductByID($db, $productId);
+            if ($product === null)
+                sendNotFound();
+            
         } else {
             sendNotFound();
         }

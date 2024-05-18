@@ -6,7 +6,7 @@ require_once 'Image.class.php';
 
 class User
 {
-    private int $id;
+    private ?int $id;
     private string $name;
     private string $password;
     private int $registerDatetime;
@@ -15,7 +15,7 @@ class User
     private bool $isBanned;
     private string $email;
 
-    public function __construct(int $id, string $email, string $name, string $password, int $registerDatetime, Image $profilePicture, string $type)
+    public function __construct(?int $id, string $email, string $name, string $password, int $registerDatetime, Image $profilePicture, string $type)
     {
         $this->id = $id;
         $this->email = $email;
@@ -53,7 +53,7 @@ class User
         $this->id = $id[0];
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return (int)$this->id;
     }
