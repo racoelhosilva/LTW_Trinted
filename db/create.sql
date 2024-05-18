@@ -128,15 +128,15 @@ CREATE TABLE Product
     CONSTRAINT PaymentFK FOREIGN KEY (Payment) REFERENCES Payment (id)
 );
 
-CREATE TRIGGER ProductOwnerIsSeller
+CREATE TRIGGER ProductOwnerIsSellerOrAdmin
     BEFORE INSERT
     ON Product
     FOR EACH ROW
     WHEN (SELECT type
           FROM User
-          WHERE id = New.seller) <> 'seller'
+          WHERE id = New.seller) NOT IN ('seller', 'admin')
 BEGIN
-    SELECT RAISE(FAIL, 'The product''s publisher must be a seller');
+    SELECT RAISE(FAIL, 'The product''s publisher must be a seller or admin');
 END;
 
 CREATE TRIGGER ProductAfterUserRegister
