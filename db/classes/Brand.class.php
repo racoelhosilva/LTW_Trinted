@@ -30,4 +30,12 @@ class Brand {
         return new Brand($brand["name"]);
     }
 
+    public static function getAll(PDO $db): array{
+        $stmt = $db->prepare("SELECT name FROM Brand");
+        $stmt->execute();
+        $brands = array_map(function($brand){
+            return new Brand($brand["name"]);
+        }, $stmt->fetchAll());
+        return $brands;
+    }
 }
