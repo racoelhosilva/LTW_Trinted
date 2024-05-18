@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../framework/Request.php';
 
 function userLoggedIn(Request $request): bool {
-    return $request->getSession()->get('user') !== null;
+    return $request->session('user') !== null;
 }
 
 
@@ -66,5 +66,5 @@ function sendInvalidFields(): void {
 }
 
 function getSessionUser(Request $request): array {
-    return $request->getSession()->get('user');
+    return $request->session('user');
 }

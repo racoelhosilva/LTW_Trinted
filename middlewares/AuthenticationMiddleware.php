@@ -6,7 +6,7 @@ require_once __DIR__ . "/../framework/Request.php";
  * @brief Helper function to check if user is logged in
  */
 function isLoggedIn(Request $request) {
-    return $request->getSession()->get('user') != null;
+    return $request->session('user') != null;
 }
 
 /**

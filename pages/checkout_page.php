@@ -10,7 +10,7 @@ include_once('db/classes/Product.class.php');
     <main id="checkout-page">
         <?php drawOrderItems([]); ?>
         <?php drawCheckoutSummary(); ?>
-        <?php drawCheckoutForm($request->getSession()->getCsrf()); ?>
+        <?php drawCheckoutForm($request->session('csrf')); ?>
     </main>
     <!-- <main id="checkout-empty" class="hidden">
         <?php // drawEmptyCart(); ?>

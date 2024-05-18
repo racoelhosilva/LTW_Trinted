@@ -90,6 +90,13 @@ class Request
         return $this->files[$key] ?? null;
     }
 
+    public function session($key)
+    {
+        if (!$this->verifyCsrf())
+            return false;
+        return $this->session->get($key);
+    }
+
     public function getSession() : Session
     {
         return $this->session;
@@ -130,6 +137,12 @@ class Request
                 break;
             case 'PUT':
                 $array = $this->putParams;
+                break;
+            case 'PATCH':
+                $array = $this->patchParams;
+                break;
+            case 'DELETE':
+                $array = $this->deleteParams;
                 break;
             default:
                 return false;

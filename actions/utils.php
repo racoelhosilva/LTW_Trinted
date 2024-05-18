@@ -59,7 +59,7 @@ function parseProduct(PDO $db, Product $product): array {
     ];
 }
 function userLoggedIn(Request $request): bool {
-    return $request->getSession()->get('user') !== null;
+    return $request->session('user') !== null;
 }
 
 function sendUserNotLoggedIn(): void {
@@ -75,5 +75,5 @@ function sendMissingFields(): void {
 }
 
 function getLoggedInUser(Request $request): array {
-    return $request->getSession()->get('user');
+    return $request->session('user');
 }

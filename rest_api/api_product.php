@@ -43,12 +43,12 @@ function parseProducts(array $products, Request $request): array {
     }, $products);
 }
 
-function createProduct(Request $request, PDO $db): Product {
+function createProduct(Request $request, User $seller, PDO $db): Product {
     $title = $request->post('title');
     $price = (float)$request->post('price');
     $description = $request->post('description');
 
-    $sellerId = $request->getSession()->get('user')['id'];
+    $sellerId = $request->session('user')['id'];
     $seller = User::getUserByID($db, $sellerId);
 
     $size = $request->post('size') != null ? Size::getSize($db, $request->post('size')) : null;
@@ -66,13 +66,10 @@ function createProduct(Request $request, PDO $db): Product {
     return $product;
 }
 
-function createProductWithId(Request $request, PDO $db, int $id): Product {
+function createProductWithId(Request $request, User $seller, PDO $db, int $id): Product {
     $title = $request->put('title');
     $price = (float)$request->put('price');
     $description = $request->put('description');
-
-    $sellerId = $request->getSession()->get('user')['id'];
-    $seller = User::getUserByID($db, $sellerId);
 
     $size = $request->put('size') != null ? Size::getSize($db, $request->put('size')) : null;
     $category = $request->put('category') != null ? Category::getCategory($db, $request->put('category')) : null;
@@ -160,7 +157,8 @@ switch ($method) {
                 sendBadRequest('Image file missing');
 
             try {
-                $product = createProduct($request, $db);
+                $user = User::getUserByID($db, $user['id']);
+                $product = createProduct($request, $user, $db);
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 sendInternalServerError();
@@ -176,13 +174,14 @@ switch ($method) {
             $productId = (int)$matches[1];
             $product = Product::getProductByID($db, $productId);
 
-            if ($product !== null) {
-                if (!$request->verifyCsrf())
-                    sendCrsfMismatch();
-                if (!isLoggedIn($request)) 
-                    sendUserNotLoggedIn();
+            if (!$request->verifyCsrf())
+                sendCrsfMismatch();
+            if (!isLoggedIn($request)) 
+                sendUserNotLoggedIn();
 
-                $user = getSessionUser($request);
+            $user = getSessionUser($request);
+
+            if ($product !== null) {
                 if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
                     sendForbidden('User must be the original seller or admin to edit a product');
                 if (!$request->paramsExist(['title', 'description', 'price']))
@@ -191,13 +190,18 @@ switch ($method) {
                 try {
                     updateProduct($product, $request, $db);
                 } catch (Exception $e) {
+                    error_log($e->getMessage());
                     sendInternalServerError();
                 }
 
                 sendOk(['links' => getProductLinks($product, $request)]);
             } else {
+                if (!in_array($user['type'], ['seller', 'admin']))
+                    sendForbidden('User must be a seller or admin to create a product');
+
                 try {
-                    $product = createProductWithId($request, $db, $productId);
+                    $user = User::getUserByID($db, $user['id']);
+                    $product = createProductWithId($request, $user, $db, $productId);
                 } catch (Exception $e) {
                     error_log($e->getMessage());
                     sendInternalServerError();

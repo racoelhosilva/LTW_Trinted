@@ -54,6 +54,7 @@ switch ($method) {
             try {
                 $category = storeCategory($request, $db);
             } catch (Exception $e) {
+                error_log($e->getMessage());
                 sendInternalServerError();
             }
 
