@@ -37,7 +37,7 @@ try {
     if (!empty($newPassword))
         $user->setPassword($db, $newPassword);
     if (!empty($newProfilePicture)) {
-        $user->setProfilePicture($db, $newProfilePicture);
+        $user->setProfilePicture($db, new Image($newProfilePicture));
 
     }
 } catch (Exception $e) {

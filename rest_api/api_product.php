@@ -221,6 +221,8 @@ switch ($method) {
                 if (!in_array($user['type'], ['seller', 'admin']))
                     sendForbidden('User must be a seller or admin to create a product');
 
+                if (!$request->paramsExist(['title', 'description', 'price']))
+                    sendMissingFields();
                 if ($request->files('image') == null)
                     sendBadRequest('Image file missing');
 

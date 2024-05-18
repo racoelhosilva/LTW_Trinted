@@ -39,7 +39,13 @@ class User
 
     public function upload(PDO $db): void
     {
-        $stmt = $db->prepare("INSERT INTO User (email, name, password, registerDatetime, profilePicture, type) VALUES (:email, :name, :password, :registerDateTime, :profilePicture, :type)");
+        if ($this->id == null) {
+            $stmt = $db->prepare("INSERT INTO User (email, name, password, registerDatetime, profilePicture, type) VALUES (:email, :name, :password, :registerDateTime, :profilePicture, :type)");
+        } else {
+            $stmt = $db->prepare("INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type) VALUES (:id, :email, :name, :password, :registerDateTime, :profilePicture, :type)");
+            $stmt->bindParam(":id", $this->id);
+        }
+
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":password", $this->password);
@@ -47,10 +53,13 @@ class User
         $stmt->bindParam(":profilePicture", $this->profilePicture->url);
         $stmt->bindParam(":type", $this->type);
         $stmt->execute();
-        $stmt = $db->prepare("SELECT last_insert_rowid()");
-        $stmt->execute();
-        $id = $stmt->fetch();
-        $this->id = $id[0];
+
+        if ($this->id == null) {
+            $stmt = $db->prepare("SELECT last_insert_rowid()");
+            $stmt->execute();
+            $id = $stmt->fetch();
+            $this->id = $id[0];
+        }
     }
 
     public function getId(): ?int
@@ -156,18 +165,16 @@ class User
         $stmt->execute();
     }
 
-    public function setProfilePicture(PDO $db, string $profilePicture): void
+    public function setProfilePicture(PDO $db, Image $image): void
     {
+        $imageUrl = $image->url;
+
         $stmt = $db->prepare("UPDATE User SET profilePicture = :profilePicture WHERE id = :id");
-        $stmt->bindParam(":profilePicture", $profilePicture);
+        $stmt->bindParam(":profilePicture", $imageUrl);
         $stmt->bindParam(":id", $this->id);
         $stmt->execute();
-        try {
-            $this->profilePicture = Image::getImage($db, $profilePicture);
-        } catch (Exception $e) {
-            echo "Fatal error: " . $e->getMessage();
-        }
 
+        $this->profilePicture = $image;
     }
 
     public function getUserProducts(PDO $db): array
@@ -254,5 +261,11 @@ class User
         $stmt->bindParam(":product", $productId);
         $stmt->execute();
         return $stmt->fetch() !== false;
+    }
+
+    public function delete(PDO $db): void {
+        $stmt = $db->prepare("DELETE FROM User WHERE id = :id");
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
     }
 }

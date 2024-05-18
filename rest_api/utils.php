@@ -337,7 +337,7 @@ function createUser(Request $request, PDO $db): User
     $password = $request->post('password');
     $type = $request->post('type');
     if ($request->files('profilePicture') != null) {
-        $profilePicture = uploadImages($request, $request->files('profilePicture'), $db, 'profile');
+        $profilePicture = uploadImages($request, $request->files('profilePicture'), $db, 'profile')[0];
     } else {
         $profilePicture = new Image('https://wallpapers.com/images/high/basic-default-pfp-pxi77qv5o0zuz8j3.webp');
     }
@@ -349,19 +349,55 @@ function createUser(Request $request, PDO $db): User
     return $user;
 }
 
-function updateUser(User $user, Request $request, PDO $db) {
+function createUserWithId(Request $request, PDO $db, int $id): User
+{
+    $email = $request->post('email');
+    $name = $request->post('name');
+    $password = $request->post('password');
+    $type = $request->post('type');
+    if ($request->files('profilePicture') != null) {
+        $profilePicture = uploadImages($request, $request->files('profilePicture'), $db, 'profile')[0];
+    } else {
+        $profilePicture = new Image('https://wallpapers.com/images/high/basic-default-pfp-pxi77qv5o0zuz8j3.webp');
+    }
+    
+    $user = new User($id, $email, $name, $password, time(), $profilePicture, $type);
+    $user->hashPassword();
+    $user->upload($db);
+
+    return $user;
+}
+
+function updateUser(User $user, Request $request, PDO $db): void {
     $email = $request->put('email');
     $name = $request->put('name');
     $password = $request->put('password');
     $type = $request->put('type');
     if ($request->files('profilePicture') != null) {
-        $profilePicture = uploadImages($request, $request->files('profilePicture'), $db, 'profile');
+        $profilePicture = uploadImages($request, $request->files('profilePicture'), $db, 'profile')[0];
     } else {
         $profilePicture = new Image('https://wallpapers.com/images/high/basic-default-pfp-pxi77qv5o0zuz8j3.webp');
     }
 
-    
-
-    
+    $user->setEmail($db, $email);
+    $user->setName($db, $name);
+    $user->setPassword($db, $password);
+    $user->setType($db, $type);
+    $user->setProfilePicture($db, $profilePicture);
 }
 
+function modifyUser(User $user, Request $request, PDO $db): void {
+    $email = $request->put('email');
+    $name = $request->put('name');
+    $password = $request->put('password');
+    $type = $request->put('type');
+    if ($request->files('profilePicture') != null) {
+        $profilePicture = uploadImages($request, $request->files('profilePicture'), $db, 'profile')[0];
+    }
+
+    if ($email) $user->setEmail($db, $email);
+    if ($name) $user->setName($db, $name);
+    if ($password) $user->setPassword($db, $password);
+    if ($type) $user->setType($db, $type);
+    if ($profilePicture) $user->setProfilePicture($db, $profilePicture);
+}
