@@ -21,6 +21,7 @@ class ApiController {
             'condition' => 'conditions',
             'category' => 'categories',
             'brand' => 'brands',
+            'user' => 'users',
         ];
 
         $resource = $args[0];
@@ -50,5 +51,9 @@ class ApiController {
 
     private function brands(array $args) {
         require_once __DIR__ . '/../rest_api/api_brands.php';
+    }
+
+    private function users(array $args) {
+        require_once __DIR__ . '/../rest_api/api_users.php';
     }
 }
