@@ -52,7 +52,12 @@ switch ($method) {
                 returnMissingFields();
 
             $size = storeSize($request, $db);
-            die(json_encode(['success' => true, 'size' => $size->getName()]));
+            die(json_encode([
+                'success' => true,
+                'links' => [
+                    'sizes' => '/api/size/'
+                ]
+            ]));
         } else {
             die(header('HTTP/1.1 404 Not Found'));
         }

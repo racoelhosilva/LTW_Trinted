@@ -17,17 +17,14 @@ function searchProducts(PDO $db, string $search): array {
         WHERE title LIKE :search
         OR description LIKE :search
         OR price LIKE :search
-        OR EXISTS (SELECT *
-            FROM Item
-            WHERE Item.id = Product.item
-            AND ((category LIKE :search OR size LIKE :search OR condition LIKE :search
-            OR EXISTS (SELECT *
-                FROM ItemBrand
-                WHERE ItemBrand.item = Item.id AND brand LIKE :search)
-            OR EXISTS (SELECT *
-                FROM User
-                WHERE User.id = Product.seller AND name LIKE :search))))
-            ORDER BY publishDatetime;';
+        OR (category LIKE :search OR size LIKE :search OR condition LIKE :search)
+        OR id IN (SELECT product
+            FROM ProductBrand
+            WHERE brand LIKE :search)
+        OR seller IN (SELECT id
+            FROM User
+            WHERE name LIKE :search)
+        ORDER BY publishDatetime;';
     
     $stmt = $db->prepare($query);
     $stmt->bindValue(':search', '%' . $search . '%');
@@ -36,7 +33,7 @@ function searchProducts(PDO $db, string $search): array {
     $products = [];
     foreach ($stmt->fetchAll() as $row) {
         $product = Product::getProductByID($db, $row['id']);
-        $products[] = parseProduct($product, $db);
+        $products[] = parseProduct($db, $product);
     }
     return $products;
 }
@@ -83,6 +80,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] !== 'GET')
     die(json_encode(['success' => false, 'error' => 'Invalid request method']));
 
+$request = new Request();
 if (!$request->paramsExist(['query']))
     die(['success' => false, 'error' => 'Missing fields']);
 

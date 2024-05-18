@@ -15,7 +15,8 @@ class ApiController {
 
     public function handle(array $args) {
         $subroutes = [
-            'product' => 'products'
+            'product' => 'products',
+            'size' => 'sizes',
         ];
 
         $resource = $args[0];
@@ -24,14 +25,14 @@ class ApiController {
         if ($subroute)
             $this->$subroute($args);
         else
-            $this->notFound();
+            die(header('HTTP/1.1 404 Not Found'));
     }
 
     private function products(array $args) {
-        require_once('rest_api/api_product.php');
+        require_once __DIR__ . '/../rest_api/api_product.php';
     }
 
-    private function notFound() {
-        header('HTTP/1.1 404 Not Found');
+    private function sizes(array $args) {
+        require_once __DIR__ . '/../rest_api/api_size.php';
     }
 }
