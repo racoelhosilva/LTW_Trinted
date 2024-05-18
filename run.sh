@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# Cloning and opening the project from Github
-#if command -v git &> /dev/null; then
-#    git clone https://github.com/FEUP-LTW-2024/ltw-project-2024-ltw15g02
-#    git checkout final-delivery-v1  
-#else
-#    echo "git command not found, please install it to run the project"
-#    exit 1
-#fi
-
 # Checking if php-gd is installed and enabled 
 if php check_gd.php; then
     echo "GD extension found and enabled"
@@ -35,5 +26,5 @@ else
     echo "Consider installing tsc for future runs"
 fi
 
-php -S localhost:9000&
 xdg-open localhost:9000
+php -S localhost:9000
