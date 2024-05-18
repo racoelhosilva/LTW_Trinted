@@ -19,12 +19,6 @@ class Brand {
         $stmt->execute();
     }
 
-    public static function getAllBrands(PDO $db) {
-        $stmt = $db->prepare("SELECT name FROM Brand ORDER BY name ASC");
-        $stmt->execute();
-        return $stmt->fetchAll();
-    }
-
     public static function getNumberOfBrands(PDO $db) {
         $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Brand");
         $stmt->execute();
@@ -42,12 +36,13 @@ class Brand {
         return new Brand($brand["name"]);
     }
 
-    public static function getAll(PDO $db): array{
-        $stmt = $db->prepare("SELECT name FROM Brand");
+    public static function getAll(PDO $db): array {
+        $stmt = $db->prepare("SELECT name FROM Brand ORDER BY name ASC");
         $stmt->execute();
-        $brands = array_map(function($brand){
+        $brands = array_map(function ($brand) {
             return new Brand($brand["name"]);
         }, $stmt->fetchAll());
         return $brands;
     }
+
 }

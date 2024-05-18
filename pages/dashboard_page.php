@@ -42,14 +42,14 @@ include_once('db/classes/Size.class.php');
             <div class="listable-detail-section">
 
                 <div class="detailed-card">
-                        <?php $brands = Brand::getAllBrands($db); ?>
+                        <?php $brands = Brand::getAll($db); ?>
                         <h3>
                         Brands <span class="detail-count"><?= sizeof($brands) ?></span>
                     </h3>
                     <ul>
                     <?php
                     foreach ($brands as $brand) { ?>
-                        <li> <?= $brand['name'] ?> </li>
+                        <li> <?= $brand->name ?> </li>
                         <?php } ?>
                     </ul>
                     <div id="writing-space">
@@ -58,14 +58,14 @@ include_once('db/classes/Size.class.php');
                     </div>
                 </div>
                 <div class="detailed-card">
-                    <?php $categories = Category::getAllCategories($db); ?>
+                    <?php $categories = Category::getAll($db); ?>
                     <h3>
                         Categories <span class="detail-count"><?= sizeof($categories) ?></span>
                     </h3>
                     <ul>
                         <?php
                     foreach ($categories as $category) { ?>
-                        <li> <?= $category['name'] ?> </li>
+                        <li> <?= $category->category ?> </li>
                     <?php } ?>
                     </ul>
                     <div id="writing-space">
@@ -74,14 +74,14 @@ include_once('db/classes/Size.class.php');
                     </div>
                 </div>
                 <div class="detailed-card">
-                    <?php $conditions = Condition::getAllConditions($db); ?>
+                    <?php $conditions = Condition::getAll($db); ?>
                     <h3>
                         Conditions <span class="detail-count"><?= sizeof($conditions) ?></span>
                     </h3>
                     <ul>
                         <?php
                     foreach ($conditions as $condition) { ?>
-                        <li> <?= $condition['name'] ?> </li>
+                        <li> <?= $condition->condition ?> </li>
                         <?php } ?>
                     </ul>
                     <div id="writing-space">
@@ -90,14 +90,14 @@ include_once('db/classes/Size.class.php');
                     </div>
                 </div>
                 <div class="detailed-card">
-                    <?php $sizes = Size::getAllSizes($db); ?>
+                    <?php $sizes = Size::getAll($db); ?>
                     <h3>
                         Sizes <span class="detail-count"><?= sizeof($sizes) ?></span>
                     </h3>
                     <ul>
                         <?php
                     foreach ($sizes as $size) { ?>
-                        <li> <?= $size['name'] ?> </li>
+                        <li> <?= $size->size ?> </li>
                         <?php } ?>
                     </ul>
                     <div id="writing-space">
