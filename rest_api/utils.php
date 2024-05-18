@@ -129,13 +129,13 @@ function parseProducts(array $products, Request $request): array
     }, $products);
 }
 
-function uploadImages(Request $request, PDO $db, string $subfolder): array
+function uploadImages(Request $request, array $imageFiles, PDO $db, string $subfolder): array
 {
     if (!is_dir(__DIR__ . '/../images')) mkdir(__DIR__ . '/../images');
     if (!is_dir(__DIR__ . '/../images/' . $subfolder))
         mkdir(__DIR__ . '/../images/' . $subfolder);
     $images = [];
-    foreach ($request->files('images')['tmp_name'] ?? [] as $tempFileName) {
+    foreach ($imageFiles['tmp_name'] ?? [] as $tempFileName) {
         $image = @imagecreatefromjpeg($tempFileName);
         if (!$image)
             $image = @imagecreatefrompng($tempFileName);
@@ -169,7 +169,8 @@ function createProduct(Request $request, User $seller, PDO $db): Product
     $product = new Product(null, $title, $price, $description, time(), $seller, $size, $category, $condition);
     $product->upload($db);
 
-    $images = uploadImages($request, $db, "products");
+    $requestImages = $request->files('images');
+    $images = uploadImages($request, $requestImages('images'), $db, 'product');
     foreach ($images as $image) {
         $productImage = new ProductImage($product, $image);
         $productImage->upload($db);
@@ -301,6 +302,15 @@ function storeBrand(Request $request, PDO $db): Brand
     return $brand;
 }
 
+function getUserLinks(User $user) {
+    return [
+        [
+            'rel' => 'self',
+            'href' => '/api/user/' . $user->getId()
+        ],
+    ];
+}
+
 function parseUser(User $user, Request $request, bool $hideSensitive): array
 {
     $res = [
@@ -310,16 +320,7 @@ function parseUser(User $user, Request $request, bool $hideSensitive): array
         'isBanned' => $user->getIsBanned(),
         'registerDatetime' => $user->getRegisterDatetime(),
         'profilePicture' => $user->getProfilePicture()->url,
-        'links' => [
-            [
-                'rel' => 'self',
-                'href' => $request->getServerHost() . '/api/user/' . $user->getId(),
-            ],
-            [
-                'rel' => 'products',
-                'href' => $request->getServerHost() . '/api/user/' . $user->getId() . '/products',
-            ]
-        ]
+        'links' => getUserLinks($user),
     ];
 
     if (!$hideSensitive) {
@@ -335,10 +336,32 @@ function createUser(Request $request, PDO $db): User
     $name = $request->post('name');
     $password = $request->post('password');
     $type = $request->post('type');
-    $profilePicture = new Image($request->files('profilePicture'));
-
-    $user = new User(null, $email, $name, $password, time(), new Image(), $type);
+    if ($request->files('profilePicture') != null) {
+        $profilePicture = uploadImages($request, $request->files('profilePicture'), $db, 'profile');
+    } else {
+        $profilePicture = new Image('https://wallpapers.com/images/high/basic-default-pfp-pxi77qv5o0zuz8j3.webp');
+    }
+    
+    $user = new User(null, $email, $name, $password, time(), $profilePicture, $type);
     $user->hashPassword();
     $user->upload($db);
+
+    return $user;
+}
+
+function updateUser(User $user, Request $request, PDO $db) {
+    $email = $request->put('email');
+    $name = $request->put('name');
+    $password = $request->put('password');
+    $type = $request->put('type');
+    if ($request->files('profilePicture') != null) {
+        $profilePicture = uploadImages($request, $request->files('profilePicture'), $db, 'profile');
+    } else {
+        $profilePicture = new Image('https://wallpapers.com/images/high/basic-default-pfp-pxi77qv5o0zuz8j3.webp');
+    }
+
+    
+
+    
 }
 

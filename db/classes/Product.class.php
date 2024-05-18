@@ -203,6 +203,21 @@ class Product
         $stmt->execute();
     }
 
+    public function addImage(PDO $db, Image $image): void {
+        $imageURL = $image->getUrl();
+        $stmt = $db->prepare("INSERT INTO ProductImage (product, image) VALUES (:product, :image)");
+        $stmt->bindParam(":product", $this->id);
+        $stmt->bindParam(":image", $imageURL);
+        $stmt->execute();
+    }
+
+    public function removeImage(PDO $db, $url): void {
+        $stmt = $db->prepare("DELETE FROM ProductImage WHERE product = :product AND image = :image");
+        $stmt->bindParam(":product", $this->id);
+        $stmt->bindParam(":image", $url);
+        $stmt->execute();
+    }
+
     public function getAllImages(PDO $db): array {
         $stmt = $db->prepare("SELECT * FROM ProductImage WHERE product = :product");
         $stmt->bindParam(":product", $this->id);

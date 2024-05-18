@@ -31,6 +31,8 @@ FROM Image;
 
 -- Create Images
 INSERT INTO Image (url)
+VALUES ('https://wallpapers.com/images/high/basic-default-pfp-pxi77qv5o0zuz8j3.webp');
+INSERT INTO Image (url)
 VALUES ('https://randomuser.me/api/portraits/men/84.jpg');
 INSERT INTO Image (url)
 VALUES ('https://randomuser.me/api/portraits/men/19.jpg');
