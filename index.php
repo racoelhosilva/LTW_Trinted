@@ -72,6 +72,10 @@ $routes = [
     '/new-product' => [
         'controller' => 'Controller@newProduct',
         'middlewares' => [new AuthenticationMiddleware(), new BannedMiddleware()]
+    ],
+    '/edit-product' => [
+        'controller' => 'Controller@editProduct',
+        'middlewares' => [new AuthenticationMiddleware(), new BannedMiddleware()]
     ]
 ];
 

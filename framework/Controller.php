@@ -144,4 +144,12 @@ class Controller
         include_once('pages/new_product_page.php');
         return drawNewProductPage($this->request);
     }
+
+    /**
+     * @brief Generates about page
+     */
+    public function editProduct() {
+        include_once('pages/edit_product_page.php');
+        return drawEditProductPage($this->request);
+    }
 }

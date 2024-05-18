@@ -11,9 +11,7 @@ require_once __DIR__ . '/../framework/Autoload.php';
 require_once __DIR__ . '/../rest_api/utils.php';
 ?>
 
-<?php function drawProductPageContent(Request $request, int $productId)
-{ ?>
-    <?php
+<?php function drawProductPageContent(Request $request, int $productId) {
     $db = new PDO("sqlite:" . DB_PATH);
     $product = Product::getProductByID($db, $productId);
     if (!isset($product)) {

@@ -89,7 +89,7 @@
   'opsz' 24
 }
 
-#product-photos > .like-button {
+#product-photos > .like-button, #product-photos > #edit-product-button {
   position: absolute;
   bottom: 0.5em;
   left: 0.5em;

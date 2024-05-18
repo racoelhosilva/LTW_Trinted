@@ -5,14 +5,12 @@ if (messageButton) {
         document.location.assign(`/messages?id=${messageButton.dataset.userId}`);
     });
 }
-
 const addProductButton = document.getElementById('add-button');
 if (addProductButton) {
     addProductButton.addEventListener('click', () => {
         document.location.assign(`/new-product`);
     });
 }
-
 const idParam = window.location.pathname.split("/").pop();
 let userId;
 if (idParam == null) {

@@ -8,6 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const editProductButton = document.getElementById('edit-product-button');
+if (editProductButton) {
+    editProductButton.addEventListener('click', () => {
+        document.location.assign(`/edit-product?id=${editProductButton.dataset.productId}`);
+    });
+}
 const productCards = document.querySelectorAll(".product-card");
 const likeButtons = document.querySelectorAll(".like-button");
 productCards.forEach((productCard) => __awaiter(void 0, void 0, void 0, function* () {

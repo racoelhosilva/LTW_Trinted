@@ -1,0 +1,50 @@
+#edit-product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#edit-product section {
+    width: max(40vw, 300px);
+}
+
+#edit-product h2 {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--primary);
+    text-align: center;
+}
+
+.information-field {
+    margin-bottom: 2em;
+}
+
+#edit-product input, #edit-product select {
+    box-sizing: border-box;
+	font-family: "Hanken Grotesk", sans-serif;
+	border: 1px solid var(--halftone);
+    background-color: var(--background-secondary);
+	border-radius: 22px;
+	color: var(--text);
+    padding: 0.7em;
+    width: 100%;
+}
+
+#edit-product input[type="submit"] {
+    margin: 1em 0;
+}
+
+#edit-product input[type="button"] {
+	font-weight: bold;
+	color: var(--light);
+	background-color: var(--lighter);
+	border: 1px solid var(--primary);
+    margin-bottom: 2em;
+}
+
+#edit-product #delete-button {
+    color: #b61e0d;
+	background-color: #f58c8c;;
+	border: 1px solid #b61e0d;
+}
