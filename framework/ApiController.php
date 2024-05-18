@@ -22,7 +22,8 @@ class ApiController {
             'category' => 'categories',
             'brand' => 'brands',
             'user' => 'users',
-            'message' => 'messages'
+            'message' => 'messages',
+            'wishlist' => 'wishlist'
         ];
 
         $resource = $args[0];
@@ -62,5 +63,9 @@ class ApiController {
 
     private function messages(array $args) {
         require_once __DIR__ . '/../rest_api/api_message.php';
+    }
+
+    private function wishlist(array $args) {
+        require_once __DIR__ . '/../rest_api/api_wishlist.php';
     }
 }
