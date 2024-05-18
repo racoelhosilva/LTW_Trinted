@@ -21,4 +21,13 @@ class ProductImage {
         $stmt->bindParam(":image", $this->image->url);
         $stmt->execute();
     }
+
+    public function delete(PDO $db): void {
+        $productId = $this->product->getId();
+
+        $stmt = $db->prepare("DELETE FROM ProductImage WHERE product = :product AND image = :image");
+        $stmt->bindParam(":product", $productId);
+        $stmt->bindParam(":image", $this->image->url);
+        $stmt->execute();
+    }
 }

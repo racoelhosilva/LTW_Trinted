@@ -79,7 +79,7 @@ class Product
         $stmt->bindParam(":title", $title);
         $stmt->bindParam(":id", $this->id);
         $stmt->execute();
-        
+
         $this->title = $title;
     }
 
@@ -269,5 +269,27 @@ class Product
         $stmt->bindParam(":productId", $this->id);
         $stmt->execute();
         $this->payment = Payment::getPaymentById($db, (int)$paymentId);
+    }
+
+    public function delete(PDO $db): void {
+        $stmt = $db->prepare("DELETE FROM ProductBrand WHERE product = :product");
+        $stmt->bindParam(":product", $this->id);
+        $stmt->execute();
+
+        $stmt = $db->prepare("DELETE FROM Wishes WHERE product = :product");
+        $stmt->bindParam(":product", $this->id);
+        $stmt->execute();
+
+        $stmt = $db->prepare("DELETE FROM Image WHERE url IN (SELECT image FROM ProductImage WHERE product = :product)");
+        $stmt->bindParam(":product", $this->id);
+        $stmt->execute();
+
+        $stmt = $db->prepare("DELETE FROM ProductImage WHERE product = :product");
+        $stmt->bindParam(":product", $this->id);
+        $stmt->execute();
+
+        $stmt = $db->prepare("DELETE FROM Product WHERE id = :id");
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
     }
 }

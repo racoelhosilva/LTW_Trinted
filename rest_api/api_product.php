@@ -98,7 +98,6 @@ switch ($method) {
                 die(header('HTTP/1.0 404 Not Found'));
             die(json_encode(['success' => true, 'product' => $product ? parseProduct($product, $db) : null]));
         }
-        break;
 
     case 'POST':
         if (preg_match('/^\/api\/product\/?$/', $endpoint, $matches)) {
@@ -136,8 +135,9 @@ switch ($method) {
                     'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
                 ]
             ]));
+        } else {
+            die(header('HTTP/1.0 404 Not Found'));
         }
-        break;
 
     case 'PUT':
         if (preg_match('/^\/api\/product\/(\d+)\/?$/', $endpoint, $matches)) {
@@ -177,6 +177,33 @@ switch ($method) {
                     'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
                 ]
             ]));
+        } else {
+            die(header('HTTP/1.0 404 Not Found'));
         }
-        break;
+
+    case 'DELETE':
+        if (preg_match('/^\/api\/product\/(\d+)\/?$/', $endpoint, $matches)) {
+            $product = Product::getProductByID($db, (int)$matches[1]);
+            if ($product === null)
+                die(header('HTTP/1.0 404 Not Found'));
+
+            if (!$request->verifyCsrf())
+                returnCrsfMismatch();
+            if (!isLoggedIn($request))
+                returnUserNotLoggedIn();
+
+            $user = getSessionUser($request);
+            if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
+                die(json_encode(['success' => false, 'error' => 'User must be the original seller or admin to delete a product']));
+            
+            try {
+                $product->delete($db);
+            } catch (Exception $e) {
+                die(json_encode(['success' => false, 'error' => $e->getMessage()]));
+            }
+
+            die(json_encode(['success' => true]));
+        } else {
+            die(header('HTTP/1.0 404 Not Found'));
+        }
 }

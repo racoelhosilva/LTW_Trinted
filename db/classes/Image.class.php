@@ -31,4 +31,10 @@ class Image
         }
         return new Image($urlName["url"]);
     }
+
+    public function delete(PDO $db): void {
+        $stmt = $db->prepare("DELETE FROM Image WHERE url = :url");
+        $stmt->bindParam(":url", $this->url);
+        $stmt->execute();
+    }
 }
