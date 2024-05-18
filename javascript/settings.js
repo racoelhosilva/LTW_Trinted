@@ -13,24 +13,57 @@ function resetFields(username, email) {
     emailField.value = email;
     newPasswordField.value = "";
     oldPasswordField.value = "";
+    fileInput.value = "";
 }
-function changeSettings(username, email, newPassword, oldPassword) {
+function changeSettings(username, email, newPassword, oldPassword, profilePicture) {
     return __awaiter(this, void 0, void 0, function* () {
-        return postData("../actions/change_settings.php", { username: username, email: email, old: oldPassword, new: newPassword })
-            .then(response => response.json());
+        let message = { path: "" };
+        if (profilePicture != null) {
+            message = yield uploadProfilePicture(profilePicture);
+        }
+        return postData("../actions/change_settings.php", {
+            username: username,
+            email: email,
+            old: oldPassword,
+            new: newPassword,
+            profile_picture: message.path,
+        }).then(response => response.json()).then(json => {
+            return json;
+        });
+    });
+}
+function uploadProfilePicture(file) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // Unfortunately, here we can't use the postData function because it doesn't support the necessary headers for file uploads.
+        const formData = new FormData();
+        formData.append("subfolder", "profiles");
+        formData.append("image", file);
+        const response = yield fetch("api/upload_image.php", {
+            method: "POST",
+            body: formData,
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to upload profile picture: ${response.statusText}`);
+        }
+        else {
+            const data = yield response.json();
+            return data;
+        }
     });
 }
 const settingsSection = document.querySelector("#account-settings");
 const changeSettingsButton = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#settings-button");
+const clearProfilePictureButton = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#clear-profile-picture");
 const usernameField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#new-username");
 const emailField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#new-email");
 const newPasswordField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#new-password");
 const oldPasswordField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#old-password");
-if (settingsSection && changeSettingsButton && usernameField && emailField && newPasswordField && oldPasswordField) {
-    var username = usernameField.value;
-    var email = emailField.value;
+const fileInput = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector('#image-input');
+if (settingsSection && changeSettingsButton && clearProfilePictureButton && usernameField && emailField && newPasswordField && oldPasswordField) {
+    let username = usernameField.value;
+    let email = emailField.value;
     changeSettingsButton.addEventListener('click', () => {
-        changeSettings(usernameField.value, emailField.value, newPasswordField.value, oldPasswordField.value)
+        changeSettings(usernameField.value, emailField.value, newPasswordField.value, oldPasswordField.value, fileInput.files[0])
             .then(json => {
             if (json.success) {
                 sendToastMessage('Profile changed successfully', 'success');
@@ -46,5 +79,8 @@ if (settingsSection && changeSettingsButton && usernameField && emailField && ne
             }
             resetFields(username, email);
         });
+    });
+    clearProfilePictureButton.addEventListener('click', () => {
+        fileInput.value = '';
     });
 }
