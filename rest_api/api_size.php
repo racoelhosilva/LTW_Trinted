@@ -32,10 +32,10 @@ header('Content-Type: application/json');
 switch ($method) {
     case 'GET':
         if (preg_match('/^\/api\/size\/?$/', $endpoint, $matches)) {
-            $sizes = Size::getAll($db);
-            die(json_encode(parseSizes($sizes, $db)));
+            $sizes = parseSizes(Size::getAll($db), $db);
+            sendOk($sizes);
         } else {
-            die(header('HTTP/1.1 404 Not Found'));
+            sendNotFound();
         }
 
     case 'POST':
@@ -47,27 +47,27 @@ switch ($method) {
             
             $user = getSessionUser($request);
             if ($user['type'] !== 'admin')
-                die(json_encode(['success' => false, 'error' => 'User must be admin to create a size']));
+                sendForbidden('User must be admin to create a size');
             if (!$request->paramsExist(['name']))
                 returnMissingFields();
 
             try {
                 $size = storeSize($request, $db);
             } catch (Exception $e) {
-                die(json_encode(['success' => false, 'error' => $e->getMessage()]));
+                sendInternalServerError();
             }
 
-            die(json_encode([
+            sendCreated([
                 'success' => true,
                 'links' => [
                     'sizes' => '/api/size/'
                 ]
-            ]));
+            ]);
         } else {
-            die(header('HTTP/1.1 404 Not Found'));
+            sendNotFound();
         }
 
     default:
-        die(header('HTTP/1.1 404 Not Found'));
+        sendNotFound();
 }
 

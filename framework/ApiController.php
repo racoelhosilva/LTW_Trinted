@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-include_once('Request.php');
+require_once __DIR__ .'/Request.php';
+require_once __DIR__ .'/../rest_api/utils.php';
 
 /**
  * @brief Controlls and handles calls to the API
@@ -25,7 +26,7 @@ class ApiController {
         if ($subroute)
             $this->$subroute($args);
         else
-            die(header('HTTP/1.1 404 Not Found'));
+            sendNotFound();
     }
 
     private function products(array $args) {
