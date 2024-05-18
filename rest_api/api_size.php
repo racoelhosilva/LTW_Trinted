@@ -51,7 +51,12 @@ switch ($method) {
             if (!$request->paramsExist(['name']))
                 returnMissingFields();
 
-            $size = storeSize($request, $db);
+            try {
+                $size = storeSize($request, $db);
+            } catch (Exception $e) {
+                die(json_encode(['success' => false, 'error' => $e->getMessage()]));
+            }
+
             die(json_encode([
                 'success' => true,
                 'links' => [
