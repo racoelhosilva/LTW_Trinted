@@ -15,7 +15,7 @@ function getCart(): array {
 function addToCart(Product $product, PDO $db): bool {
     $cart = getCart();
     foreach ($cart as $cart_item) {
-        if ($cart_item->id == $product->id) {
+        if ($cart_item->getId() == $product->getId()) {
             return false;
         }
     }
@@ -28,7 +28,7 @@ function addToCart(Product $product, PDO $db): bool {
 function removeFromCart(Product $product): bool {
     $cart = getCart();
     foreach ($cart as $index => $cart_item) {
-        if ($cart_item->id == $product->id) {
+        if ($cart_item->getId() == $product->getId()) {
             array_splice($cart, $index, 1);
             setCart($cart);
             return true;

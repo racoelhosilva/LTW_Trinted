@@ -10,23 +10,23 @@ require_once __DIR__ . "/Payment.class.php";
 
 class Product
 {
-    public int $id;
-    public string $title;
-    public float $price;
-    public string $description;
-    public int $publishDateTime;
-    public User $seller;
-    public ?Size $size;
-    public ?Category $category;
-    public ?Condition $condition;
-    public ?Payment $payment;
+    private int $id;
+    private string $title;
+    private float $price;
+    private string $description;
+    private int $publishDatetime;
+    private User $seller;
+    private ?Size $size;
+    private ?Category $category;
+    private ?Condition $condition;
+    private ?Payment $payment;
 
-    public function __construct(int $id, string $title, float $price, string $description, int $publishDateTime, User $seller, ?Size $size, ?Category $category, ?Condition $condition, ?Payment $payment = null) {
+    public function __construct(int $id, string $title, float $price, string $description, int $publishDatetime, User $seller, ?Size $size, ?Category $category, ?Condition $condition, ?Payment $payment = null) {
         $this->id = $id;
         $this->title = $title;
         $this->price = $price;
         $this->description = $description;
-        $this->publishDateTime = $publishDateTime;
+        $this->publishDatetime = $publishDatetime;
         $this->seller = $seller;
         $this->size = $size;
         $this->category = $category;
@@ -34,8 +34,105 @@ class Product
         $this->payment = $payment;
     }
 
+    public function getId(): int {
+        return (int)$this->id;
+    }
+
+    public function getTitle(): string {
+        return $this->title;
+    }
+
+    public function getPrice(): float {
+        return (float)$this->price;
+    }
+
+    public function getDescription(): string {
+        return $this->description;
+    }
+
+    public function getPublishDatetime(): int {
+        return (int)$this->publishDatetime;
+    }
+
+    public function getSeller(): User {
+        return $this->seller;
+    }
+
+    public function getSize(): ?Size {
+        return $this->size;
+    }
+
+    public function getCategory(): ?Category {
+        return $this->category;
+    }
+
+    public function getCondition(): ?Condition {
+        return $this->condition;
+    }
+
+    public function getPayment(): ?Payment {
+        return $this->payment;
+    }
+
+    public function setTitle(string $title, PDO $db): void {
+        $stmt = $db->prepare("UPDATE Product SET title = :title WHERE id = :id");
+        $stmt->bindParam(":title", $title);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+        
+        $this->title = $title;
+    }
+
+    public function setPrice(float $price, PDO $db): void {
+        $stmt = $db->prepare("UPDATE Product SET price = :price WHERE id = :id");
+        $stmt->bindParam(":price", $price);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+
+        $this->price = (float)$price;
+    }
+
+    public function setDescription(string $description, PDO $db): void {
+        $stmt = $db->prepare("UPDATE Product SET description = :description WHERE id = :id");
+        $stmt->bindParam(":description", $description);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+
+        $this->description = $description;
+    }
+
+    public function setSize(?Size $size, PDO $db): void {
+        $sizeName = $size?->name;
+        $stmt = $db->prepare("UPDATE Product SET size = :size WHERE id = :id");
+        $stmt->bindParam(":size", $sizeName);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+
+        $this->size = $size;
+    }
+
+    public function setCategory(?Category $category, PDO $db): void {
+        $categoryName = $category?->name;
+        $stmt = $db->prepare("UPDATE Product SET category = :category WHERE id = :id");
+        $stmt->bindParam(":category", $categoryName);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+
+        $this->category = $category;
+    }
+
+    public function setCondition(?Condition $condition, PDO $db): void {
+        $conditionName = $condition?->name;
+        $stmt = $db->prepare("UPDATE Product SET condition = :condition WHERE id = :id");
+        $stmt->bindParam(":condition", $conditionName);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+
+        $this->condition = $condition;
+    }
+
     public function upload(PDO $db) {
-        $publishDatetime = date('m/d/Y H:i:s', $this->publishDateTime);
+        $publishDatetime = date('m/d/Y H:i:s', $this->publishDatetime);
         $size = $this->size?->name;
         $category = $this->category?->name;
         $condition = $this->condition?->name;

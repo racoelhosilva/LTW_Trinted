@@ -10,6 +10,7 @@ class Request
 {
     private array $getParams;
     private array $postParams;
+    private array $putParams;
     private array $cookies;
     private array $headers;
     private array $files;
@@ -19,6 +20,11 @@ class Request
     {
         $this->getParams = $_GET;
         $this->postParams = $_POST;
+
+        $this->putParams = [];
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT')
+            parse_str(file_get_contents('php://input'), $this->putParams);
+
         $this->cookies = $_COOKIE;
         $this->headers = $_SERVER;
         $this->files = $_FILES;
@@ -44,6 +50,11 @@ class Request
         return Request::sanitize($this->postParams[$key]) ?? $default;
     }
 
+    public function put($key, $default = null)
+    {
+        return Request::sanitize($this->putParams[$key]) ?? $default;
+    }
+
     public function cookie($key, $default = null)
     {
         return Request::sanitize($this->cookies[$key]) ?? $default;
@@ -66,17 +77,33 @@ class Request
 
     public function verifyCsrf() : bool
     {
-        return $this->post('csrf') === $this->session->getCsrf();
-    }
-
-    public function paramsExist(string $type, array $params) : bool
-    {
-        switch ($type) {
+        switch ($this->header('REQUEST_METHOD')) {
             case 'GET':
-                $array = $_GET;
+                $csrf = $this->get('csrf');
                 break;
             case 'POST':
-                $array = $_POST;
+                $csrf = $this->post('csrf');
+                break;
+            case 'PUT':
+                $csrf = $this->put('csrf');
+                break;
+            default:
+                return false;
+        }
+        return $csrf === $this->session->getCsrf();
+    }
+
+    public function paramsExist(array $params) : bool
+    {
+        switch ($this->getMethod()) {
+            case 'GET':
+                $array = $this->getParams;
+                break;
+            case 'POST':
+                $array = $this->postParams;
+                break;
+            case 'PUT':
+                $array = $this->putParams;
                 break;
             default:
                 return false;
@@ -87,5 +114,9 @@ class Request
                 return false;
         }
         return true;
+    }
+
+    function getMethod(): string {
+        return $this->header('REQUEST_METHOD');
     }
 }

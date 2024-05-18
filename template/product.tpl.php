@@ -16,12 +16,12 @@ declare(strict_types=1);
 {
     $db = new PDO("sqlite:" . DB_PATH);
     ?>
-    <div class="product-card" data-product-id="<?= $product->id ?>">
-        <img src="<?= $product->getAllImages($db)[0]->url ?>" alt="<?= $product->title ?>">
-        <h1><?= $product->title ?></h1>
-        <p class="price"><?= $product->price ?></p>
-        <?php if (isset($loggedInUser) && $loggedInUser->id != $product->seller->id) {
-            drawLikeButton($loggedInUser->isInWishlist($db, (int)$product->id));
+    <div class="product-card" data-product-id="<?= $product->getId() ?>">
+        <img src="<?= $product->getAllImages($db)[0]->url ?>" alt="<?= $product->getTitle() ?>">
+        <h1><?= $product->getTitle() ?></h1>
+        <p class="price"><?= $product->getPrice() ?></p>
+        <?php if (isset($loggedInUser) && $loggedInUser->id != $product->getSeller()->id) {
+            drawLikeButton($loggedInUser->isInWishlist($db, (int)$product->getId()));
         } ?>
     </div>
 <?php } ?>

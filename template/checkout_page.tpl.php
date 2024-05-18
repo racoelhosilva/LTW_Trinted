@@ -15,14 +15,14 @@ include_once('db/classes/Product.class.php');
 
 <?php function drawOrderItemCard(Product $product) { ?>
     <?php $db = new PDO("sqlite:" . DB_PATH); ?>
-    <div class="order-item-card" data-product-id="<?= $product->id ?>">
+    <div class="order-item-card" data-product-id="<?= $product->getId() ?>">
         <img src="<?= $product->getAllImages($db)[0]->url ?>" alt="Product Image">
         <div>
-            <h1><?= $product->title ?></h1>
-            <p><?= $product->size->name ?> - <?= $product->condition->name ?></p>
+            <h1><?= $product->getTitle() ?></h1>
+            <p><?= $product->getSize()->name ?> - <?= $product->getCondition()->name ?></p>
         </div>
         <div>
-            <p>$<?= $product->price ?></h1>
+            <p>$<?= $product->getPrice() ?></h1>
             <p class="num-items">2</p>
         </div>
     </div>

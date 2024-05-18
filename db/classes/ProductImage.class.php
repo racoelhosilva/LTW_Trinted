@@ -14,8 +14,10 @@ class ProductImage {
     }
 
     public function upload(PDO $db){
+        $productId = $this->product->getId();
+
         $stmt = $db->prepare("INSERT INTO ProductImage (product, image) VALUES (:product, :image)");
-        $stmt->bindParam(":product", $this->product->id);
+        $stmt->bindParam(":product", $productId);
         $stmt->bindParam(":image", $this->image->url);
         $stmt->execute();
     }

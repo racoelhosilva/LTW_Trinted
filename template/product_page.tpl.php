@@ -18,7 +18,7 @@ include_once('template/product.tpl.php');
                 <span class="material-symbols-outlined photo-badge">circle</span>
             <?php } ?>
         </div>
-        <?php if (isset($_SESSION['user']['id']) && $_SESSION['user']['id'] != $product->seller->id) {
+        <?php if (isset($_SESSION['user']['id']) && $_SESSION['user']['id'] != $product->getSeller()->id) {
             drawLikeButton(User::getUserByID($db, (int)$_SESSION['user']['id'])->isInWishlist($db, $_SESSION['user']['id']));
         } ?>
         <?php foreach ($images as $image) { ?>
@@ -30,8 +30,8 @@ include_once('template/product.tpl.php');
 <?php function drawRelatedProductsSection(Product $product)
 {
     $db = new PDO("sqlite:" . DB_PATH);
-    $productsByCategory = $product->category ? Product::getProductsByCategory($db, $product->category) : [];
-    $user = $product->seller;
+    $productsByCategory = $product->getCategory() ? Product::getProductsByCategory($db, $product->getCategory()) : [];
+    $user = $product->getSeller();
     $productsBySeller = $user->getUserProducts($db);
 
     $productsByBrand = array();
@@ -43,7 +43,7 @@ include_once('template/product.tpl.php');
     $products = array_merge($products, $productsByBrand);
     $products = array_unique($products, SORT_REGULAR);
     $products = array_filter($products, function ($p) use ($product) {
-        return $p->id != $product->id;
+        return $p->getId() != $product->getId();
     });
     ?>
     <?php drawProductSection($products, "Related Products (" . count($products) . ")"); ?>
@@ -54,20 +54,17 @@ include_once('template/product.tpl.php');
 { ?>
     <div id="product-info">
         <div>
-            <h2>Published on <?= date('m/d/Y', $product->publishDateTime) ?></h2>
-            <h2>By <a href="/actions/go_to_profile.php?id=<?= $product->seller->id ?>"><?= $product->seller->name ?></a></h2>
+            <h2>Published on <?= date('m/d/Y', $product->getPublishDatetime()) ?></h2>
+            <h2>By <a href="/actions/go_to_profile.php?id=<?= $product->getSeller()->id ?>"><?= $product->getSeller()->name ?></a></h2>
         </div>
-        <a href="/actions/go_to_profile.php?id=<?= $product->seller->id ?>"><img alt="Profile Picture"
-                src="<?= $product->seller->profilePicture->url ?>" class="avatar"></a>
+        <a href="/actions/go_to_profile.php?id=<?= $product->getSeller()->id ?>"><img alt="Profile Picture"
+                src="<?= $product->getSeller()->profilePicture->url ?>" class="avatar"></a>
         <div class="details">
-            <h1><?= $product->title ?></h1>
-            <p class="price"><?= $product->price ?></p>
-            <p>
-                <strong>Size: </strong>
-                <?= $product->size->name ?>
-            <p>
-            <p><strong>Condition: </strong><?= $product->condition->name ?></p>
-            <p><strong>Category: </strong> <?= $product->category->name ?></p>
+            <h1><?= $product->getTitle() ?></h1>
+            <p class="price"><?= $product->getPrice() ?></p>
+            <p><strong>Size: </strong><?= $product->getSize()?->name ?><p>
+            <p><strong>Condition: </strong><?= $product->getCondition()?->name ?></p>
+            <p><strong>Category: </strong> <?= $product->getCategory()?->name ?></p>
             <p><strong>Brands: </strong> <?php
             $db = new PDO("sqlite:" . DB_PATH);
             $brands = $product->getBrands($db);
@@ -78,7 +75,7 @@ include_once('template/product.tpl.php');
             <br>
             <p><strong>Description</strong></p>
         </div>
-        <p class="description"><?= $product->description ?></p>
+        <p class="description"><?= $product->getDescription() ?></p>
         <button class="add-cart-button">Add to Cart</button>
     </div>
 <?php } ?>

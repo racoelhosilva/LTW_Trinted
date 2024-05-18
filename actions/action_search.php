@@ -83,7 +83,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] !== 'GET')
     die(json_encode(['success' => false, 'error' => 'Invalid request method']));
 
-if (!$request->paramsExist('GET', ['query']))
+if (!$request->paramsExist(['query']))
     die(['success' => false, 'error' => 'Missing fields']);
 
 try {

@@ -14,8 +14,10 @@ class ProductBrand {
     }
 
     public function upload(PDO $db){
+        $productId = $this->product->getId();
+
         $stmt = $db->prepare("INSERT INTO ProductBrand (item, brand) VALUE (:item, :brand)");
-        $stmt->bindParam(":item", $this->product->id);
+        $stmt->bindParam(":item", $productId);
         $stmt->bindParam(":brand", $this->brand->name);
     }
 }

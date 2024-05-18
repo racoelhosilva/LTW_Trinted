@@ -31,7 +31,7 @@ function parsePayment(array $cart): Payment {
 function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
     $payment->upload($db);
     foreach ($cart as $item) {
-        $product = Product::getProductByID($db, (int)$item->id);
+        $product = Product::getProductByID($db, (int)$item->getId());
         $product->associateToPayment($db, (int)$payment->id);
     }
 }

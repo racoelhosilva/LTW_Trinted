@@ -44,18 +44,18 @@ function dateFormat(int $datetime): string {
 
 function parseProduct(PDO $db, Product $product): array {
     return [
-        'id' => $product->id,
-        'title' => $product->title,
-        'description' => $product->description,
-        'price' => $product->price,
-        'publishDatetime' => $product->publishDateTime,
-        'seller' => $product->seller->id,
-        'username' => $product->seller->name,
-        'category' => $product->category->name,
-        'size' => $product->condition->name,
-        'condition' => $product->condition->name,
+        'id' => $product->getId(),
+        'title' => $product->getTitle(),
+        'description' => $product->getDescription(),
+        'price' => $product->getPrice(),
+        'publishDatetime' => $product->getPublishDatetime(),
+        'seller' => $product->getSeller()->id,
+        'username' => $product->getSeller()->name,
+        'category' => $product->getCategory()?->name,
+        'size' => $product->getSize()?->name,
+        'condition' => $product->getCondition()?->name,
         'images' => array_map('getUrl', $product->getAllImages($db)),
-        'inWishlist' => isset($_SESSION['user']) ? User::getUserByID($db, $_SESSION['user']['id'])->isInWishlist($db, (int)$product->id) : false
+        'inWishlist' => isset($_SESSION['user']) ? User::getUserByID($db, $_SESSION['user']['id'])->isInWishlist($db, (int)$product->getId()) : false
     ];
 }
 function userLoggedIn(Request $request): bool {
