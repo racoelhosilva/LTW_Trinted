@@ -13,9 +13,9 @@ include_once('db/classes/Post.class.php');
     $posts = $payment->getAssociatedPostsFromSeller($db, $seller->id); ?>
 
     <section id="form-buyer-info">
-        <p><?= $payment->lastName . ', ' . $payment->firstName ?></p>
-        <p><?= $payment->address . ', ' . $payment->zipCode ?></p>
-        <p><?= $payment->town . ', ' . $payment->country ?></p>
+        <p id="name"><?= $payment->lastName . ', ' . $payment->firstName ?></p>
+        <p id="address"><?= $payment->address . ', ' . $payment->zipCode ?></p>
+        <p id="location"><?= $payment->town . ', ' . $payment->country ?></p>
     </section>
 
     <section id="form-product-info">
@@ -25,18 +25,21 @@ include_once('db/classes/Post.class.php');
         foreach ($posts as $post) { 
             $sum += $post->price;
             $count += 1; ?>
-            <p> <?= $post->title ?> </p>
-            <p class="price"> <?= $post->price ?> </p>
-            <p> <?= $post->description ?> </p>
+            <div class="product-name-price">
+                <p class="product-name"> <?= $post->title ?> </p>
+                <p class="price product-price"> <?= $post->price ?> </p>
+            </div>
+            <p class="product-description"> <?= $post->description ?> </p>
         <?php } ?>
-
-        <p class="price"> Total Cost: <?= $sum ?> </p>
-        <p class="price"> Shipping: <?= $payment->shipping ?> </p>
+    </section>
+    
+    <section id="form-price-info">
+        <p class="price" id="total-cost"> Total Cost: <?= $sum ?> </p>
+        <p class="price" id="shipping-cost"> Shipping: <?= $payment->shipping ?> </p>
     </section>
 
-    <section id="form-product-info">
-        <p>Sold by: <?= $seller->name ?> </p>
+    <section id="form-seller-info">
+        <p id="sold-by">Sold by: <span><?= $seller->name ?></span> </p>
     </section>
 
-<?php
-}
+<?php } ?>
