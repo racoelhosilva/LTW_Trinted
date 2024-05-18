@@ -6,40 +6,42 @@ require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/utils.php';
 
 
-function parseProduct(Product $product, PDO $db): array {
-    return array(
+function getProductLinks(Product $product): array {
+    return [
+        [
+            'rel' => 'self',
+            'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId(),
+        ],
+        [
+            'rel' => 'seller',
+            'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $product->getSeller()->id,
+        ],
+        [
+            'rel' => 'images',
+            'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
+        ]
+    ];
+}
+
+function parseProduct(Product $product): array {
+    return [
         'id' => $product->getId(),
         'title' => $product->getTitle(),
         'description' => $product->getDescription(),
         'price' => $product->getPrice(),
         'publishDatetime' => $product->getPublishDatetime(),
-        'category' => $product->getCategory()->getName(),
-        'size' => $product->getSize()->getName(),
-        'condition' => $product->getCondition()->getName(),
-        'links' => [
-            [
-                'rel' => 'self',
-                'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId(),
-            ],
-            [
-                'rel' => 'seller',
-                'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $product->getSeller()->id,
-            ],
-            [
-                'rel' => 'images',
-                'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
-            ]
-        ]
-    );
+        'category' => $product->getCategory()?->getName(),
+        'size' => $product->getSize()?->getName(),
+        'condition' => $product->getCondition()?->getName(),
+        'links' => getProductLinks($product),
+    ];
 }
 
 function parseProducts(array $product, PDO $db): array {
-    return array_map(function ($product) use ($db) {
-        return parseProduct($product, $db);
-    }, $product);
+    return array_map('parseProduct', $product);
 }
 
-function storeProduct(Request $request, PDO $db): Product {
+function createProduct(Request $request, PDO $db): Product {
     $title = $request->post('title');
     $price = (float)$request->post('price');
     $description = $request->post('description');
@@ -51,7 +53,30 @@ function storeProduct(Request $request, PDO $db): Product {
     $category = $request->post('category') != null ? Category::getCategory($db, $request->post('category')) : null;
     $condition = $request->post('condition') != null ? Condition::getCondition($db, $request->post('condition')) : null;
 
-    $product = new Product(0, $title, $price, $description, time(), $seller, $size, $category, $condition);
+    $product = new Product(null, $title, $price, $description, time(), $seller, $size, $category, $condition);
+    $product->upload($db);
+
+    $image = new Image('https://thumbs.dreamstime.com/b/telefone-nokia-do-vintage-isolada-no-branco-106323077.jpg');  // TODO: change image
+    $image->upload($db);
+    $productImage = new ProductImage($product, $image);
+    $productImage->upload($db);
+
+    return $product;
+}
+
+function createProductWithId(Request $request, PDO $db, int $id): Product {
+    $title = $request->put('title');
+    $price = (float)$request->put('price');
+    $description = $request->put('description');
+
+    $sellerId = $request->getSession()->get('user')['id'];
+    $seller = User::getUserByID($db, $sellerId);
+
+    $size = $request->put('size') != null ? Size::getSize($db, $request->put('size')) : null;
+    $category = $request->put('category') != null ? Category::getCategory($db, $request->put('category')) : null;
+    $condition = $request->put('condition') != null ? Condition::getCondition($db, $request->put('condition')) : null;
+
+    $product = new Product($id, $title, $price, $description, time(), $seller, $size, $category, $condition);
     $product->upload($db);
 
     $image = new Image('https://thumbs.dreamstime.com/b/telefone-nokia-do-vintage-isolada-no-branco-106323077.jpg');  // TODO: change image
@@ -78,6 +103,22 @@ function updateProduct(Product $product, Request $request, PDO $db): void {
     $product->setCondition($condition, $db);
 }
 
+function modifyProduct(Product $product, Request $request, PDO $db): void {
+    $title = $request->patch('title');
+    $price = (float)$request->patch('price');
+    $description = $request->patch('description');
+    $size = $request->patch('size') ? Size::getSize($db, $request->patch('size')) : null;
+    $category = $request->patch('category') ? Category::getCategory($db, $request->patch('category')) : null;
+    $condition = $request->patch('condition') ? Condition::getCondition($db, $request->patch('condition')) : null;
+
+    if ($title) $product->setTitle($title, $db);
+    if ($price) $product->setPrice($price, $db);
+    if ($description) $product->setDescription($description, $db);
+    if ($size) $product->setSize($size, $db);
+    if ($category) $product->setCategory($category, $db);
+    if ($condition) $product->setCondition($condition, $db);
+}
+
 
 $db = getDatabaseConnection();
 $request = new Request();
@@ -93,11 +134,12 @@ switch ($method) {
         if (preg_match('/^\/api\/product\/?$/', $endpoint, $matches)) {
             sendOk(['products' => parseProducts(Product::getAllProducts($db), $db)]);
         } elseif (preg_match('/^\/api\/product\/(\d+)\/?$/', $endpoint, $matches)) {
-            $product = Product::getProductByID($db, (int)$matches[1]);
+            $productId = (int)$matches[1];
+            $product = Product::getProductByID($db, $productId);
             if ($product === null)
                 sendNotFound();
 
-            sendOk(['product' => $product ? parseProduct($product, $db) : null]);
+            sendOk(['product' => $product ? parseProduct($product) : null]);
         }
 
     case 'POST':
@@ -116,34 +158,59 @@ switch ($method) {
                 sendBadRequest('Image file missing');
 
             try {
-                $product = storeProduct($request, $db);
+                $product = createProduct($request, $db);
             } catch (Exception $e) {
+                error_log($e->getMessage());
                 sendInternalServerError();
             }
 
-            sendCreated([
-                'links' => [
-                    [
-                        'rel' => 'self',
-                        'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId()
-                    ],
-                    [
-                        'rel' => 'seller',
-                        'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $product->getSeller()->id,
-                    ],
-                    [
-                        'rel' => 'images',
-                        'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
-                    ]
-                ]
-            ]);
+            sendCreated(['links' => getProductLinks($product)]);
         } else {
             sendNotFound();
         }
 
     case 'PUT':
         if (preg_match('/^\/api\/product\/(\d+)\/?$/', $endpoint, $matches)) {
+            $productId = (int)$matches[1];
+            $product = Product::getProductByID($db, $productId);
+
+            if ($product !== null) {
+                if (!$request->verifyCsrf())
+                    returnCrsfMismatch();
+                if (!isLoggedIn($request)) 
+                    returnUserNotLoggedIn();
+
+                $user = getSessionUser($request);
+                if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
+                    sendForbidden('User must be the original seller or admin to edit a product');
+                if (!$request->paramsExist(['title', 'description', 'price']))
+                    returnMissingFields();
+
+                try {
+                    updateProduct($product, $request, $db);
+                } catch (Exception $e) {
+                    sendInternalServerError();
+                }
+
+                sendOk(['links' => getProductLinks($product)]);
+            } else {
+                try {
+                    $product = createProductWithId($request, $db, $productId);
+                } catch (Exception $e) {
+                    error_log($e->getMessage());
+                    sendInternalServerError();
+                }
+
+                sendCreated(['links' => getProductLinks($product)]);
+            }
+        } else {
+            sendNotFound();
+        }
+
+    case 'PATCH':
+        if (preg_match('/^\/api\/product\/(\d+)\/?$/', $endpoint, $matches)) {
             $product = Product::getProductByID($db, (int)$matches[1]);
+
             if ($product === null)
                 sendNotFound();
 
@@ -155,31 +222,15 @@ switch ($method) {
             $user = getSessionUser($request);
             if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
                 sendForbidden('User must be the original seller or admin to edit a product');
-            if (!$request->paramsExist(['title', 'description', 'price']))
-                returnMissingFields();
 
             try {
-                updateProduct($product, $request, $db);
+                modifyProduct($product, $request, $db);
             } catch (Exception $e) {
+                error_log($e->getMessage());
                 sendInternalServerError();
             }
 
-            sendOk([
-                'links' => [
-                    [
-                        'rel' => 'self',
-                        'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $productId
-                    ],
-                    [
-                        'rel' => 'seller',
-                        'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $product->getSeller()->id,
-                    ],
-                    [
-                        'rel' => 'images',
-                        'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
-                    ],
-                ],
-            ]);
+            sendOk(['links' => getProductLinks($product)]);
         } else {
             sendNotFound();
         }
@@ -202,6 +253,7 @@ switch ($method) {
             try {
                 $product->delete($db);
             } catch (Exception $e) {
+                error_log($e->getMessage());
                 sendInternalServerError();
             }
 

@@ -144,34 +144,23 @@ class User
 
     public function getUserProducts(PDO $db): array
     {
-        $stmt = $db->prepare("SELECT * FROM Product WHERE seller = :seller AND (payment IS NULL)");
+        $stmt = $db->prepare("SELECT id FROM Product WHERE seller = :seller AND (payment IS NULL)");
         $stmt->bindParam(":seller", $this->id);
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), $this, Item::getItem($db, $post["item"]));
+            return Product::getProductByID($db, $post["id"]);
         }, $posts);
     }
 
     public function getSoldItems(PDO $db): array
     {
-        $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller AND (NOT (payment IS NULL)) ");
+        $stmt = $db->prepare("SELECT * FROM Product WHERE seller = :seller AND (NOT (payment IS NULL)) ");
         $stmt->bindParam(":seller", $this->id);
         $stmt->execute();
         $products = $stmt->fetchAll();
         return array_map(function ($product) use ($db) {
-            return new Product(
-                $product["id"],
-                $product["title"],
-                $product["price"],
-                $product["description"],
-                strtotime($product["publishDatetime"]),
-                User::getUserByID($db, $product["seller"]),
-                $product["size"] ? Size::getSize($db, $product["size"]) : null,
-                $product["category"] ? Category::getCategory($db, $product["category"]) : null,
-                $product["condition"] ? Condition::getCondition($db, $product["condition"]) : null,
-                isset($row["payment"]) ? Payment::getPaymentById($db, $product["payment"]) : null,
-            );
+            return Product::getProductByID($db, $product["id"]);
         }, $products);
     }
 

@@ -10,7 +10,7 @@ require_once __DIR__ . "/Payment.class.php";
 
 class Product
 {
-    private int $id;
+    private ?int $id;
     private string $title;
     private float $price;
     private string $description;
@@ -21,7 +21,7 @@ class Product
     private ?Condition $condition;
     private ?Payment $payment;
 
-    public function __construct(int $id, string $title, float $price, string $description, int $publishDatetime, User $seller, ?Size $size, ?Category $category, ?Condition $condition, ?Payment $payment = null) {
+    public function __construct(?int $id, string $title, float $price, string $description, int $publishDatetime, User $seller, ?Size $size, ?Category $category, ?Condition $condition, ?Payment $payment = null) {
         $this->id = $id;
         $this->title = $title;
         $this->price = $price;
@@ -138,8 +138,15 @@ class Product
         $condition = $this->condition?->getName();
         $paymentId = $this->payment?->id;
 
-        $stmt = $db->prepare("INSERT INTO Product (title, price, description, publishDatetime, seller, size, category, condition, payment)
-            VALUES (:title, :price, :description, :publishDateTime, :seller, :size, :category, :condition, :payment)");
+        if ($this->id === null) {
+            $stmt = $db->prepare("INSERT INTO Product (title, price, description, publishDatetime, seller, size, category, condition, payment)
+                VALUES (:title, :price, :description, :publishDateTime, :seller, :size, :category, :condition, :payment)");
+        } else {
+            $stmt = $db->prepare("INSERT INTO Product (id, title, price, description, publishDatetime, seller, size, category, condition, payment)
+                VALUES (:id, :title, :price, :description, :publishDateTime, :seller, :size, :category, :condition, :payment)");
+            $stmt->bindParam(":id", $this->id);
+        }
+
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":price", $this->price);
         $stmt->bindParam(":description", $this->description);
@@ -150,10 +157,13 @@ class Product
         $stmt->bindParam(":condition", $condition);
         $stmt->bindParam(":payment", $paymentId);
         $stmt->execute();
-        $stmt = $db->prepare("SELECT last_insert_rowid()");
-        $stmt->execute();
-        $id = $stmt->fetch();
-        $this->id = (int)$id[0];
+        
+        if ($this->id == null) {
+            $stmt = $db->prepare("SELECT last_insert_rowid()");
+            $stmt->execute();
+            $id = $stmt->fetch();
+            $this->id = (int)$id[0];
+        }
     }
 
     public function getBrands(PDO $db): array

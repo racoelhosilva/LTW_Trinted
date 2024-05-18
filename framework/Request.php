@@ -11,6 +11,7 @@ class Request
     private array $getParams;
     private array $postParams;
     private array $putParams;
+    private array $patchParams;
     private array $deleteParams;
     private array $cookies;
     private array $headers;
@@ -25,6 +26,10 @@ class Request
         $this->putParams = [];
         if ($_SERVER['REQUEST_METHOD'] === 'PUT')
             parse_str(file_get_contents('php://input'), $this->putParams);
+
+       	$this->patchParams = [];
+        if ($_SERVER['REQUEST_METHOD'] === 'PATCH')
+            parse_str(file_get_contents('php://input'), $this->patchParams);        
 
         $this->deleteParams = [];
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE')
@@ -58,6 +63,11 @@ class Request
     public function put($key, $default = null)
     {
         return Request::sanitize($this->putParams[$key]) ?? $default;
+    }
+
+    public function patch($key, $default = null)
+    {
+        return Request::sanitize($this->patchParams[$key]) ?? $default;
     }
 
     public function delete($key, $default = null)
@@ -96,6 +106,9 @@ class Request
                 break;
             case 'PUT':
                 $csrf = $this->put('csrf');
+                break;
+            case 'PATCH':
+                $csrf = $this->patch('csrf');
                 break;
             case 'DELETE':
                 $csrf = $this->delete('csrf');
