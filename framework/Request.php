@@ -113,8 +113,7 @@ class Request
     {
         switch ($this->getMethod()) {
             case 'GET':
-                $csrf = $this->get('csrf');
-                break;
+                return true;
             case 'POST':
                 $csrf = $this->post('csrf');
                 break;

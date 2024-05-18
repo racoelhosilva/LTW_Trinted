@@ -21,7 +21,7 @@ declare(strict_types=1);
         <h1><?= $product->getTitle() ?></h1>
         <p class="price"><?= $product->getPrice() ?></p>
         <?php if (isset($loggedInUser) && $loggedInUser->getId() != $product->getSeller()->getId()) {
-            drawLikeButton($loggedInUser->isInWishlist($db, (int)$product->getId()));
+            drawLikeButton($loggedInUser->isInWishlist($db, $product));
         } ?>
     </div>
 <?php } ?>

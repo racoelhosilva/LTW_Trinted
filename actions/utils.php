@@ -55,7 +55,7 @@ function parseProduct(PDO $db, Product $product): array {
         'size' => $product->getSize()?->getName(),
         'condition' => $product->getCondition()?->getName(),
         'images' => array_map('getUrl', $product->getAllImages($db)),
-        'inWishlist' => isset($_SESSION['user']) ? User::getUserByID($db, $_SESSION['user']['id'])->isInWishlist($db, (int)$product->getId()) : false
+        'inWishlist' => isset($_SESSION['user']) ? User::getUserByID($db, $_SESSION['user']['id'])->isInWishlist($db, $product) : false
     ];
 }
 function userLoggedIn(Request $request): bool {

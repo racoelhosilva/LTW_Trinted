@@ -84,7 +84,7 @@ function sendInvalidFields(): void
     sendBadRequest('One or more fields invalid');
 }
 
-function getSessionUser(Request $request): array
+function getSessionUser(Request $request): array|bool
 {
     return $request->session('user');
 }

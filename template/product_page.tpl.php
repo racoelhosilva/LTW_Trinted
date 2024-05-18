@@ -19,7 +19,7 @@ include_once('template/product.tpl.php');
             <?php } ?>
         </div>
         <?php if (isset($_SESSION['user']['id']) && $_SESSION['user']['id'] != $product->getSeller()->getId()) {
-            drawLikeButton(User::getUserByID($db, (int)$_SESSION['user']['id'])->isInWishlist($db, $_SESSION['user']['id']));
+            drawLikeButton(User::getUserByID($db, (int)$_SESSION['user']['id'])->isInWishlist($db, $product));
         } ?>
         <?php foreach ($images as $image) { ?>
             <img src="<?= $image->url ?>" class="product-photo">

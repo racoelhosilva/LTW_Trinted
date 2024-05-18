@@ -165,7 +165,7 @@ switch ($method) {
             }
 
             sendOk([]);
-            
+
         } else {
             sendNotFound();
         }
