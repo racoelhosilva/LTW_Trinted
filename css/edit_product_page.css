@@ -44,7 +44,7 @@
 }
 
 #edit-product #delete-button {
-    color: #b61e0d;
-	background-color: #f58c8c;;
-	border: 1px solid #b61e0d;
+    color: var(--error);
+	background-color: var(--error-light);
+	border: 1px solid var(--error);
 }
