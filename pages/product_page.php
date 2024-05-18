@@ -12,18 +12,25 @@ include_once('pages/404_page.php');
 { ?>
     <?php
     $db = new PDO("sqlite:" . DB_PATH);
-    $post = Post::getPostByID($db, intval($request->get('id')));
+    $post = Post::getPostByID($db, intval($request->get('id')), false);
     if (!isset($post)) {
         draw404PageContent();
         return;
     }
-    ?>
-    <main id="product-page">
-        <?php drawProductPhotos($post); ?>
-        <?php drawProductInfo($post); ?>
-        <?php drawRelatedProductsSection($post); ?>
-    </main>
-<?php } ?>
+
+    if (is_null($post->payment)){ ?>
+        <main id="product-page">
+            <?php drawProductPhotos($post); ?>
+            <?php drawProductInfo($post); ?>
+            <?php drawRelatedProductsSection($post); ?>
+        </main>
+    <?php } elseif ($request->session('user_id') == $post->seller->id) { ?>
+        <h1>Seller Shipping Form</h1>
+    <?php } else { 
+        draw404PageContent();
+        return;
+    }
+} ?>
 
 <?php
 function drawProductPage(Request $request)

@@ -129,7 +129,18 @@ class User
 
     public function getUserPosts(PDO $db): array
     {
-        $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller");
+        $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller AND (payment IS NULL)");
+        $stmt->bindParam(":seller", $this->id);
+        $stmt->execute();
+        $posts = $stmt->fetchAll();
+        return array_map(function ($post) use ($db) {
+            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), $this, Item::getItem($db, $post["item"]));
+        }, $posts);
+    }
+
+    public function getSoldItems(PDO $db): array
+    {
+        $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller AND (NOT (payment IS NULL)) ");
         $stmt->bindParam(":seller", $this->id);
         $stmt->execute();
         $posts = $stmt->fetchAll();

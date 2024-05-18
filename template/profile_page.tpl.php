@@ -78,3 +78,10 @@
     $wishlist = $user->getWishlist($db);
     drawProductSection($wishlist, "Wishlist");
 } ?>
+
+<?php function drawSoldItems(User $user)
+{
+    $db = new PDO("sqlite:" . DB_PATH);
+    $posts = $user->getSoldItems($db);
+    drawProductSection($posts, "Products sold" . (count($posts) != 0 ? " (" . count($posts) . ")" : ""));
+} ?>

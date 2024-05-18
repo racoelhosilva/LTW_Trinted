@@ -22,8 +22,10 @@ include_once('template/profile_page.tpl.php');
         <!-- TODO: Check if user is seller -->
         <?php if (in_array($user->type, ['seller', 'admin']))
             drawUserProductSection($user); ?>
-        <?php if ($_SESSION['user_id'] == $user->id)
-            drawWishlist($user); ?>
+        <?php if ($_SESSION['user_id'] == $user->id) {
+            drawWishlist($user);
+            drawSoldItems($user);
+        } ?>
     </main>
     <?php } ?>
     
