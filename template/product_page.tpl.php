@@ -62,9 +62,9 @@ include_once('template/product.tpl.php');
         <div class="details">
             <h1><?= $product->getTitle() ?></h1>
             <p class="price"><?= $product->getPrice() ?></p>
-            <p><strong>Size: </strong><?= $product->getSize()?->name ?><p>
-            <p><strong>Condition: </strong><?= $product->getCondition()?->name ?></p>
-            <p><strong>Category: </strong> <?= $product->getCategory()?->name ?></p>
+            <p><strong>Size: </strong><?= $product->getSize()?->getName() ?><p>
+            <p><strong>Condition: </strong><?= $product->getCondition()?->getName() ?></p>
+            <p><strong>Category: </strong> <?= $product->getCategory()?->getName() ?></p>
             <p><strong>Brands: </strong> <?php
             $db = new PDO("sqlite:" . DB_PATH);
             $brands = $product->getBrands($db);

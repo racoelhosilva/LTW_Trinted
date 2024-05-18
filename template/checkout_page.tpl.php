@@ -19,7 +19,7 @@ include_once('db/classes/Product.class.php');
         <img src="<?= $product->getAllImages($db)[0]->url ?>" alt="Product Image">
         <div>
             <h1><?= $product->getTitle() ?></h1>
-            <p><?= $product->getSize()->name ?> - <?= $product->getCondition()->name ?></p>
+            <p><?= $product->getSize()->getName() ?> - <?= $product->getCondition()->getName() ?></p>
         </div>
         <div>
             <p>$<?= $product->getPrice() ?></h1>

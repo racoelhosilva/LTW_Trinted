@@ -51,9 +51,9 @@ function parseProduct(PDO $db, Product $product): array {
         'publishDatetime' => $product->getPublishDatetime(),
         'seller' => $product->getSeller()->id,
         'username' => $product->getSeller()->name,
-        'category' => $product->getCategory()?->name,
-        'size' => $product->getSize()?->name,
-        'condition' => $product->getCondition()?->name,
+        'category' => $product->getCategory()?->getName(),
+        'size' => $product->getSize()?->getName(),
+        'condition' => $product->getCondition()?->getName(),
         'images' => array_map('getUrl', $product->getAllImages($db)),
         'inWishlist' => isset($_SESSION['user']) ? User::getUserByID($db, $_SESSION['user']['id'])->isInWishlist($db, (int)$product->getId()) : false
     ];

@@ -13,9 +13,9 @@ function parseProduct(Product $product, PDO $db): array {
         'description' => $product->getDescription(),
         'price' => $product->getPrice(),
         'publishDatetime' => $product->getPublishDatetime(),
-        'category' => $product->getCategory()->name,
-        'size' => $product->getSize()->name,
-        'condition' => $product->getCondition()->name,
+        'category' => $product->getCategory()->getName(),
+        'size' => $product->getSize()->getName(),
+        'condition' => $product->getCondition()->getName(),
         'links' => [
             [
                 'rel' => 'self',

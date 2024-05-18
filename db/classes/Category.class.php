@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 class Category
 {
-    public string $name;
+    private string $name;
+
     public function __construct(string $name)
     {
         $this->name = $name;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function upload(PDO $db)

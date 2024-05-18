@@ -68,19 +68,19 @@ include_once('template/product.tpl.php');
         <h1>Category</h1>
         <ul>
             <?php foreach ($categories as $category) {
-                drawSearchFilter($category->name, 'category');
+                drawSearchFilter($category->getName(), 'category');
             } ?>
         </ul>
         <h1>Condition</h1>
         <ul>
             <?php foreach ($conditions as $condition) {
-                drawSearchFilter($condition->name, 'condition');
+                drawSearchFilter($condition->getName(), 'condition');
             } ?>
         </ul>
         <h1>Size</h1>
         <ul>
             <?php foreach ($sizes as $size) {
-                drawSearchFilter($size->name, 'size');
+                drawSearchFilter($size->getName(), 'size');
             } ?>
         </ul>
     </section>

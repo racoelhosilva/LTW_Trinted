@@ -102,7 +102,7 @@ class Product
     }
 
     public function setSize(?Size $size, PDO $db): void {
-        $sizeName = $size?->name;
+        $sizeName = $size?->getName();
         $stmt = $db->prepare("UPDATE Product SET size = :size WHERE id = :id");
         $stmt->bindParam(":size", $sizeName);
         $stmt->bindParam(":id", $this->id);
@@ -112,7 +112,7 @@ class Product
     }
 
     public function setCategory(?Category $category, PDO $db): void {
-        $categoryName = $category?->name;
+        $categoryName = $category?->getName();
         $stmt = $db->prepare("UPDATE Product SET category = :category WHERE id = :id");
         $stmt->bindParam(":category", $categoryName);
         $stmt->bindParam(":id", $this->id);
@@ -122,7 +122,7 @@ class Product
     }
 
     public function setCondition(?Condition $condition, PDO $db): void {
-        $conditionName = $condition?->name;
+        $conditionName = $condition?->getName();
         $stmt = $db->prepare("UPDATE Product SET condition = :condition WHERE id = :id");
         $stmt->bindParam(":condition", $conditionName);
         $stmt->bindParam(":id", $this->id);
@@ -133,9 +133,9 @@ class Product
 
     public function upload(PDO $db) {
         $publishDatetime = date('m/d/Y H:i:s', $this->publishDatetime);
-        $size = $this->size?->name;
-        $category = $this->category?->name;
-        $condition = $this->condition?->name;
+        $size = $this->size?->getName();
+        $category = $this->category?->getName();
+        $condition = $this->condition?->getName();
         $paymentId = $this->payment?->id;
 
         $stmt = $db->prepare("INSERT INTO Product (title, price, description, publishDatetime, seller, size, category, condition, payment)
@@ -205,8 +205,10 @@ class Product
     }
 
     public static function getProductsByCategory(PDO $db, Category $category, bool $onlyValid = true): array {
+        $categoryName = $category->getName();
+
         $stmt = $db->prepare("SELECT * FROM Product WHERE category = :category");
-        $stmt->bindParam(":category", $category->name);
+        $stmt->bindParam(":category", $categoryName);
         $stmt->execute();
         $products = $stmt->fetchAll();
         if ($onlyValid) {
