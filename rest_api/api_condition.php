@@ -33,7 +33,7 @@ switch ($method) {
     case 'GET':
         if (preg_match('/^\/api\/condition\/?$/', $endpoint, $matches)) {
             $conditions = parseConditions(Condition::getAll($db));
-            sendOk($conditions);
+            sendOk(['condtions' => $conditions]);
         } else {
             sendNotFound();
         }

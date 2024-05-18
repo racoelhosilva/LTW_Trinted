@@ -33,7 +33,7 @@ switch ($method) {
     case 'GET':
         if (preg_match('/^\/api\/size\/?$/', $endpoint, $matches)) {
             $sizes = parseSizes(Size::getAll($db));
-            sendOk($sizes);
+            sendOk(['sizes' => $sizes]);
         } else {
             sendNotFound();
         }
