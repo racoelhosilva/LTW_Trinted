@@ -38,9 +38,11 @@ require_once __DIR__ . '/product.tpl.php';
 { ?>
     <div id="user-buttons">
         <?php if (getSessionUser($request)['id'] == $user->getId()){ ?>
+            <button class="blue-button" id="add-button">
+                <label class="material-symbols-outlined">post_add</label>
+            </button>
             <form method="post" action="/actions/action_logout.php">
-                <button type="submit" class="red-button" id="logout-button">Logout</button>
-            </form>
+                
         <?php } else { ?>
 
             <button class="blue-button" id="message-button" data-user-id="<?= $user->getId() ?>">
