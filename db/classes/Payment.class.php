@@ -50,13 +50,14 @@ class Payment {
         $this->id = $id[0];
     }
 
-    public function getAssociatedPosts(PDO $db): array {
-        $stmt = $db->prepare("SELECT id FROM Post WHERE payment = :payment");
+    public function getAssociatedPostsFromSeller(PDO $db, int $sellerId): array {
+        $stmt = $db->prepare("SELECT id FROM Post WHERE payment = :payment AND seller = :seller");
         $stmt->bindParam(":payment", $this->id);
+        $stmt->bindParam(":seller", $sellerId);
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return Post::getPostByID($db, $post["id"]);
+            return Post::getPostByID($db, $post["id"], false);
         }, $posts);
     }
 
@@ -67,18 +68,22 @@ class Payment {
         $payment = $stmt->fetch();
         if (!isset($payment["id"]))
             return null;
-        return new Payment(
-            $payment["subtotal"],
-            $payment["shipping"],
-            $payment["firstName"],
-            $payment["lastName"],
-            $payment["email"],
-            $payment["phone"],
-            $payment["address"],
-            $payment["zipCode"],
-            $payment["town"],
-            $payment["country"],
-            $payment["paymentDatetime"],
-        );
+        else {
+            $result = new Payment(
+                $payment["subtotal"],
+                $payment["shipping"],
+                $payment["firstName"],
+                $payment["lastName"],
+                $payment["email"],
+                $payment["phone"],
+                $payment["address"],
+                $payment["zipCode"],
+                $payment["town"],
+                $payment["country"],
+                $payment["paymentDatetime"],
+            );
+            $result->id = $id;
+            return $result;
+        }
     }
 }
