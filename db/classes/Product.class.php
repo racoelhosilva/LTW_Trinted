@@ -222,8 +222,10 @@ class Product
     }
 
     public static function getProductsByBrand(PDO $db, Brand $brand, bool $onlyValid = true) : array {
+        $brandName = $brand->getName();
+
         $stmt = $db->prepare("SELECT * FROM Product WHERE id IN (SELECT product FROM ProductBrand WHERE brand = :brand)");
-        $stmt->bindParam(":brand", $brand->name);
+        $stmt->bindParam(":brand", $brandName);
         $stmt->execute();
         $products = $stmt->fetchAll();
         if ($onlyValid) {

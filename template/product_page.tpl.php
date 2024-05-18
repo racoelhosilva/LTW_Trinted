@@ -69,7 +69,7 @@ include_once('template/product.tpl.php');
             $db = new PDO("sqlite:" . DB_PATH);
             $brands = $product->getBrands($db);
             foreach ($brands as $brand) {
-                echo $brand->name . " ";
+                echo $brand->getName() . " ";
             }
             ?></p>
             <br>
