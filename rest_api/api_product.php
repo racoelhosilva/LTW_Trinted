@@ -83,7 +83,7 @@ switch ($method) {
                 sendNotFound();
 
             sendOk(['product' => $product ? parseProduct($product, $request) : null]);
-        } elseif (preg_match('/^\/api\/product\/(\d+)\/brand\/?$/', $endpoint, $matches)) {
+        } elseif (preg_match('/^\/api\/product\/(\d+)\/brands\/?$/', $endpoint, $matches)) {
             $productId = (int) $matches[1];
             $product = Product::getProductByID($db, $productId);
             if ($product === null)
@@ -219,7 +219,7 @@ switch ($method) {
 
             sendOk(['links' => getProductLinks($product, $request)]);
 
-        } elseif (preg_match('/^\/api\/product\/(\d+)\/brand\/?$/', $endpoint, $matches)) {
+        } elseif (preg_match('/^\/api\/product\/(\d+)\/brands\/?$/', $endpoint, $matches)) {
             $productId = (int) $matches[1];
             $product = Product::getProductByID($db, $productId);
             if ($product === null)
@@ -271,7 +271,7 @@ switch ($method) {
             }
 
             sendOk(['links' => getProductLinks($product, $request)]);
-        } elseif (preg_match('/^\/api\/product\/(\d+)\/brand\/?$/', $endpoint, $matches)) {
+        } elseif (preg_match('/^\/api\/product\/(\d+)\/brands\/?$/', $endpoint, $matches)) {
             $productId = (int) $matches[1];
             $product = Product::getProductByID($db, $productId);
             if ($product === null)
