@@ -8,10 +8,10 @@
 <?php function drawUserInfo(User $user)
 { ?>
     <div id="user-info">
-        <h1><?= $user->name ?></h1>
+        <h1><?= $user->getName() ?></h1>
         <?php
         $currentDate = new DateTime(date('Y-m-d', time()));
-        $joinDate = new DateTime(date('Y-m-d', $user->registerDateTime));
+        $joinDate = new DateTime(date('Y-m-d', $user->getRegisterDatetime()));
         $timeDifference = $joinDate->diff($currentDate)->y;
         if ($timeDifference == 0) {
             ?>
@@ -35,13 +35,13 @@
     <div id="user-buttons">
         <?php
 
-        if ($_SESSION['user']['id'] == $user->id){ ?>
+        if ($_SESSION['user']['id'] == $user->getId()){ ?>
             <form method="post" action="/actions/logout.php">
                 <button type="submit" class="red-button" id="logout-button">Logout</button>
             </form>
         <?php } else { ?>
 
-            <button class="blue-button" id="message-button" data-user-id="<?= $user->id ?>">
+            <button class="blue-button" id="message-button" data-user-id="<?= $user->getId() ?>">
                 <label class="material-symbols-outlined">message</label>
             </button>
 

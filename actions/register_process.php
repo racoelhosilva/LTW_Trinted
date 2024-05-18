@@ -42,7 +42,7 @@ try {
 }
 
 $_SESSION['user'] = [
-    'id' => $user->id,
+    'id' => $user->getId(),
     'email' => $email,
     'name' => $name,
     'type' => $user->type,

@@ -20,11 +20,14 @@ class Message
 
     public function upload(PDO $db)
     {
+        $senderId = $this->sender->getId();
+        $receiverId = $this->receiver->getId();
+
         $stmt = $db->prepare("INSERT INTO Message (datetime, content, sender, receiver) VALUES (:datetime, :content, :sender, :receiver)");
         $stmt->bindParam(":datetime", $this->datetime);
         $stmt->bindParam(":content", $this->content);
-        $stmt->bindParam(":sender", $this->sender->id);
-        $stmt->bindParam(":receiver", $this->receiver->id);
+        $stmt->bindParam(":sender", $senderId);
+        $stmt->bindParam(":receiver", $receiverId);
         $stmt->execute();
         $stmt = $db->prepare("SELECT last_insert_rowid()");
         $stmt->execute();
@@ -32,19 +35,24 @@ class Message
         $this->id = $id[0];
     }
 
-    public static function getMessages(PDO $db, User $user1, User $user2, int $last_id) {
+    public static function getMessages(PDO $db, User $user1, User $user2, int $lastId) {
+        $userId1 = $user1->getId();
+        $userId2 = $user2->getId();
+
         $stmt = $db->prepare("SELECT * FROM Message WHERE (id < :last_id) AND ((sender == :user1 AND receiver == :user2) OR (sender == :user2 AND receiver == :user1)) ORDER BY datetime DESC LIMIT 16");
-        $stmt->bindParam(":user1", $user1->id);
-        $stmt->bindParam(":user2", $user2->id);
-        $stmt->bindParam(":last_id", $last_id);
+        $stmt->bindParam(":user1", $userId1);
+        $stmt->bindParam(":user2", $userId2);
+        $stmt->bindParam(":last_id", $lastId);
         $stmt->execute();
         $messages = $stmt->fetchAll();
         return $messages;
     }
 
     public static function getRecentContacts(PDO $db, User $user) {
+        $userId = $user->getId();
+
         $stmt = $db->prepare("SELECT DISTINCT sender FROM Message WHERE receiver == :user ORDER BY datetime ASC");
-        $stmt->bindParam(":user", $user->id);
+        $stmt->bindParam(":user", $userId);
         $stmt->execute();
         $contacts = $stmt->fetchAll();
         return $contacts;

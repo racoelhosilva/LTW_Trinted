@@ -18,7 +18,7 @@ include_once('template/product.tpl.php');
                 <span class="material-symbols-outlined photo-badge">circle</span>
             <?php } ?>
         </div>
-        <?php if (isset($_SESSION['user']['id']) && $_SESSION['user']['id'] != $product->getSeller()->id) {
+        <?php if (isset($_SESSION['user']['id']) && $_SESSION['user']['id'] != $product->getSeller()->getId()) {
             drawLikeButton(User::getUserByID($db, (int)$_SESSION['user']['id'])->isInWishlist($db, $_SESSION['user']['id']));
         } ?>
         <?php foreach ($images as $image) { ?>
@@ -59,10 +59,10 @@ include_once('template/product.tpl.php');
     <div id="product-info">
         <div>
             <h2>Published on <?= date('m/d/Y', $product->getPublishDatetime()) ?></h2>
-            <h2>By <a href="/actions/go_to_profile.php?id=<?= $product->getSeller()->id ?>"><?= $product->getSeller()->name ?></a></h2>
+            <h2>By <a href="/actions/go_to_profile.php?id=<?= $product->getSeller()->getId() ?>"><?= $product->getSeller()->getName() ?></a></h2>
         </div>
-        <a href="/actions/go_to_profile.php?id=<?= $product->getSeller()->id ?>"><img alt="Profile Picture"
-                src="<?= $product->getSeller()->profilePicture->url ?>" class="avatar"></a>
+        <a href="/actions/go_to_profile.php?id=<?= $product->getSeller()->getId() ?>"><img alt="Profile Picture"
+                src="<?= $product->getSeller()->getProfilePicture()->url ?>" class="avatar"></a>
         <div class="details">
             <h1><?= $product->getTitle() ?></h1>
             <p class="price"><?= $product->getPrice() ?></p>

@@ -36,7 +36,6 @@ declare(strict_types=1); ?>
 { ?>
     <form id="search-bar" method="get" action="search">
         <input id="search-input" type="text" name="query" placeholder="Search items...">
-        <input type="hidden" name="page" value="1">
         <button type="submit" id="search-button">
             <span class="material-symbols-outlined">search</span>
         </button>

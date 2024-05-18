@@ -42,11 +42,11 @@ if (!$isPasswordCorrect) {
 }
 
 $_SESSION['user'] = [
-    'id' => $user->id,
+    'id' => $user->getId(),
     'email' => $email,
-    'name' => $user->name,
-    'type' => $user->type,
+    'name' => $user->getName(),
+    'type' => $user->getType(),
 ];
 
-header("Location: /actions/go_to_profile.php?id=" . $user->id);
+header("Location: /actions/go_to_profile.php?id=" . $user->getId());
 exit();

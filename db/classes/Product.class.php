@@ -133,6 +133,7 @@ class Product
 
     public function upload(PDO $db) {
         $publishDatetime = date('m/d/Y H:i:s', $this->publishDatetime);
+        $sellerId = $this->seller->getId();
         $size = $this->size?->getName();
         $category = $this->category?->getName();
         $condition = $this->condition?->getName();
@@ -151,7 +152,7 @@ class Product
         $stmt->bindParam(":price", $this->price);
         $stmt->bindParam(":description", $this->description);
         $stmt->bindParam(":publishDateTime", $publishDatetime);
-        $stmt->bindParam(":seller", $this->seller->id);
+        $stmt->bindParam(":seller", $sellerId);
         $stmt->bindParam(":size", $size);
         $stmt->bindParam(":category", $category);
         $stmt->bindParam(":condition", $condition);

@@ -17,7 +17,7 @@ include_once('pages/404_page.php');
         return;
     }
 
-    $profilePictureUrl = $user->getProfilePicture($db)->url;
+    $profilePictureUrl = $user->getProfilePicture()->url;
     ?>
     <main id="profile-page">
         <section id="profile-section">
@@ -28,7 +28,7 @@ include_once('pages/404_page.php');
         <!-- TODO: Check if user is seller -->
         <?php if (in_array($user->type, ['seller', 'admin']))
             drawUserProductSection($user); ?>
-        <?php if ($_SESSION['user']['id'] == $user->id) {
+        <?php if ($_SESSION['user']['id'] == $user->getId()) {
             drawWishlist($user);
             drawSoldItems($user);
         } ?>

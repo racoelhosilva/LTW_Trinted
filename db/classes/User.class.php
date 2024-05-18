@@ -6,22 +6,22 @@ require_once 'Image.class.php';
 
 class User
 {
-    public int $id;
-    public string $email;
-    public string $name;
-    public string $password;
-    public int $registerDateTime;
-    public Image $profilePicture;
-    public string $type;
-    public bool $isBanned;
+    private int $id;
+    private string $name;
+    private string $password;
+    private int $registerDatetime;
+    private Image $profilePicture;
+    private string $type;
+    private bool $isBanned;
+    private string $email;
 
-    public function __construct(int $id, string $email, string $name, string $password, int $registerDateTime, Image $profilePicture, string $type)
+    public function __construct(int $id, string $email, string $name, string $password, int $registerDatetime, Image $profilePicture, string $type)
     {
         $this->id = $id;
         $this->email = $email;
         $this->name = $name;
         $this->password = $password;
-        $this->registerDateTime = $registerDateTime;
+        $this->registerDatetime = $registerDatetime;
         $this->profilePicture = $profilePicture;
         $this->type = $type;
         $this->isBanned = false;
@@ -43,7 +43,7 @@ class User
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":password", $this->password);
-        $stmt->bindParam(":registerDateTime", $this->registerDateTime);
+        $stmt->bindParam(":registerDateTime", $this->registerDatetime);
         $stmt->bindParam(":profilePicture", $this->profilePicture->url);
         $stmt->bindParam(":type", $this->type);
         $stmt->execute();
@@ -51,6 +51,46 @@ class User
         $stmt->execute();
         $id = $stmt->fetch();
         $this->id = $id[0];
+    }
+
+    public function getId(): int
+    {
+        return (int)$this->id;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getRegisterDatetime(): int
+    {
+        return (int)$this->registerDatetime;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getIsBanned(): bool
+    {
+        return (bool)$this->isBanned;
+    }
+
+    public function getProfilePicture(): Image
+    {
+        return $this->profilePicture;
     }
 
     public static function getUserByID(PDO $db, int $id): ?User
@@ -74,18 +114,6 @@ class User
             return null;
         }
         return new User($user["id"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
-    }
-
-    public function getProfilePicture(PDO $db): Image
-    {
-        $stmt = $db->prepare("SELECT profilePicture FROM User WHERE id = :id");
-        $stmt->bindParam(":id", $this->id);
-        $stmt->execute();
-        $profilePicture = $stmt->fetch();
-        if ($profilePicture === false) {
-            throw new Exception("No image found");
-        }
-        return new Image($profilePicture["profilePicture"]);
     }
 
     public function setType(PDO $db, string $type): void

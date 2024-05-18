@@ -119,7 +119,7 @@ switch ($method) {
             $user = getSessionUser($request);
 
             if ($product !== null) {
-                if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
+                if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
                     sendForbidden('User must be the original seller or admin to edit a product');
                 if (!$request->paramsExist(['title', 'description', 'price']))
                     sendMissingFields();
@@ -160,7 +160,7 @@ switch ($method) {
                 sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
-            if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
+            if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
                 sendForbidden('User must be the original seller or admin to update brands');
 
             if (!$request->paramsExist(['add', 'remove']))
@@ -193,7 +193,7 @@ switch ($method) {
                 sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
-            if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
+            if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
                 sendForbidden('User must be the original seller or admin to edit a product');
 
             try {
@@ -216,7 +216,7 @@ switch ($method) {
                 sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
-            if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
+            if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
                 sendForbidden('User must be the original seller or admin to update brands');
 
             try {
@@ -245,7 +245,7 @@ switch ($method) {
                 sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
-            if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
+            if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
                 sendForbidden('User must be the original seller or admin to delete a product');
             
             try {

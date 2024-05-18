@@ -77,7 +77,7 @@ function getProductLinks(Product $product, Request $request): array {
         ],
         [
             'rel' => 'seller',
-            'href' => $request->getServerHost() . '/api/user/' . $product->getSeller()->id,
+            'href' => $request->getServerHost() . '/api/user/' . $product->getSeller()->getId(),
         ],
         [
             'rel' => 'images',
@@ -110,13 +110,6 @@ function uploadImage(string $url, PDO $db): Image {
     $image = new Image('https://thumbs.dreamstime.com/b/telefone-nokia-do-vintage-isolada-no-branco-106323077.jpg');  // TODO: change image
     $image->upload($db);
     return $image;
-}
-
-function addBrandToProduct(Product $product, Brand $brand, PDO $db): void {
-    $stmt = $db->prepare("INSERT INTO ProductBrand (item, brand) VALUES (:item, :brand)");
-    $stmt->bindParam(':item', $product->id);
-    $stmt->bindParam(':brand', $brand->name);
-    $stmt->execute();
 }
 
 function createProduct(Request $request, User $seller, PDO $db): Product {
@@ -245,5 +238,25 @@ function storeBrand(Request $request, PDO $db): Brand {
     $brand = new Brand($brand);
     $brand->upload($db);
     return $brand;
+}
+
+function parseUser(User $user, Request $request): array {
+    return [
+        'id' => $user->getId(),
+        'name' => $user->getName(),
+        'email' => $user->getEmail(),
+        'type' => $user->getType(),
+        'isBanned' => $user->getIsBanned(),
+        'links' => [
+            [
+                'rel' => 'self',
+                'href' => $request->getServerHost() . '/api/user/' . $user->getId(),
+            ],
+            [
+                'rel' => 'products',
+                'href' => $request->getServerHost() . '/api/user/' . $user->getId() . '/products',
+            ]
+        ]
+    ];
 }
 

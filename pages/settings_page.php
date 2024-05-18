@@ -16,13 +16,11 @@ include_once('template/common.tpl.php');
             <h2>Account Information</h2>
             <div class="information-field">
                 <h3>Change Username</h3>
-                <input type="text" id="new-username" name="newusername" value="<?= $user->name ?>"
-                       placeholder="New Username">
+                <input type="text" id="new-username" name="newusername" value="<?= $user->getName() ?>" placeholder="New Username">
             </div>
             <div class="information-field">
                 <h3>Change E-mail</h3>
-                <input type="e-mail" id="new-email" name="newemail" value="<?= $user->email ?>"
-                       placeholder="New E-mail">
+                <input type="e-mail" id="new-email" name="newemail" value="<?= $user->getEmail() ?>" placeholder="New E-mail">
             </div>
             <div class="information-field">
                 <h3>Change Password</h3>

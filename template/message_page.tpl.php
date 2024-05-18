@@ -14,9 +14,9 @@ include_once __DIR__ . '/../actions/utils.php';
         foreach ($contacts as $contact) { 
             $user = User::getUserByID($db, $contact['sender']);
             ?>
-            <li class="contact-side" data-user-id="<?= $user->id ?>">
-                <img src="<?= $user->profilePicture->url ?>" width="40" height="40" class="avatar contact-avatar">
-                <?= $user->name ?>
+            <li class="contact-side" data-user-id="<?= $user->getId() ?>">
+                <img src="<?= $user->getProfilePicture()->url ?>" width="40" height="40" class="avatar contact-avatar">
+                <?= $user->getName() ?>
             </li>            
         <?php
         }
@@ -35,10 +35,10 @@ include_once __DIR__ . '/../actions/utils.php';
         $otherUser = User::getUserByID($db, $otherUserID); 
     ?>
         <div id="contact">
-            <a href="/profile?id=<?= $otherUser->id ?>">
-                <img src="<?= $otherUser->profilePicture->url?>" width="40" height="40" class="avatar">
+            <a href="/profile?id=<?= $otherUser->getId() ?>">
+                <img src="<?= $otherUser->getProfilePicture()->url?>" width="40" height="40" class="avatar">
             </a>
-            <?= $otherUser->name ?>
+            <?= $otherUser->getName() ?>
         </div>
 
         <div id="messages">

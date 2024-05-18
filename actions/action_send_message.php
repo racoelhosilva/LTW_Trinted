@@ -10,8 +10,8 @@ function parseMessage(Message $message): array {
         'id' => $message->id,
         'datetime' => $message->datetime,
         'content' => $message->content,
-        'sender' => $message->sender->id,
-        'receiver' => $message->receiver->id,        
+        'sender' => $message->sender->getId(),
+        'receiver' => $message->receiver->getId(),        
     );
     return $parsedMessage;
 }

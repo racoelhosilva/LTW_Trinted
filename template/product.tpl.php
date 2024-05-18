@@ -20,7 +20,7 @@ declare(strict_types=1);
         <img src="<?= $product->getAllImages($db)[0]->url ?>" alt="<?= $product->getTitle() ?>">
         <h1><?= $product->getTitle() ?></h1>
         <p class="price"><?= $product->getPrice() ?></p>
-        <?php if (isset($loggedInUser) && $loggedInUser->id != $product->getSeller()->id) {
+        <?php if (isset($loggedInUser) && $loggedInUser->getId() != $product->getSeller()->getId()) {
             drawLikeButton($loggedInUser->isInWishlist($db, (int)$product->getId()));
         } ?>
     </div>
