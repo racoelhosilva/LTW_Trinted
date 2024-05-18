@@ -18,3 +18,9 @@ After the framework is created, the way to use it follows a list of simple steps
 4. If there are necessary middlewares, add them to the route array and, if needed, implement them in the middlewares folder by implementing the Middleware interface
 
 Note: since the autoloader is enabled in index.php, if new classes are created, we can update the file for them to be loaded when necessary as well
+
+## Dependencies
+
+1. https://archlinux.org/packages/extra/x86_64/php-gd/ (this one im not sure)
+2. Open the php.ini file (usually located in /etc/php/php.ini, you can find the location by running `php --ini`)
+3. Uncomment the eline `extension=gd`

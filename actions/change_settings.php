@@ -15,26 +15,31 @@ try {
     die(json_encode(['success' => false, 'error' => 'User not found']));
 }
 
-$newusername = validate($_POST['username']);
-$newemail = validate($_POST['email']);
-$newpassword = validate($_POST['new']);
-$currentpassword = validate($_POST['old']);
+$newUsername = validate($_POST['username']);
+$newEmail = validate($_POST['email']);
+$newPassword = validate($_POST['new']);
+$currentPassword = validate($_POST['old']);
+$newProfilePicture = validate($_POST['profile_picture']);
 
-if (!$user->validatePassword($currentpassword)){
+if (!$user->validatePassword($currentPassword)) {
     die(json_encode(['success' => false, 'error' => 'Incorrect password']));
 }
 
-if (empty($newusername) && empty($newemail) && empty($newpassword)) {
+if (empty($newUsername) && empty($newEmail) && empty($newPassword) && empty($newProfilePicture)) {
     die(json_encode(['success' => false, 'error' => 'No fields to change']));
 }
 
 try {
-    if (!empty($newusername))
-        $user->setName($db, $newusername);
-    if (!empty($newemail))
-        $user->setEmail($db, $newemail);
-    if (!empty($newpassword))
-        $user->setPassword($db, $newpassword);
+    if (!empty($newUsername))
+        $user->setName($db, $newUsername);
+    if (!empty($newEmail))
+        $user->setEmail($db, $newEmail);
+    if (!empty($newPassword))
+        $user->setPassword($db, $newPassword);
+    if (!empty($newProfilePicture)) {
+        $user->setProfilePicture($db, $newProfilePicture);
+
+    }
 } catch (Exception $e) {
     die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }
