@@ -132,4 +132,8 @@ class Request
     function getMethod(): string {
         return $this->header('REQUEST_METHOD');
     }
+
+    function getEndpoint(): string {
+        return $this->header('PATH_INFO');
+    }
 }

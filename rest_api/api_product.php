@@ -83,8 +83,8 @@ $db = getDatabaseConnection();
 $request = new Request();
 $session = $request->getSession();
 
-$method = getMethod($request);
-$endpoint = getEndpoint($request);
+$method = $request->getMethod();
+$endpoint = $request->getEndpoint();
 
 header('Content-Type: application/json');
 
