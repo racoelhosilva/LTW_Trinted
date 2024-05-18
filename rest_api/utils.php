@@ -10,12 +10,12 @@ function userLoggedIn(Request $request): bool {
 
 function sendOk(mixed $data): void {
     http_response_code(200);
-    die(json_encode(['success' => true, 'data' => $data]));
+    die(json_encode(['success' => true, ...$data]));
 }
 
 function sendCreated(mixed $data): void {
     http_response_code(201);
-    die(json_encode(['success' => true, 'data' => $data]));
+    die(json_encode(['success' => true, ...$data]));
 }
 
 function sendBadRequest(string $message): void {

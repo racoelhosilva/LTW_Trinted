@@ -91,13 +91,13 @@ header('Content-Type: application/json');
 switch ($method) {
     case 'GET':
         if (preg_match('/^\/api\/product\/?$/', $endpoint, $matches)) {
-            sendOk(parseProducts(Product::getAllProducts($db), $db));
+            sendOk(['products' => parseProducts(Product::getAllProducts($db), $db)]);
         } elseif (preg_match('/^\/api\/product\/(\d+)\/?$/', $endpoint, $matches)) {
             $product = Product::getProductByID($db, (int)$matches[1]);
             if ($product === null)
                 sendNotFound();
 
-            sendOk($product ? parseProduct($product, $db) : null);
+            sendOk(['product' => $product ? parseProduct($product, $db) : null]);
         }
 
     case 'POST':
@@ -122,18 +122,19 @@ switch ($method) {
             }
 
             sendCreated([
-                'success' => true,
                 'links' => [
-                    'rel' => 'self',
-                    'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId()
-                ],
-                [
-                    'rel' => 'seller',
-                    'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $product->getSeller()->id,
-                ],
-                [
-                    'rel' => 'images',
-                    'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
+                    [
+                        'rel' => 'self',
+                        'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId()
+                    ],
+                    [
+                        'rel' => 'seller',
+                        'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $product->getSeller()->id,
+                    ],
+                    [
+                        'rel' => 'images',
+                        'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
+                    ]
                 ]
             ]);
         } else {
@@ -164,19 +165,20 @@ switch ($method) {
             }
 
             sendOk([
-                'success' => true,
                 'links' => [
-                    'rel' => 'self',
-                    'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $productId
+                    [
+                        'rel' => 'self',
+                        'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $productId
+                    ],
+                    [
+                        'rel' => 'seller',
+                        'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $product->getSeller()->id,
+                    ],
+                    [
+                        'rel' => 'images',
+                        'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
+                    ],
                 ],
-                [
-                    'rel' => 'seller',
-                    'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $product->getSeller()->id,
-                ],
-                [
-                    'rel' => 'images',
-                    'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
-                ]
             ]);
         } else {
             sendNotFound();
@@ -203,7 +205,7 @@ switch ($method) {
                 sendInternalServerError();
             }
 
-            sendOk(['success' => true]);
+            sendOk([]);
         } else {
             sendNotFound();
         }
