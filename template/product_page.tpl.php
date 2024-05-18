@@ -52,6 +52,10 @@ include_once('template/product.tpl.php');
 
 <?php function drawProductInfo(Product $product)
 { ?>
+    <?php
+    $db = new PDO("sqlite:" . DB_PATH);
+    $brands = $product->getBrands($db);
+    ?>
     <div id="product-info">
         <div>
             <h2>Published on <?= date('m/d/Y', $product->getPublishDatetime()) ?></h2>
@@ -65,13 +69,13 @@ include_once('template/product.tpl.php');
             <p><strong>Size: </strong><?= $product->getSize()?->getName() ?><p>
             <p><strong>Condition: </strong><?= $product->getCondition()?->getName() ?></p>
             <p><strong>Category: </strong> <?= $product->getCategory()?->getName() ?></p>
-            <p><strong>Brands: </strong> <?php
-            $db = new PDO("sqlite:" . DB_PATH);
-            $brands = $product->getBrands($db);
-            foreach ($brands as $brand) {
-                echo $brand->getName() . " ";
-            }
-            ?></p>
+            <p><strong>Brands: </strong>
+            <?php
+            echo join(', ', array_map(function ($brand) {
+                return $brand->getName();
+            }, $brands));
+            ?>
+            </php>
             <br>
             <p><strong>Description</strong></p>
         </div>

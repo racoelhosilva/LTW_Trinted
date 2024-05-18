@@ -10,7 +10,7 @@ function getProductBrandLinks(Product $product, Request $request): array {
     return [
         [
             'rel' => 'self',
-            'href' => $request->getServerHost() . '/api/product/' . $product->id . '/brand/',
+            'href' => $request->getServerHost() . '/api/product/' . $product->getId() . '/brand/',
         ],
         [
             'rel' => 'all_brands',
@@ -18,7 +18,7 @@ function getProductBrandLinks(Product $product, Request $request): array {
         ],
         [
             'rel' => 'product',
-            'href' => $request->getServerHost() . '/api/product/' . $product->id . '/',
+            'href' => $request->getServerHost() . '/api/product/' . $product->getId() . '/',
         ]
     ];
 }
@@ -27,14 +27,14 @@ function updateProductBrands(Product $product, array $add, array $remove, PDO $d
     foreach ($add as $brandName) {
         $brand = Brand::getBrand($db, urlencode($brandName));
         if ($brand !== null) {
-            $product->addBrand($db, $brandName);
+            $product->addBrand($db, $brand);
         }
     }
 
     foreach ($remove as $brandName) {
         $brand = Brand::getBrand($db, urlencode($brandName));
         if ($brand !== null) {
-            $product->removeBrand($db, $brandName);
+            $product->removeBrand($db, $brand);
         }
     }
 }
@@ -66,15 +66,11 @@ switch ($method) {
             if ($product === null)
                 sendNotFound();
 
-            $brands = array_map(function ($brand) use ($product, $request) {
-                return [
-                    ...$brand,
-                    'links' => getProductBrandLinks($product, $request),
-                ];
-            }, parseBrands($product->getBrands($db)));
+            $brands = parseBrands($product->getBrands($db));
 
             sendOk([
                 'brands' => $brands,
+                'links' => getProductBrandLinks($product, $request),
             ]);
         } else {
             sendNotFound();
@@ -112,6 +108,8 @@ switch ($method) {
         if (preg_match('/^\/api\/product\/(\d+)\/?$/', $endpoint, $matches)) {
             $productId = (int)$matches[1];
             $product = Product::getProductByID($db, $productId);
+            if ($product === null)
+                sendNotFound();
 
             if (!$request->verifyCsrf())
                 sendCrsfMismatch();
@@ -151,6 +149,11 @@ switch ($method) {
             }
 
         } elseif (preg_match('/^\/api\/product\/(\d+)\/brand\/?$/', $endpoint, $matches)) {
+            $productId = (int)$matches[1];
+            $product = Product::getProductByID($db, $productId);
+            if ($product === null)
+                sendNotFound();
+
             if (!$request->verifyCsrf())
                 sendCrsfMismatch();
             if (!isLoggedIn($request))
@@ -164,7 +167,9 @@ switch ($method) {
                 sendMissingFields();
 
             try {
-                updateProductBrands($product, $request->put('add'), $request->put('remove'), $db);
+                $add = $request->put('add');
+                $remove = $request->put('remove');
+                updateProductBrands($product, $add, $remove, $db);
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 sendInternalServerError();
@@ -200,6 +205,11 @@ switch ($method) {
 
             sendOk(['links' => getProductLinks($product, $request)]);
         } elseif (preg_match('/^\/api\/product\/(\d+)\/brand\/?$/', $endpoint, $matches)) {
+            $productId = (int)$matches[1];
+            $product = Product::getProductByID($db, $productId);
+            if ($product === null)
+                sendNotFound();
+
             if (!$request->verifyCsrf())
                 sendCrsfMismatch();
             if (!isLoggedIn($request))
@@ -210,7 +220,9 @@ switch ($method) {
                 sendForbidden('User must be the original seller or admin to update brands');
 
             try {
-                updateProductBrands($product, $request->put('add', []), $request->put('remove', []), $db);
+                $add = $request->patch('add', []);
+                $remove = $request->patch('remove', []);
+                updateProductBrands($product, $add, $remove, $db);
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 sendInternalServerError();

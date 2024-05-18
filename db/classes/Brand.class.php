@@ -20,7 +20,7 @@ class Brand {
     }
 
     public static function getBrand(PDO $db, string $name): Brand{
-        $stmt = $db->prepare("SELECT * FROM Item WHERE name = :name ");
+        $stmt = $db->prepare("SELECT * FROM Brand WHERE name = :name ");
         $stmt->bindParam(":name", $name);
         $stmt->execute();
         $brand = $stmt->fetch();

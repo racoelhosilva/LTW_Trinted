@@ -41,9 +41,16 @@ class Request
         $this->session = new Session();
     }
 
-    private static function sanitize(?string $data): string {
+    private static function sanitize(string|array|null $data): array|string|null {
+        if (is_array($data)) {
+            $sanitized = [];
+            foreach ($data as $key => $value) {
+                $sanitized[$key] = Request::sanitize($value);
+            }
+            return $sanitized;
+        }
         if ($data === null)
-            return '';
+            return null;
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
@@ -104,7 +111,7 @@ class Request
 
     public function verifyCsrf() : bool
     {
-        switch ($this->header('REQUEST_METHOD')) {
+        switch ($this->getMethod()) {
             case 'GET':
                 $csrf = $this->get('csrf');
                 break;

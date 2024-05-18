@@ -168,7 +168,7 @@ class Product
 
     public function getBrands(PDO $db): array
     {
-        $stmt = $db->prepare("SELECT * FROM ProductBrand WHERE product = :product");
+        $stmt = $db->prepare("SELECT brand FROM ProductBrand WHERE product = :product ORDER BY brand ASC");
         $stmt->bindParam(":product", $this->id);
         $stmt->execute();
         $productBrands = $stmt->fetchAll();
