@@ -18,6 +18,11 @@ declare(strict_types=1); ?>
 <?php function drawActionButtons()
 { ?>
     <div id="action-buttons">
+        <?php 
+        if ($_SESSION['type'] == 'admin'){
+            drawHeaderButton('dashboard');
+        } ?>
+
         <?php drawHeaderButton('settings'); ?>
         <?php drawHeaderButton('message'); ?>
         <?php drawHeaderButton('person'); ?>
