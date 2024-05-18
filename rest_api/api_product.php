@@ -205,44 +205,19 @@ switch ($method) {
                 sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
+            if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
+                sendForbidden('User must be the original seller or admin to edit a product');
+            if (!$request->paramsExist(['title', 'description', 'price']))
+                sendMissingFields();
 
-            if ($product !== null) {
-                if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
-                    sendForbidden('User must be the original seller or admin to edit a product');
-                if (!$request->paramsExist(['title', 'description', 'price']))
-                    sendMissingFields();
-
-                try {
-                    updateProduct($product, $request, $db);
-                } catch (Exception $e) {
-                    error_log($e->getMessage());
-                    sendInternalServerError();
-                }
-
-                sendOk(['links' => getProductLinks($product, $request)]);
-
-            } else {
-                if (!in_array($user['type'], ['seller', 'admin']))
-                    sendForbidden('User must be a seller or admin to create a product');
-
-                if (!$request->paramsExist(['title', 'description', 'price']))
-                    sendMissingFields();
-                if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT))
-                    sendBadRequest('Invalid price value');
-
-                if ($request->files('image') == null)
-                    sendBadRequest('Image file missing');
-
-                try {
-                    $user = User::getUserByID($db, $user['id']);
-                    $product = createProductWithId($request, $user, $db, $productId);
-                } catch (Exception $e) {
-                    error_log($e->getMessage());
-                    sendInternalServerError();
-                }
-
-                sendCreated(['links' => getProductLinks($product, $request)]);
+            try {
+                updateProduct($product, $request, $db);
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                sendInternalServerError();
             }
+
+            sendOk(['links' => getProductLinks($product, $request)]);
 
         } elseif (preg_match('/^\/api\/product\/(\d+)\/brand\/?$/', $endpoint, $matches)) {
             $productId = (int) $matches[1];
