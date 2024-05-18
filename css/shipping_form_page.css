@@ -1,0 +1,48 @@
+#shipping-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#shipping-form section {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+#shipping-form #form-product-info {
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+#shipping-form p {
+    margin: 0.2em;
+    color: var(--text);
+}
+
+#shipping-form .product-name-price {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 3em;
+}
+
+#shipping-form .price, #sold-by span {
+    font-weight: 600;
+}
+
+#form-product-info .product-description {
+    margin-left: 2em;
+    font-weight: 200;
+}
+
+/* Print Media */
+
+@media print {
+    #main-header, #main-footer {
+        display: none;
+    }
+}
