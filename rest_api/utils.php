@@ -354,11 +354,19 @@ function updateUser(User $user, Request $request, PDO $db): void {
     $name = $request->put('name');
     $password = $request->put('password');
     $type = $request->put('type');
+    $isBanned = $request->put('is_banned');
 
     $user->setEmail($db, $email);
     $user->setName($db, $name);
     $user->setPassword($db, $password);
     $user->setType($db, $type);
+    if ($isBanned !== null) {
+        if ($isBanned === "true") {
+            $user->ban($db);
+        } else {
+            $user->unban($db);
+        }
+    }
 }
 
 function modifyUser(User $user, Request $request, PDO $db): void {
@@ -368,9 +376,17 @@ function modifyUser(User $user, Request $request, PDO $db): void {
     $password = $request->patch('password');
     $type = $request->patch('type');
     if (!in_array($request->patch('type'), ['buyer', 'seller', 'admin'])) $type = null;
+    $isBanned = $request->patch('is_banned');
 
     if ($email) $user->setEmail($db, $email);
     if ($name) $user->setName($db, $name);
     if ($password) $user->setPassword($db, $password);
     if ($type) $user->setType($db, $type);
+    if ($isBanned !== null) {
+        if ($isBanned === "true") {
+            $user->ban($db);
+        } else {
+            $user->unban($db);
+        }
+    }
 }
