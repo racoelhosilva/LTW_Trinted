@@ -151,4 +151,7 @@ switch ($method) {
         } else {
             sendNotFound();
         }
+        
+    default:
+        sendMethodNotAllowed();
 }

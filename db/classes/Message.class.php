@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 class Message
 {
-    private int $id;
+    private ?int $id;
     private int $datetime;
     private string $content;
     private User $sender;
     private User $receiver;
 
-    public function __construct(int $id, int $datetime, string $content, User $sender, User $receiver)
+    public function __construct(?int $id, int $datetime, string $content, User $sender, User $receiver)
     {
         $this->id = $id;
         $this->datetime = $datetime;
@@ -24,16 +24,25 @@ class Message
         $senderId = $this->sender->getId();
         $receiverId = $this->receiver->getId();
 
-        $stmt = $db->prepare("INSERT INTO Message (datetime, content, sender, receiver) VALUES (:datetime, :content, :sender, :receiver)");
+        if ($this->id == null) {
+            $stmt = $db->prepare("INSERT INTO Message (datetime, content, sender, receiver) VALUES (:datetime, :content, :sender, :receiver)");
+        } else {
+            $stmt = $db->prepare("INSERT INTO Message (id, datetime, content, sender, receiver) VALUES (:id, :datetime, :content, :sender, :receiver)");
+            $stmt->bindParam(":id", $this->id);
+        }
+
         $stmt->bindParam(":datetime", $this->datetime);
         $stmt->bindParam(":content", $this->content);
         $stmt->bindParam(":sender", $senderId);
         $stmt->bindParam(":receiver", $receiverId);
         $stmt->execute();
-        $stmt = $db->prepare("SELECT last_insert_rowid()");
-        $stmt->execute();
-        $id = $stmt->fetch();
-        $this->id = $id[0];
+
+        if ($this->id == null) {
+            $stmt = $db->prepare("SELECT last_insert_rowid()");
+            $stmt->execute();
+            $id = $stmt->fetch();
+            $this->id = $id[0];
+        }
     }
 
     public function getId(): int

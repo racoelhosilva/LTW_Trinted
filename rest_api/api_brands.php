@@ -58,7 +58,6 @@ switch ($method) {
         break;
 
     default:
-        sendNotFound();
-        break;
+        sendMethodNotAllowed();
 }
 

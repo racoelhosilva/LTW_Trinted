@@ -390,3 +390,41 @@ function modifyUser(User $user, Request $request, PDO $db): void {
         }
     }
 }
+
+function parseMessage(Message $message): array
+{
+    return [
+        'id' => $message->getId(),
+        'content' => $message->getContent(),
+        'datetime' => $message->getDatetime(),
+        'sender' => $message->getSender()->getId(),
+        'receiver' => $message->getReceiver()->getId(),
+        'links' => [
+            [
+                'rel' => 'self',
+                'href' => '/api/message/' . $message->getId(),
+            ],
+            [
+                'rel' => 'sender',
+                'href' => '/api/user/' . $message->getSender()->getId(),
+            ],
+            [
+                'rel' => 'receiver',
+                'href' => '/api/user/' . $message->getReceiver()->getId(),
+            ],
+        ],
+    ];
+}
+
+function parseMessages(array $messages): array
+{
+    return array_map('parseMessage', $messages);
+}
+
+function storeMessage(Request $request, PDO $db, User $sender, User $receiver): Message
+{
+    $content = $request->post('content');
+    $message = new Message(null, time(), $content, $sender, $receiver);
+    $message->upload($db);
+    return $message;
+}
