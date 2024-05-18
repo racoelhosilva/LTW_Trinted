@@ -94,15 +94,15 @@ function getProductLinks(Product $product, Request $request): array
     return [
         [
             'rel' => 'self',
-            'href' => $request->getServerHost() . '/api/product/' . $product->getId(),
+            'href' => $request->getServerHost() . '/api/product/' . $product->getId() . '/',
         ],
         [
             'rel' => 'seller',
-            'href' => $request->getServerHost() . '/api/user/' . $product->getSeller()->getId(),
+            'href' => $request->getServerHost() . '/api/user/' . $product->getSeller()->getId() . '/',
         ],
         [
             'rel' => 'images',
-            'href' => $request->getServerHost() . '/api/product/' . $product->getId() . '/images',
+            'href' => $request->getServerHost() . '/api/product/' . $product->getId() . '/images/',
         ]
     ];
 }
@@ -191,10 +191,12 @@ function createProductWithId(Request $request, User $seller, PDO $db, int $id): 
     $product = new Product($id, $title, $price, $description, time(), $seller, $size, $category, $condition);
     $product->upload($db);
 
-    $image = new Image('https://thumbs.dreamstime.com/b/telefone-nokia-do-vintage-isolada-no-branco-106323077.jpg');  // TODO: change image
-    $image->upload($db);
-    $productImage = new ProductImage($product, $image);
-    $productImage->upload($db);
+    $requestImages = $request->files('images');
+    $images = uploadImages($request, $requestImages('images'), $db, 'product');
+    foreach ($images as $image) {
+        $productImage = new ProductImage($product, $image);
+        $productImage->upload($db);
+    }
 
     return $product;
 }
@@ -302,11 +304,11 @@ function storeBrand(Request $request, PDO $db): Brand
     return $brand;
 }
 
-function getUserLinks(User $user) {
+function getUserLinks(User $user, Request $request) {
     return [
         [
             'rel' => 'self',
-            'href' => '/api/user/' . $user->getId()
+            'href' => $request->getServerHost() . '/api/user/' . $user->getId() . '/'
         ],
     ];
 }
@@ -320,7 +322,7 @@ function parseUser(User $user, Request $request, bool $hideSensitive = true): ar
         'isBanned' => $user->getIsBanned(),
         'registerDatetime' => $user->getRegisterDatetime(),
         'profilePicture' => $user->getProfilePicture()->url,
-        'links' => getUserLinks($user),
+        'links' => getUserLinks($user, $request),
     ];
 
     if (!$hideSensitive) {
@@ -391,7 +393,7 @@ function modifyUser(User $user, Request $request, PDO $db): void {
     }
 }
 
-function parseMessage(Message $message): array
+function parseMessage(Message $message, Request $request): array
 {
     return [
         'id' => $message->getId(),
@@ -402,15 +404,15 @@ function parseMessage(Message $message): array
         'links' => [
             [
                 'rel' => 'self',
-                'href' => '/api/message/' . $message->getId(),
+                'href' => $request->getServerHost() . '/api/message/' . $message->getId() . '/',
             ],
             [
                 'rel' => 'sender',
-                'href' => '/api/user/' . $message->getSender()->getId(),
+                'href' => $request->getServerHost() . '/api/user/' . $message->getSender()->getId() . '/',
             ],
             [
                 'rel' => 'receiver',
-                'href' => '/api/user/' . $message->getReceiver()->getId(),
+                'href' => $request->getServerHost() . '/api/user/' . $message->getReceiver()->getId() . '/',
             ],
         ],
     ];
@@ -428,3 +430,4 @@ function storeMessage(Request $request, PDO $db, User $sender, User $receiver): 
     $message->upload($db);
     return $message;
 }
+

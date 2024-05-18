@@ -238,24 +238,30 @@ class User
         }, $stmt->fetchAll());
     }
 
-    public function addToWishlist(PDO $db, int $productId): void
+    public function addToWishlist(PDO $db, Product $product): void
     {
+        $productId = $product->getId();
+
         $stmt = $db->prepare("INSERT INTO Wishes (user, product) VALUES (:user, :product)");
         $stmt->bindParam(":user", $this->id);
         $stmt->bindParam(":product", $productId);
         $stmt->execute();
     }
 
-    public function removeFromWishlist(PDO $db, int $productId): void
+    public function removeFromWishlist(PDO $db, Product $product): void
     {
+        $productId = $product->getId();
+
         $stmt = $db->prepare("DELETE FROM Wishes WHERE user = :user AND product = :product");
         $stmt->bindParam(":user", $this->id);
         $stmt->bindParam(":product", $productId);
         $stmt->execute();
     }
 
-    public function isInWishlist(PDO $db, int $productId): bool
+    public function isInWishlist(PDO $db, Product $product): bool
     {
+        $productId = $product->getId();
+
         $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user AND product = :product");
         $stmt->bindParam(":user", $this->id);
         $stmt->bindParam(":product", $productId);
