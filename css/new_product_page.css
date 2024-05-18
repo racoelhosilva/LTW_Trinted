@@ -1,27 +1,25 @@
-#settings-page {
+#new-product {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-bottom: 2em;
 }
 
-#settings-page section {
-    width: 40vw;
+#new-product section {
+    width: max(40vw, 300px);
 }
 
-#settings-page h2 {
+#new-product h2 {
     font-size: 36px;
     font-weight: 800;
     color: var(--primary);
-    text-align: center;
 }
 
 .information-field {
     margin-bottom: 2em;
 }
 
-#settings-page input {
+#new-product input, #new-product select {
     box-sizing: border-box;
 	font-family: "Hanken Grotesk", sans-serif;
 	border: 1px solid var(--halftone);
@@ -32,29 +30,14 @@
     width: 100%;
 }
 
-#settings-page input[type="submit"] {
+#new-product input[type="submit"] {
     margin: 1em 0;
 }
 
-#settings-page input[type="button"] {
+#new-product input[type="button"] {
 	font-weight: bold;
 	color: var(--light);
 	background-color: var(--lighter);
 	border: 1px solid var(--primary);
-    margin: 1em 0;
+    margin-bottom: 2em;
 }
-
-/* Responsive UI */
-
-@media screen and (max-width: 1200px) {
-    #settings-page section {
-        width: 60vw;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    #settings-page section {
-        width: 80vw;
-    }
-}
-

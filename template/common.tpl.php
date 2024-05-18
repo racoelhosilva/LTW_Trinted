@@ -37,6 +37,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
             <link rel="stylesheet" href="/css/banned_page.css">
             <link rel="stylesheet" href="/css/dashboard_page.css">
             <link rel="stylesheet" href="/css/shipping_form_page.css">
+            <link rel="stylesheet" href="/css/new_product_page.css">
             <script src="/javascript/utils.js" defer></script>
             <script src="/javascript/product.js" defer></script>
             <script src="/javascript/product_page.js" defer></script>
