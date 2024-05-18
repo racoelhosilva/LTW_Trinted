@@ -29,68 +29,68 @@ FROM Image;
 
 -- Create Images
 INSERT INTO Image (url)
-VALUES ('https://randomuser.me/api/portraits/men/84.jpg');
+VALUES ('image/profiles/6648d6da4af61.jpg');
 INSERT INTO Image (url)
-VALUES ('https://randomuser.me/api/portraits/men/19.jpg');
+VALUES ('images/profiles/6648d78653663.jpg');
 INSERT INTO Image (url)
-VALUES ('https://randomuser.me/api/portraits/men/32.jpg');
+VALUES ('images/profiles/6648d7a430fac.jpg');
 INSERT INTO Image (url)
-VALUES ('https://randomuser.me/api/portraits/men/64.jpg');
+VALUES ('images/profiles/6648d7ce738ea.jpg');
 INSERT INTO Image (url)
-VALUES ('https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg/640px-%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg');
+VALUES ('images/profiles/6648d67d2738b.jpg');
 INSERT INTO Image (url)
-VALUES ('https://i.ibb.co/tqjY71F/2abbdcf4c2ffd98961dccef0acc31218.png');
+VALUES ('images/profiles/6648d7f53097c.jpg');
 INSERT INTO Image (url)
-VALUES ('https://i.ibb.co/7SDQjf8/ae83d24e3101503ae176fa79b8416272.png');
+VALUES ('images/profiles/6648d816aca67.jpg');
 INSERT INTO Image (url)
-VALUES ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf86hwNJhBnREMUwWlvVpOCfTm8li5gmA&s');
+VALUES ('images/posts/6648d86f8f6da.jpg');
 INSERT INTO Image (url)
-VALUES ('https://www.redcarpet-fashionawards.com/wp-content/uploads/2023/03/Ana-de-Armas.jpeg');
+VALUES ('images/posts/6648d8fb06a87.jpg');
 INSERT INTO Image (url)
-VALUES ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s');
+VALUES ('images/posts/6648d9350513a.jpg');
 INSERT INTO Image (url)
-VALUES ('https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg');
+VALUES ('images/posts/6648d8c06bc30.jpg');
 INSERT INTO Image (url)
-VALUES ('https://br.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M45321_PM2_Front%20view.jpg');
+VALUES ('images/posts/6648d99f8c78b.jpg');
 INSERT INTO Image (url)
-VALUES ('https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
+VALUES ('images/posts/6648d9d7ced9e.jpg');
 INSERT INTO Image (url)
-VALUES ('https://i1.rgstatic.net/ii/profile.image/823368932679681-1573317859494_Q512/Andre-Restivo.jpg');
+VALUES ('images/profiles/6648d83b5e013.jpg');
 
 -- Create Users
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (0, 'JoshuaEBradley@rhyta.com', 'Joshua E. Bradley',
         '$2y$10$5qzG2ayXItO6hhltSvCLK.J41BWPnK8h9LKWT4BxD7716brYw2T4a', '1704112535',
-        'https://randomuser.me/api/portraits/men/84.jpg', 'seller');
+        'image/profiles/6648d6da4af61.jpg', 'seller');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (1, 'JeffreyFCervantes@teleworm.us', 'Jeffrey F. Cervantes',
         '$2y$10$wgMqjjZwkncCqt14pJAjpeThLPopeez2XY8CoXHLwWmcj/4nHNCFe', '1707146712',
-        'https://randomuser.me/api/portraits/men/19.jpg', 'seller');
+        'images/profiles/6648d78653663.jpg', 'seller');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (2, 'JohnAHill@armyspy.com', 'John A. Hill',
         '$2y$10$wqgEj1VXvv/sSANCNCpliuxZH3HrHW1XthJk2ATyHK2BQJYWiz0RK', '1709832885',
-        'https://randomuser.me/api/portraits/men/32.jpg', 'seller');
+        'images/profiles/6648d7a430fac.jpg', 'seller');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (3, 'DennisMChandler@dayrep.com', 'Dennis M. Chandler',
         '$2y$10$pTsBH1AIIMOso.Dl/knV6OzJVH73Kn.FihC9xBIzI9NXc2gd6SBxS', '1711963292',
-        'https://randomuser.me/api/portraits/men/64.jpg', 'seller');
+        'images/profiles/6648d7ce738ea.jpg', 'seller');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (4, 'up202204988@up.pt', 'Henrique Fernandes',
         '$2y$10$h5ldOURPVpPjsl44MzI1..7wPzCXV4x87f2ABP5ufxk1pcDK8EE7W', '1656513143',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg/640px-%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg',
+        'images/profiles/6648d67d2738b.jpg',
         'seller');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (5, 'up202205188@up.pt', 'Rodrigo Albergaria',
         '$2y$10$cSeD.JpzN3KZNTCTfHIzhOYleR93GVmKDuTrHIhOv2Pqs7TmN/di6', '1656513143',
-        'https://i.ibb.co/tqjY71F/2abbdcf4c2ffd98961dccef0acc31218.png', 'seller');
+        'images/profiles/6648d7f53097c.jpg', 'seller');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (6, 'up202208700@up.pt', 'Bruno Oliveira',
         '$2y$10$Vo/ZYT5.CrKgk876Ha9DmOywwqlyMTtRi.C5ywYgPIgDTWrvVte.K', '1656513143',
-        'https://i.ibb.co/7SDQjf8/ae83d24e3101503ae176fa79b8416272.png', 'seller');
+        'images/profiles/6648d816aca67.jpg', 'seller');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (7, 'arestivo@gmail.com', 'André Restivo',
         '$2y$10$Vo/ZYT5.CrKgk876Ha9DmOywwqlyMTtRi.C5ywYgPIgDTWrvVte.K', '1656513144',
-        'https://i1.rgstatic.net/ii/profile.image/823368932679681-1573317859494_Q512/Andre-Restivo.jpg', 'admin');
+        'images/profiles/6648d83b5e013.jpg', 'admin');
 
 
 -- Create Sizes
@@ -194,14 +194,14 @@ VALUES ('T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but ne
 
 -- Create PostImages
 INSERT INTO PostImage (post, image)
-VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf86hwNJhBnREMUwWlvVpOCfTm8li5gmA&s'),
+VALUES (1, 'images/posts/6648d86f8f6da.jpg'),
        (1,
-        'https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg'),
-       (2, 'https://www.redcarpet-fashionawards.com/wp-content/uploads/2023/03/Ana-de-Armas.jpeg'),
-       (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s'),
+        'images/posts/6648d8c06bc30.jpg'),
+       (2, 'images/posts/6648d8fb06a87.jpg'),
+       (3, 'images/posts/6648d9350513a.jpg'),
        (4,
-        'https://br.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M45321_PM2_Front%20view.jpg'),
-       (5, 'https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
+        'images/posts/6648d99f8c78b.jpg'),
+       (5, 'images/posts/6648d9d7ced9e.jpg');
 
 -- Create Messages
 INSERT INTO Message (id, datetime, content, sender, receiver)
