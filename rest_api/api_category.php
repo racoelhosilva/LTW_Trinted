@@ -6,20 +6,6 @@ require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/utils.php';
 
 
-function parseCategories(array $categories): array {
-    return array_map(function ($category) {
-        return $category->getName();
-    }, $categories);
-}
-
-function storeCategory(Request $request, PDO $db): Category {
-    $category = $request->post('name');
-    $category = new Category($category);
-    $category->upload($db);
-    return $category;
-}
-
-
 $db = getDatabaseConnection();
 $request = new Request();
 $session = new Session();

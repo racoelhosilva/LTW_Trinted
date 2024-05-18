@@ -6,20 +6,6 @@ require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/utils.php';
 
 
-function parseConditions(array $conditions): array {
-    return array_map(function ($condition) {
-        return $condition->getName();
-    }, $conditions);
-}
-
-function storeCondition(Request $request, PDO $db): Condition {
-    $condition = $request->post('name');
-    $condition = new Condition($condition);
-    $condition->upload($db);
-    return $condition;
-}
-
-
 $db = getDatabaseConnection();
 $request = new Request();
 $session = new Session();

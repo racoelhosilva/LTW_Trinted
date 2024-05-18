@@ -6,20 +6,6 @@ require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/utils.php';
 
 
-function parseBrands(array $brands): array {
-    return array_map(function ($brand) {
-        return $brand->getName();
-    }, $brands);
-}
-
-function storeBrand(Request $request, PDO $db): Brand {
-    $brand = $request->post('name');
-    $brand = new Brand($brand);
-    $brand->upload($db);
-    return $brand;
-}
-
-
 $db = getDatabaseConnection();
 $request = new Request();
 $session = new Session();

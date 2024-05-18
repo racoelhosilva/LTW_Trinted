@@ -6,20 +6,6 @@ require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/utils.php';
 
 
-function parseSizes(array $sizes): array {
-    return array_map(function ($size) {
-        return $size->getName();
-    }, $sizes);
-}
-
-function storeSize(Request $request, PDO $db): Size {
-    $size = $request->post('name');
-    $size = new Size($size);
-    $size->upload($db);
-    return $size;
-}
-
-
 $db = getDatabaseConnection();
 $request = new Request();
 $session = new Session();
