@@ -41,15 +41,15 @@ switch ($method) {
     case 'POST':
         if (preg_match('/^\/api\/size\/?$/', $endpoint, $matches)) {
             if (!$request->verifyCsrf())
-                returnCrsfMismatch();
+                sendCrsfMismatch();
             if (!userLoggedIn($request))
-                returnUserNotLoggedIn();
+                sendUserNotLoggedIn();
             
             $user = getSessionUser($request);
             if ($user['type'] !== 'admin')
                 sendForbidden('User must be admin to create a size');
             if (!$request->paramsExist(['name']))
-                returnMissingFields();
+                sendMissingFields();
 
             try {
                 $size = storeSize($request, $db);
@@ -61,7 +61,7 @@ switch ($method) {
                 'links' => [
                     [
                         'rel' => 'sizes',
-                        'href' => $_SERVER['HTTP_HOST'] . '/api/size/',
+                        'href' => $request->getServerHost() . '/api/size/',
                     ]
                 ]
             ]);

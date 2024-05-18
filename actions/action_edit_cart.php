@@ -39,7 +39,7 @@ function removeFromCart(Product $product): bool {
 }
 
 if (!isset($_POST['product_id']) || !in_array($_POST['remove'], [true, false]))
-    returnMissingFields();
+    sendMissingFields();
 
 session_start();
 

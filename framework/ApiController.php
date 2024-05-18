@@ -20,7 +20,7 @@ class ApiController {
             'size' => 'sizes',
             'condition' => 'conditions',
             'category' => 'categories',
-            'brands' => 'brands',
+            'brand' => 'brands',
         ];
 
         $resource = $args[0];

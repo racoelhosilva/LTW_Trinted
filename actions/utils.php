@@ -62,15 +62,15 @@ function userLoggedIn(Request $request): bool {
     return $request->getSession()->get('user') !== null;
 }
 
-function returnUserNotLoggedIn(): void {
+function sendUserNotLoggedIn(): void {
     die(json_encode(array('success' => false, 'error' => 'User not logged in')));
 }
 
-function returnCrsfMismatch(): void {
+function sendCrsfMismatch(): void {
     die(json_encode(array('success' => false, 'error' => 'CSRF token missing or invalid')));
 }
 
-function returnMissingFields(): void {
+function sendMissingFields(): void {
     die(json_encode(array('success' => false, 'error' => 'Missing fields')));
 }
 

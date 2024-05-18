@@ -149,4 +149,8 @@ class Request
     function getEndpoint(): string {
         return $this->header('PATH_INFO');
     }
+
+    function getServerHost(): string {
+        return $this->header('HTTP_HOST');
+    }
 }

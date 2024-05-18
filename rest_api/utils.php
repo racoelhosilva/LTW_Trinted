@@ -49,16 +49,20 @@ function sendInternalServerError(): void {
 }
 
 
-function returnUserNotLoggedIn(): void {
+function sendUserNotLoggedIn(): void {
     sendUnauthorized('User not logged in');
 }
 
-function returnCrsfMismatch(): void {
+function sendCrsfMismatch(): void {
     sendForbidden('CSRF token missing or invalid');
 }
 
-function returnMissingFields(): void {
-    sendBadRequest('Missing fields');
+function sendMissingFields(): void {
+    sendBadRequest('One or more fields missing');
+}
+
+function sendInvalidFields(): void {
+    sendBadRequest('One or more fields invalid');
 }
 
 function getSessionUser(Request $request): array {

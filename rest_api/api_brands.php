@@ -41,15 +41,15 @@ switch ($method) {
     case 'POST':
         if (preg_match('/^\/api\/brand\/?$/', $endpoint, $matches)) {
             if (!$request->verifyCsrf())
-                returnCrsfMismatch();
+                sendCrsfMismatch();
             if (!userLoggedIn($request))
-                returnUserNotLoggedIn();
+                sendUserNotLoggedIn();
             
             $user = getSessionUser($request);
             if ($user['type'] !== 'admin')
                 sendForbidden('User must be admin to create a brand');
             if (!$request->paramsExist(['name']))
-                returnMissingFields();
+                sendMissingFields();
 
             try {
                 $brand = storeBrand($request, $db);
@@ -58,7 +58,12 @@ switch ($method) {
             }
 
             sendCreated([
-                'brand' => $brand->getName()
+                'links' => [
+                    [
+                        'rel' => 'brands',
+                        'href' => $request->getServerHost() . '/api/brand/',
+                    ]
+                ]
             ]);
         } else {
             sendNotFound();

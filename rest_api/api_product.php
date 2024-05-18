@@ -6,24 +6,24 @@ require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/utils.php';
 
 
-function getProductLinks(Product $product): array {
+function getProductLinks(Product $product, Request $request): array {
     return [
         [
             'rel' => 'self',
-            'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId(),
+            'href' => $request->getServerHost() . '/api/product/' . $product->getId(),
         ],
         [
             'rel' => 'seller',
-            'href' => $_SERVER['HTTP_HOST'] . '/api/user/' . $product->getSeller()->id,
+            'href' => $request->getServerHost() . '/api/user/' . $product->getSeller()->id,
         ],
         [
             'rel' => 'images',
-            'href' => $_SERVER['HTTP_HOST'] . '/api/product/' . $product->getId() . '/images',
+            'href' => $request->getServerHost() . '/api/product/' . $product->getId() . '/images',
         ]
     ];
 }
 
-function parseProduct(Product $product): array {
+function parseProduct(Product $product, Request $request): array {
     return [
         'id' => $product->getId(),
         'title' => $product->getTitle(),
@@ -33,12 +33,14 @@ function parseProduct(Product $product): array {
         'category' => $product->getCategory()?->getName(),
         'size' => $product->getSize()?->getName(),
         'condition' => $product->getCondition()?->getName(),
-        'links' => getProductLinks($product),
+        'links' => getProductLinks($product, $request),
     ];
 }
 
-function parseProducts(array $product, PDO $db): array {
-    return array_map('parseProduct', $product);
+function parseProducts(array $products, Request $request): array {
+    return array_map(function ($product) use ($request) {
+        return parseProduct($product, $request);
+    }, $products);
 }
 
 function createProduct(Request $request, PDO $db): Product {
@@ -132,28 +134,28 @@ header('Content-Type: application/json');
 switch ($method) {
     case 'GET':
         if (preg_match('/^\/api\/product\/?$/', $endpoint, $matches)) {
-            sendOk(['products' => parseProducts(Product::getAllProducts($db), $db)]);
+            sendOk(['products' => parseProducts(Product::getAllProducts($db), $request)]);
         } elseif (preg_match('/^\/api\/product\/(\d+)\/?$/', $endpoint, $matches)) {
             $productId = (int)$matches[1];
             $product = Product::getProductByID($db, $productId);
             if ($product === null)
                 sendNotFound();
 
-            sendOk(['product' => $product ? parseProduct($product) : null]);
+            sendOk(['product' => $product ? parseProduct($product, $request) : null]);
         }
 
     case 'POST':
         if (preg_match('/^\/api\/product\/?$/', $endpoint, $matches)) {
             if (!$request->verifyCsrf())
-                returnCrsfMismatch();
+                sendCrsfMismatch();
             if (!isLoggedIn($request)) 
-                returnUserNotLoggedIn();
+                sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
             if (!in_array($user['type'], ['admin', 'seller']))
                 sendForbidden('User must be seller or admin to create a product');
             if (!$request->paramsExist(['title', 'description', 'price']))
-                returnMissingFields();
+                sendMissingFields();
             if ($request->files('image') == null)
                 sendBadRequest('Image file missing');
 
@@ -164,7 +166,7 @@ switch ($method) {
                 sendInternalServerError();
             }
 
-            sendCreated(['links' => getProductLinks($product)]);
+            sendCreated(['links' => getProductLinks($product, $request)]);
         } else {
             sendNotFound();
         }
@@ -176,15 +178,15 @@ switch ($method) {
 
             if ($product !== null) {
                 if (!$request->verifyCsrf())
-                    returnCrsfMismatch();
+                    sendCrsfMismatch();
                 if (!isLoggedIn($request)) 
-                    returnUserNotLoggedIn();
+                    sendUserNotLoggedIn();
 
                 $user = getSessionUser($request);
                 if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
                     sendForbidden('User must be the original seller or admin to edit a product');
                 if (!$request->paramsExist(['title', 'description', 'price']))
-                    returnMissingFields();
+                    sendMissingFields();
 
                 try {
                     updateProduct($product, $request, $db);
@@ -192,7 +194,7 @@ switch ($method) {
                     sendInternalServerError();
                 }
 
-                sendOk(['links' => getProductLinks($product)]);
+                sendOk(['links' => getProductLinks($product, $request)]);
             } else {
                 try {
                     $product = createProductWithId($request, $db, $productId);
@@ -201,7 +203,7 @@ switch ($method) {
                     sendInternalServerError();
                 }
 
-                sendCreated(['links' => getProductLinks($product)]);
+                sendCreated(['links' => getProductLinks($product, $request)]);
             }
         } else {
             sendNotFound();
@@ -215,9 +217,9 @@ switch ($method) {
                 sendNotFound();
 
             if (!$request->verifyCsrf())
-                returnCrsfMismatch();
+                sendCrsfMismatch();
             if (!isLoggedIn($request)) 
-                returnUserNotLoggedIn();
+                sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
             if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
@@ -230,7 +232,7 @@ switch ($method) {
                 sendInternalServerError();
             }
 
-            sendOk(['links' => getProductLinks($product)]);
+            sendOk(['links' => getProductLinks($product, $request)]);
         } else {
             sendNotFound();
         }
@@ -242,9 +244,9 @@ switch ($method) {
                 sendNotFound();
 
             if (!$request->verifyCsrf())
-                returnCrsfMismatch();
+                sendCrsfMismatch();
             if (!isLoggedIn($request))
-                returnUserNotLoggedIn();
+                sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
             if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')

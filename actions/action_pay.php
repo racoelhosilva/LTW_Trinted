@@ -40,17 +40,17 @@ function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
 header('Content-Type: application/json');
 
 if (!isset($_POST['first-name']) || !isset($_POST['last-name']) || !isset($_POST['email']) || !isset($_POST['phone']) || !isset($_POST['address']) || !isset($_POST['zip']) || !isset($_POST['town']) || !isset($_POST['country']) || !isset($_POST['shipping'])) {
-    returnMissingFields();
+    sendMissingFields();
 }
 
 $request = new Request();
 $session = $request->getSession();
 
 if (!$request->verifyCsrf()) {
-    returnCrsfMismatch();
+    sendCrsfMismatch();
 }
 if (!userLoggedIn($request)) {
-    returnUserNotLoggedIn();
+    sendUserNotLoggedIn();
 }
 
 $cart = getCookie('cart') ?? [];

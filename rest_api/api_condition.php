@@ -41,15 +41,15 @@ switch ($method) {
     case 'POST':
         if (preg_match('/^\/api\/condition\/?$/', $endpoint, $matches)) {
             if (!$request->verifyCsrf())
-                returnCrsfMismatch();
+                sendCrsfMismatch();
             if (!userLoggedIn($request))
-                returnUserNotLoggedIn();
+                sendUserNotLoggedIn();
             
             $user = getSessionUser($request);
             if ($user['type'] !== 'admin')
                 sendForbidden('User must be admin to create a condition');
             if (!$request->paramsExist(['name']))
-                returnMissingFields();
+                sendMissingFields();
 
             try {
                 $condition = storeCondition($request, $db);
@@ -61,7 +61,7 @@ switch ($method) {
                 'links' => [
                     [
                         'rel' => 'conditions',
-                        'href' => $_SERVER['HTTP_HOST'] . '/api/condition/',
+                        'href' => $request->getServerHost() . '/api/condition/',
                     ],
                 ],
             ]);
