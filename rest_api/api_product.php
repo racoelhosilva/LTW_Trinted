@@ -206,4 +206,7 @@ switch ($method) {
         } else {
             die(header('HTTP/1.0 404 Not Found'));
         }
+    
+    default:
+        die(header('HTTP/1.0 405 Method Not Allowed'));
 }
