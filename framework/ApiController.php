@@ -18,7 +18,8 @@ class ApiController {
         $subroutes = [
             'product' => 'products',
             'size' => 'sizes',
-            'condition' => 'conditions'
+            'condition' => 'conditions',
+            'category' => 'categories',
         ];
 
         $resource = $args[0];
@@ -40,5 +41,9 @@ class ApiController {
 
     private function conditions(array $args) {
         require_once __DIR__ . '/../rest_api/api_condition.php';
+    }
+
+    private function categories(array $args) {
+        require_once __DIR__ . '/../rest_api/api_category.php';
     }
 }
