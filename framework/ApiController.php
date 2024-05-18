@@ -28,10 +28,12 @@ class ApiController {
         $resource = $args[0];
         $subroute = $subroutes[$resource];
 
-        if ($subroute)
+        if ($subroute) {
             $this->$subroute($args);
-        else
+        } else {
+            header('Content-Type: application/json');
             sendNotFound();
+        }
     }
 
     private function products(array $args) {

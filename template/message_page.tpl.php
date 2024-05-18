@@ -47,15 +47,15 @@ include_once __DIR__ . '/../actions/utils.php';
             $messages = Message::getMessages($db, User::getUserByID($db, $_SESSION['user']['id']), $otherUser, PHP_INT_MAX);      
 
             foreach ($messages as $message) {
-                $timeDiff = dateFormat($message->datetime);
-                if ($message->sender->id == $_SESSION['user']['id']) {?>
-                    <div class="message user1" data-message-id="<?= $message->id ?>">
-                        <p><?= $message->content ?></p>
+                $timeDiff = dateFormat($message->getDatetime());
+                if ($message->getSender()->getId() == $_SESSION['user']['id']) {?>
+                    <div class="message user1" data-message-id="<?= $message->getId() ?>">
+                        <p><?= $message->getContent() ?></p>
                         <p><?= $timeDiff ?></p>
                     </div>
                 <?php } else { ?>
-                    <div class="message user2" data-message-id="<?= $message->id ?>">
-                        <p><?= $message->content ?></p>
+                    <div class="message user2" data-message-id="<?= $message->getId() ?>">
+                        <p><?= $message->getContent() ?></p>
                         <p><?= $timeDiff ?> </p>                    
                     </div>
                 <?php }

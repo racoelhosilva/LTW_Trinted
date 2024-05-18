@@ -22,11 +22,9 @@ switch ($method) {
             $userId2 = (int)$matches[2];
             $user1 = User::getUserById($db, $userId1);
             $user2 = User::getUserById($db, $userId2);
-            if ($user == null || $user2 == null)
+            if ($user1 == null || $user2 == null)
                 sendNotFound();
 
-            if (!$request->verifyCsrf())
-                sendCrsfMismatch();
             if (!userLoggedIn($request))
                 sendUserNotLoggedIn();
 
@@ -46,7 +44,7 @@ switch ($method) {
     case 'POST':
         if (preg_match('/^\/api\/message\/(\d+)\/?$/', $endpoint, $matches)) {
             $senderId = (int)$matches[1];
-            $sender = User::getUserById($db, $userId1);
+            $sender = User::getUserById($db, $senderId);
             if ($sender == null)
                 sendNotFound();
 
@@ -58,15 +56,15 @@ switch ($method) {
             $sessionUser = getSessionUser($request);
             if ($sessionUser['id'] != $senderId)
                 sendUnauthorized('Only the sender can send a message');
-            if (!$request->paramsExist(['receiver_id', 'content']))
+            if (!$request->paramsExist(['receiver', 'content']))
                 sendMissingFields();
 
-            $receiverId = (int)$request->post('receiver_id');
+            $receiverId = (int)$request->post('receiver');
             $receiver = User::getUserById($db, $receiverId);
             if ($receiver == null)
                 sendBadRequest('Receiver does not exist');
 
-            if ($user['id'] == $receiverId)
+            if ($sender == $receiverId)
                 sendBadRequest('User cannot send a message to themselves');
 
             try {

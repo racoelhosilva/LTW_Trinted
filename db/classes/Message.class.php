@@ -47,12 +47,12 @@ class Message
 
     public function getId(): int
     {
-        return $this->id;
+        return (int)$this->id;
     }
 
     public function getDatetime(): int
     {
-        return $this->datetime;
+        return (int)$this->datetime;
     }
 
     public function getContent(): string
