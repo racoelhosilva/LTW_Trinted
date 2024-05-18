@@ -136,4 +136,12 @@ class Controller
         include_once('pages/dashboard_page.php');
         return drawDashboardPage($this->request);
     }
+
+    /**
+     * @brief Generates about page
+     */
+    public function newProduct() {
+        include_once('pages/new_product_page.php');
+        return drawNewProductPage($this->request);
+    }
 }
