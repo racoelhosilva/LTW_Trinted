@@ -247,6 +247,8 @@ function parseUser(User $user, Request $request): array {
         'email' => $user->getEmail(),
         'type' => $user->getType(),
         'isBanned' => $user->getIsBanned(),
+        'registerDatetime' => $user->getRegisterDatetime(),
+        'profilePicture' => $user->getProfilePicture()->url,
         'links' => [
             [
                 'rel' => 'self',

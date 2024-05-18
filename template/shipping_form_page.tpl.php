@@ -1,16 +1,14 @@
 <?php
 declare(strict_types=1);
 
-include_once('db/classes/Payment.class.php');
-include_once('template/common.tpl.php');
-include_once('db/classes/Post.class.php');
+require_once __DIR__ . '/../framework/Autoload.php';
 ?>
 
-<?php function drawShippingForm(Post $initialPost) {
+<?php function drawShippingForm(Product $initialPost) {
     $db = new PDO("sqlite:" . DB_PATH);
     $payment = $initialPost->payment;
     $seller = $initialPost->seller;
-    $posts = $payment->getAssociatedPostsFromSeller($db, $seller->id); ?>
+    $posts = $payment->getAssociatedProductsFromSeller($db, $seller->id); ?>
 
     <section id="form-buyer-info">
         <p id="name"><?= $payment->lastName . ', ' . $payment->firstName ?></p>
