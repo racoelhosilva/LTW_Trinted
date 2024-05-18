@@ -136,6 +136,9 @@ switch ($method) {
                 sendForbidden('User must be seller or admin to create a product');
             if (!$request->paramsExist(['title', 'description', 'price']))
                 sendMissingFields();
+            if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT))
+                sendBadRequest('Invalid price value');
+
             if ($request->files('images') == null)
                 sendBadRequest('Image files missing');
 
@@ -150,6 +153,7 @@ switch ($method) {
             sendCreated([
                 'links' => getProductLinks($product, $request), 
             ]);
+
         } elseif (preg_match('/^\/api\/product\/(\d+)\/images\/?$/', $endpoint, $matches)) {
             $productId = (int) $matches[1];
             $product = Product::getProductByID($db, $productId);
@@ -223,6 +227,9 @@ switch ($method) {
 
                 if (!$request->paramsExist(['title', 'description', 'price']))
                     sendMissingFields();
+                if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT))
+                    sendBadRequest('Invalid price value');
+
                 if ($request->files('image') == null)
                     sendBadRequest('Image file missing');
 

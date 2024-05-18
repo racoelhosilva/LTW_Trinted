@@ -6,6 +6,13 @@ require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/utils.php';
 
 
+function userIsBeingPrivileged(User $user, string $newType, $request): bool
+{
+    return $user->getType() == 'buyer' && $newType != 'buyer'
+        || $user->getType() == 'seller' && $newType == 'admin';
+}
+
+
 $db = getDatabaseConnection();
 $request = new Request();
 $session = new Session();
@@ -24,13 +31,19 @@ switch ($method) {
             if ($user == null)
                 sendNotFound();
 
-            sendOk(['users' => $users]);
+            $user = parseUser($user, $request);
+            sendOk(['users' => $user]);
         } else {
             sendNotFound();
         }
 
     case 'POST':
         if (preg_match('/^\/api\/user\/?$/', $endpoint, $matches)) {
+            if (!$request->paramsExist(['email', 'name', 'password']))
+                sendMissingFields();
+            if (!filter_var($request->post('email'), FILTER_VALIDATE_EMAIL))
+                sendBadRequest('Invalid email format');
+
             $user = User::getUserByEmail($db, $request->post('email'));
             if ($user != null)
                 sendConflict();
@@ -51,32 +64,33 @@ switch ($method) {
         if (preg_match('/^\/api\/user\/(\d+)\/?$/', $endpoint, $matches)) {
             $userId = (int)$matches[1];
             $user = User::getUserById($db, $userId);
-            if ($user != null) {
-                if (!$request->verifyCsrf())
-                    sendCrsfMismatch();
+            if ($user == null)
+                sendNotFound();
+            
+            if (!$request->paramsExist(['email', 'name', 'password', 'type']))
+                sendMissingFields();
+            if (!filter_var($request->put('email'), FILTER_VALIDATE_EMAIL))
+                sendBadRequest('Invalid email format');
+            if (!in_array($request->put('type'), ['buyer', 'seller', 'admin']))
+                sendBadRequest('Invalid user type');
 
-                $sessionUser = getSessionUser($request);
-                if ($sessionUser['id'] != $user->getId() || $sessionUser['type'] != 'admin')
-                    sendUnauthorized('User must be admin to update other users');
+            if (!$request->verifyCsrf())
+                sendCrsfMismatch();
 
-                try {
-                    updateUser($user, $request, $db);
-                } catch (PDOException $e) {
-                    error_log($e->getMessage());
-                    sendInternalServerError();
-                }
+            $sessionUser = getSessionUser($request);
+            if ($sessionUser['id'] != $user->getId() && $sessionUser['type'] != 'admin')
+                sendUnauthorized('User must be admin to update other users');
+            if ($sessionUser['type'] != 'admin' && userIsBeingPrivileged($user, $request->put('type'), $request))
+                sendForbidden('User cannot be privileged by non-admin');
 
-                sendOk(['links' => getUserLinks($user)]);
-            } else {
-                try {
-                    $user = createUserWithId($request, $db, $userId);
-                } catch (PDOException $e) {
-                    error_log($e->getMessage());
-                    sendInternalServerError();
-                }
-
-                sendCreated(['links' => getUserLinks($user)]);
+            try {
+                updateUser($user, $request, $db);
+            } catch (PDOException $e) {
+                error_log($e->getMessage());
+                sendInternalServerError();
             }
+
+            sendOk(['links' => getUserLinks($user)]);
         } else {
             sendNotFound();
         }
@@ -92,11 +106,11 @@ switch ($method) {
                 sendCrsfMismatch();
 
             $sessionUser = getSessionUser($request);
-            if ($sessionUser['id'] != $user->getId() || $sessionUser['type'] != 'admin')
+            if ($sessionUser['id'] != $user->getId() && $sessionUser['type'] != 'admin')
                 sendUnauthorized('User must be admin to update other users');
 
             try {
-                updateUser($user, $request, $db);
+                modifyUser($user, $request, $db);
             } catch (PDOException $e) {
                 error_log($e->getMessage());
                 sendInternalServerError();
