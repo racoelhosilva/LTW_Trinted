@@ -70,5 +70,5 @@ switch ($method) {
         }
 
     default:
-        sendNotFound();
+        sendMethodNotAllowed();
 }

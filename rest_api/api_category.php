@@ -6,17 +6,17 @@ require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/utils.php';
 
 
-function parseSizes(array $sizes): array {
-    return array_map(function ($size) {
-        return $size->getName();
-    }, $sizes);
+function parseCategories(array $categories): array {
+    return array_map(function ($category) {
+        return $category->getName();
+    }, $categories);
 }
 
-function storeSize(Request $request, PDO $db): Size {
-    $size = $request->post('name');
-    $size = new Size($size);
-    $size->upload($db);
-    return $size;
+function storeCategory(Request $request, PDO $db): Category {
+    $category = $request->post('name');
+    $category = new Category($category);
+    $category->upload($db);
+    return $category;
 }
 
 
@@ -31,15 +31,15 @@ header('Content-Type: application/json');
 
 switch ($method) {
     case 'GET':
-        if (preg_match('/^\/api\/size\/?$/', $endpoint, $matches)) {
-            $sizes = parseSizes(Size::getAll($db));
-            sendOk(['sizes' => $sizes]);
+        if (preg_match('/^\/api\/category\/?$/', $endpoint, $matches)) {
+            $categories = parseCategories(Category::getAll($db));
+            sendOk(['categories' => $categories]);
         } else {
             sendNotFound();
         }
 
     case 'POST':
-        if (preg_match('/^\/api\/size\/?$/', $endpoint, $matches)) {
+        if (preg_match('/^\/api\/category\/?$/', $endpoint, $matches)) {
             if (!$request->verifyCsrf())
                 returnCrsfMismatch();
             if (!userLoggedIn($request))
@@ -47,29 +47,23 @@ switch ($method) {
             
             $user = getSessionUser($request);
             if ($user['type'] !== 'admin')
-                sendForbidden('User must be admin to create a size');
+                sendForbidden('User must be admin to create a category');
             if (!$request->paramsExist(['name']))
                 returnMissingFields();
 
             try {
-                $size = storeSize($request, $db);
+                $category = storeCategory($request, $db);
             } catch (Exception $e) {
                 sendInternalServerError();
             }
 
             sendCreated([
-                'links' => [
-                    [
-                        'rel' => 'sizes',
-                        'href' => $_SERVER['HTTP_HOST'] . '/api/size/',
-                    ]
-                ]
+                'category' => $category->getName()
             ]);
         } else {
             sendNotFound();
         }
 
     default:
-        sendMethodNotAllowed();
+        sendNotFound();
 }
-
