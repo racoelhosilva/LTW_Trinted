@@ -177,6 +177,25 @@ class Product
         }, $productBrands);
     }
 
+    public function addBrand(PDO $db, Brand $brand): void
+    {
+        $brandName = $brand->getName();
+
+        $stmt = $db->prepare("INSERT INTO ProductBrand (product, brand) VALUES (:product, :brand)");
+        $stmt->bindParam(":product", $this->id);
+        $stmt->bindParam(":brand", $brandName);
+        $stmt->execute();
+    }
+
+    public function removeBrand(PDO $db, Brand $brand): void {
+        $brandName = $brand->getName();
+
+        $stmt = $db->prepare("DELETE FROM ProductBrand WHERE product = :product AND brand = :brand");
+        $stmt->bindParam(":product", $this->id);
+        $stmt->bindParam(":brand", $brandName);
+        $stmt->execute();
+    }
+
     public function getAllImages(PDO $db): array {
         $stmt = $db->prepare("SELECT * FROM ProductImage WHERE product = :product");
         $stmt->bindParam(":product", $this->id);

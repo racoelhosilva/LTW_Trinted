@@ -6,6 +6,40 @@ require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/utils.php';
 
 
+function getProductBrandLinks(Product $product, Request $request): array {
+    return [
+        [
+            'rel' => 'self',
+            'href' => $request->getServerHost() . '/api/product/' . $product->id . '/brand/',
+        ],
+        [
+            'rel' => 'all_brands',
+            'href' => $request->getServerHost() . '/api/brand/',
+        ],
+        [
+            'rel' => 'product',
+            'href' => $request->getServerHost() . '/api/product/' . $product->id . '/',
+        ]
+    ];
+}
+
+function updateProductBrands(Product $product, array $add, array $remove, PDO $db): void {
+    foreach ($add as $brandName) {
+        $brand = Brand::getBrand($db, urlencode($brandName));
+        if ($brand !== null) {
+            $product->addBrand($db, $brandName);
+        }
+    }
+
+    foreach ($remove as $brandName) {
+        $brand = Brand::getBrand($db, urlencode($brandName));
+        if ($brand !== null) {
+            $product->removeBrand($db, $brandName);
+        }
+    }
+}
+
+
 $db = getDatabaseConnection();
 $request = new Request();
 $session = $request->getSession();
@@ -26,6 +60,24 @@ switch ($method) {
                 sendNotFound();
 
             sendOk(['product' => $product ? parseProduct($product, $request) : null]);
+        } elseif (preg_match('/^\/api\/product\/(\d+)\/brand\/?$/', $endpoint, $matches)) {
+            $productId = (int)$matches[1];
+            $product = Product::getProductByID($db, $productId);
+            if ($product === null)
+                sendNotFound();
+
+            $brands = array_map(function ($brand) use ($product, $request) {
+                return [
+                    ...$brand,
+                    'links' => getProductBrandLinks($product, $request),
+                ];
+            }, parseBrands($product->getBrands($db)));
+
+            sendOk([
+                'brands' => $brands,
+            ]);
+        } else {
+            sendNotFound();
         }
 
     case 'POST':
@@ -82,6 +134,7 @@ switch ($method) {
                 }
 
                 sendOk(['links' => getProductLinks($product, $request)]);
+
             } else {
                 if (!in_array($user['type'], ['seller', 'admin']))
                     sendForbidden('User must be a seller or admin to create a product');
@@ -96,6 +149,28 @@ switch ($method) {
 
                 sendCreated(['links' => getProductLinks($product, $request)]);
             }
+
+        } elseif (preg_match('/^\/api\/product\/(\d+)\/brand\/?$/', $endpoint, $matches)) {
+            if (!$request->verifyCsrf())
+                sendCrsfMismatch();
+            if (!isLoggedIn($request))
+                sendUserNotLoggedIn();
+
+            $user = getSessionUser($request);
+            if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
+                sendForbidden('User must be the original seller or admin to update brands');
+
+            if (!$request->paramsExist(['add', 'remove']))
+                sendMissingFields();
+
+            try {
+                updateProductBrands($product, $request->put('add'), $request->put('remove'), $db);
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                sendInternalServerError();
+            }
+
+            sendOk(['links' => getProductBrandLinks($product, $request)]);
         } else {
             sendNotFound();
         }
@@ -124,6 +199,24 @@ switch ($method) {
             }
 
             sendOk(['links' => getProductLinks($product, $request)]);
+        } elseif (preg_match('/^\/api\/product\/(\d+)\/brand\/?$/', $endpoint, $matches)) {
+            if (!$request->verifyCsrf())
+                sendCrsfMismatch();
+            if (!isLoggedIn($request))
+                sendUserNotLoggedIn();
+
+            $user = getSessionUser($request);
+            if ($user['id'] !== $product->getSeller()->id && $user['type'] !== 'admin')
+                sendForbidden('User must be the original seller or admin to update brands');
+
+            try {
+                updateProductBrands($product, $request->put('add', []), $request->put('remove', []), $db);
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                sendInternalServerError();
+            }
+
+            sendOk(['links' => getProductBrandLinks($product, $request)]);
         } else {
             sendNotFound();
         }

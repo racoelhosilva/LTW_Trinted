@@ -106,6 +106,19 @@ function parseProducts(array $products, Request $request): array {
     }, $products);
 }
 
+function uploadImage(string $url, PDO $db): Image {
+    $image = new Image('https://thumbs.dreamstime.com/b/telefone-nokia-do-vintage-isolada-no-branco-106323077.jpg');  // TODO: change image
+    $image->upload($db);
+    return $image;
+}
+
+function addBrandToProduct(Product $product, Brand $brand, PDO $db): void {
+    $stmt = $db->prepare("INSERT INTO ProductBrand (item, brand) VALUES (:item, :brand)");
+    $stmt->bindParam(':item', $product->id);
+    $stmt->bindParam(':brand', $brand->name);
+    $stmt->execute();
+}
+
 function createProduct(Request $request, User $seller, PDO $db): Product {
     $title = $request->post('title');
     $price = (float)$request->post('price');
@@ -121,8 +134,7 @@ function createProduct(Request $request, User $seller, PDO $db): Product {
     $product = new Product(null, $title, $price, $description, time(), $seller, $size, $category, $condition);
     $product->upload($db);
 
-    $image = new Image('https://thumbs.dreamstime.com/b/telefone-nokia-do-vintage-isolada-no-branco-106323077.jpg');  // TODO: change image
-    $image->upload($db);
+    $image = uploadImage($request->files('image'), $db);
     $productImage = new ProductImage($product, $image);
     $productImage->upload($db);
 
@@ -220,10 +232,12 @@ function storeSize(Request $request, PDO $db): Size {
     return $size;
 }
 
+function parseBrand(Brand $brand): string {
+    return $brand->getName();
+}
+
 function parseBrands(array $brands): array {
-    return array_map(function ($brand) {
-        return $brand->getName();
-    }, $brands);
+    return array_map('parseBrand', $brands);
 }
 
 function storeBrand(Request $request, PDO $db): Brand {
