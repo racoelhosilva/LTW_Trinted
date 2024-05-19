@@ -41,7 +41,7 @@ VALUES ('https://randomuser.me/api/portraits/men/32.jpg');
 INSERT INTO Image (url)
 VALUES ('https://randomuser.me/api/portraits/men/64.jpg');
 INSERT INTO Image (url)
-VALUES ('https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg/640px-%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg');
+VALUES ('/images/profiles/664a8049037ee.jpg');
 INSERT INTO Image (url)
 VALUES ('https://i.ibb.co/tqjY71F/2abbdcf4c2ffd98961dccef0acc31218.png');
 INSERT INTO Image (url)
@@ -59,29 +59,29 @@ VALUES ('https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_
 INSERT INTO Image (url)
 VALUES ('https://i1.rgstatic.net/ii/profile.image/823368932679681-1573317859494_Q512/Andre-Restivo.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a75633874a.jpg');
+VALUES ('/images/posts/664a75633874a.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a75633c5de.jpg');
+VALUES ('/images/posts/664a75633c5de.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a756340197.jpg');
+VALUES ('/images/posts/664a756340197.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a75c6f3180.jpg');
+VALUES ('/images/posts/664a75c6f3180.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a767ee867f.jpg');
+VALUES ('/images/posts/664a767ee867f.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a767eec822.jpg');
+VALUES ('/images/posts/664a767eec822.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a76ed37cf6.jpg');
+VALUES ('/images/posts/664a76ed37cf6.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a76ed3c31e.jpg');
+VALUES ('/images/posts/664a76ed3c31e.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a777c09ed7.jpg');
+VALUES ('/images/posts/664a777c09ed7.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a777c0e906.jpg');
+VALUES ('/images/posts/664a777c0e906.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a780e20a33.jpg');
+VALUES ('/images/posts/664a780e20a33.jpg');
 INSERT INTO Image (url)
-VALUES ('images/posts/664a780e241db.jpg');
+VALUES ('/images/posts/664a780e241db.jpg');
 
 -- Create Users
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
@@ -103,7 +103,7 @@ VALUES (4, 'DennisMChandler@dayrep.com', 'Dennis M. Chandler',
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (5, 'up202204988@up.pt', 'Henrique Fernandes',
         '$2y$10$h5ldOURPVpPjsl44MzI1..7wPzCXV4x87f2ABP5ufxk1pcDK8EE7W', '1656513143',
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg/640px-%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9F%D1%83%D1%82%D0%B8%D0%BD_%2818-06-2023%29_%28cropped%29.jpg',
+        '/images/profiles/664a8049037ee.jpg',
         'seller');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (6, 'up202205188@up.pt', 'Rodrigo Albergaria',
@@ -308,24 +308,24 @@ VALUES (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4Kb
 INSERT INTO ProductImage (product, image)
 VALUES (5, 'https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (6, 'images/posts/664a75633874a.jpg');
+VALUES (6, '/images/posts/664a75633874a.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (6, 'images/posts/664a75633c5de.jpg');
+VALUES (6, '/images/posts/664a75633c5de.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (6, 'images/posts/664a756340197.jpg');
+VALUES (6, '/images/posts/664a756340197.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (7, 'images/posts/664a767ee867f.jpg');
+VALUES (7, '/images/posts/664a767ee867f.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (7, 'images/posts/664a767eec822.jpg');
+VALUES (7, '/images/posts/664a767eec822.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (8, 'images/posts/664a76ed37cf6.jpg');
+VALUES (8, '/images/posts/664a76ed37cf6.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (8, 'images/posts/664a76ed3c31e.jpg');
+VALUES (8, '/images/posts/664a76ed3c31e.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (9, 'images/posts/664a777c09ed7.jpg');
+VALUES (9, '/images/posts/664a777c09ed7.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (9, 'images/posts/664a777c0e906.jpg');
+VALUES (9, '/images/posts/664a777c0e906.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (10, 'images/posts/664a780e20a33.jpg');
+VALUES (10, '/images/posts/664a780e20a33.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (10, 'images/posts/664a780e241db.jpg');
+VALUES (10, '/images/posts/664a780e241db.jpg');
