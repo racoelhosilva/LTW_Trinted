@@ -7,13 +7,14 @@
 }
 
 #settings-page section {
-    width: 30vw;
+    width: 40vw;
 }
 
 #settings-page h2 {
     font-size: 36px;
     font-weight: 800;
     color: var(--primary);
+    text-align: center;
 }
 
 .information-field {
@@ -36,18 +37,20 @@
 	color: var(--light);
 	background-color: var(--lighter);
 	border: 1px solid var(--primary);
+    margin: 1em 0;
 }
 
 /* Responsive UI */
 
 @media screen and (max-width: 1200px) {
     #settings-page section {
-        width: 50vw;
+        width: 60vw;
     }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 600px) {
     #settings-page section {
         width: 80vw;
     }
 }
+

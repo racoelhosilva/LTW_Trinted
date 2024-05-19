@@ -15,8 +15,8 @@ require_once __DIR__ . '/../actions/utils.php';
             $user = User::getUserByID($db, $contact['sender']);
             ?>
             <li class="contact-side" data-user-id="<?= $user->getId() ?>">
-                <img src="<?= $user->getProfilePicture()->getUrl() ?>" width="40" height="40" class="avatar contact-avatar">
-                <?= $user->getName() ?>
+                <img src="<?= $user->getProfilePicture()->getUrl() ?>" class="avatar contact-avatar">
+                <h1><?= $user->getName() ?></h1>
             </li>            
         <?php
         }
