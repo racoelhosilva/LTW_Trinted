@@ -27,7 +27,6 @@ document.addEventListener("click", function (event) {
 });
 function banUser(userId) {
     postData("api/ban_user.php", { user_id: userId }).then(response => response.json()).then(json => {
-        console.log(json.message);
         if (json.status === "success") {
             setBannedButtons();
             sendToastMessage(json.message, "success");
@@ -39,7 +38,6 @@ function banUser(userId) {
 }
 function unbanUser(userId) {
     postData("api/unban_user.php", { user_id: userId }).then(response => response.json()).then(json => {
-        console.log(json.message);
         if (json.status === "success") {
             setUnbannedButtons();
             sendToastMessage(json.message, "success");
@@ -51,7 +49,6 @@ function unbanUser(userId) {
 }
 function makeUserAdmin(userId) {
     postData("api/make_admin.php", { user_id: userId }).then(response => response.json()).then(json => {
-        console.log(json.message);
         if (json.status == "success") {
             setAdminButton();
             sendToastMessage(json.message, "success");

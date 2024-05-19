@@ -13,7 +13,7 @@ if ($request->getMethod() != 'POST') {
     die(header("Location: /login?login-error=Invalid request method"));
 }
 
-if ($request->verifyCsrf()) {
+if (!$request->verifyCsrf()) {
     die(header("Location: /login?login-error=CSRF token is invalid"));
 }
 

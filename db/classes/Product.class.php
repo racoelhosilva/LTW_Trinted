@@ -322,7 +322,7 @@ class Product
         $stmt->bindParam(":paymentId", $paymentId);
         $stmt->bindParam(":productId", $productId);
         $stmt->execute();
-        $this->payment = Payment::getPaymentById($db, $paymentId);
+        $this->payment = Payment::getPaymentById($db, (int)$paymentId);
     }
 
     public function delete(PDO $db): void {

@@ -7,7 +7,6 @@ require_once __DIR__ . '/../template/common.tpl.php';
 ?>
 
 <?php function drawLoginPageContent(Request $request) { ?>
-    <?php $csrfToken = $request->getSession()->getCsrf(); ?>
     <main id="login-page">
         <div class="loginscreen">
             <div class="welcometext">
@@ -15,8 +14,8 @@ require_once __DIR__ . '/../template/common.tpl.php';
                 <h1 class="title">TRINTED</h1>
             </div>
             <div class="forms">
-                <?php drawLoginForm($csrfToken); ?>
-                <?php drawRegisterForm($csrfToken); ?>
+                <?php drawLoginForm($request); ?>
+                <?php drawRegisterForm($request); ?>
             </div>
         </div>
     </main>

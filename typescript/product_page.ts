@@ -83,7 +83,6 @@ if (cartButton) {
   getCart()
     .then(json => {
       const cart: Array<{ [key: string]: any }> = json.cart;
-      console.log(cart);
 
       itemSelected = cart.map(item => item.id).includes(productId);
       updateCartButtonText(cartButton, itemSelected);

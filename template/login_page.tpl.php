@@ -31,9 +31,9 @@ declare(strict_types=1); ?>
                 <input type="submit" value="Login">
             </form>
         </div>
-        <?php if (isset($_GET['login-error'])) { ?>
+        <?php if ($request->get('login-error') != null) { ?>
             <script>
-                alert("<?= $_GET['login-error'] ?>")
+                alert("<?= $request->get('login-error') ?>")
             </script>
         <?php }  ?>
     </div>

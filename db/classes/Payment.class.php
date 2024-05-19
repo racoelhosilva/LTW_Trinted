@@ -81,7 +81,10 @@ class Payment {
     }
 
     public function upload(PDO $db): void {
-        $stmt = $db->prepare("INSERT INTO Payment (subtotal, shipping, firstName, lastName, email, phone, address, zipCode, town, country, paymentDatetime) VALUES (:subtotal, :shipping, :firstName, :lastName, :email, :phone, :address, :zipCode, :town, :country, :paymentDatetime)");
+        $buyer = $this->buyer->getId();
+
+        $stmt = $db->prepare("INSERT INTO Payment (subtotal, shipping, firstName, lastName, email, phone, address, zipCode, town, country, paymentDatetime, buyer)
+            VALUES (:subtotal, :shipping, :firstName, :lastName, :email, :phone, :address, :zipCode, :town, :country, :paymentDatetime, :buyer)");
         $stmt->bindParam(":subtotal", $this->subtotal);
         $stmt->bindParam(":shipping", $this->shipping);
         $stmt->bindParam(":firstName", $this->firstName);
@@ -93,6 +96,7 @@ class Payment {
         $stmt->bindParam(":town", $this->town);
         $stmt->bindParam(":country", $this->country);
         $stmt->bindParam(":paymentDatetime", $this->paymentDatetime);
+        $stmt->bindParam(":buyer", $buyer);
         $stmt->execute();
         $stmt = $db->prepare("SELECT last_insert_rowid()");
         $stmt->execute();

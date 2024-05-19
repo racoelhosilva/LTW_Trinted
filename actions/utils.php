@@ -28,9 +28,13 @@ function dateFormat(int $datetime): string {
 }
 
 function setCart(array $cart, Request $request): void {
-    $request->setCookie('cart', $cart);
+    $request->setCookie('cart', array_map(function ($item) {
+        return $item->getId();
+    }, $cart));
 }
 
-function getCart(Request $request): array {
-    return $request->cookie('cart', []);
+function getCart(Request $request, PDO $db): array {
+    return array_map(function ($id) use ($db) {
+        return Product::getProductByID($db, (int)$id);
+    }, $request->cookie('cart', []));
 }

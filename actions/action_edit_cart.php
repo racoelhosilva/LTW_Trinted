@@ -7,21 +7,21 @@ require_once __DIR__ . '/../rest_api/utils.php';
 require_once __DIR__ . '/utils.php';
 
 function addToCart(Product $product, Request $request, PDO $db): void {
-    $cart = getCart($request);
-    foreach ($cart as $cart_item) {
-        if ($cart_item['id'] == $product->getId()) {
+    $cart = getCart($request, $db);
+    foreach ($cart as $cartProduct) {
+        if ($cartProduct->getId() == $product->getId()) {
             return;
         }
     }
 
-    $cart[] = parseProduct($product, $request, $db);
+    $cart[] = $product;
     setCart($cart, $request);
 }
 
-function removeFromCart(Product $product, Request $request): void {
-    $cart = getCart($request);
-    foreach ($cart as $index => $cart_item) {
-        if ($cart_item['id'] == $product->getId()) {
+function removeFromCart(Product $product, Request $request, PDO $db): void {
+    $cart = getCart($request, $db);
+    foreach ($cart as $index => $cartProduct) {
+        if ($cartProduct->getId() == $product->getId()) {
             array_splice($cart, $index, 1);
             setCart($cart, $request);
             return;
@@ -31,6 +31,8 @@ function removeFromCart(Product $product, Request $request): void {
 
 $request = new Request();
 $db = getDatabaseConnection();
+
+header('Content-Type: application/json');
 
 if (!$request->paramsExist(['product-id', 'remove']))
     sendMissingFields();
@@ -49,7 +51,7 @@ try {
     if (!$remove)
         addToCart($product, $request, $db);
     else
-        removeFromCart($product, $request);
+        removeFromCart($product, $request, $db);
 } catch (Exception $e) {
     error_log($e->getMessage());
     sendInternalServerError();
