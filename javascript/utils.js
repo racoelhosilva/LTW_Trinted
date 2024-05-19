@@ -21,7 +21,7 @@ function getData(url) {
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function* () {
         return fetch(url, {
-            method: 'post',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
@@ -32,7 +32,7 @@ function postData(url, data) {
 function putData(url, data) {
     return __awaiter(this, void 0, void 0, function* () {
         return fetch(url, {
-            method: 'put',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
@@ -43,7 +43,7 @@ function putData(url, data) {
 function patchData(url, data) {
     return __awaiter(this, void 0, void 0, function* () {
         return fetch(url, {
-            method: 'patch',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
@@ -54,7 +54,7 @@ function patchData(url, data) {
 function deleteData(url, data) {
     return __awaiter(this, void 0, void 0, function* () {
         return fetch(url, {
-            method: 'delete',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },

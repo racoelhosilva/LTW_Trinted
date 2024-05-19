@@ -360,13 +360,24 @@ function createUser(Request $request, PDO $db): User
     $name = $request->post('name');
     $password = $request->post('password');
     $type = 'buyer';
-    if ($request->files('profilePicture') != null) {
-        $profilePicture = uploadImages($request, $request->files('profilePicture'), $db, 'profile')[0];
-    } else {
-        $profilePicture = new Image('https://wallpapers.com/images/high/basic-default-pfp-pxi77qv5o0zuz8j3.webp');
-    }
+    $profilePicture = new Image('https://wallpapers.com/images/high/basic-default-pfp-pxi77qv5o0zuz8j3.webp');
     
     $user = new User(null, $email, $name, $password, time(), $profilePicture, $type);
+    $user->hashPassword();
+    $user->upload($db);
+
+    return $user;
+}
+
+function createUserWithId(Request $request, PDO $db, int $userId): User
+{
+    $email = $request->put('email');
+    $name = $request->put('name');
+    $password = $request->put('password');
+    $type = 'buyer';
+    $profilePicture = new Image($request->put('profile_picture'));
+    
+    $user = new User($userId, $email, $name, $password, time(), $profilePicture, $type);
     $user->hashPassword();
     $user->upload($db);
 
@@ -379,11 +390,13 @@ function updateUser(User $user, Request $request, PDO $db): void {
     $password = $request->put('password');
     $type = $request->put('type');
     $isBanned = $request->put('is_banned');
+    $profilePicture = $request->put('profile_picture');
 
     $user->setEmail($db, $email);
     $user->setName($db, $name);
     $user->setPassword($db, $password);
     $user->setType($db, $type);
+    $user->setProfilePicture($db, new Image($profilePicture));
     if ($isBanned !== null) {
         if ($isBanned === "true") {
             $user->ban($db);
@@ -401,11 +414,13 @@ function modifyUser(User $user, Request $request, PDO $db): void {
     $type = $request->patch('type');
     if (!in_array($request->patch('type'), ['buyer', 'seller', 'admin'])) $type = null;
     $isBanned = $request->patch('is_banned');
+    $profilePicture = $request->patch('profile_picture');
 
     if ($email) $user->setEmail($db, $email);
     if ($name) $user->setName($db, $name);
     if ($password) $user->setPassword($db, $password);
     if ($type) $user->setType($db, $type);
+    if ($profilePicture) $user->setProfilePicture($db, new Image($profilePicture));
     if ($isBanned !== null) {
         if ($isBanned === "true") {
             $user->ban($db);

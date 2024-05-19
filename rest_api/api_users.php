@@ -55,7 +55,7 @@ switch ($method) {
                 sendInternalServerError();
             }
 
-            sendCreated(['links' => getUserLinks($user)]);
+            sendCreated(['links' => getUserLinks($user, $request)]);
         } else {
             sendNotFound();
         }
@@ -64,35 +64,49 @@ switch ($method) {
         if (preg_match('/^\/api\/user\/(\d+)\/?$/', $endpoint, $matches)) {
             $userId = (int)$matches[1];
             $user = User::getUserById($db, $userId);
-            if ($user == null)
-                sendNotFound();
 
-            if (!$request->paramsExist(['email', 'name', 'password', 'type']))
-                sendMissingFields();
-            if (!filter_var($request->put('email'), FILTER_VALIDATE_EMAIL))
-                sendBadRequest('Invalid email format');
-            if (!in_array($request->put('type'), ['buyer', 'seller', 'admin']))
-                sendBadRequest('Invalid user type');
+            if ($user != null) {
+                if (!$request->paramsExist(['email', 'name', 'password', 'type', 'profile_picture']))
+                    sendMissingFields();
+                if (!filter_var($request->put('email'), FILTER_VALIDATE_EMAIL))
+                    sendBadRequest('Invalid email format');
+                if (!in_array($request->put('type'), ['buyer', 'seller', 'admin']))
+                    sendBadRequest('Invalid user type');
 
-            if (!$request->verifyCsrf())
-                sendCrsfMismatch();
+                if (!$request->verifyCsrf())
+                    sendCrsfMismatch();
 
-            $sessionUser = getSessionUser($request);
-            if ($sessionUser['id'] != $user->getId() && $sessionUser['type'] != 'admin')
-                sendUnauthorized('User must be admin to update other users');
-            if ($sessionUser['type'] != 'admin' && userIsBeingPrivileged($user, $request->put('type'), $request))
-                sendForbidden('User cannot be privileged by non-admin');
-            if ($request->put('is_banned') != null && $sessionUser['type'] != 'admin')
-                sendForbidden('User must be admin to ban users');
+                $sessionUser = getSessionUser($request);
+                if ($sessionUser['id'] != $user->getId() && $sessionUser['type'] != 'admin')
+                    sendUnauthorized('User must be admin to update other users');
+                if ($sessionUser['type'] != 'admin' && userIsBeingPrivileged($user, $request->put('type'), $request))
+                    sendForbidden('User cannot be privileged by non-admin');
+                if ($request->put('is_banned') != null && $sessionUser['type'] != 'admin')
+                    sendForbidden('User must be admin to ban users');
 
-            try {
-                updateUser($user, $request, $db);
-            } catch (PDOException $e) {
-                error_log($e->getMessage());
-                sendInternalServerError();
+                try {
+                    updateUser($user, $request, $db);
+                } catch (PDOException $e) {
+                    error_log($e->getMessage());
+                    sendInternalServerError();
+                }
+
+                sendOk(['links' => getUserLinks($user, $request)]);
+            } else {
+                if (!$request->paramsExist(['email', 'name', 'password', 'profile_picture']))
+                    sendMissingFields();
+                if (!filter_var($request->put('email'), FILTER_VALIDATE_EMAIL))
+                    sendBadRequest('Invalid email format');
+
+                try {
+                    $user = createUserWithId($request, $db, $userId);
+                } catch (PDOException $e) {
+                    error_log($e->getMessage());
+                    sendInternalServerError();
+                }
+
+                sendCreated(['links' => getUserLinks($user, $request)]);
             }
-
-            sendOk(['links' => getUserLinks($user)]);
         } else {
             sendNotFound();
         }
@@ -120,7 +134,7 @@ switch ($method) {
                 sendInternalServerError();
             }
 
-            sendOk(['links' => getUserLinks($user)]);
+            sendOk(['links' => getUserLinks($user, $request)]);
         } else {
             sendNotFound();
         }

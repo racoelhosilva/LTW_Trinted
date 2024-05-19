@@ -10,7 +10,7 @@ async function getData(url: string): Promise<Response> {
 
 async function postData(url: string, data: Object): Promise<Response> {
   return fetch(url, {
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -20,7 +20,7 @@ async function postData(url: string, data: Object): Promise<Response> {
 
 async function putData(url: string, data: Object): Promise<Response> {
   return fetch(url, {
-    method: 'put',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -30,7 +30,7 @@ async function putData(url: string, data: Object): Promise<Response> {
 
 async function patchData(url: string, data: Object): Promise<Response> {
   return fetch(url, {
-    method: 'patch',
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -40,7 +40,7 @@ async function patchData(url: string, data: Object): Promise<Response> {
 
 async function deleteData(url: string, data: Object): Promise<Response> {
   return fetch(url, {
-    method: 'delete',
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
