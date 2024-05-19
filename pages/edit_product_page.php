@@ -1,25 +1,21 @@
 <?php
 declare(strict_types = 1);
 
-include_once('template/main_header.tpl.php');
-include_once('template/common.tpl.php');
-include_once('pages/404_page.php');
-include_once('db/classes/Brand.class.php');
-include_once('db/classes/Post.class.php');
-include_once('db/classes/Category.class.php');
-include_once('db/classes/Condition.class.php');
-include_once('db/classes/Size.class.php');
+require_once __DIR__ . '/../template/main_header.tpl.php';
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../pages/404_page.php';
+require_once __DIR__ . '/../framework/Controller.php';
 ?>
 
 <?php function drawEditProductPageContent(Request $request) { 
     $db = new PDO("sqlite:" . DB_PATH);
-    $post = Post::getPostByID($db, intval($request->get('id')));
+    $product = Product::getProductByID($db, intval($request->get('id')));
     if (!isset($post)) {
         draw404PageContent();
         return;
     }
 
-    if ($request->session('user_id') != $post->seller->id &&$request->session('type') != 'admin') {
+    if ($request->session('user_id') != $product->getSeller()->getId() && $request->session('user')['type'] != 'admin') {
         draw404PageContent();
         return;
     }
@@ -30,17 +26,17 @@ include_once('db/classes/Size.class.php');
             <h2>Edit product</h2>
             <div class="information-field">
                 <h3>Product Name</h3>
-                <input type="text" id="product-name" name="product-name" value="<?= $post->title ?>" placeholder="Product Name" required>
+                <input type="text" id="product-name" name="product-name" value="<?= $product->getTitle() ?>" placeholder="Product Name" required>
             </div>
             <div class="information-field">
                 <h3>Product Description</h3>
                 <input type="text" id="product-description" name="product-description" 
-                value="<?= $post->description ?>" placeholder="Product Description" required>
+                value="<?= $post->getDescription() ?>" placeholder="Product Description" required>
             </div>
             <div class="information-field">
                 <h3>Target Price</h3>
                 <input type="text" id="target-price" name="target-price" 
-                value="<?= $post->price ?>" placeholder="Target Price" required>
+                value="<?= $post->getPrice() ?>" placeholder="Target Price" required>
             </div>
 
             <div class="information-field">
@@ -57,7 +53,7 @@ include_once('db/classes/Size.class.php');
                     <?php
                         $brands = Brand::getAll($db);
                         foreach ($brands as $brand) { ?>
-                            <option value="<?= $brand->name ?>"><?= $brand->name ?></option>
+                            <option value="<?= $brand->getName() ?>"><?= $brand->getName() ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -68,7 +64,7 @@ include_once('db/classes/Size.class.php');
                     <?php
                     $categories = Category::getAll($db);
                     foreach ($categories as $category) { ?>
-                        <option value="<?= $category->category ?>"> <?= $category->category ?> </option>
+                        <option value="<?= $category->getCategory() ?>"> <?= $category->getCategory() ?> </option>
                     <?php } ?>
                 </select>
             </div>
@@ -79,7 +75,7 @@ include_once('db/classes/Size.class.php');
                     <?php
                     $conditions = Condition::getAll($db);
                     foreach ($conditions as $condition) { ?>
-                        <option value="<?= $condition->condition ?>"> <?= $condition->condition ?> </option>
+                        <option value="<?= $condition->getCondition() ?>"> <?= $condition->getCondition() ?> </option>
                     <?php } ?>
                 </select>
             </div>
@@ -90,7 +86,7 @@ include_once('db/classes/Size.class.php');
                     <?php
                     $sizes = Size::getAll($db);
                     foreach ($sizes as $size) { ?>
-                        <option value="<?= $size->size ?>"> <?= $size->size ?> </option>
+                        <option value="<?= $size->getSize() ?>"> <?= $size->getSize() ?> </option>
                     <?php } ?>
                 </select>
             </div>
@@ -104,8 +100,8 @@ include_once('db/classes/Size.class.php');
 <?php function drawEditProductPage(Request $request)
 {
     createPage(function () use (&$request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawEditProductPageContent($request);
         drawFooter();
-    });
+    }, $request);
 } ?>

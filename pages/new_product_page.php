@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-include_once('template/main_header.tpl.php');
-include_once('template/common.tpl.php');
-include_once('db/classes/Brand.class.php');
-include_once('db/classes/Category.class.php');
-include_once('db/classes/Condition.class.php');
-include_once('db/classes/Size.class.php');
+require_once __DIR__ . '/../template/main_header.tpl.php';
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../db/classes/Brand.class.php';
+require_once __DIR__ . '/../db/classes/Category.class.php';
+require_once __DIR__ . '/../db/classes/Condition.class.php';
+require_once __DIR__ . '/../db/classes/Size.class.php';
 ?>
 
 <?php function drawNewProductPageContent() { 
@@ -88,8 +88,8 @@ include_once('db/classes/Size.class.php');
 <?php } ?>
 
 <?php function drawNewProductPage(Request $request) {
-    createPage(function () {
-        drawMainHeader();
+    createPage(function () use (&$request) {
+        drawMainHeader($request);
         drawNewProductPageContent();
         drawFooter();
     }, $request);

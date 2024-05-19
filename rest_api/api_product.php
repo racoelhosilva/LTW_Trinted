@@ -133,8 +133,6 @@ switch ($method) {
                 sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
-            if (!in_array($user['type'], ['admin', 'seller']))
-                sendForbidden('User must be seller or admin to create a product');
             if (!$request->paramsExist(['title', 'description', 'price']))
                 sendMissingFields();
             if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT))
@@ -145,7 +143,10 @@ switch ($method) {
 
             try {
                 $user = User::getUserByID($db, $user['id']);
+                if ($user->getType() === 'buyer')
+                    $user->setType($db, 'seller');
                 $product = createProduct($request, $user, $db);
+                
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 sendInternalServerError();
