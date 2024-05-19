@@ -10,14 +10,14 @@
 
 #### Cloning the project
 
-```shell
+```sh
 git clone https://github.com/FEUP-LTW-2024/ltw-project-2024-ltw15g02
 git checkout final-delivery-v1
 ```
 
 #### Running the project (without script)
 
-```shell
+```sh
 sqlite3 db/database.db < db/create.sql
 sqlite3 db/database.db < db/populate.sql
 tsc
@@ -27,7 +27,7 @@ xdg-open localhost:9000
 
 #### Running the project (with script)
 
-```shell
+```sh
 ./run.sh
 ```
 
@@ -77,7 +77,7 @@ We have been careful with the following security aspects:
 - [X] **Cross-Site Scripting (XSS)**
 - [X] **Cross-Site Request Forgery (CSRF)**
 
-**Password Storage Mechanism**: PHP password_hash and password_verify
+**Password Storage Mechanism**: PHP **password_hash** and **password_verify**
 
 **Aditional Requirements**:
 
