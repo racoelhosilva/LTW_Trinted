@@ -33,67 +33,63 @@ require_once __DIR__ . '/../framework/Autoload.php';
         <section id="dashboard-details">
             <h2>Details Information</h2>
             <div class="listable-detail-section">
-                <div class="detailed-card">
+                <div class="detailed-card" id="brands-card">
                         <?php $brands = Brand::getAll($db); ?>
                         <h3>
                         Brands <span class="detail-count"><?= sizeof($brands) ?></span>
                     </h3>
                     <ul>
-                    <?php
-                    foreach ($brands as $brand) { ?>
-                        <li> <?= $brand->getName() ?> </li>
+                        <?php foreach ($brands as $brand) { ?>
+                            <li> <?= $brand->getName() ?> </li>
                         <?php } ?>
                     </ul>
-                    <form id="new-brand">
-                        <input type="text" class="new-detail" name="new-brand" placeholder="Write here...">
+                    <form>
+                        <input type="text" class="new-detail" name="new-brand" aria-label="new-brand" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
                     </form>
                 </div>
-                <div class="detailed-card">
+                <div class="detailed-card" id="categories-card">
                     <?php $categories = Category::getAll($db); ?>
                     <h3>
                         Categories <span class="detail-count"><?= sizeof($categories) ?></span>
                     </h3>
                     <ul>
-                        <?php
-                    foreach ($categories as $category) { ?>
-                        <li> <?= $category->getName() ?> </li>
-                    <?php } ?>
+                        <?php foreach ($categories as $category) { ?>
+                            <li> <?= $category->getName() ?> </li>
+                        <?php } ?>
                     </ul>
-                    <form id="new-category">
-                        <input type="text" class="new-detail" name="new-category" placeholder="Write here...">
+                    <form>
+                        <input type="text" class="new-detail" name="new-category" aria-label="new-category" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
                     </form>
                 </div>
-                <div class="detailed-card">
+                <div class="detailed-card" id="conditions-card">
                     <?php $conditions = Condition::getAll($db); ?>
                     <h3>
                         Conditions <span class="detail-count"><?= sizeof($conditions) ?></span>
                     </h3>
                     <ul>
-                        <?php
-                    foreach ($conditions as $condition) { ?>
-                        <li> <?= $condition->getName() ?> </li>
+                        <?php foreach ($conditions as $condition) { ?>
+                            <li> <?= $condition->getName() ?> </li>
                         <?php } ?>
                     </ul>
-                    <form id="new-condition">
-                        <input type="text" class="new-detail" name="new-condition" placeholder="Write here...">
+                    <form>
+                        <input type="text" class="new-detail" name="new-condition" aria-label="new-condition" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
                     </form>
                 </div>
-                <div class="detailed-card">
+                <div class="detailed-card" id="sizes-card">
                     <?php $sizes = Size::getAll($db); ?>
                     <h3>
                         Sizes <span class="detail-count"><?= sizeof($sizes) ?></span>
                     </h3>
                     <ul>
-                        <?php
-                    foreach ($sizes as $size) { ?>
-                        <li> <?= $size->getName() ?> </li>
+                        <?php foreach ($sizes as $size) { ?>
+                            <li> <?= $size->getName() ?> </li>
                         <?php } ?>
                     </ul>
-                    <form id="new-size">
-                        <input type="text" class="new-detail" name="new-size" placeholder="Write here...">
+                    <form>
+                        <input type="text" class="new-detail" name="new-size" aria-label="new-size" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
                     </form>
                 </div>
