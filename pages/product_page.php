@@ -8,6 +8,7 @@ require_once __DIR__ . '/../template/profile_page.tpl.php';
 require_once __DIR__ . '/../template/shipping_form_page.tpl.php';
 require_once __DIR__ . '/404_page.php';
 require_once __DIR__ . '/../framework/Autoload.php';
+require_once __DIR__ . '/../rest_api/utils.php';
 ?>
 
 <?php function drawProductPageContent(Request $request, int $productId)
@@ -22,11 +23,11 @@ require_once __DIR__ . '/../framework/Autoload.php';
 
     if (is_null($product->getPayment())){ ?>
         <main id="product-page">
-            <?php drawProductPhotos($product); ?>
+            <?php drawProductPhotos($product, $request); ?>
             <?php drawProductInfo($product); ?>
-            <?php drawRelatedProductsSection($product); ?>
+            <?php drawRelatedProductsSection($product, $request); ?>
         </main>
-    <?php } elseif ($request->session('user_id') == $product->getSeller()->getId()) { ?>
+    <?php } elseif (getSessionUser($request)['id'] == $product->getSeller()->getId()) { ?>
         <main id="shipping-form">
             <?php 
                 drawShippingForm($product); 

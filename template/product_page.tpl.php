@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/common.tpl.php';
 require_once __DIR__ . '/product.tpl.php';
+require_once __DIR__ . '/../rest_api/utils.php';
 ?>
 
-<?php function drawProductPhotos(Product $product)
+<?php function drawProductPhotos(Product $product, Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $images = $product->getAllImages($db);
@@ -18,8 +19,8 @@ require_once __DIR__ . '/product.tpl.php';
                 <span class="material-symbols-outlined photo-badge">circle</span>
             <?php } ?>
         </div>
-        <?php if (isset($_SESSION['user']['id']) && $_SESSION['user']['id'] != $product->getSeller()->getId()) {
-            drawLikeButton(User::getUserByID($db, (int)$_SESSION['user']['id'])->isInWishlist($db, $product), $product->getId());
+        <?php if (isLoggedIn($request) && $request->session('user')['id'] != $product->getSeller()->getId()) {
+            drawLikeButton(User::getUserByID($db, (int)$request->session('user')['id'])->isInWishlist($db, $product), $product->getId());
         } ?>
         <?php foreach ($images as $image) { ?>
             <img src="<?= $image->getUrl() ?>" class="product-photo">
@@ -27,7 +28,7 @@ require_once __DIR__ . '/product.tpl.php';
     </div>
 <?php } ?>
 
-<?php function drawRelatedProductsSection(Product $product)
+<?php function drawRelatedProductsSection(Product $product, Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $productsByCategory = $product->getCategory() ? Product::getProductsByCategory($db, $product->getCategory()) : [];
@@ -46,7 +47,7 @@ require_once __DIR__ . '/product.tpl.php';
         return $p->getId() != $product->getId();
     });
     ?>
-    <?php drawProductSection($products, "Related Products (" . count($products) . ")"); ?>
+    <?php drawProductSection($products, $request,  "Related Products (" . count($products) . ")"); ?>
 <?php } ?>
 
 
@@ -87,5 +88,5 @@ require_once __DIR__ . '/product.tpl.php';
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $products = Product::getNProducts($db, 10);
-    drawProductSection($products, "Related Products (" . count($products) . ")");
+    drawProductSection($products, $request, "Related Products (" . count($products) . ")");
 } ?>

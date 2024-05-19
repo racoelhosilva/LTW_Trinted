@@ -122,7 +122,6 @@ function fetchOldMessages(dest) {
             .then(response => response.json())
             .then(json => {
             if (json.success) {
-                console.log(json.messages);
                 return json.messages;
             }
             else {

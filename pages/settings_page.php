@@ -8,7 +8,7 @@ require_once __DIR__ . '/../framework/Autoload.php';
 <?php function drawSettingsPageContent(Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
-    $user = User::getUserByID($db, $request->session('user')['id']);
+    $user = User::getUserByID($db, getSessionUser($request)['id']);
     ?>
 
     <main id="settings-page">

@@ -3,13 +3,13 @@
 require_once __DIR__ . '/../actions/utils.php';
 ?>
 
-<?php function drawContactSection() { ?>
+<?php function drawContactSection(Request $request) { ?>
     <section id="contacts">
         <h1>Recent contacts</h1>
         <ul>
         <?php
         $db = new PDO("sqlite:" . DB_PATH);
-        $contacts = Message::getRecentContacts($db, User::getUserByID($db, $_SESSION['user']['id']));
+        $contacts = Message::getRecentContacts($db, User::getUserByID($db, getSessionUser($request)['id']));
 
         foreach ($contacts as $contact) { 
             $user = User::getUserByID($db, $contact['sender']);
@@ -26,29 +26,27 @@ require_once __DIR__ . '/../actions/utils.php';
 <?php } ?>
 
 
-<?php function drawChatSection() { ?>
+<?php function drawChatSection(Request $request) { ?>
     <section id="chat">
-    <?php 
-        if (isset($_GET['id'])) {
-        $otherUserID = (int)$_GET['id'];
-        $db = new PDO("sqlite:" . DB_PATH);
-        $otherUser = User::getUserByID($db, $otherUserID); 
-    ?>
+        <?php 
+        if ($request->get('id') != null) {
+            $otherUserID = (int)$request->get('id');
+            $db = new PDO("sqlite:" . DB_PATH);
+            $otherUser = User::getUserByID($db, $otherUserID); 
+        ?>
         <div id="contact">
             <a href="/profile/<?= $otherUser->getId() ?>">
                 <img src="<?= $otherUser->getProfilePicture()->getUrl() ?>" class="avatar">
             </a>
             <?= $otherUser->getName() ?>
         </div>
-
         <div id="messages">
             <?php
-            $db = new PDO("sqlite:" . DB_PATH);
-            $messages = Message::getMessages($db, User::getUserByID($db, $_SESSION['user']['id']), $otherUser, PHP_INT_MAX);      
+            $messages = Message::getMessages($db, User::getUserByID($db, getSessionUser($request)['id']), $otherUser, PHP_INT_MAX);      
 
             foreach ($messages as $message) {
                 $timeDiff = dateFormat($message->getDatetime());
-                if ($message->getSender()->getId() == $_SESSION['user']['id']) {?>
+                if ($message->getSender()->getId() == getSessionUser($request)['id']) {?>
                     <div class="message user1" data-message-id="<?= $message->getId() ?>">
                         <p><?= $message->getContent() ?></p>
                         <p><?= $timeDiff ?></p>
@@ -60,13 +58,12 @@ require_once __DIR__ . '/../actions/utils.php';
                     </div>
                 <?php }
             } 
-        ?>
+            ?>
         </div>
         <?php } else { ?>
             <div id="contact"></div> 
             <div id="messages"></div>
         <?php } ?>
-
 
         <div id="writemessage">
             <input type="text" id="newmessage" name="newmessage" placeholder="Type your text here...">

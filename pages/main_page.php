@@ -11,7 +11,7 @@ require_once __DIR__ . '/../template/product.tpl.php';
 { ?>
     <main>
         <?php drawWelcomeBanner(); ?>
-        <?php drawHomeProductsSection(); ?>
+        <?php drawHomeProductsSection($request); ?>
     </main>
 <?php } ?>
 
@@ -26,9 +26,9 @@ function drawMainPage(Request $request)
 }
 ?>
 
-<?php function drawHomeProductsSection()
+<?php function drawHomeProductsSection(Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $products = Product::getNProducts($db, 15);
-    drawProductSection($products, "Explore new items");
+    drawProductSection($products, $request, "Explore new items");
 } ?>

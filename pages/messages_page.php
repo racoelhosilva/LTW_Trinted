@@ -5,18 +5,18 @@ require_once __DIR__ . '/../template/common.tpl.php';
 require_once __DIR__ . '/../template/message_page.tpl.php';
 ?>
 
-<?php function drawMessagePageContent() { ?>
+<?php function drawMessagePageContent(Request $request) { ?>
     <main id="message-box">
-    <?php drawContactSection()?>
-    <?php drawChatSection()?>
+    <?php drawContactSection($request)?>
+    <?php drawChatSection($request)?>
     </main>
 <?php } ?>
 
 <?php 
 function drawMessagePage(Request $request) {
-    createPage(function () {
+    createPage(function () use ($request) {
         drawMainHeader();
-        drawMessagePageContent();
+        drawMessagePageContent($request);
         drawFooter();
     }, $request);
 }

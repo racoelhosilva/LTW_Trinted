@@ -34,10 +34,10 @@ require_once __DIR__ . '/product.tpl.php';
     </div>
 <?php } ?>
 
-<?php function drawUserButtons(User $user)
+<?php function drawUserButtons(Request $request, User $user)
 { ?>
     <div id="user-buttons">
-        <?php if ($_SESSION['user']['id'] == $user->getId()){ ?>
+        <?php if (getSessionUser($request)['id'] == $user->getId()){ ?>
             <form method="post" action="/actions/action_logout.php">
                 <button type="submit" class="red-button" id="logout-button">Logout</button>
             </form>
@@ -48,7 +48,7 @@ require_once __DIR__ . '/product.tpl.php';
             </button>
 
             <?php
-            if ($_SESSION['user']['type'] == 'admin' && $user->getType() != 'admin') {
+            if (getSessionUser($request)['type'] == 'admin' && $user->getType() != 'admin') {
 
                 if (!$user->isBanned(new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db'))) { ?>
                     <button type="submit" class="blue-button" id="make-admin-button">Make Admin</button>
@@ -67,23 +67,23 @@ require_once __DIR__ . '/product.tpl.php';
     </div> <?php
 }?>
 
-<?php function drawUserProductSection(User $user)
+<?php function drawUserProductSection(User $user, Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $products = $user->getUserProducts($db);
-    drawProductSection($products, "Products by the seller" . (count($products) != 0 ? " (" . count($products) . ")" : ""));
+    drawProductSection($products, $request, "Products by the seller" . (count($products) != 0 ? " (" . count($products) . ")" : ""));
 } ?>
 
-<?php function drawWishlist(User $user)
+<?php function drawWishlist(User $user, Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $wishlist = $user->getWishlist($db);
-    drawProductSection($wishlist, "Wishlist");
+    drawProductSection($wishlist, $request, "Wishlist");
 } ?>
 
-<?php function drawSoldItems(User $user)
+<?php function drawSoldItems(User $user, Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $posts = $user->getSoldItems($db);
-    drawProductSection($posts, "Products sold" . (count($posts) != 0 ? " (" . count($posts) . ")" : ""));
+    drawProductSection($posts, $request, "Products sold" . (count($posts) != 0 ? " (" . count($posts) . ")" : ""));
 } ?>

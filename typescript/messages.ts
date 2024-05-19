@@ -121,7 +121,6 @@ async function fetchOldMessages(dest: any) {
         .then(response => response.json())
         .then(json => {
             if (json.success) {
-                console.log(json.messages);
                 return json.messages;
             } else {
                 sendToastMessage('Could not load messages, try again later', 'error');

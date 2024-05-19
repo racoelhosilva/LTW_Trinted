@@ -36,11 +36,11 @@ function searchProducts(PDO $db, string $search, Request $request): array {
     return $products;
 }
 
-function getFilters(): array {
+function getFilters(Request $request): array {
     global $filterTypes;
     $filters = [];
     foreach ($filterTypes as $filterType) {
-        $filters[$filterType] = $_GET[$filterType] ?? [];
+        $filters[$filterType] = $request->get($filterType, []);
     }
     return $filters;
 }
@@ -89,7 +89,7 @@ try {
     $start = (int)$request->get('start', 0);
     $limit = (int)$request->get('limit', PHP_INT_MAX);
 
-    $filters = getFilters();
+    $filters = getFilters($request);
 
     if (!$count) {
         $products = searchProducts($db, $query, $request);

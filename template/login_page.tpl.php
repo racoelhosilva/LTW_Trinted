@@ -54,9 +54,9 @@ declare(strict_types=1); ?>
                 <input type="submit" value="Register">
             </form>
         </div>
-        <?php if (isset($_GET['register-error'])) { ?>
+        <?php if ($request->get('register-error') != null) { ?>
             <script>
-                alert("<?= $_GET['register-error'] ?>")
+                alert("<?= $request->get('register-error') ?>")
             </script>
         <?php }  ?>
     </div>

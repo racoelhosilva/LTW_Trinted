@@ -214,8 +214,6 @@ function likeButtonOnClick(event, likeButtonInput, productId, userId, csrfToken)
     return __awaiter(this, void 0, void 0, function* () {
         event.preventDefault();
         event.stopPropagation();
-        console.log(event.target);
-        console.log(likeButtonInput.checked);
         const response = !likeButtonInput.checked ? addToWishlist(productId, userId, csrfToken) : removeFromWishlist(productId, userId, csrfToken);
         response.then((result) => {
             if (result)
@@ -244,7 +242,6 @@ function drawProductCard(product) {
             const likeButton = drawLikeButton();
             const likeButtonInput = likeButton.querySelector('input');
             if (likeButtonInput && loggedInUserId) {
-                console.log(product);
                 likeButtonInput.checked = product['in-wishlist'];
                 likeButton.addEventListener('click', (event) => likeButtonOnClick(event, likeButtonInput, product.id, loggedInUserId, getCsrfToken()));
             }

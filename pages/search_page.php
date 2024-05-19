@@ -10,7 +10,7 @@ require_once __DIR__ . '/../template/search_page.tpl.php';
     <main id="search-page">
         <?php drawSearchDrawer(); ?>
         <section id="search-results">
-            <?php drawSearchedProducts(); ?>
+            <?php drawSearchedProducts($request); ?>
         </section>
     </main>
 <?php } ?>

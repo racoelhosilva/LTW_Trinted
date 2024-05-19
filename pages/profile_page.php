@@ -7,7 +7,7 @@ require_once __DIR__ . '/../template/profile_page.tpl.php';
 require_once __DIR__ . '/404_page.php';
 ?>
 
-<?php function drawProfilePageContent(int $userId)
+<?php function drawProfilePageContent(Request $request, int $userId)
 { ?>
     <?php
     $db = new PDO("sqlite:" . DB_PATH);
@@ -23,13 +23,13 @@ require_once __DIR__ . '/404_page.php';
         <section id="profile-section">
             <?php drawProfileImage($profilePictureUrl) ?>
             <?php drawUserInfo($user); ?>
-            <?php drawUserButtons($user); ?>
+            <?php drawUserButtons($request, $user); ?>
         </section>
         <?php if (in_array($user->getType(), ['seller', 'admin']))
-            drawUserProductSection($user); ?>
-        <?php if ($_SESSION['user']['id'] == $user->getId()) {
-            drawWishlist($user);
-            drawSoldItems($user);
+            drawUserProductSection($user, $request); ?>
+        <?php if (getSessionUser($request)['id'] == $user->getId()) {
+            drawWishlist($user, $request);
+            drawSoldItems($user, $request);
         } ?>
     </main>
     <?php } ?>
@@ -37,9 +37,9 @@ require_once __DIR__ . '/404_page.php';
     <?php
 function drawProfilePage(Request $request, int $userId)
 {
-    createPage(function () use ($userId) {
+    createPage(function () use (&$request, $userId) {
         drawMainHeader();
-        drawProfilePageContent($userId);
+        drawProfilePageContent($request, $userId);
         drawFooter();
     }, $request);
 }

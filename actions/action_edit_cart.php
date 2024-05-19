@@ -36,7 +36,7 @@ header('Content-Type: application/json');
 
 if (!$request->paramsExist(['product-id', 'remove']))
     sendMissingFields();
-if (!in_array($_POST['remove'], ['true', 'false']))
+if (!in_array($request->post('remove'), ['true', 'false']))
     sendBadRequest('Invalid remove flag');
 
 if (!$request->verifyCsrf())

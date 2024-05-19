@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/main_header.tpl.php';
 require_once __DIR__ . '/product.tpl.php';
+require_once __DIR__ . '/../rest_api/utils.php';
 ?>
 
 <?php function createPage(callable $buildContent, Request $request)
@@ -97,9 +98,10 @@ require_once __DIR__ . '/product.tpl.php';
     <div class="spinner"><div></div></div>
 <?php } ?>
 
-<?php function drawProductSection(array $products, string $title, string $emptyMessage = "No products here") { ?>
+<?php function drawProductSection(array $products, Request $request, string $title, string $emptyMessage = "No products here") { ?>
     <?php
-        $loggedInUser = isset($_SESSION['user']['id']) ? User::getUserByID(new PDO("sqlite:" . DB_PATH), $_SESSION['user']['id']) : null;
+        $db = new PDO("sqlite:" . DB_PATH);
+        $loggedInUser = isLoggedIn($request) ? User::getUserByID($db, $request->session('user')['id']) : null;
     ?>
     <section id="product-section">
         <h1><?= $title ?></h1>
