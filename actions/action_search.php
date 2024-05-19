@@ -22,7 +22,7 @@ function searchProducts(PDO $db, string $search, Request $request): array {
         OR seller IN (SELECT id
             FROM User
             WHERE name LIKE :search)
-        ORDER BY publishDatetime;';
+        ORDER BY publishDatetime ASC;';
     
     $stmt = $db->prepare($query);
     $stmt->bindValue(':search', '%' . $search . '%');

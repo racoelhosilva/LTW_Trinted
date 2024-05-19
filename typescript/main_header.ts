@@ -2,7 +2,7 @@ const profileButton = document.getElementById('person');
 
 if (profileButton) {
     profileButton.addEventListener('click', () => {
-        document.location.assign('/actions/go_to_profile.php');
+        document.location.assign('/profile');
     })
 }
 

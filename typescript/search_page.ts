@@ -1,18 +1,18 @@
-function updateProducts(
+async function updateProducts(
     products: Array<{[key: string]: string}>,
     numResults: number,
     searchedProducts: HTMLElement,
-): void {
+): Promise<void> {
     searchedProducts.innerHTML = '';
 
     const productSectionTitle = document.createElement('h1');
     productSectionTitle.innerHTML = numResults === 0 ? 'No results found' : `Found ${numResults} results`;
     searchedProducts.appendChild(productSectionTitle);
 
-    products.forEach(async (product: {[key: string]: string}) => {
-        const productCard = drawProductCard(product);
-        searchedProducts.appendChild(await productCard);
-    });
+    for (const product of products) {
+        const productCard = await drawProductCard(product);
+        searchedProducts.appendChild(productCard);
+    }
 }
 
 async function performSearch(searchQuery: string, filters: Array<string>, start: number, limit: number): Promise<Array<{[key: string]: string}>> {

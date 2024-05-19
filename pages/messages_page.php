@@ -18,6 +18,6 @@ function drawMessagePage(Request $request) {
         drawMainHeader();
         drawMessagePageContent();
         drawFooter();
-    });
+    }, $request);
 }
 ?>

@@ -61,12 +61,12 @@ $path = parse_url($request_uri, PHP_URL_PATH);
 [ , $location, $args[] ] = explode('/', $path);
 $route = $routes['/' . $location] ?? null;
 
+// Create the Request object associated
+$request = new Request();
+
 if ($route) {
     // Select which controller and action to load
     list($controllerName, $actionName) = explode('@', $route['controller']);
-
-    // Create the Request object associated
-    $request = new Request();
 
     // Process the middleware chain (if it exists)
     foreach ($route['middlewares'] as $middleware) {
@@ -81,5 +81,5 @@ if ($route) {
 } else {
     // Display 404 page if route is not defined
     require_once __DIR__ . '/pages/404_page.php';
-    draw404Page();
+    draw404Page($request);
 }

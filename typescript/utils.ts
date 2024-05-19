@@ -18,12 +18,77 @@ async function postData(url: string, data: Object): Promise<Response> {
   });
 }
 
+async function putData(url: string, data: Object): Promise<Response> {
+  return fetch(url, {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: encodeForAjax(data),
+  });
+}
+
+async function patchData(url: string, data: Object): Promise<Response> {
+  return fetch(url, {
+    method: 'patch',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: encodeForAjax(data),
+  });
+}
+
+async function deleteData(url: string, data: Object): Promise<Response> {
+  return fetch(url, {
+    method: 'delete',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: encodeForAjax(data),
+  });
+}
+
 function convertToObject(formData: FormData): {[key: string]: any} {
   let object: {[key: string]: any} = {};
   formData.forEach((value, key) => {
     object[key] = value;
   });
   return object;
+}
+
+const getLoggedInUserId = (function () {
+  let userId: string | null = null;
+  
+  return async function (): Promise<string | null> {
+    if (userId !== null)
+      return userId;
+    
+    return getData('../actions/action_current_user.php')
+      .then(response => response.json())
+      .then(json => {
+        if (json.success) {
+          userId = json['user-id'];
+          return json['user-id'];
+        } else {
+          sendToastMessage('User not logged in', 'error');
+          return null;
+        }
+      })
+      .catch(error => {
+        sendToastMessage('An unexpected error occurred', 'error');
+        console.error(error);
+        return null;
+      });
+  }
+})();
+
+function getCsrfToken(): string {
+  const csrfTokenElement = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]');
+  if (!csrfTokenElement) {
+    sendToastMessage('CSRF token not found', 'error');
+    return '';
+  }
+  return csrfTokenElement.content;
 }
 
 const sendToastMessage = (function () {
@@ -105,11 +170,53 @@ function getProductImages(productId: number): Promise<string[]> {
     });
 }
 
+async function addToWishlist(productId: string, userId: string, csrfToken: string): Promise<boolean> {
+	return postData(`../api/wishlist/${userId}/`, {'product': productId, 'csrf': csrfToken})
+		.then(response => response.json())
+		.then(json => {
+			if (json.success) {
+				return true;
+			} else {
+				sendToastMessage(json.error == 'User not logged in' ? 'User not logged in' : "Could not add item to wishlist", "error");
+				console.error(json.error);
+				return false;
+			}
+		})
+		.catch(error => {
+			sendToastMessage("An unexpected error occurred", "error");
+			console.error(error);
+			return false
+		});
+}
 
+async function removeFromWishlist(productId: string, sellerId: string, csrfToken: string): Promise<boolean> {
+	return deleteData(`../api/wishlist/${sellerId}/${productId}/`, {'csrf': csrfToken})
+		.then(response => response.json())
+		.then(json => {
+			if (json.success) {
+				return true;
+			} else {
+				sendToastMessage(json.error == 'User not logged in' ? 'User not logged in' : "Could not remove item from wishlist", "error");
+				console.error(json.error);
+				return false;
+			}
+		})
+		.catch(error => {
+			sendToastMessage("An unexpected error occurred", "error");
+			console.error(error);
+			return false;
+		});
+}
 
-function onLikeButtonClick(event: Event): void {
-  event.stopPropagation();
-  return;
+async function likeButtonOnClick(event: Event, likeButtonInput: HTMLInputElement, productId: string, userId: string, csrfToken: string): Promise<void> {
+	event.preventDefault();
+	event.stopPropagation();
+  console.log(event.target);
+  console.log(likeButtonInput.checked);
+	const response = !likeButtonInput.checked ? addToWishlist(productId, userId, csrfToken) : removeFromWishlist(productId, userId, csrfToken);
+	response.then((result) => {
+		if (result) likeButtonInput.checked = !likeButtonInput.checked;
+	});
 }
 
 async function drawProductCard(product: {[key: string]: any}): Promise<HTMLElement> {
@@ -129,13 +236,23 @@ async function drawProductCard(product: {[key: string]: any}): Promise<HTMLEleme
   productPrice.classList.add('price');
   productPrice.innerHTML = product.price;
 
-  const likeButton = drawLikeButton();
-  likeButton.addEventListener('click', onLikeButtonClick);
-
   productCard.appendChild(productImage);
   productCard.appendChild(productTitle);
   productCard.appendChild(productPrice);
-  productCard.appendChild(likeButton);
+
+  const loggedInUserId = await getLoggedInUserId();
+  if (loggedInUserId !== null && product.seller !== loggedInUserId) {
+    const likeButton = drawLikeButton();
+    const likeButtonInput = likeButton.querySelector('input');
+
+    if (likeButtonInput && loggedInUserId) {
+      console.log(product);
+      likeButtonInput.checked = product['in-wishlist'];
+      likeButton.addEventListener('click', (event) => likeButtonOnClick(event, likeButtonInput, product.id, loggedInUserId, getCsrfToken()));
+    }
+
+    productCard.appendChild(likeButton);
+  }
 
   return productCard;
 }

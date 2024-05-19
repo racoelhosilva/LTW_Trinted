@@ -12,10 +12,10 @@ require_once __DIR__ . '/../template/common.tpl.php';
     </main>
 <?php } ?>
 
-<?php function draw404Page() {
+<?php function draw404Page(Request $request) {
     createPage(function () {
         drawMainHeader();
         draw404PageContent();
         drawFooter();
-    });
+    }, $request);
 } ?>

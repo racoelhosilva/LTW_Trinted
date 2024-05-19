@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 ?>
-<?php function drawLikeButton(bool $checked)
+<?php function drawLikeButton(bool $checked, int $productId)
 { ?>
-    <div class="like-button">
+    <div class="like-button" data-product-id="<?= $productId ?>">
         <label class="material-symbols-outlined">
             <input type="checkbox" <?php if ($checked) echo 'checked'; ?>>
             favorite_border
@@ -21,7 +21,7 @@ declare(strict_types=1);
         <h1><?= $product->getTitle() ?></h1>
         <p class="price"><?= $product->getPrice() ?></p>
         <?php if (isset($loggedInUser) && $loggedInUser->getId() != $product->getSeller()->getId()) {
-            drawLikeButton($loggedInUser->isInWishlist($db, $product));
+            drawLikeButton($loggedInUser->isInWishlist($db, $product), $product->getId());
         } ?>
     </div>
 <?php } ?>

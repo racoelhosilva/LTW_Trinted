@@ -26,5 +26,5 @@ function drawAboutPage(Request $request) {
         drawMainHeader();
         drawAboutPageContent();
         drawFooter();
-    });
+    }, $request);
 } ?>

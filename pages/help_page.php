@@ -36,5 +36,5 @@ function drawHelpPage(Request $request) {
         drawMainHeader();
         drawHelpPageContent($request);
         drawFooter();
-    });
+    }, $request);
 } ?>

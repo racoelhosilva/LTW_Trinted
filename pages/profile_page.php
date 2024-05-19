@@ -41,6 +41,6 @@ function drawProfilePage(Request $request, int $userId)
         drawMainHeader();
         drawProfilePageContent($userId);
         drawFooter();
-    });
+    }, $request);
 }
 ?>

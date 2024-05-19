@@ -5,7 +5,7 @@ require_once __DIR__ . '/common.tpl.php';
 require_once __DIR__ . '/product.tpl.php';
 ?>
 
-<?php function drawSearchedProducts(array $products, int $page) {
+<?php function drawSearchedProducts() {
     drawProductSection([], "No results found");
 } ?>
 

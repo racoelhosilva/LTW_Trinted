@@ -6,13 +6,15 @@ require_once __DIR__ . '/main_header.tpl.php';
 require_once __DIR__ . '/product.tpl.php';
 ?>
 
-<?php function createPage(callable $buildContent)
+<?php function createPage(callable $buildContent, Request $request)
 { ?>
+    <?php $csrfToken = $request->getSession()->getCsrf(); ?>
     <!DOCTYPE html>
     <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="csrf-token" content="<?= htmlspecialchars($csrfToken) ?>">
             <link rel="icon" href="/icon/logo.ico">
             <link rel="stylesheet" href="/css/styles.css">
             <link rel="stylesheet" href="/css/main_header.css">
@@ -34,8 +36,8 @@ require_once __DIR__ . '/product.tpl.php';
             <link rel="stylesheet" href="/css/banned_page.css">
             <link rel="stylesheet" href="/css/shipping_form_page.css">
             <script src="/javascript/utils.js" defer></script>
-            <script src="/javascript/product_page.js" defer></script>
             <script src="/javascript/product.js" defer></script>
+            <script src="/javascript/product_page.js" defer></script>
             <script src="/javascript/main_page.js" defer></script>
             <script src="/javascript/main_header.js" defer></script>
             <script src="/javascript/checkout_page.js" defer></script>

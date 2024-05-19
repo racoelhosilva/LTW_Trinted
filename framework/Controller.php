@@ -38,12 +38,17 @@ class Controller {
      */
     public function profile(array $args) {
         require_once __DIR__ . '/../pages/profile_page.php';
-        return drawProfilePage($this->request, $args[0]);
+
+        if (empty($args[0])) {
+            $sessionUser = $this->request->getSession()->get('user');
+            return drawProfilePage($this->request, (int)$sessionUser['id']);
+        }
+        return drawProfilePage($this->request, (int)$args[0]);
     }
 
     public function banned(array $args) {
         require_once __DIR__ . '/../pages/banned_page.php';
-        return drawBannedPage();
+        return drawBannedPage($this->request);
     }
 
     /**

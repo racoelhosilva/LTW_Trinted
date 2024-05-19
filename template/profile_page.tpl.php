@@ -61,7 +61,7 @@ require_once __DIR__ . '/product.tpl.php';
 
         if ($user->getType() == "admin") { ?>
             <!-- User is admin -->
-        <button disabled class="blue-button" id="is-admin-button">User is <?php echo $user->getType() ?></button>
+            <button disabled class="blue-button" id="is-admin-button">User is <?php echo $user->getType() ?></button>
         <?php } ?>
 
     </div> <?php

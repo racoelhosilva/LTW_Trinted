@@ -22,7 +22,7 @@ require_once __DIR__ . '/../db/classes/Product.class.php';
             <p><?= $product->getSize()->getName() ?> - <?= $product->getCondition()->getName() ?></p>
         </div>
         <div>
-            <p>$<?= $product->getPrice() ?></h1>
+            <p>$<?= $product->getPrice() ?></>
             <p class="num-items">2</p>
         </div>
     </div>
@@ -52,7 +52,7 @@ require_once __DIR__ . '/../db/classes/Product.class.php';
 <?php function drawCheckoutForm(string $csrfToken) { ?>
     <section id="checkout-form">
         <h1>Shipping Information</h1>
-        <form id="checkout-info-form" action="actions/action_pay.php" method="post">
+        <form id="checkout-info-form" action="/actions/action_pay.php" method="post">
             <input type="hidden" name="shipping" value="0.00">
             <input type="hidden" name="csrf" value="<?= $csrfToken ?>">
             <div>
@@ -73,5 +73,10 @@ require_once __DIR__ . '/../db/classes/Product.class.php';
             </div>
         </form>
     </section>
+<?php } ?>
+
+<?php function drawEmptyCart() { ?>
+    <h1 id="checkout-message">No items in the cart</h1>
+    <i class="material-symbols-outlined" id="shopping-cart-icon">shopping_cart</i>
 <?php } ?>
 

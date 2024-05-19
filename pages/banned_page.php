@@ -17,11 +17,11 @@ require_once __DIR__ . 'template/common.tpl.php';
     </main>
 <?php } ?>
 
-<?php function drawBannedPage()
+<?php function drawBannedPage(Request $request)
 {
     createPage(function () {
         drawMainHeader();
         drawBannedPageContent();
         drawFooter();
-    });
+    }, $request);
 } ?>

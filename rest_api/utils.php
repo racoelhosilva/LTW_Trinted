@@ -107,9 +107,13 @@ function getProductLinks(Product $product, Request $request): array
             'href' => $request->getServerHost() . '/api/user/' . $product->getSeller()->getId() . '/',
         ],
         [
+            'rel' => 'brands',
+            'href' => $request->getServerHost() . '/api/product/' . $product->getId() . '/brands/',
+        ],
+        [
             'rel' => 'images',
             'href' => $request->getServerHost() . '/api/product/' . $product->getId() . '/images/',
-        ]
+        ],
     ];
 }
 
@@ -121,6 +125,7 @@ function parseProduct(Product $product, Request $request, PDO $db): array
         'description' => $product->getDescription(),
         'price' => $product->getPrice(),
         'publish-datetime' => $product->getPublishDatetime(),
+        'seller' => $product->getSeller()->getId(),
         'category' => $product->getCategory()?->getName(),
         'size' => $product->getSize()?->getName(),
         'condition' => $product->getCondition()?->getName(),

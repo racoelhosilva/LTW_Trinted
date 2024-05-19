@@ -46,4 +46,4 @@ $request->getSession()->set('user', [
     'type' => $user->getType(),
 ]);
 
-die(header("Location: /actions/go_to_profile.php?id=" . $user->getId()));
+die(header("Location: /profile?id=" . $user->getId()));

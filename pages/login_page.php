@@ -26,5 +26,5 @@ require_once __DIR__ . '/../template/common.tpl.php';
         drawLoginHeader();
         drawLoginPageContent($request);
         drawFooter();
-    });
+    }, $request);
 } ?>

@@ -8,63 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-function addToWishlist(productId) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return postData("../actions/action_edit_wishlist.php", { 'product-id': productId, remove: false })
-            .then(response => response.json())
-            .then(json => {
-            if (json.success) {
-                return true;
-            }
-            else {
-                sendToastMessage(json.error == 'User not logged in' ? 'User not logged in' : "Could not add item to wishlist", "error");
-                console.error(json.error);
-                return false;
-            }
-        })
-            .catch(error => {
-            sendToastMessage("An unexpected error occurred", "error");
-            console.error(error);
-            return false;
-        });
-    });
-}
-function removeFromWishlist(productId) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return postData("../actions/action_edit_wishlist.php", { 'product-id': productId, remove: true })
-            .then(response => response.json())
-            .then(json => {
-            if (json.success) {
-                return true;
-            }
-            else {
-                sendToastMessage(json.error == 'User not logged in' ? 'User not logged in' : "Could not remove item from wishlist", "error");
-                console.error(json.error);
-                return false;
-            }
-        })
-            .catch(error => {
-            sendToastMessage("An unexpected error occurred", "error");
-            console.error(error);
-            return false;
-        });
-    });
-}
 const productCards = document.querySelectorAll(".product-card");
-productCards.forEach((productCard) => {
-    var _a;
+const likeButtons = document.querySelectorAll(".like-button");
+productCards.forEach((productCard) => __awaiter(void 0, void 0, void 0, function* () {
     productCard.addEventListener("click", () => goToProduct(productCard.dataset.productId));
-    let likeButton = productCard.querySelector(".like-button");
+}));
+likeButtons.forEach((likeButton) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     let likeButtonInput = (_a = likeButton === null || likeButton === void 0 ? void 0 : likeButton.querySelector("input")) !== null && _a !== void 0 ? _a : null;
-    if (!likeButton || !likeButtonInput || !productCard.dataset.productId)
+    const productId = likeButton.dataset.productId;
+    const loggedInUserId = yield getLoggedInUserId();
+    if (!likeButtonInput || !productId || !loggedInUserId)
         return;
-    likeButton.addEventListener("click", (event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        const response = !likeButtonInput.checked ? addToWishlist(productCard.dataset.productId) : removeFromWishlist(productCard.dataset.productId);
-        response.then((result) => {
-            if (result)
-                likeButtonInput.checked = !likeButtonInput.checked;
-        });
-    });
-});
+    likeButton.addEventListener("click", (event) => __awaiter(void 0, void 0, void 0, function* () { return yield likeButtonOnClick(event, likeButtonInput, productId, loggedInUserId, getCsrfToken()); }));
+}));

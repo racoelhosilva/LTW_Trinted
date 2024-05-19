@@ -10,14 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var _a, _b, _c;
 function updateProducts(products, numResults, searchedProducts) {
-    searchedProducts.innerHTML = '';
-    const productSectionTitle = document.createElement('h1');
-    productSectionTitle.innerHTML = numResults === 0 ? 'No results found' : `Found ${numResults} results`;
-    searchedProducts.appendChild(productSectionTitle);
-    products.forEach((product) => __awaiter(this, void 0, void 0, function* () {
-        const productCard = drawProductCard(product);
-        searchedProducts.appendChild(yield productCard);
-    }));
+    return __awaiter(this, void 0, void 0, function* () {
+        searchedProducts.innerHTML = '';
+        const productSectionTitle = document.createElement('h1');
+        productSectionTitle.innerHTML = numResults === 0 ? 'No results found' : `Found ${numResults} results`;
+        searchedProducts.appendChild(productSectionTitle);
+        for (const product of products) {
+            const productCard = yield drawProductCard(product);
+            searchedProducts.appendChild(productCard);
+        }
+    });
 }
 function performSearch(searchQuery, filters, start, limit) {
     return __awaiter(this, void 0, void 0, function* () {

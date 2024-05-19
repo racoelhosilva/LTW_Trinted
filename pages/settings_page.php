@@ -49,5 +49,5 @@ function drawSettingsPage(Request $request)
         drawMainHeader();
         drawSettingsPageContent($request);
         drawFooter();
-    });
+    }, $request);
 } ?>

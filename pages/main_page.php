@@ -7,7 +7,7 @@ require_once __DIR__ . '/../template/main_page.tpl.php';
 require_once __DIR__ . '/../template/product.tpl.php';
 ?>
 
-<?php function drawMainPageContent()
+<?php function drawMainPageContent(Request $request)
 { ?>
     <main>
         <?php drawWelcomeBanner(); ?>
@@ -18,11 +18,11 @@ require_once __DIR__ . '/../template/product.tpl.php';
 <?php
 function drawMainPage(Request $request)
 {
-    createPage(function () {
+    createPage(function () use ($request) {
         drawMainHeader();
-        drawMainPageContent();
+        drawMainPageContent($request);
         drawFooter();
-    });
+    }, $request);
 }
 ?>
 

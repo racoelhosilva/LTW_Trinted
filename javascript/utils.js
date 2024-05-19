@@ -29,12 +29,79 @@ function postData(url, data) {
         });
     });
 }
+function putData(url, data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return fetch(url, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: encodeForAjax(data),
+        });
+    });
+}
+function patchData(url, data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return fetch(url, {
+            method: 'patch',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: encodeForAjax(data),
+        });
+    });
+}
+function deleteData(url, data) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return fetch(url, {
+            method: 'delete',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: encodeForAjax(data),
+        });
+    });
+}
 function convertToObject(formData) {
     let object = {};
     formData.forEach((value, key) => {
         object[key] = value;
     });
     return object;
+}
+const getLoggedInUserId = (function () {
+    let userId = null;
+    return function () {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (userId !== null)
+                return userId;
+            return getData('../actions/action_current_user.php')
+                .then(response => response.json())
+                .then(json => {
+                if (json.success) {
+                    userId = json['user-id'];
+                    return json['user-id'];
+                }
+                else {
+                    sendToastMessage('User not logged in', 'error');
+                    return null;
+                }
+            })
+                .catch(error => {
+                sendToastMessage('An unexpected error occurred', 'error');
+                console.error(error);
+                return null;
+            });
+        });
+    };
+})();
+function getCsrfToken() {
+    const csrfTokenElement = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfTokenElement) {
+        sendToastMessage('CSRF token not found', 'error');
+        return '';
+    }
+    return csrfTokenElement.content;
 }
 const sendToastMessage = (function () {
     let timer;
@@ -101,9 +168,60 @@ function getProductImages(productId) {
         return [];
     });
 }
-function onLikeButtonClick(event) {
-    event.stopPropagation();
-    return;
+function addToWishlist(productId, userId, csrfToken) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return postData(`../api/wishlist/${userId}/`, { 'product': productId, 'csrf': csrfToken })
+            .then(response => response.json())
+            .then(json => {
+            if (json.success) {
+                return true;
+            }
+            else {
+                sendToastMessage(json.error == 'User not logged in' ? 'User not logged in' : "Could not add item to wishlist", "error");
+                console.error(json.error);
+                return false;
+            }
+        })
+            .catch(error => {
+            sendToastMessage("An unexpected error occurred", "error");
+            console.error(error);
+            return false;
+        });
+    });
+}
+function removeFromWishlist(productId, sellerId, csrfToken) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return deleteData(`../api/wishlist/${sellerId}/${productId}/`, { 'csrf': csrfToken })
+            .then(response => response.json())
+            .then(json => {
+            if (json.success) {
+                return true;
+            }
+            else {
+                sendToastMessage(json.error == 'User not logged in' ? 'User not logged in' : "Could not remove item from wishlist", "error");
+                console.error(json.error);
+                return false;
+            }
+        })
+            .catch(error => {
+            sendToastMessage("An unexpected error occurred", "error");
+            console.error(error);
+            return false;
+        });
+    });
+}
+function likeButtonOnClick(event, likeButtonInput, productId, userId, csrfToken) {
+    return __awaiter(this, void 0, void 0, function* () {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log(event.target);
+        console.log(likeButtonInput.checked);
+        const response = !likeButtonInput.checked ? addToWishlist(productId, userId, csrfToken) : removeFromWishlist(productId, userId, csrfToken);
+        response.then((result) => {
+            if (result)
+                likeButtonInput.checked = !likeButtonInput.checked;
+        });
+    });
 }
 function drawProductCard(product) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -118,12 +236,20 @@ function drawProductCard(product) {
         const productPrice = document.createElement('p');
         productPrice.classList.add('price');
         productPrice.innerHTML = product.price;
-        const likeButton = drawLikeButton();
-        likeButton.addEventListener('click', onLikeButtonClick);
         productCard.appendChild(productImage);
         productCard.appendChild(productTitle);
         productCard.appendChild(productPrice);
-        productCard.appendChild(likeButton);
+        const loggedInUserId = yield getLoggedInUserId();
+        if (loggedInUserId !== null && product.seller !== loggedInUserId) {
+            const likeButton = drawLikeButton();
+            const likeButtonInput = likeButton.querySelector('input');
+            if (likeButtonInput && loggedInUserId) {
+                console.log(product);
+                likeButtonInput.checked = product['in-wishlist'];
+                likeButton.addEventListener('click', (event) => likeButtonOnClick(event, likeButtonInput, product.id, loggedInUserId, getCsrfToken()));
+            }
+            productCard.appendChild(likeButton);
+        }
         return productCard;
     });
 }
