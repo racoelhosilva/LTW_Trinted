@@ -38,7 +38,7 @@ require_once __DIR__ . '/product.tpl.php';
 { ?>
     <div id="user-buttons">
         <?php if ($_SESSION['user']['id'] == $user->getId()){ ?>
-            <form method="post" action="/actions/logout.php">
+            <form method="post" action="/actions/action_logout.php">
                 <button type="submit" class="red-button" id="logout-button">Logout</button>
             </form>
         <?php } else { ?>

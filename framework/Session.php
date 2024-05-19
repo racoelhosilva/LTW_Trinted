@@ -31,6 +31,7 @@ class Session {
     }
 
     public function destroy() {
+        session_unset();
         session_destroy();
     }
 }
