@@ -49,7 +49,7 @@ VALUES ('https://i.ibb.co/7SDQjf8/ae83d24e3101503ae176fa79b8416272.png');
 INSERT INTO Image (url)
 VALUES ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf86hwNJhBnREMUwWlvVpOCfTm8li5gmA&s');
 INSERT INTO Image (url)
-VALUES ('https://www.redcarpet-fashionawards.com/wp-content/uploads/2023/03/Ana-de-Armas.jpeg');
+VALUES ('https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1676971858/741057_Z8BGE_4910_011_100_0000_Light-Cotton-poplin-midi-dress.jpg');
 INSERT INTO Image (url)
 VALUES ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s');
 INSERT INTO Image (url)
@@ -302,7 +302,7 @@ INSERT INTO ProductImage (product, image)
 VALUES (1,
         'https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg');
 INSERT INTO ProductImage (product, image)
-VALUES (2, 'https://www.redcarpet-fashionawards.com/wp-content/uploads/2023/03/Ana-de-Armas.jpeg');
+VALUES (2, 'https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1676971858/741057_Z8BGE_4910_011_100_0000_Light-Cotton-poplin-midi-dress.jpg');
 INSERT INTO ProductImage (product, image)
 VALUES (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s');
 INSERT INTO ProductImage (product, image)
