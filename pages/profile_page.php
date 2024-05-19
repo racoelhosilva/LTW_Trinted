@@ -17,7 +17,7 @@ include_once('pages/404_page.php');
         return;
     }
 
-    $profilePictureUrl = $user->getProfilePicture()->url;
+    $profilePictureUrl = $user->getProfilePicture()->getUrl();
     ?>
     <main id="profile-page">
         <section id="profile-section">

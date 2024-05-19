@@ -16,7 +16,7 @@ include_once('db/classes/Product.class.php');
 <?php function drawOrderItemCard(Product $product) { ?>
     <?php $db = new PDO("sqlite:" . DB_PATH); ?>
     <div class="order-item-card" data-product-id="<?= $product->getId() ?>">
-        <img src="<?= $product->getAllImages($db)[0]->url ?>" alt="Product Image">
+        <img src="<?= $product->getAllImages($db)[0]->getUrl() ?>" alt="Product Image">
         <div>
             <h1><?= $product->getTitle() ?></h1>
             <p><?= $product->getSize()->getName() ?> - <?= $product->getCondition()->getName() ?></p>

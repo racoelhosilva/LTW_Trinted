@@ -15,19 +15,21 @@ class ProductImage {
 
     public function upload(PDO $db){
         $productId = $this->product->getId();
+        $imageUrl = $this->image->getUrl();
 
         $stmt = $db->prepare("INSERT INTO ProductImage (product, image) VALUES (:product, :image)");
         $stmt->bindParam(":product", $productId);
-        $stmt->bindParam(":image", $this->image->url);
+        $stmt->bindParam(":image", $imageUrl);
         $stmt->execute();
     }
 
     public function delete(PDO $db): void {
         $productId = $this->product->getId();
+        $imageUrl = $this->image->getUrl();
 
         $stmt = $db->prepare("DELETE FROM ProductImage WHERE product = :product AND image = :image");
         $stmt->bindParam(":product", $productId);
-        $stmt->bindParam(":image", $this->image->url);
+        $stmt->bindParam(":image", $imageUrl);
         $stmt->execute();
     }
 }

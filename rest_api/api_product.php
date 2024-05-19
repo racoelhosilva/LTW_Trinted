@@ -103,8 +103,9 @@ switch ($method) {
 
             $images = $product->getAllImages($db);
             $images = array_map(function ($image) use ($request) {
-                return $image->url;
+                return $image->getUrl();
             }, $images);
+            
             sendOk([
                 'images' => $images,
                 'links' => [

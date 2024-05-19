@@ -321,7 +321,7 @@ function parseUser(User $user, Request $request, bool $hideSensitive = true): ar
         'type' => $user->getType(),
         'isBanned' => $user->getIsBanned(),
         'registerDatetime' => $user->getRegisterDatetime(),
-        'profilePicture' => $user->getProfilePicture()->url,
+        'profilePicture' => $user->getProfilePicture()->getUrl(),
         'links' => getUserLinks($user, $request),
     ];
 

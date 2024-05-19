@@ -15,7 +15,7 @@ include_once __DIR__ . '/../actions/utils.php';
             $user = User::getUserByID($db, $contact['sender']);
             ?>
             <li class="contact-side" data-user-id="<?= $user->getId() ?>">
-                <img src="<?= $user->getProfilePicture()->url ?>" width="40" height="40" class="avatar contact-avatar">
+                <img src="<?= $user->getProfilePicture()->getUrl() ?>" width="40" height="40" class="avatar contact-avatar">
                 <?= $user->getName() ?>
             </li>            
         <?php
@@ -36,7 +36,7 @@ include_once __DIR__ . '/../actions/utils.php';
     ?>
         <div id="contact">
             <a href="/profile?id=<?= $otherUser->getId() ?>">
-                <img src="<?= $otherUser->getProfilePicture()->url?>" width="40" height="40" class="avatar">
+                <img src="<?= $otherUser->getProfilePicture()->getUrl() ?>" class="avatar">
             </a>
             <?= $otherUser->getName() ?>
         </div>

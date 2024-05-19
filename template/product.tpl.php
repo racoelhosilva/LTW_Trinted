@@ -17,7 +17,7 @@ declare(strict_types=1);
     $db = new PDO("sqlite:" . DB_PATH);
     ?>
     <div class="product-card" data-product-id="<?= $product->getId() ?>">
-        <img src="<?= $product->getAllImages($db)[0]->url ?>" alt="<?= $product->getTitle() ?>">
+        <img src="<?= $product->getAllImages($db)[0]->getUrl() ?>" alt="<?= $product->getTitle() ?>">
         <h1><?= $product->getTitle() ?></h1>
         <p class="price"><?= $product->getPrice() ?></p>
         <?php if (isset($loggedInUser) && $loggedInUser->getId() != $product->getSeller()->getId()) {

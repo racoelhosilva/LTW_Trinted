@@ -19,7 +19,7 @@ function getCookie(string $name): mixed {
 }
 
 function getUrl(Image $img): string {
-    return $img->url;
+    return $img->getUrl();
 }
 
 function dateFormat(int $datetime): string {

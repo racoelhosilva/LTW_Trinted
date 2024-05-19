@@ -22,7 +22,7 @@ include_once('template/product.tpl.php');
             drawLikeButton(User::getUserByID($db, (int)$_SESSION['user']['id'])->isInWishlist($db, $product));
         } ?>
         <?php foreach ($images as $image) { ?>
-            <img src="<?= $image->url ?>" class="product-photo">
+            <img src="<?= $image->getUrl() ?>" class="product-photo">
         <?php } ?>
     </div>
 <?php } ?>
@@ -62,7 +62,7 @@ include_once('template/product.tpl.php');
             <h2>By <a href="/actions/go_to_profile.php?id=<?= $product->getSeller()->getId() ?>"><?= $product->getSeller()->getName() ?></a></h2>
         </div>
         <a href="/actions/go_to_profile.php?id=<?= $product->getSeller()->getId() ?>"><img alt="Profile Picture"
-                src="<?= $product->getSeller()->getProfilePicture()->url ?>" class="avatar"></a>
+                src="<?= $product->getSeller()->getProfilePicture()->getUrl() ?>" class="avatar"></a>
         <div class="details">
             <h1><?= $product->getTitle() ?></h1>
             <p class="price"><?= $product->getPrice() ?></p>

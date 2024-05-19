@@ -46,11 +46,13 @@ class User
             $stmt->bindParam(":id", $this->id);
         }
 
+        $profilePictureUrl = $this->profilePicture->getUrl();
+
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":password", $this->password);
         $stmt->bindParam(":registerDateTime", $this->registerDatetime);
-        $stmt->bindParam(":profilePicture", $this->profilePicture->url);
+        $stmt->bindParam(":profilePicture", $profilePictureUrl);
         $stmt->bindParam(":type", $this->type);
         $stmt->execute();
 
@@ -167,7 +169,7 @@ class User
 
     public function setProfilePicture(PDO $db, Image $image): void
     {
-        $imageUrl = $image->url;
+        $imageUrl = $image->getUrl();
 
         $stmt = $db->prepare("UPDATE User SET profilePicture = :profilePicture WHERE id = :id");
         $stmt->bindParam(":profilePicture", $imageUrl);
