@@ -95,7 +95,7 @@
 
 /* Responsive UI */
 
-@media (max-width: 550px) {
+@media (max-width: 650px) {
 	#main-header {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);

@@ -15,9 +15,14 @@ declare(strict_types=1); ?>
     <label for="hamburger-button" class="material-symbols-outlined">menu</label>
 <?php } ?>
 
-<?php function drawActionButtons()
+<?php function drawActionButtons(Request $request)
 { ?>
     <div id="action-buttons">
+        <?php 
+        if ($request->session('user')['type'] == 'admin'){
+            drawHeaderButton('dashboard');
+        } ?>
+
         <?php drawHeaderButton('settings'); ?>
         <?php drawHeaderButton('message'); ?>
         <?php drawHeaderButton('person'); ?>
@@ -28,15 +33,14 @@ declare(strict_types=1); ?>
 <?php function drawHeaderLogo()
 { ?>
     <a href="/">
-        <img src="svg/logo_large.svg" alt="Trinted Logo" id="header-logo">
+        <img src="/svg/logo_large.svg" alt="Trinted Logo" id="header-logo">
     </a>
 <?php } ?>
 
 <?php function drawSearchBar()
 { ?>
-    <form id="search-bar" method="get" action="search">
+    <form id="search-bar" method="get" action="/search">
         <input id="search-input" type="text" name="query" placeholder="Search items...">
-        <input type="hidden" name="page" value="1">
         <button type="submit" id="search-button">
             <span class="material-symbols-outlined">search</span>
         </button>

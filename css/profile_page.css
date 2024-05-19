@@ -93,4 +93,8 @@
   #user-buttons {
     margin: 0em 1em 0em 1em;
   }
+
+  .blue-button, .red-button {
+	font-size: 12px;
+  }
 }

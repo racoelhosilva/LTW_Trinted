@@ -1,16 +1,18 @@
 <?php
 
-include_once(__DIR__ . '/utils.php');
+require_once __DIR__ . '/utils.php';
+require_once __DIR__ . '/../rest_api/utils.php';
+require_once __DIR__ . '/../db/utils.php';
 
-session_start();
-if ($_SERVER['REQUEST_METHOD'] !== 'GET')
-    die(json_encode(['success' => false, 'error' => 'Invalid request method']));
+$request = new Request();
+$db = getDatabaseConnection();
 
-if (!isset($_GET['address']) || !isset($_GET['zip']) || !isset($_GET['town']) || !isset($_GET['country']))
-    die(json_encode(['success' => false, 'error' => 'Missing fields']));
+if ($request->getMethod() !== 'GET')
+    sendMethodNotAllowed();
 
-$town = validate($_GET['town']);
-$country = validate($_GET['country']);
+if (!$request->paramsExist(['address', 'zip', 'town', 'country']))
+    sendMissingFields();
 
-srand(crc32($town . $country));
-die(json_encode(['success' => true, 'shipping' => mt_rand(1, 40) / 2 - 0.01]));
+srand(crc32($request->get('address') . $request->get('country')));
+
+sendOk(['shipping' => mt_rand(1, 40) / 2 - 0.01]);

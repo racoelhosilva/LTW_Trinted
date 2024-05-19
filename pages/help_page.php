@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
-include_once('template/product_page.tpl.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../template/product_page.tpl.php';
 ?>
 
 <?php function drawHelpPageContent(Request $request) { ?>
@@ -33,8 +33,8 @@ include_once('template/product_page.tpl.php');
 <?php
 function drawHelpPage(Request $request) {
     createPage(function () use (&$request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawHelpPageContent($request);
         drawFooter();
-    });
+    }, $request);
 } ?>

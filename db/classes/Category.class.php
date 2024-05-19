@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 class Category
 {
-    public string $category;
-    public function __construct(string $category)
+    private string $name;
+
+    public function __construct(string $name)
     {
-        $this->category = $category;
+        $this->name = $name;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function upload(PDO $db)
     {
         $stmt = $db->prepare("INSERT INTO Category (name) VALUES (:name)");
-        $stmt->bindParam(":name", $this->category);
+        $stmt->bindParam(":name", $this->name);
         $stmt->execute();
     }
 
@@ -34,7 +40,7 @@ class Category
 
     public static function getAll(PDO $db): array
     {
-        $stmt = $db->prepare("SELECT name FROM Category");
+        $stmt = $db->prepare("SELECT name FROM Category ORDER BY name ASC");
         $stmt->execute();
         $categories = array_map(function ($category) {
             return new Category($category["name"]);

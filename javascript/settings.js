@@ -13,32 +13,93 @@ function resetFields(username, email) {
     emailField.value = email;
     newPasswordField.value = "";
     oldPasswordField.value = "";
+    fileInput.value = "";
 }
-function changeSettings(username, email, newPassword, oldPassword) {
+function verifyPassword(password) {
     return __awaiter(this, void 0, void 0, function* () {
-        return postData("../actions/change_settings.php", { username: username, email: email, old: oldPassword, new: newPassword })
-            .then(response => response.json());
+        return postData(`/actions/action_verify_password.php`, {
+            password: password,
+            csrf: getCsrfToken(),
+        })
+            .then(response => response.json())
+            .then(json => {
+            if (json.success) {
+                return json.valid;
+            }
+            else {
+                sendToastMessage('An unexpected error occurred', 'error');
+                console.error(json.error);
+                return null;
+            }
+        })
+            .catch(error => {
+            sendToastMessage('An unexpected error occurred', 'error');
+            console.error(error);
+            return null;
+        });
+    });
+}
+function changeSettings(username, email, newPassword, oldPassword, profilePicture) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let path = "";
+        if (profilePicture != null) {
+            path = (yield uploadProfilePicture(profilePicture)).path;
+        }
+        const passwordValid = yield verifyPassword(oldPassword);
+        if (passwordValid === false) {
+            sendToastMessage('Incorrect password, try again', 'error');
+            return;
+        }
+        else if (passwordValid == null) {
+            return;
+        }
+        const loggedInUserId = yield getLoggedInUserId();
+        return patchData(`/api/user/${loggedInUserId}`, {
+            name: username,
+            email: email,
+            password: newPassword,
+            profile_picture: path,
+            csrf: getCsrfToken(),
+        }).then(response => response.json());
+    });
+}
+function uploadProfilePicture(file) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // Unfortunately, here we can't use the postData function because it doesn't support the necessary headers for file uploads.
+        const formData = new FormData();
+        formData.append("subfolder", "profiles");
+        formData.append("image", file);
+        const response = yield fetch("/actions/action_upload_image.php", {
+            method: 'POST',
+            body: formData,
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to upload profile picture: ${response.statusText}`);
+        }
+        else {
+            const data = yield response.json();
+            return data;
+        }
     });
 }
 const settingsSection = document.querySelector("#account-settings");
 const changeSettingsButton = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#settings-button");
+const clearProfilePictureButton = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#clear-profile-picture");
 const usernameField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#new-username");
 const emailField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#new-email");
 const newPasswordField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#new-password");
 const oldPasswordField = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector("#old-password");
-if (settingsSection && changeSettingsButton && usernameField && emailField && newPasswordField && oldPasswordField) {
-    var username = usernameField.value;
-    var email = emailField.value;
+const fileInput = settingsSection === null || settingsSection === void 0 ? void 0 : settingsSection.querySelector('#image-input');
+if (settingsSection && changeSettingsButton && clearProfilePictureButton && usernameField && emailField && newPasswordField && oldPasswordField) {
+    let username = usernameField.value;
+    let email = emailField.value;
     changeSettingsButton.addEventListener('click', () => {
-        changeSettings(usernameField.value, emailField.value, newPasswordField.value, oldPasswordField.value)
+        changeSettings(usernameField.value, emailField.value, newPasswordField.value, oldPasswordField.value, fileInput.files[0])
             .then(json => {
             if (json.success) {
                 sendToastMessage('Profile changed successfully', 'success');
                 username = usernameField.value;
                 email = emailField.value;
-            }
-            else if (['Invalid request method', 'User not found', 'Incorrect password', 'No fields to change'].includes(json.error)) {
-                sendToastMessage(json.error, 'error');
             }
             else {
                 sendToastMessage('Could not change settings, try again later', 'error');
@@ -46,5 +107,8 @@ if (settingsSection && changeSettingsButton && usernameField && emailField && ne
             }
             resetFields(username, email);
         });
+    });
+    clearProfilePictureButton.addEventListener('click', () => {
+        fileInput.value = '';
     });
 }

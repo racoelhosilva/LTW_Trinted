@@ -1,23 +1,23 @@
 <?php
 declare(strict_types = 1);
 
-include_once('template/common.tpl.php');
-include_once('template/message_page.tpl.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../template/message_page.tpl.php';
 ?>
 
-<?php function drawMessagePageContent() { ?>
+<?php function drawMessagePageContent(Request $request) { ?>
     <main id="message-box">
-    <?php drawContactSection()?>
-    <?php drawChatSection()?>
+    <?php drawContactSection($request)?>
+    <?php drawChatSection($request)?>
     </main>
 <?php } ?>
 
 <?php 
 function drawMessagePage(Request $request) {
-    createPage(function () {
-        drawMainHeader();
-        drawMessagePageContent();
+    createPage(function () use ($request) {
+        drawMainHeader($request);
+        drawMessagePageContent($request);
         drawFooter();
-    });
+    }, $request);
 }
 ?>

@@ -1,30 +1,42 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
+require_once __DIR__ . '/../template/common.tpl.php';
 ?>
 
-<?php function drawAboutPageContent() { ?>
+<?php function drawAboutPageContent()
+{ ?>
     <main id="about-page">
         <h1>Welcome to Our Second-Hand Marketplace Platform!</h1>
         <section>
             <h2>Overview</h2>
-            <p>With Trinted, you can browse, wishlist, buy and even sell all of the second-hand products you could ever want!</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non eleifend lectus, a consequat nisl. Proin non nunc sit amet neque lobortis cursus. Donec nec pretium mauris. Nulla varius imperdiet suscipit. Ut massa turpis, luctus ac urna sed, hendrerit feugiat tellus. Morbi ut lorem porta, convallis orci quis, semper mauris. Donec dapibus ligula nibh, at venenatis neque tincidunt at. Etiam congue pulvinar magna at hendrerit. Ut consequat odio erat. Integer vel ante eget diam molestie congue a vel nisl. Donec quis urna nec dolor pulvinar tristique eget sed mauris. Duis eget scelerisque sem. Vestibulum nibh turpis, accumsan eget tempor eu, posuere eu turpis.</p>
-            <p>Morbi sed risus quis dui interdum ultricies vitae vel mauris. Nam pellentesque, dolor id varius blandit, mi urna efficitur felis, sed consectetur odio libero elementum lorem. Vivamus accumsan ut nisi vitae blandit. Aliquam diam risus, volutpat non erat posuere, ultricies suscipit metus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam sem elit, hendrerit vitae volutpat nec, vehicula et ipsum. Etiam tellus tortor, tincidunt nec odio eu, maximus accumsan ante. Fusce at facilisis arcu, non porta tortor. Nullam sodales mi id laoreet iaculis. Integer porta arcu in massa volutpat, a posuere lacus tincidunt. Nulla sodales varius rhoncus. Donec rhoncus justo placerat, auctor ante ut, vestibulum est. Sed eros diam, fringilla id libero sit amet, pellentesque tincidunt urna. Vestibulum lacinia lacus vitae leo sodales fringilla. Etiam volutpat tempor tincidunt.</p>
-            <p>Mauris ultrices orci a ultricies sollicitudin. Pellentesque quis ex id turpis convallis luctus accumsan non libero. In vel tellus id metus aliquet fermentum nec porttitor ex. Aliquam vitae bibendum lectus. Phasellus posuere augue ipsum, a malesuada neque aliquet interdum. Integer tempor mauris sit amet est dapibus, non dapibus turpis euismod. Aliquam in nibh dapibus, cursus eros non, efficitur ipsum. Phasellus mattis pretium ante et scelerisque. Nam pulvinar arcu ut tortor accumsan feugiat. Praesent lacinia sollicitudin tortor. Phasellus dictum eros commodo feugiat efficitur. Aliquam ornare sapien non sollicitudin consectetur.</p>
+            <p>With Trinted, you can browse, wishlist, buy, and even sell all the second-hand clothing you could ever
+                want!</p>
+            <p>Discover a wide variety of pre-loved fashion right at your fingertips. Whether you're looking for vintage
+                pieces, designer labels, or everyday basics at a fraction of the retail price, Trinted has it all. Our
+                platform is designed to make buying and selling second-hand clothes easy, fun, and secure.</p>
+            <p>Explore our extensive categories and find exactly what you need without breaking the bank. Our
+                user-friendly interface allows you to search for items, add them to your wishlist, and complete
+                purchases with just a few clicks. Selling your own clothing is just as simple—create a listing, upload
+                photos, and set your price in minutes.</p>
+            <p>At Trinted, we believe in the power of sustainability and giving clothes a second life. By choosing
+                second-hand fashion, you're not only saving money but also contributing to a more sustainable future.
+                Every purchase helps reduce waste and supports a community of eco-conscious shoppers and sellers.</p>
         </section>
         <footer>
-            <p>Join us today and experience the convenience of buying and selling second-hand items!</p>
+            <p>Ready to get started? Create your account now and dive into the world of second-hand fashion with
+                Trinted. Enjoy great deals, unique finds, and the satisfaction of knowing you’re making a difference.
+                Happy shopping!</p>
         </footer>
-    </main> 
+    </main>
 <?php } ?>
 
 <?php
-function drawAboutPage(Request $request) {
+function drawAboutPage(Request $request)
+{
     createPage(function () use (&$request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawAboutPageContent();
         drawFooter();
-    });
+    }, $request);
 } ?>

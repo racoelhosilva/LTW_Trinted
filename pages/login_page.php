@@ -1,11 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-include_once('template/login_page.tpl.php');
-include_once('template/common.tpl.php');
+require_once __DIR__ . '/../framework/Autoload.php';
+require_once __DIR__ . '/../template/login_page.tpl.php';
+require_once __DIR__ . '/../template/common.tpl.php';
 ?>
 
-<?php function drawLoginPageContent() { ?>
+<?php function drawLoginPageContent(Request $request) { ?>
     <main id="login-page">
         <div class="loginscreen">
             <div class="welcometext">
@@ -13,17 +14,17 @@ include_once('template/common.tpl.php');
                 <h1 class="title">TRINTED</h1>
             </div>
             <div class="forms">
-                <?php drawLoginForm(); ?>
-                <?php drawRegisterForm(); ?>
+                <?php drawLoginForm($request); ?>
+                <?php drawRegisterForm($request); ?>
             </div>
         </div>
     </main>
 <?php } ?>
 
 <?php function drawLoginPage(Request $request) {
-    createPage(function () {
+    createPage(function () use ($request) {
         drawLoginHeader();
-        drawLoginPageContent();
+        drawLoginPageContent($request);
         drawFooter();
-    });
+    }, $request);
 } ?>
