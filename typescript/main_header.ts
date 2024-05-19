@@ -22,7 +22,7 @@ if (settingsButton) {
     })
 }
 
-const messagesHeaderButton = document.getElementById('message/');
+const messagesHeaderButton = document.getElementById('message');
 
 if (messagesHeaderButton) {
     messagesHeaderButton.addEventListener('click', () => {
