@@ -5,7 +5,7 @@ if (messageButton) {
         document.location.assign(`/messages?id=${messageButton.dataset.userId}`);
     });
 }
-const idParam = (new URL(window.location.href)).searchParams.get("id");
+const idParam = window.location.pathname.split("/").pop();
 let userId;
 if (idParam == null) {
     userId = 0;
@@ -26,24 +26,24 @@ document.addEventListener("click", function (event) {
     }
 });
 function banUser(userId) {
-    postData("api/ban_user.php", { user_id: userId }).then(response => response.json()).then(json => {
-        if (json.status === "success") {
+    patchData(`/api/user/${userId}/`, { is_banned: 'true', csrf: getCsrfToken() }).then(response => response.json()).then(json => {
+        if (json.success) {
             setBannedButtons();
-            sendToastMessage(json.message, "success");
+            sendToastMessage('User banned successfully', "success");
         }
         else {
-            sendToastMessage(json.message, "error");
+            sendToastMessage(json.error, "error");
         }
     });
 }
 function unbanUser(userId) {
-    postData("api/unban_user.php", { user_id: userId }).then(response => response.json()).then(json => {
-        if (json.status === "success") {
+    patchData(`/api/user/${userId}/`, { is_banned: 'false', csrf: getCsrfToken() }).then(response => response.json()).then(json => {
+        if (json.success) {
             setUnbannedButtons();
-            sendToastMessage(json.message, "success");
+            sendToastMessage('User unbanned successfully', "success");
         }
         else {
-            sendToastMessage(json.message, "error");
+            sendToastMessage(json.error, "error");
         }
     });
 }

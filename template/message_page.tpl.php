@@ -35,7 +35,7 @@ require_once __DIR__ . '/../actions/utils.php';
         $otherUser = User::getUserByID($db, $otherUserID); 
     ?>
         <div id="contact">
-            <a href="/profile?id=<?= $otherUser->getId() ?>">
+            <a href="/profile/<?= $otherUser->getId() ?>">
                 <img src="<?= $otherUser->getProfilePicture()->getUrl() ?>" class="avatar">
             </a>
             <?= $otherUser->getName() ?>

@@ -58,9 +58,9 @@ require_once __DIR__ . '/product.tpl.php';
     <div id="product-info">
         <div>
             <h2>Published on <?= date('m/d/Y', $product->getPublishDatetime()) ?></h2>
-            <h2>By <a href="/profile?id=<?= $product->getSeller()->getId() ?>"><?= $product->getSeller()->getName() ?></a></h2>
+            <h2>By <a href="/profile/<?= $product->getSeller()->getId() ?>"><?= $product->getSeller()->getName() ?></a></h2>
         </div>
-        <a href="/profile?id=<?= $product->getSeller()->getId() ?>"><img alt="Profile Picture"
+        <a href="/profile/<?= $product->getSeller()->getId() ?>"><img alt="Profile Picture"
                 src="<?= $product->getSeller()->getProfilePicture()->getUrl() ?>" class="avatar"></a>
         <div class="details">
             <h1><?= $product->getTitle() ?></h1>
