@@ -19,7 +19,7 @@ require_once __DIR__ . '/../template/product.tpl.php';
 function drawMainPage(Request $request)
 {
     createPage(function () use ($request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawMainPageContent($request);
         drawFooter();
     }, $request);

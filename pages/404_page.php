@@ -13,8 +13,8 @@ require_once __DIR__ . '/../template/common.tpl.php';
 <?php } ?>
 
 <?php function draw404Page(Request $request) {
-    createPage(function () {
-        drawMainHeader();
+    createPage(function () use ($request) {
+        drawMainHeader($request);
         draw404PageContent();
         drawFooter();
     }, $request);

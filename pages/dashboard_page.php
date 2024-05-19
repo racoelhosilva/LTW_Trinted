@@ -1,14 +1,8 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
-include_once('db/classes/Post.class.php');
-include_once('db/classes/User.class.php');
-include_once('db/classes/Message.class.php');
-include_once('db/classes/Brand.class.php');
-include_once('db/classes/Category.class.php');
-include_once('db/classes/Condition.class.php');
-include_once('db/classes/Size.class.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../framework/Autoload.php';
 ?>
 
 <?php function drawDashboardPageContent() { 
@@ -38,9 +32,7 @@ include_once('db/classes/Size.class.php');
 
         <section id="dashboard-details">
             <h2>Details Information</h2>
-            
             <div class="listable-detail-section">
-
                 <div class="detailed-card">
                         <?php $brands = Brand::getAll($db); ?>
                         <h3>
@@ -52,10 +44,10 @@ include_once('db/classes/Size.class.php');
                         <li> <?= $brand->getName() ?> </li>
                         <?php } ?>
                     </ul>
-                    <div id="writing-space">
-                        <input type="text" class="new-detail" id="new brand" name="newbrand" placeholder="Write here...">
+                    <form id="new-brand">
+                        <input type="text" class="new-detail" name="new-brand" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
-                    </div>
+                    </form>
                 </div>
                 <div class="detailed-card">
                     <?php $categories = Category::getAll($db); ?>
@@ -68,10 +60,10 @@ include_once('db/classes/Size.class.php');
                         <li> <?= $category->getName() ?> </li>
                     <?php } ?>
                     </ul>
-                    <div id="writing-space">
-                        <input type="text" class="new-detail" id="newcategory" name="newcategory" placeholder="Write here...">
+                    <form id="new-category">
+                        <input type="text" class="new-detail" name="new-category" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
-                    </div>
+                    </form>
                 </div>
                 <div class="detailed-card">
                     <?php $conditions = Condition::getAll($db); ?>
@@ -84,10 +76,10 @@ include_once('db/classes/Size.class.php');
                         <li> <?= $condition->getName() ?> </li>
                         <?php } ?>
                     </ul>
-                    <div id="writing-space">
-                        <input type="text" class="new-detail" id="newcondition" name="newcondition" placeholder="Write here...">
+                    <form id="new-condition">
+                        <input type="text" class="new-detail" name="new-condition" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
-                    </div>
+                    </form>
                 </div>
                 <div class="detailed-card">
                     <?php $sizes = Size::getAll($db); ?>
@@ -100,11 +92,11 @@ include_once('db/classes/Size.class.php');
                         <li> <?= $size->getName() ?> </li>
                         <?php } ?>
                     </ul>
-                    <div id="writing-space">
-                        <input type="text" class="new-detail" id="newsize" name="newsize" placeholder="Write here...">
+                    <form id="new-size">
+                        <input type="text" class="new-detail" name="new-size" placeholder="Write here...">
                         <input type="button" class="sendbutton" value="Add">
-                    </div>
-                </div>        
+                    </form>
+                </div>
             </div>
         </section>
 
@@ -148,16 +140,14 @@ include_once('db/classes/Size.class.php');
                     <p>Messages</p>
                 </div>
             </div>
-            
         </section>
-
     </main> 
 <?php } ?>
 
 <?php
 function drawDashboardPage(Request $request) {
-    createPage(function () use (&$request) {
-        drawMainHeader();
+    createPage(function () use ($request) {
+        drawMainHeader($request);
         drawDashboardPageContent();
         drawFooter();
     }, $request);

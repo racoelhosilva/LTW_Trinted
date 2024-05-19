@@ -97,14 +97,14 @@
     color: var(--text);
 }
 
-#writing-space {
+form {
     display: flex;
     column-gap: 0.5em;
     justify-content: center;
     align-items:center;
 }
 
-#writing-space input {
+form input {
 	padding: 0.5em;
 	background-color: var(--background-primary);
     border: 1px solid var(--halftone);
@@ -113,11 +113,11 @@
     color: var(--text);
 }
 
-#writing-space .newdetail {
+form .newdetail {
     flex-grow: 2;
 }
 
-#writing-space .sendbutton {
+form .sendbutton {
 	font-weight: bold;
 	color: var(--background-secondary);
 	background-color: var(--lighter);

@@ -54,7 +54,7 @@ class ApiController {
     }
 
     private function brands(array $args) {
-        require_once __DIR__ . '/../rest_api/api_brands.php';
+        require_once __DIR__ . '/../rest_api/api_brand.php';
     }
 
     private function users(array $args) {

@@ -48,6 +48,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
             <script src="/javascript/messages.js" defer></script>
             <script src="/javascript/profile.js" defer></script>
             <script src="/javascript/settings.js" defer></script>
+            <script src="/javascript/dashboard_page.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>
@@ -57,13 +58,13 @@ require_once __DIR__ . '/../rest_api/utils.php';
     <script 
 <?php } ?>
 
-<?php function drawMainHeader()
+<?php function drawMainHeader(Request $request)
 { ?>
     <header id="main-header">
         <?php drawHamburgerButton(); ?>
         <?php drawHeaderLogo(); ?>
         <?php drawSearchBar(); ?>
-        <?php drawActionButtons(); ?>
+        <?php drawActionButtons($request); ?>
     </header>
 <?php } ?>
 
