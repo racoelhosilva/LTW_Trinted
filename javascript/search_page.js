@@ -23,7 +23,7 @@ function updateProducts(products, numResults, searchedProducts) {
 }
 function performSearch(searchQuery, filters, start, limit) {
     return __awaiter(this, void 0, void 0, function* () {
-        let actionUrl = `../actions/action_search.php?query=${searchQuery}&start=${start}&limit=${limit}`;
+        let actionUrl = `/actions/action_search.php?query=${searchQuery}&start=${start}&limit=${limit}`;
         filters.forEach(filter => actionUrl += `&${filter}`);
         return getData(actionUrl)
             .then(response => response.json())

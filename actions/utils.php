@@ -34,7 +34,11 @@ function setCart(array $cart, Request $request): void {
 }
 
 function getCart(Request $request, PDO $db): array {
-    return array_map(function ($id) use ($db) {
+    $cart = array_map(function ($id) use ($db) {
         return Product::getProductByID($db, (int)$id);
     }, $request->cookie('cart', []));
+    $cart = array_filter($cart, function ($item) {
+        return isset($item);
+    });
+    return $cart;
 }

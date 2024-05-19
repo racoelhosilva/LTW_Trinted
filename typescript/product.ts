@@ -1,3 +1,11 @@
+const editProductButton = document.getElementById('edit-product-button');
+
+if (editProductButton) {
+    editProductButton.addEventListener('click', () => {
+        document.location.assign(`/edit-product/${editProductButton.dataset.productId}/`);
+    })
+}
+
 const productCards: NodeListOf<HTMLElement> = document.querySelectorAll(".product-card");
 const likeButtons: NodeListOf<HTMLElement> = document.querySelectorAll(".like-button");
 

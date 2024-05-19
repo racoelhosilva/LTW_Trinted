@@ -31,7 +31,8 @@ function searchProducts(PDO $db, string $search, Request $request): array {
     $products = [];
     foreach ($stmt->fetchAll() as $row) {
         $product = Product::getProductByID($db, $row['id']);
-        $products[] = parseProduct($product, $request, $db);
+        if (isset($product))
+            $products[] = parseProduct($product, $request, $db);
     }
     return $products;
 }

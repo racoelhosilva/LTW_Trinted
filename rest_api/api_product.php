@@ -31,7 +31,7 @@ function updateProductBrands(Product $product, array $brands, PDO $db): void
     foreach ($brands as $brandName) {
         $brand = Brand::getBrand($db, urlencode($brandName));
         if ($brand !== null) {
-            $product->removeBrand($db, $brand);
+            $product->addBrand($db, $brand);
         }
     }
 }
@@ -55,10 +55,8 @@ function modifyProductBrands(Product $product, array $add, array $remove, PDO $d
 
 function addProductImages(Request $request, Product $product, array $images, PDO $db): void
 {
-    $images = uploadImages($request, $images, $db, "posts");
-    echo json_encode($images);
-    foreach ($images as $image) {
-        $product->addImage($db, $image);
+    foreach ($images as $imageUrl) {
+        $product->addImage($db, new Image($imageUrl));
     }
 }
 
@@ -133,25 +131,26 @@ switch ($method) {
                 sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
-            if (!in_array($user['type'], ['admin', 'seller']))
-                sendForbidden('User must be seller or admin to create a product');
-            if (!$request->paramsExist(['title', 'description', 'price']))
+            if (!$request->paramsExist(['title', 'description', 'price', 'image']))
                 sendMissingFields();
-            if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT))
+            if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT) || (int)$request->post('price') < 0)
                 sendBadRequest('Invalid price value');
-
-            if ($request->files('images') == null)
-                sendBadRequest('Image files missing');
 
             try {
                 $user = User::getUserByID($db, $user['id']);
+                if ($user->getType() === 'buyer')
+                    $user->setType($db, 'seller');
                 $product = createProduct($request, $user, $db);
+
+                
+                
             } catch (Exception $e) {
                 error_log($e->getMessage());
                 sendInternalServerError();
             }
 
             sendCreated([
+                'product' => parseProduct($product, $request, $db),
                 'links' => getProductLinks($product, $request), 
             ]);
 
@@ -170,7 +169,7 @@ switch ($method) {
                 sendForbidden('User must be the original seller or admin to update brands');
 
             try {
-                $images = $request->files('images') ?? [];
+                $images = $request->post('images') ?? [];
                 addProductImages($request, $product, $images, $db);
             } catch (Exception $e) {
                 error_log($e->getMessage());
@@ -210,6 +209,8 @@ switch ($method) {
                 sendForbidden('User must be the original seller or admin to edit a product');
             if (!$request->paramsExist(['title', 'description', 'price']))
                 sendMissingFields();
+            if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT) || (int)$request->post('price') < 0)
+                sendBadRequest('Invalid price value');
 
             try {
                 updateProduct($product, $request, $db);
@@ -263,6 +264,8 @@ switch ($method) {
             $user = getSessionUser($request);
             if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
                 sendForbidden('User must be the original seller or admin to edit a product');
+            if ($request->post('price') != null && (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT) || (int)$request->post('price') < 0))
+                sendBadRequest('Invalid price value');
 
             try {
                 modifyProduct($product, $request, $db);

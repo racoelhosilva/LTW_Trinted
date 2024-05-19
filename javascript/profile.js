@@ -5,7 +5,13 @@ if (messageButton) {
         document.location.assign(`/messages?id=${messageButton.dataset.userId}`);
     });
 }
-const idParam = window.location.pathname.split("/").pop();
+const addProductButton = document.getElementById('add-button');
+if (addProductButton) {
+    addProductButton.addEventListener('click', () => {
+        document.location.assign(`/new-product/`);
+    });
+}
+const idParam = extractPathEnd();
 let userId;
 if (idParam == null) {
     userId = 0;

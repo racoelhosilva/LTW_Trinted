@@ -10,6 +10,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $images = $product->getAllImages($db);
+    $sessionUser = getSessionUser($request);
     ?>
     <div id="product-photos">
         <span class="material-symbols-outlined" id="prev-photo">navigate_before</span>
@@ -22,6 +23,11 @@ require_once __DIR__ . '/../rest_api/utils.php';
         <?php if (isLoggedIn($request) && $request->session('user')['id'] != $product->getSeller()->getId()) {
             drawLikeButton(User::getUserByID($db, (int)$request->session('user')['id'])->isInWishlist($db, $product), $product->getId());
         } ?>
+        <?php if ($sessionUser !== false && ($sessionUser['id'] == $product->getSeller()->getId() || $sessionUser['type'] == 'admin')) { ?>
+            <div id="edit-product-button" data-product-id="<?= $product->getId() ?>">
+                <label class="material-symbols-outlined">edit</label>
+            </div>
+        <?php } ?>
         <?php foreach ($images as $image) { ?>
             <img src="<?= $image->getUrl() ?>" class="product-photo">
         <?php } ?>
@@ -51,7 +57,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
 <?php } ?>
 
 
-<?php function drawProductInfo(Product $product) { ?>
+<?php function drawProductInfo(Product $product, Request $request) { ?>
     <?php
     $db = new PDO("sqlite:" . DB_PATH);
     $brands = $product->getBrands($db);
@@ -80,7 +86,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
             <p><strong>Description</strong></p>
         </div>
         <p class="description"><?= $product->getDescription() ?></p>
-        <button class="add-cart-button">Add to Cart</button>
+        <button class="add-cart-button" <?php if ($product->getSeller()->getId() == $request->session('user')['id']) echo 'disabled' ?>>Add to Cart</button>
     </div>
 <?php } ?>
 

@@ -116,7 +116,7 @@ class Controller
      */
     public function privacyPolicy(array $args)
     {
-       require_once __DIR__ . '/../pages/privacy_policy.php';
+        require_once __DIR__ . '/../pages/privacy_policy.php';
         return drawPrivacyPolicyPage($this->request);
     }
 
@@ -132,8 +132,24 @@ class Controller
     /**
      * @brief Generates admin dashboard page
      */
-    public function dashboard() {
-        include_once('pages/dashboard_page.php');
+    public function dashboard(array $args) {
+        require_once __DIR__ . '/../pages/dashboard_page.php';
         return drawDashboardPage($this->request);
+    }
+
+    /**
+     * @brief Generates about page
+     */
+    public function newProduct(array $args) {
+        require_once __DIR__ . '/../pages/new_product_page.php';
+        return drawNewProductPage($this->request);
+    }
+
+    /**
+     * @brief Generates about page
+     */
+    public function editProduct(array $args) {
+        require_once __DIR__ . '/../pages/edit_product_page.php';
+        return drawEditProductPage($this->request, (int)$args[0]);
     }
 }

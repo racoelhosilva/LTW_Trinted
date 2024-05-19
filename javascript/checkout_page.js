@@ -56,7 +56,7 @@ function getShippingCost(checkoutForm) {
     return __awaiter(this, void 0, void 0, function* () {
         const formData = convertToObject(new FormData(checkoutForm));
         if (formData.address && formData.zip && formData.town && formData.country) {
-            return getData(`../actions/action_shipping.php?address=${formData.address}&zip=${formData.zip}&town=${formData.town}&country=${formData.country}`)
+            return getData(`/actions/action_shipping.php?address=${formData.address}&zip=${formData.zip}&town=${formData.town}&country=${formData.country}`)
                 .then(response => response.json())
                 .then(json => {
                 if (json.success) {

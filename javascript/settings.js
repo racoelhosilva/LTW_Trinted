@@ -43,7 +43,7 @@ function changeSettings(username, email, newPassword, oldPassword, profilePictur
     return __awaiter(this, void 0, void 0, function* () {
         let path = "";
         if (profilePicture != null) {
-            path = (yield uploadProfilePicture(profilePicture)).path;
+            path = (yield uploadImage(profilePicture, "profiles")).path;
         }
         const passwordValid = yield verifyPassword(oldPassword);
         if (passwordValid === false) {
@@ -61,25 +61,6 @@ function changeSettings(username, email, newPassword, oldPassword, profilePictur
             profile_picture: path,
             csrf: getCsrfToken(),
         }).then(response => response.json());
-    });
-}
-function uploadProfilePicture(file) {
-    return __awaiter(this, void 0, void 0, function* () {
-        // Unfortunately, here we can't use the postData function because it doesn't support the necessary headers for file uploads.
-        const formData = new FormData();
-        formData.append("subfolder", "profiles");
-        formData.append("image", file);
-        const response = yield fetch("/actions/action_upload_image.php", {
-            method: 'POST',
-            body: formData,
-        });
-        if (!response.ok) {
-            throw new Error(`Failed to upload profile picture: ${response.statusText}`);
-        }
-        else {
-            const data = yield response.json();
-            return data;
-        }
     });
 }
 const settingsSection = document.querySelector("#account-settings");

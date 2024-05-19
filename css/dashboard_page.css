@@ -97,14 +97,14 @@
     color: var(--text);
 }
 
-form {
+#dashboard-details form {
     display: flex;
     column-gap: 0.5em;
     justify-content: center;
     align-items:center;
 }
 
-form input {
+#dashboard-details form input {
 	padding: 0.5em;
 	background-color: var(--background-primary);
     border: 1px solid var(--halftone);
@@ -113,11 +113,11 @@ form input {
     color: var(--text);
 }
 
-form .newdetail {
+#dashboard-details form .newdetail {
     flex-grow: 2;
 }
 
-form .sendbutton {
+#dashboard-details form .sendbutton {
 	font-weight: bold;
 	color: var(--background-secondary);
 	background-color: var(--lighter);

@@ -31,7 +31,7 @@ async function verifyPassword(password: string): Promise<boolean | null> {
 async function changeSettings(username: string, email: string, newPassword: string, oldPassword: string, profilePicture: File): Promise<any> {
     let path = "";
     if (profilePicture != null) {
-        path = (await uploadProfilePicture(profilePicture)).path;
+        path = (await uploadImage(profilePicture, "profiles")).path;
     }
 
     const passwordValid = await verifyPassword(oldPassword);
@@ -50,25 +50,6 @@ async function changeSettings(username: string, email: string, newPassword: stri
         profile_picture: path,
         csrf: getCsrfToken(),
     }).then(response => response.json());
-}
-
-async function uploadProfilePicture(file: File): Promise<any> {
-    // Unfortunately, here we can't use the postData function because it doesn't support the necessary headers for file uploads.
-    const formData = new FormData();
-    formData.append("subfolder", "profiles");
-    formData.append("image", file);
-
-    const response = await fetch("/actions/action_upload_image.php", {
-        method: 'POST',
-        body: formData,
-    });
-
-    if (!response.ok) {
-        throw new Error(`Failed to upload profile picture: ${response.statusText}`);
-    } else {
-        const data = await response.json();
-        return data;
-    }
 }
 
 const settingsSection: HTMLElement | null = document.querySelector("#account-settings");

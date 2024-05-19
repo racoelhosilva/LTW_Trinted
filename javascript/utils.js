@@ -75,7 +75,7 @@ const getLoggedInUserId = (function () {
         return __awaiter(this, void 0, void 0, function* () {
             if (userId !== null)
                 return userId;
-            return getData('../actions/action_current_user.php')
+            return getData('/actions/action_current_user.php')
                 .then(response => response.json())
                 .then(json => {
                 if (json.success) {
@@ -147,7 +147,7 @@ function drawLikeButton() {
     return likeButton;
 }
 function goToProduct(id) {
-    document.location.assign(`/product/${id}`);
+    document.location.assign(`/product/${id}/`);
 }
 function getProductImages(productId) {
     return getData(`/api/product/${productId}/images`)
@@ -170,7 +170,7 @@ function getProductImages(productId) {
 }
 function addToWishlist(productId, userId, csrfToken) {
     return __awaiter(this, void 0, void 0, function* () {
-        return postData(`../api/wishlist/${userId}/`, { 'product': productId, 'csrf': csrfToken })
+        return postData(`/api/wishlist/${userId}/`, { 'product': productId, 'csrf': csrfToken })
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -191,7 +191,7 @@ function addToWishlist(productId, userId, csrfToken) {
 }
 function removeFromWishlist(productId, sellerId, csrfToken) {
     return __awaiter(this, void 0, void 0, function* () {
-        return deleteData(`../api/wishlist/${sellerId}/${productId}/`, { 'csrf': csrfToken })
+        return deleteData(`/api/wishlist/${sellerId}/${productId}/`, { 'csrf': csrfToken })
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -208,6 +208,25 @@ function removeFromWishlist(productId, sellerId, csrfToken) {
             console.error(error);
             return false;
         });
+    });
+}
+function uploadImage(file, subfolder) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // Unfortunately, here we can't use the postData function because it doesn't support the necessary headers for file uploads.
+        const formData = new FormData();
+        formData.append("subfolder", subfolder);
+        formData.append("image", file);
+        const response = yield fetch("/actions/action_upload_image.php", {
+            method: 'POST',
+            body: formData,
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to upload profile picture: ${response.statusText}`);
+        }
+        else {
+            const data = yield response.json();
+            return data;
+        }
     });
 }
 function likeButtonOnClick(event, likeButtonInput, productId, userId, csrfToken) {
@@ -249,4 +268,21 @@ function drawProductCard(product) {
         }
         return productCard;
     });
+}
+function escapeHtml(string) {
+    const entityMap = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+    };
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+        return entityMap[s];
+    });
+}
+function extractPathEnd() {
+    const endpointParts = document.location.href.split('/');
+    return endpointParts[endpointParts.length - 1] !== '' ? endpointParts[endpointParts.length - 1] : endpointParts[endpointParts.length - 2];
 }

@@ -41,7 +41,7 @@
   align-self: center;
 }
 
-.like-button > label {
+.like-button > label, #edit-product-button > label {
   display: flex;
   width: 1.7em;
   height: 1.7em;

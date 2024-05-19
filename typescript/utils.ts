@@ -63,7 +63,7 @@ const getLoggedInUserId = (function () {
     if (userId !== null)
       return userId;
     
-    return getData('../actions/action_current_user.php')
+    return getData('/actions/action_current_user.php')
       .then(response => response.json())
       .then(json => {
         if (json.success) {
@@ -148,7 +148,7 @@ function drawLikeButton(): HTMLElement {
 }
 
 function goToProduct(id: string): void {
-	document.location.assign(`/product/${id}`);
+	document.location.assign(`/product/${id}/`);
 }
 
 function getProductImages(productId: number): Promise<string[]> {
@@ -171,7 +171,7 @@ function getProductImages(productId: number): Promise<string[]> {
 }
 
 async function addToWishlist(productId: string, userId: string, csrfToken: string): Promise<boolean> {
-	return postData(`../api/wishlist/${userId}/`, {'product': productId, 'csrf': csrfToken})
+	return postData(`/api/wishlist/${userId}/`, {'product': productId, 'csrf': csrfToken})
 		.then(response => response.json())
 		.then(json => {
 			if (json.success) {
@@ -190,7 +190,7 @@ async function addToWishlist(productId: string, userId: string, csrfToken: strin
 }
 
 async function removeFromWishlist(productId: string, sellerId: string, csrfToken: string): Promise<boolean> {
-	return deleteData(`../api/wishlist/${sellerId}/${productId}/`, {'csrf': csrfToken})
+	return deleteData(`/api/wishlist/${sellerId}/${productId}/`, {'csrf': csrfToken})
 		.then(response => response.json())
 		.then(json => {
 			if (json.success) {
@@ -206,6 +206,25 @@ async function removeFromWishlist(productId: string, sellerId: string, csrfToken
 			console.error(error);
 			return false;
 		});
+}
+
+async function uploadImage(file: File, subfolder: string): Promise<any> {
+  // Unfortunately, here we can't use the postData function because it doesn't support the necessary headers for file uploads.
+  const formData = new FormData();
+  formData.append("subfolder", subfolder);
+  formData.append("image", file);
+
+  const response = await fetch("/actions/action_upload_image.php", {
+      method: 'POST',
+      body: formData,
+  });
+
+  if (!response.ok) {
+      throw new Error(`Failed to upload profile picture: ${response.statusText}`);
+  } else {
+      const data = await response.json();
+      return data;
+  }
 }
 
 async function likeButtonOnClick(event: Event, likeButtonInput: HTMLInputElement, productId: string, userId: string, csrfToken: string): Promise<void> {
@@ -252,5 +271,25 @@ async function drawProductCard(product: {[key: string]: any}): Promise<HTMLEleme
   }
 
   return productCard;
+}
+
+function escapeHtml(string: string): string {
+  const entityMap: any = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': '&quot;',
+    "'": '&#39;',
+    "/": '&#x2F;'
+  };
+
+  return String(string).replace(/[&<>"'\/]/g, function (s) {
+    return entityMap[s];
+  });
+}
+
+function extractPathEnd(): string {
+  const endpointParts = document.location.href.split('/');
+  return endpointParts[endpointParts.length - 1] !== '' ? endpointParts[endpointParts.length - 1] : endpointParts[endpointParts.length - 2];
 }
 

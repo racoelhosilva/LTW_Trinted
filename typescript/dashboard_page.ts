@@ -109,7 +109,7 @@ if (brandsCard) {
                     return;
 
                 const newBrandItem = document.createElement("li");
-                newBrandItem.innerHTML = newBrandInput.value;
+                newBrandItem.innerHTML = escapeHtml(newBrandInput.value);
                 brandsList!.appendChild(newBrandItem);
 
                 newBrandInput.value = "";
@@ -142,7 +142,7 @@ if (categoriesCard) {
                     return
 
                 const newCategoryItem = document.createElement("li");
-                newCategoryItem.innerHTML = newCategoryInput.value;
+                newCategoryItem.innerHTML = escapeHtml(newCategoryInput.value);
                 categoriesList!.appendChild(newCategoryItem);
 
                 newCategoryInput.value = "";
@@ -175,7 +175,7 @@ if (conditionsCard) {
                     return;
                 
                 const newConditionItem = document.createElement("li");
-                newConditionItem.innerHTML = newConditionInput.value;
+                newConditionItem.innerHTML = escapeHtml(newConditionInput.value);
                 conditionsList!.appendChild(newConditionItem);
 
                 newConditionInput.value = "";
@@ -208,7 +208,7 @@ if (sizesCard) {
                     return;
 
                 const newSizeItem = document.createElement("li");
-                newSizeItem.innerHTML = newSizeInput.value;
+                newSizeItem.innerHTML = escapeHtml(newSizeInput.value);
                 sizesList!.appendChild(newSizeItem);
 
                 newSizeInput.value = "";

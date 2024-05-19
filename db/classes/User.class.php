@@ -221,10 +221,14 @@ class User
         $stmt = $db->prepare("SELECT id FROM Product WHERE seller = :seller AND (payment IS NULL)");
         $stmt->bindParam(":seller", $this->id);
         $stmt->execute();
-        $posts = $stmt->fetchAll();
-        return array_map(function ($post) use ($db) {
-            return Product::getProductByID($db, $post["id"]);
-        }, $posts);
+        $products = $stmt->fetchAll();
+        $products = array_map(function ($product) use ($db) {
+            return Product::getProductByID($db, $product["id"]);
+        }, $products);
+        $products = array_filter($products, function ($product) {
+            return $product != null;
+        });
+        return $products;
     }
 
     public function getSoldItems(PDO $db): array
@@ -234,7 +238,7 @@ class User
         $stmt->execute();
         $products = $stmt->fetchAll();
         return array_map(function ($product) use ($db) {
-            return Product::getProductByID($db, $product["id"]);
+            return Product::getProductByID($db, $product["id"], false);
         }, $products);
     }
 
@@ -272,9 +276,13 @@ class User
         $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user");
         $stmt->bindParam(":user", $this->id);
         $stmt->execute();
-        return array_map(function ($productId) use ($db) {
+        $wishlist = array_map(function ($productId) use ($db) {
             return Product::getProductByID($db, $productId["product"]);
         }, $stmt->fetchAll());
+        $wishlist = array_filter($wishlist, function ($product) {
+            return $product != null;
+        });
+        return $wishlist;
     }
 
     public function addToWishlist(PDO $db, Product $product): void
