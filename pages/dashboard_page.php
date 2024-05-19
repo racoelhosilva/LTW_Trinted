@@ -49,7 +49,7 @@ include_once('db/classes/Size.class.php');
                     <ul>
                     <?php
                     foreach ($brands as $brand) { ?>
-                        <li> <?= $brand->name ?> </li>
+                        <li> <?= $brand->getName() ?> </li>
                         <?php } ?>
                     </ul>
                     <div id="writing-space">
@@ -65,7 +65,7 @@ include_once('db/classes/Size.class.php');
                     <ul>
                         <?php
                     foreach ($categories as $category) { ?>
-                        <li> <?= $category->category ?> </li>
+                        <li> <?= $category->getName() ?> </li>
                     <?php } ?>
                     </ul>
                     <div id="writing-space">
@@ -81,7 +81,7 @@ include_once('db/classes/Size.class.php');
                     <ul>
                         <?php
                     foreach ($conditions as $condition) { ?>
-                        <li> <?= $condition->condition ?> </li>
+                        <li> <?= $condition->getName() ?> </li>
                         <?php } ?>
                     </ul>
                     <div id="writing-space">
@@ -97,7 +97,7 @@ include_once('db/classes/Size.class.php');
                     <ul>
                         <?php
                     foreach ($sizes as $size) { ?>
-                        <li> <?= $size->size ?> </li>
+                        <li> <?= $size->getName() ?> </li>
                         <?php } ?>
                     </ul>
                     <div id="writing-space">
