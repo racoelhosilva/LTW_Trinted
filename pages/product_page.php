@@ -13,7 +13,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
 
 <?php function drawProductPageContent(Request $request, int $productId) {
     $db = new PDO("sqlite:" . DB_PATH);
-    $product = Product::getProductByID($db, $productId);
+    $product = Product::getProductByID($db, $productId, false);
     if (!isset($product)) {
         draw404PageContent();
         return;
