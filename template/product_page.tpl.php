@@ -22,8 +22,8 @@ require_once __DIR__ . '/../rest_api/utils.php';
         <?php if (isLoggedIn($request) && $request->session('user')['id'] != $product->getSeller()->getId()) {
             drawLikeButton(User::getUserByID($db, (int)$request->session('user')['id'])->isInWishlist($db, $product), $product->getId());
         } ?>
-        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $post->seller->id || $_SESSION['type'] == 'admin') { ?>
-            <div id="edit-product-button" data-product-id="<?= $post->id ?>">
+        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $product->getSeller()->getId() || $_SESSION['type'] == 'admin') { ?>
+            <div id="edit-product-button" data-product-id="<?= $product->getId() ?>">
                 <label class="material-symbols-outlined">edit</label>
             </div>
         <?php } ?>
