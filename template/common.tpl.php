@@ -82,7 +82,7 @@ include_once('template/product.tpl.php');
         
         <div id="legal">
             <ul>
-            <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Cookie Policy</a></li>
+            <li><a href="cookie-policy">Cookie Policy</a></li>
             <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy</a></li>
             <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Terms & Conditions</a></li>
             </ul>

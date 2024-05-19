@@ -48,7 +48,11 @@ $routes = [
     '/about' => [
         'controller' => 'Controller@about',
         'middlewares' => []
-    ]
+    ],
+    '/cookie-policy' => [
+        'controller' => 'Controller@cookiePolicy',
+        'middlewares' => []
+    ],
 ];
 
 // Extract the path from the URL and compare it to the defined routes

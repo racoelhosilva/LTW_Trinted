@@ -1,18 +1,22 @@
 <?php
+
 /**
  * @brief Receives requests and Generates pages
  */
-class Controller {
+class Controller
+{
     private $request;
 
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
         $this->request = $request;
     }
 
     /**
      * @brief Generates main page
      */
-    public function index() {
+    public function index()
+    {
         include_once('pages/main_page.php');
         return drawMainPage($this->request);
     }
@@ -20,7 +24,8 @@ class Controller {
     /**
      * @brief Generates login page
      */
-    public function login() {
+    public function login()
+    {
         include_once('pages/login_page.php');
         return drawLoginPage($this->request);
     }
@@ -28,7 +33,8 @@ class Controller {
     /**
      * @brief Generates search page
      */
-    public function search() {
+    public function search()
+    {
         include_once('pages/search_page.php');
         return drawSearchPage($this->request);
     }
@@ -36,12 +42,14 @@ class Controller {
     /**
      * @brief Generates profile page
      */
-    public function profile() {
+    public function profile()
+    {
         include_once('pages/profile_page.php');
         return drawProfilePage($this->request);
     }
 
-    public function banned() {
+    public function banned()
+    {
         include_once('pages/banned_page.php');
         return drawBannedPage();
     }
@@ -49,7 +57,8 @@ class Controller {
     /**
      * @brief Generates product page
      */
-    public function product() {
+    public function product()
+    {
         include_once('pages/product_page.php');
         return drawProductPage($this->request);
     }
@@ -57,7 +66,8 @@ class Controller {
     /**
      * @brief Generates settings page
      */
-    public function settings() {
+    public function settings()
+    {
         include_once('pages/settings_page.php');
         return drawSettingsPage($this->request);
     }
@@ -65,14 +75,17 @@ class Controller {
     /**
      * @brief Generates messages page
      */
-    public function messages() {
+    public function messages()
+    {
         include_once('pages/messages_page.php');
         return drawMessagePage($this->request);
     }
+
     /**
      * @brief Generates checkout page
      */
-    public function checkout() {
+    public function checkout()
+    {
         include_once('pages/checkout_page.php');
         return drawCheckoutPage($this->request);
     }
@@ -80,7 +93,8 @@ class Controller {
     /**
      * @brief Generates help page
      */
-    public function help() {
+    public function help()
+    {
         include_once('pages/help_page.php');
         return drawHelpPage($this->request);
     }
@@ -88,8 +102,18 @@ class Controller {
     /**
      * @brief Generates about page
      */
-    public function about() {
+    public function about()
+    {
         include_once('pages/about_page.php');
         return drawAboutPage($this->request);
+    }
+
+    /**
+     * @brief Generates cookie policy page
+     */
+    public function cookiePolicy()
+    {
+        include_once('pages/cookie_policy.php');
+        return drawCookiePolicyPage($this->request);
     }
 }
