@@ -21,7 +21,7 @@ require_once __DIR__ . 'rest_api/utils.php';
 <?php function drawBannedPage(Request $request)
 {
     createPage(function () use (&$request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawBannedPageContent($request);
         drawFooter();
     }, $request);

@@ -33,7 +33,7 @@ require_once __DIR__ . '/../template/product_page.tpl.php';
 <?php
 function drawHelpPage(Request $request) {
     createPage(function () use (&$request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawHelpPageContent($request);
         drawFooter();
     }, $request);

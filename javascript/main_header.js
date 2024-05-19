@@ -23,3 +23,9 @@ if (messagesHeaderButton) {
         document.location.assign(`/messages`);
     });
 }
+const dashboardButton = document.getElementById('dashboard');
+if (dashboardButton) {
+    dashboardButton.addEventListener('click', () => {
+        document.location.assign(`/dashboard`);
+    });
+}

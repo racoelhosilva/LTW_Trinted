@@ -22,7 +22,7 @@ class Size
         $stmt->bindParam(":name", $this->name);
         $stmt->execute();
     }
-
+    
     public static function getSize(PDO $db, string $size): Size
     {
         // At first glance, going to the database if we already now the size

@@ -15,9 +15,14 @@ declare(strict_types=1); ?>
     <label for="hamburger-button" class="material-symbols-outlined">menu</label>
 <?php } ?>
 
-<?php function drawActionButtons()
+<?php function drawActionButtons(Request $request)
 { ?>
     <div id="action-buttons">
+        <?php 
+        if ($request->session('type') == 'admin'){
+            drawHeaderButton('dashboard');
+        } ?>
+
         <?php drawHeaderButton('settings'); ?>
         <?php drawHeaderButton('message'); ?>
         <?php drawHeaderButton('person'); ?>

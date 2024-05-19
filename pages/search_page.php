@@ -18,7 +18,7 @@ require_once __DIR__ . '/../template/search_page.tpl.php';
 <?php function drawSearchPage(Request $request)
 {
     createPage(function () use (&$request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawSearchPageContent($request);
         drawFooter();
     }, $request);

@@ -27,7 +27,7 @@ require_once __DIR__ . '/../actions/utils.php';
 <?php
 function drawCheckoutPage(Request $request) {
     createPage(function () use ($request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawCheckoutPageContent($request);
         drawFooter();
     }, $request);
