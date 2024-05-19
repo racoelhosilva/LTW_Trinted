@@ -13,7 +13,7 @@ function getSubtotal(array $cart): float {
     return $subtotal;
 }
 
-function parsePayment(array $cart, Request $request): Payment {
+function parsePayment(array $cart, User $buyer, Request $request): Payment {
     $firstName = sanitize($request->post('first-name'));
     $lastName = sanitize($request->post('last-name'));
     $email = sanitize($request->post('email'));
@@ -24,7 +24,7 @@ function parsePayment(array $cart, Request $request): Payment {
     $country = sanitize($request->post('country'));
     $shipping = sanitize($request->post('shipping'));
     $paymentDatetime = time();
-    return new Payment(getSubtotal($cart), $shipping, $firstName, $lastName, $email, $phone, $address, $zipCode, $town, $country, $paymentDatetime);
+    return new Payment(getSubtotal($cart), $shipping, $firstName, $lastName, $email, $phone, $address, $zipCode, $town, $country, $paymentDatetime, $buyer);
 }
 
 function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
@@ -65,7 +65,10 @@ if ($cart == [])
     sendUnprocessableEntity('Shopping cart empty');
 
 try {
-    $payment = parsePayment($cart, $request);
+    $sessionUser = getSessionUser($request);
+    $buyer = User::getUserByID($db, (int)$sessionUser['id']);
+
+    $payment = parsePayment($cart, $buyer, $request);
     submitPaymentToDb($payment, $db, $cart);
     setCart([], $request);
 } catch (Exception $e) {

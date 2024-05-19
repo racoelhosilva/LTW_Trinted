@@ -27,42 +27,6 @@ function dateFormat(int $datetime): string {
     }
 }
 
-function parseProduct(PDO $db, Product $product): array {
-    return [
-        'id' => $product->getId(),
-        'title' => $product->getTitle(),
-        'description' => $product->getDescription(),
-        'price' => $product->getPrice(),
-        'publishDatetime' => $product->getPublishDatetime(),
-        'seller' => $product->getSeller()->getId(),
-        'username' => $product->getSeller()->getName(),
-        'category' => $product->getCategory()?->getName(),
-        'size' => $product->getSize()?->getName(),
-        'condition' => $product->getCondition()?->getName(),
-        'images' => array_map('getUrl', $product->getAllImages($db)),
-        'inWishlist' => isset($_SESSION['user']) ? User::getUserByID($db, $_SESSION['user']['id'])->isInWishlist($db, $product) : false
-    ];
-}
-function userLoggedIn(Request $request): bool {
-    return $request->session('user') !== null;
-}
-
-function sendUserNotLoggedIn(): void {
-    die(json_encode(array('success' => false, 'error' => 'User not logged in')));
-}
-
-function sendCrsfMismatch(): void {
-    die(json_encode(array('success' => false, 'error' => 'CSRF token missing or invalid')));
-}
-
-function sendMissingFields(): void {
-    die(json_encode(array('success' => false, 'error' => 'Missing fields')));
-}
-
-function getLoggedInUser(Request $request): array {
-    return $request->session('user');
-}
-
 function setCart(array $cart, Request $request): void {
     $request->setCookie('cart', $cart);
 }

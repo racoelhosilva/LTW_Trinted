@@ -3,13 +3,13 @@ function getCart(): Promise<any> {
     .then(response => response.json());
 }
 
-function addItemToCart(productId: number): Promise<any> {
-  return postData('../actions/action_edit_cart.php', { product_id: productId, remove: false })
+function addItemToCart(productId: number, csrfToken: string): Promise<any> {
+  return postData('../actions/action_edit_cart.php', { 'product-id': productId, remove: false, csrf: csrfToken })
     .then(response => response.json());
 }
 
-function removeItemFromCart(productId: number): Promise<any> {
-  return postData('../actions/action_edit_cart.php', { product_id: productId, remove: true })
+function removeItemFromCart(productId: number, csrfToken: string): Promise<any> {
+  return postData('../actions/action_edit_cart.php', { 'product-id': productId, remove: true, csrf: csrfToken })
     .then(response => response.json());
 }
 
@@ -83,6 +83,7 @@ if (cartButton) {
   getCart()
     .then(json => {
       const cart: Array<{ [key: string]: any }> = json.cart;
+      console.log(cart);
 
       itemSelected = cart.map(item => item.id).includes(productId);
       updateCartButtonText(cartButton, itemSelected);
@@ -92,8 +93,9 @@ if (cartButton) {
       console.error(error);
     });
 
+  const csrfToken = cartButton.dataset.csrfToken || '';
   cartButton.addEventListener('click', () => {
-    let response = !itemSelected ? addItemToCart(productId) : removeItemFromCart(productId);
+    let response = !itemSelected ? addItemToCart(productId, csrfToken) : removeItemFromCart(productId, csrfToken);
     response
       .then(json => {
         if (json.success) {

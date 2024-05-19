@@ -15,8 +15,9 @@ class Payment {
     private string $town;
     private string $country;
     private int $paymentDatetime;
+    private User $buyer;
 
-    public function __construct(float $subtotal, string $shipping, string $firstName, string $lastName, string $email, string $phone, string $address, string $zipCode, string $town, string $country, int $paymentDatetime) {
+    public function __construct(float $subtotal, string $shipping, string $firstName, string $lastName, string $email, string $phone, string $address, string $zipCode, string $town, string $country, int $paymentDatetime, User $buyer) {
         $this->subtotal = $subtotal;
         $this->shipping = $shipping;
         $this->firstName = $firstName;
@@ -28,6 +29,7 @@ class Payment {
         $this->town = $town;
         $this->country = $country;
         $this->paymentDatetime = $paymentDatetime;
+        $this->buyer = $buyer;
     }
 
     public function getId(): int {
@@ -129,6 +131,7 @@ class Payment {
                 $payment["town"],
                 $payment["country"],
                 $payment["paymentDatetime"],
+                User::getUserByID($db, (int)$payment["buyer"]),
             );
             $result->id = $id;
             return $result;

@@ -1,5 +1,5 @@
 async function addToWishlist(productId: string): Promise<boolean> {
-	return postData("../actions/action_edit_wishlist.php", {product_id: productId, remove: false})
+	return postData("../actions/action_edit_wishlist.php", {'product-id': productId, remove: false})
 		.then(response => response.json())
 		.then(json => {
 			if (json.success) {
@@ -18,7 +18,7 @@ async function addToWishlist(productId: string): Promise<boolean> {
 }
 
 async function removeFromWishlist(productId: string): Promise<boolean> {
-	return postData("../actions/action_edit_wishlist.php", {product_id: productId, remove: true})
+	return postData("../actions/action_edit_wishlist.php", {'product-id': productId, remove: true})
 		.then(response => response.json())
 		.then(json => {
 			if (json.success) {

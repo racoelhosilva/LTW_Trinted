@@ -113,25 +113,36 @@ function getProductLinks(Product $product, Request $request): array
     ];
 }
 
-function parseProduct(Product $product, Request $request): array
+function parseProduct(Product $product, Request $request, PDO $db): array
 {
-    return [
+    $res = [
         'id' => $product->getId(),
         'title' => $product->getTitle(),
         'description' => $product->getDescription(),
         'price' => $product->getPrice(),
-        'publishDatetime' => $product->getPublishDatetime(),
+        'publish-datetime' => $product->getPublishDatetime(),
         'category' => $product->getCategory()?->getName(),
         'size' => $product->getSize()?->getName(),
         'condition' => $product->getCondition()?->getName(),
-        'links' => getProductLinks($product, $request),
     ];
+
+    if (userLoggedIn($request)) {
+        $sessionUser = getSessionUser($request);
+        $user = User::getUserById($db, $sessionUser['id']);
+        if ($user->getId() != $product->getSeller()->getId()) {
+            $res['in-wishlist'] = $user->isInWishlist($db, $product);
+        }
+    }
+
+    $res['links'] = getProductLinks($product, $request);
+
+    return $res;
 }
 
-function parseProducts(array $products, Request $request): array
+function parseProducts(array $products, Request $request, PDO $db): array
 {
-    return array_map(function ($product) use ($request) {
-        return parseProduct($product, $request);
+    return array_map(function ($product) use ($request, $db) {
+        return parseProduct($product, $request, $db);
     }, $products);
 }
 

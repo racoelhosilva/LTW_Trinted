@@ -1,9 +1,28 @@
-function createOrderItemCard(product: { [key: string]: any }): HTMLElement {
+function getProductImages(productId: number): Promise<string[]> {
+  return getData(`/api/product/${productId}/images`)
+    .then(response => response.json())
+    .then(json => {
+      if (json.success) {
+        return json.images;
+      } else {
+        sendToastMessage('An unexpected error occurred', 'error');
+        console.error(json.error);
+        return [];
+      }
+    })
+    .catch(error => {
+      sendToastMessage('An unexpected error occurred', 'error');
+      console.error(error);
+      return [];
+    });
+}
+
+async function createOrderItemCard(product: { [key: string]: any }): Promise<HTMLElement> {
   const orderItemCard = document.createElement('div');
   orderItemCard.classList.add('order-item-card');
 
   const image = document.createElement('img');
-  image.src = product.images[0];
+  image.src = (await getProductImages(product.id))[0];
   image.alt = 'Product Image';
   orderItemCard.appendChild(image);
 
@@ -88,12 +107,12 @@ let subtotal: number = 0;
 
 if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal && checkoutShipping && checkoutTotal && shippingInput) {
   getCart()
-    .then(json => {
+    .then(async json => {
       if (json.success) {
         const cart: Array<{ [key: string]: any }> = json.cart;
         for (const product of cart) {
           const orderItemCard = createOrderItemCard(product);
-          orderItemsSection.appendChild(orderItemCard);
+          orderItemsSection.appendChild(await orderItemCard);
           subtotal += product.price;
         }
 

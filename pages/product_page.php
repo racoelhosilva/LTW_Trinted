@@ -23,7 +23,7 @@ require_once __DIR__ . '/../framework/Autoload.php';
     if (is_null($product->getPayment())){ ?>
         <main id="product-page">
             <?php drawProductPhotos($product); ?>
-            <?php drawProductInfo($product); ?>
+            <?php drawProductInfo($product, $request->getSession()->getCsrf()); ?>
             <?php drawRelatedProductsSection($product); ?>
         </main>
     <?php } elseif ($request->session('user_id') == $product->getSeller()->getId()) { ?>

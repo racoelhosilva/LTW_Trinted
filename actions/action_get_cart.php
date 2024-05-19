@@ -2,7 +2,8 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/utils.php';
+require_once __DIR__ . '/../rest_api/utils.php';
 
-session_start();
+$request = new Request();
 
-echo json_encode(array('success' => true, 'cart' => getCookie('cart') ?? []));
+sendOk(['cart' => getCart($request)]);

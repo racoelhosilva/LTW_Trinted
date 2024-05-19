@@ -3,12 +3,12 @@ function getCart() {
     return getData('../actions/action_get_cart.php')
         .then(response => response.json());
 }
-function addItemToCart(productId) {
-    return postData('../actions/action_edit_cart.php', { product_id: productId, remove: false })
+function addItemToCart(productId, csrfToken) {
+    return postData('../actions/action_edit_cart.php', { 'product-id': productId, remove: false, csrf: csrfToken })
         .then(response => response.json());
 }
-function removeItemFromCart(productId) {
-    return postData('../actions/action_edit_cart.php', { product_id: productId, remove: true })
+function removeItemFromCart(productId, csrfToken) {
+    return postData('../actions/action_edit_cart.php', { 'product-id': productId, remove: true, csrf: csrfToken })
         .then(response => response.json());
 }
 const prevPhotoButton = document.querySelector('#prev-photo');
@@ -71,6 +71,7 @@ if (cartButton) {
     getCart()
         .then(json => {
         const cart = json.cart;
+        console.log(cart);
         itemSelected = cart.map(item => item.id).includes(productId);
         updateCartButtonText(cartButton, itemSelected);
     })
@@ -78,8 +79,9 @@ if (cartButton) {
         sendToastMessage('An unexpected error occurred, try again', 'error');
         console.error(error);
     });
+    const csrfToken = cartButton.dataset.csrfToken || '';
     cartButton.addEventListener('click', () => {
-        let response = !itemSelected ? addItemToCart(productId) : removeItemFromCart(productId);
+        let response = !itemSelected ? addItemToCart(productId, csrfToken) : removeItemFromCart(productId, csrfToken);
         response
             .then(json => {
             if (json.success) {

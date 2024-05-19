@@ -75,14 +75,14 @@ header('Content-Type: application/json');
 switch ($method) {
     case 'GET':
         if (preg_match('/^\/api\/product\/?$/', $endpoint, $matches)) {
-            sendOk(['products' => parseProducts(Product::getAllProducts($db), $request)]);
+            sendOk(['products' => parseProducts(Product::getAllProducts($db), $request, $db)]);
         } elseif (preg_match('/^\/api\/product\/(\d+)\/?$/', $endpoint, $matches)) {
             $productId = (int) $matches[1];
             $product = Product::getProductByID($db, $productId);
             if ($product === null)
                 sendNotFound();
 
-            sendOk(['product' => $product ? parseProduct($product, $request) : null]);
+            sendOk(['product' => $product ? parseProduct($product, $request, $db) : null]);
         } elseif (preg_match('/^\/api\/product\/(\d+)\/brands\/?$/', $endpoint, $matches)) {
             $productId = (int) $matches[1];
             $product = Product::getProductByID($db, $productId);
@@ -102,10 +102,10 @@ switch ($method) {
                 sendNotFound();
 
             $images = $product->getAllImages($db);
-            $images = array_map(function ($image) use ($request) {
+            $images = array_map(function ($image) {
                 return $image->getUrl();
             }, $images);
-            
+
             sendOk([
                 'images' => $images,
                 'links' => [

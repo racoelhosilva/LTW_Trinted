@@ -41,19 +41,27 @@ class Request
         $this->session = new Session();
     }
 
-    private static function sanitize(string|array|null $data): array|string|null {
+    private static function sanitize(mixed $data): mixed {
         if (is_array($data)) {
             $sanitized = [];
             foreach ($data as $key => $value) {
                 $sanitized[$key] = Request::sanitize($value);
             }
             return $sanitized;
+        } 
+        if (is_object($data)) {
+            $sanitized = [];
+            foreach ((array)$data as $key => $value) {
+                $sanitized[$key] = Request::sanitize($value);
+            }
+            return $sanitized;
+        } 
+        
+        if (is_string($data)) {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
         }
-        if ($data === null)
-            return null;
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
         return $data;
     }
 
@@ -84,7 +92,7 @@ class Request
 
     public function cookie($key, $default = null)
     {
-        return Request::sanitize(json_decode($this->cookies[$key])) ?? $default;
+        return $this->cookies[$key] ? Request::sanitize(json_decode($this->cookies[$key])) : $default;
     }
 
     public function setCookie($key, array $data): void {

@@ -2,57 +2,58 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../framework/Autoload.php';
+require_once __DIR__ . '/../db/utils.php';
+require_once __DIR__ . '/../rest_api/utils.php';
 require_once __DIR__ . '/utils.php';
 
-function setCart(array $cart): void {
-    putCookie('cart', $cart);
-}
-
-function getCart(): array {
-    return getCookie('cart') ?? [];
-}
-
-function addToCart(Product $product, PDO $db): bool {
-    $cart = getCart();
+function addToCart(Product $product, Request $request, PDO $db): void {
+    $cart = getCart($request);
     foreach ($cart as $cart_item) {
-        if ($cart_item->getId() == $product->getId()) {
-            return false;
+        if ($cart_item['id'] == $product->getId()) {
+            return;
         }
     }
 
-    $cart[] = parseProduct($db, $product);
-    setCart($cart);
-    return true;
+    $cart[] = parseProduct($product, $request, $db);
+    setCart($cart, $request);
 }
 
-function removeFromCart(Product $product): bool {
-    $cart = getCart();
+function removeFromCart(Product $product, Request $request): void {
+    $cart = getCart($request);
     foreach ($cart as $index => $cart_item) {
-        if ($cart_item->getId() == $product->getId()) {
+        if ($cart_item['id'] == $product->getId()) {
             array_splice($cart, $index, 1);
-            setCart($cart);
-            return true;
+            setCart($cart, $request);
+            return;
         }
     }
-
-    return false;
 }
 
-if (!isset($_POST['product_id']) || !in_array($_POST['remove'], [true, false]))
+$request = new Request();
+$db = getDatabaseConnection();
+
+if (!$request->paramsExist(['product-id', 'remove']))
     sendMissingFields();
+if (!in_array($_POST['remove'], ['true', 'false']))
+    sendBadRequest('Invalid remove flag');
 
-session_start();
+if (!$request->verifyCsrf())
+    sendCrsfMismatch();
 
-$product_id = sanitize($_POST['product_id']);
-$remove = sanitize($_POST['remove']) === 'true';
-$db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
+$productId = $request->post('product-id');
+$remove = $request->post('remove') === 'true';
 
 try {
-    $product_id = (int)$product_id;
-    $product = Product::getProductByID($db, (int)$product_id);
+    $product = Product::getProductByID($db, (int)$productId);
+
+    if (!$remove)
+        addToCart($product, $request, $db);
+    else
+        removeFromCart($product, $request);
 } catch (Exception $e) {
-    die(json_encode(array('success' => false, 'error' => $e->getMessage())));
+    error_log($e->getMessage());
+    sendInternalServerError();
 }
 
-$success = isset($product) && ((!$remove && addToCart($product, $db)) || ($remove && removeFromCart($product)));
-echo json_encode(array('success' => $success));
+sendOk(['success' => true]);
+

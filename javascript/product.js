@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 function addToWishlist(productId) {
     return __awaiter(this, void 0, void 0, function* () {
-        return postData("../actions/action_edit_wishlist.php", { product_id: productId, remove: false })
+        return postData("../actions/action_edit_wishlist.php", { 'product-id': productId, remove: false })
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -31,7 +31,7 @@ function addToWishlist(productId) {
 }
 function removeFromWishlist(productId) {
     return __awaiter(this, void 0, void 0, function* () {
-        return postData("../actions/action_edit_wishlist.php", { product_id: productId, remove: true })
+        return postData("../actions/action_edit_wishlist.php", { 'product-id': productId, remove: true })
             .then(response => response.json())
             .then(json => {
             if (json.success) {

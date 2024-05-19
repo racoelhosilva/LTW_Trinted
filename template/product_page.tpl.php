@@ -50,8 +50,7 @@ require_once __DIR__ . '/product.tpl.php';
 <?php } ?>
 
 
-<?php function drawProductInfo(Product $product)
-{ ?>
+<?php function drawProductInfo(Product $product, string $csrfToken) { ?>
     <?php
     $db = new PDO("sqlite:" . DB_PATH);
     $brands = $product->getBrands($db);
@@ -80,7 +79,7 @@ require_once __DIR__ . '/product.tpl.php';
             <p><strong>Description</strong></p>
         </div>
         <p class="description"><?= $product->getDescription() ?></p>
-        <button class="add-cart-button">Add to Cart</button>
+        <button class="add-cart-button" data-csrf-token="<?= $csrfToken ?>">Add to Cart</button>
     </div>
 <?php } ?>
 

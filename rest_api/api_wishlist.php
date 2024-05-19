@@ -30,7 +30,7 @@ switch ($method) {
             if ($sessionUser['id'] != $userId)
                 sendUnauthorized('Only the owner can see the wishlist');
 
-            $products = parseProducts($user->getWishlist($db), $request);
+            $products = parseProducts($user->getWishlist($db), $request, $db);
             sendOk([
                 'products' => $products,
                 'links' => [
@@ -65,7 +65,7 @@ switch ($method) {
                 sendNotFound();
 
             sendOk([
-                'product' => parseProduct($product, $request),
+                'product' => parseProduct($product, $request, $db),
                 'links' => [
                     'rel' => 'self',
                     'href' => $request->getServerHost() . '/api/wishlist/' . $userId . '/' . $productId . '/',
