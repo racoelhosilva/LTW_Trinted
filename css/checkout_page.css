@@ -159,10 +159,15 @@
   text-align: center;
 }
 
+#checkout-empty .empty-cart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 #checkout-empty #shopping-cart-icon {
-  margin: auto;
-  width: 15em;
-  height: 15em;
+  font-size: 20em;
 }
 
 /* Responsive UI */
@@ -189,5 +194,9 @@
 @media (max-width: 550px) {
   #checkout-page {
     font-size: 0.7em;
+  }
+
+  #checkout-empty #shopping-cart-icon {
+    font-size: 10em;
   }
 }
