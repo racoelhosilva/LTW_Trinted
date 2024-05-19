@@ -49,12 +49,12 @@ function unbanUser(userId: number) {
 }
 
 function makeUserAdmin(userId: number) {
-    postData("api/make_admin.php", {user_id: userId}).then(response => response.json()).then(json => {
-        if (json.status == "success") {
+    patchData(`/api/user/${userId}/`, {type: 'admin', csrf: getCsrfToken()}).then(response => response.json()).then(json => {
+        if (json.success) {
             setAdminButton();
-            sendToastMessage(json.message, "success");
+            sendToastMessage('User promoted successfully', "success");
         } else {
-            sendToastMessage(json.message, "error");
+            sendToastMessage(json.error, "error");
         }
     });
 }
