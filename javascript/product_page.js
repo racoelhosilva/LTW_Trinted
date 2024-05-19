@@ -1,14 +1,14 @@
 "use strict";
 function getCart() {
-    return getData('../actions/action_get_cart.php')
+    return getData('/actions/action_get_cart.php')
         .then(response => response.json());
 }
 function addItemToCart(productId, csrfToken) {
-    return postData('../actions/action_edit_cart.php', { 'product-id': productId, remove: false, csrf: csrfToken })
+    return postData('/actions/action_edit_cart.php', { 'product-id': productId, remove: false, csrf: csrfToken })
         .then(response => response.json());
 }
 function removeItemFromCart(productId, csrfToken) {
-    return postData('../actions/action_edit_cart.php', { 'product-id': productId, remove: true, csrf: csrfToken })
+    return postData('/actions/action_edit_cart.php', { 'product-id': productId, remove: true, csrf: csrfToken })
         .then(response => response.json());
 }
 const prevPhotoButton = document.querySelector('#prev-photo');
@@ -66,7 +66,7 @@ function updateCartButtonText(cartButton, itemSelected) {
         cartButton.innerHTML = 'Add to Cart';
 }
 if (cartButton) {
-    const productId = parseInt(document.location.pathname.split('/').pop() || '-1');
+    const productId = parseInt(extractPathEnd());
     let itemSelected = false;
     getCart()
         .then(json => {

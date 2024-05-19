@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 function createProduct(form, files) {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a;
         const images = [];
         for (let i = 0; i < files.length; i++) {
             const result = yield uploadImage(files[i], 'posts')
@@ -33,16 +32,16 @@ function createProduct(form, files) {
             if (!result)
                 return false;
         }
-        const formData = convertToObject(new FormData(form));
+        const formData = new FormData(form);
         let productId;
         try {
             let response = yield postData("/api/product/", {
-                title: formData['title'],
-                description: formData['description'],
-                price: formData['price'],
-                category: formData['category'],
-                condition: formData['condition'],
-                size: formData['size'],
+                title: formData.get('title'),
+                description: formData.get('description'),
+                price: formData.get('price'),
+                category: formData.get('category'),
+                condition: formData.get('condition'),
+                size: formData.get('size'),
                 image: images[0],
                 csrf: getCsrfToken(),
             });
@@ -56,21 +55,22 @@ function createProduct(form, files) {
                 return false;
             }
             images.shift();
-            response = yield postData(`/api/product/${productId}/images/`, {
-                'images[]': images,
-                csrf: getCsrfToken(),
-            });
+            let data = { csrf: getCsrfToken() };
+            for (let i = 0; i < images.length; i++)
+                data[`images[${i}]`] = images[i];
+            response = yield postData(`/api/product/${productId}/images/`, data);
             json = yield response.json();
             if (!json.success) {
                 sendToastMessage("An unexpected error occurred", "error");
                 console.error(json.error);
                 return false;
             }
-            if (formData['brands'] !== undefined) {
-                response = yield putData(`/api/product/${productId}/brands/`, {
-                    'brands[]': (_a = formData['brands']) !== null && _a !== void 0 ? _a : [],
-                    csrf: getCsrfToken(),
-                });
+            if (formData.getAll('brands') !== undefined) {
+                const brands = formData.getAll('brands');
+                data = { csrf: getCsrfToken() };
+                for (let i = 0; i < brands.length; i++)
+                    data[`brands[${i}]`] = brands[i];
+                response = yield putData(`/api/product/${productId}/brands/`, data);
                 json = yield response.json();
                 if (!json.success) {
                     sendToastMessage("An unexpected error occurred", "error");
@@ -85,22 +85,23 @@ function createProduct(form, files) {
             return false;
         }
         yield sendToastMessage("Product created successfully", "success");
-        document.location.assign(`/product/${productId}`);
+        document.location.assign(`/product/${productId}/`);
         return true;
     });
 }
 const newProductForm = document.querySelector("#add-product-form");
 const newProductButton = document.querySelector("#add-product-button");
 const productFileInput = document.querySelector('#product-image-input');
-const clearImagesButton = document.querySelector("#clear-product-picture");
-console;
+const clearImagesButton = document.querySelector("#clear-product-images");
 if (newProductForm && newProductButton && productFileInput && clearImagesButton) {
     newProductButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
         if (!newProductForm.checkValidity()) {
             newProductForm.reportValidity();
             return;
         }
+        newProductButton.disabled = true;
         yield createProduct(newProductForm, productFileInput.files);
+        newProductButton.disabled = false;
     }));
     clearImagesButton.addEventListener('click', () => {
         productFileInput.value = '';

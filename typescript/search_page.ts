@@ -16,7 +16,7 @@ async function updateProducts(
 }
 
 async function performSearch(searchQuery: string, filters: Array<string>, start: number, limit: number): Promise<Array<{[key: string]: string}>> {
-    let actionUrl = `../actions/action_search.php?query=${searchQuery}&start=${start}&limit=${limit}`;
+    let actionUrl = `/actions/action_search.php?query=${searchQuery}&start=${start}&limit=${limit}`;
     filters.forEach(filter => actionUrl += `&${filter}`);
 
     return getData(actionUrl)

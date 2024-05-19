@@ -10,11 +10,11 @@ const addProductButton = document.getElementById('add-button');
 
 if (addProductButton) {
     addProductButton.addEventListener('click', () => {
-        document.location.assign(`/new-product`);
+        document.location.assign(`/new-product/`);
     })
 }
 
-const idParam = window.location.pathname.split("/").pop();
+const idParam = extractPathEnd();
 let userId: number;
 
 if (idParam == null) {

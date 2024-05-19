@@ -42,3 +42,11 @@
     left: 10px;
     color: var(--light);
 }
+
+/* Responsive UI */
+
+@media (max-width: 650px) {
+	#footer-content {
+        font-size: 11px;
+    }
+}

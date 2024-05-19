@@ -2,7 +2,7 @@ const editProductButton = document.getElementById('edit-product-button');
 
 if (editProductButton) {
     editProductButton.addEventListener('click', () => {
-        document.location.assign(`/edit-product?id=${editProductButton.dataset.productId}`);
+        document.location.assign(`/edit-product/${editProductButton.dataset.productId}/`);
     })
 }
 

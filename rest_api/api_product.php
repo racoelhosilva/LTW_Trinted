@@ -31,7 +31,7 @@ function updateProductBrands(Product $product, array $brands, PDO $db): void
     foreach ($brands as $brandName) {
         $brand = Brand::getBrand($db, urlencode($brandName));
         if ($brand !== null) {
-            $product->removeBrand($db, $brand);
+            $product->addBrand($db, $brand);
         }
     }
 }
@@ -133,7 +133,7 @@ switch ($method) {
             $user = getSessionUser($request);
             if (!$request->paramsExist(['title', 'description', 'price', 'image']))
                 sendMissingFields();
-            if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT))
+            if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT) || (int)$request->post('price') < 0)
                 sendBadRequest('Invalid price value');
 
             try {
@@ -209,6 +209,8 @@ switch ($method) {
                 sendForbidden('User must be the original seller or admin to edit a product');
             if (!$request->paramsExist(['title', 'description', 'price']))
                 sendMissingFields();
+            if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT) || (int)$request->post('price') < 0)
+                sendBadRequest('Invalid price value');
 
             try {
                 updateProduct($product, $request, $db);
@@ -262,6 +264,8 @@ switch ($method) {
             $user = getSessionUser($request);
             if ($user['id'] !== $product->getSeller()->getId() && $user['type'] !== 'admin')
                 sendForbidden('User must be the original seller or admin to edit a product');
+            if ($request->post('price') != null && (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT) || (int)$request->post('price') < 0))
+                sendBadRequest('Invalid price value');
 
             try {
                 modifyProduct($product, $request, $db);

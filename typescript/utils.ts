@@ -63,7 +63,7 @@ const getLoggedInUserId = (function () {
     if (userId !== null)
       return userId;
     
-    return getData('../actions/action_current_user.php')
+    return getData('/actions/action_current_user.php')
       .then(response => response.json())
       .then(json => {
         if (json.success) {
@@ -148,7 +148,7 @@ function drawLikeButton(): HTMLElement {
 }
 
 function goToProduct(id: string): void {
-	document.location.assign(`/product/${id}`);
+	document.location.assign(`/product/${id}/`);
 }
 
 function getProductImages(productId: number): Promise<string[]> {
@@ -171,7 +171,7 @@ function getProductImages(productId: number): Promise<string[]> {
 }
 
 async function addToWishlist(productId: string, userId: string, csrfToken: string): Promise<boolean> {
-	return postData(`../api/wishlist/${userId}/`, {'product': productId, 'csrf': csrfToken})
+	return postData(`/api/wishlist/${userId}/`, {'product': productId, 'csrf': csrfToken})
 		.then(response => response.json())
 		.then(json => {
 			if (json.success) {
@@ -190,7 +190,7 @@ async function addToWishlist(productId: string, userId: string, csrfToken: strin
 }
 
 async function removeFromWishlist(productId: string, sellerId: string, csrfToken: string): Promise<boolean> {
-	return deleteData(`../api/wishlist/${sellerId}/${productId}/`, {'csrf': csrfToken})
+	return deleteData(`/api/wishlist/${sellerId}/${productId}/`, {'csrf': csrfToken})
 		.then(response => response.json())
 		.then(json => {
 			if (json.success) {
@@ -286,5 +286,10 @@ function escapeHtml(string: string): string {
   return String(string).replace(/[&<>"'\/]/g, function (s) {
     return entityMap[s];
   });
+}
+
+function extractPathEnd(): string {
+  const endpointParts = document.location.href.split('/');
+  return endpointParts[endpointParts.length - 1] !== '' ? endpointParts[endpointParts.length - 1] : endpointParts[endpointParts.length - 2];
 }
 

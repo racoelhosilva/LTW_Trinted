@@ -75,7 +75,7 @@ const getLoggedInUserId = (function () {
         return __awaiter(this, void 0, void 0, function* () {
             if (userId !== null)
                 return userId;
-            return getData('../actions/action_current_user.php')
+            return getData('/actions/action_current_user.php')
                 .then(response => response.json())
                 .then(json => {
                 if (json.success) {
@@ -147,7 +147,7 @@ function drawLikeButton() {
     return likeButton;
 }
 function goToProduct(id) {
-    document.location.assign(`/product/${id}`);
+    document.location.assign(`/product/${id}/`);
 }
 function getProductImages(productId) {
     return getData(`/api/product/${productId}/images`)
@@ -170,7 +170,7 @@ function getProductImages(productId) {
 }
 function addToWishlist(productId, userId, csrfToken) {
     return __awaiter(this, void 0, void 0, function* () {
-        return postData(`../api/wishlist/${userId}/`, { 'product': productId, 'csrf': csrfToken })
+        return postData(`/api/wishlist/${userId}/`, { 'product': productId, 'csrf': csrfToken })
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -191,7 +191,7 @@ function addToWishlist(productId, userId, csrfToken) {
 }
 function removeFromWishlist(productId, sellerId, csrfToken) {
     return __awaiter(this, void 0, void 0, function* () {
-        return deleteData(`../api/wishlist/${sellerId}/${productId}/`, { 'csrf': csrfToken })
+        return deleteData(`/api/wishlist/${sellerId}/${productId}/`, { 'csrf': csrfToken })
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -281,4 +281,8 @@ function escapeHtml(string) {
     return String(string).replace(/[&<>"'\/]/g, function (s) {
         return entityMap[s];
     });
+}
+function extractPathEnd() {
+    const endpointParts = document.location.href.split('/');
+    return endpointParts[endpointParts.length - 1] !== '' ? endpointParts[endpointParts.length - 1] : endpointParts[endpointParts.length - 2];
 }

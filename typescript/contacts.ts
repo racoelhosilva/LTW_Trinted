@@ -12,7 +12,7 @@ contactCards.forEach((contactCard) => {
 
 	avatar.addEventListener("click", (event) => {
         event.stopPropagation();
-		document.location.assign(`/profile/${userId}`);
+		document.location.assign(`/profile/${userId}/`);
         return;
 	});
 });

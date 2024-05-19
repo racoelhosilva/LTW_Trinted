@@ -9,7 +9,7 @@ contactCards.forEach((contactCard) => {
     contactCard.addEventListener("click", () => document.location.assign(`/messages?id=${userId}`));
     avatar.addEventListener("click", (event) => {
         event.stopPropagation();
-        document.location.assign(`/profile/${userId}`);
+        document.location.assign(`/profile/${userId}/`);
         return;
     });
 });

@@ -34,7 +34,7 @@ require_once __DIR__ . '/../db/classes/Size.class.php';
                 <h3>Add Product Images</h3>
                 <input type="file" id="product-image-input" form="add-product-form" name="image" multiple required>
 
-                <input type="submit" id="clear-product-picture" form="add-product-form" value="Clear">
+                <input type="submit" id="clear-product-images" form="add-product-form" value="Clear">
             </div>
 
             <div class="information-field">

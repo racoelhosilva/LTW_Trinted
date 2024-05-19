@@ -29,6 +29,7 @@
 	color: var(--text);
     padding: 0.7em;
     width: 100%;
+    cursor: pointer;
 }
 
 #edit-product input[type="submit"] {
@@ -43,7 +44,7 @@
     margin-bottom: 2em;
 }
 
-#edit-product #delete-button {
+#edit-product #delete-product-button {
     color: var(--error);
 	background-color: var(--error-light);
 	border: 1px solid var(--error);

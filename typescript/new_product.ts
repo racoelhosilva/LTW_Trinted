@@ -20,17 +20,17 @@ async function createProduct(form: HTMLFormElement, files: FileList): Promise<bo
         if (!result) return false;
     }
 
-    const formData = convertToObject(new FormData(form));
+    const formData = new FormData(form);
     let productId;
     
     try {
         let response = await postData("/api/product/", {
-            title: formData['title'],
-            description: formData['description'],
-            price: formData['price'],
-            category: formData['category'],
-            condition: formData['condition'],
-            size: formData['size'],
+            title: formData.get('title'),
+            description: formData.get('description'),
+            price: formData.get('price'),
+            category: formData.get('category'),
+            condition: formData.get('condition'),
+            size: formData.get('size'),
             image: images[0],
             csrf: getCsrfToken(),
         });
@@ -45,10 +45,12 @@ async function createProduct(form: HTMLFormElement, files: FileList): Promise<bo
         }
 
         images.shift();
-        response = await postData(`/api/product/${productId}/images/`, {
-            'images[]': images,
-            csrf: getCsrfToken(),
-        });
+
+        let data: any = { csrf: getCsrfToken() }
+        for (let i = 0; i < images.length; i++)
+            data[`images[${i}]`] = images[i];
+
+        response = await postData(`/api/product/${productId}/images/`, data);
         json = await response.json();
 
         if (!json.success) {
@@ -57,11 +59,13 @@ async function createProduct(form: HTMLFormElement, files: FileList): Promise<bo
             return false;
         }
 
-        if (formData['brands'] !== undefined) {
-            response = await putData(`/api/product/${productId}/brands/`, {
-                'brands[]': formData['brands'] ?? [],
-                csrf: getCsrfToken(),
-            });
+        if (formData.getAll('brands') !== undefined) {
+            const brands = formData.getAll('brands');
+            data = { csrf: getCsrfToken() };
+            for (let i = 0; i < brands.length; i++)
+                data[`brands[${i}]`] = brands[i];
+
+            response = await putData(`/api/product/${productId}/brands/`, data);
             json = await response.json();
 
             if (!json.success) {
@@ -77,15 +81,14 @@ async function createProduct(form: HTMLFormElement, files: FileList): Promise<bo
     }
 
     await sendToastMessage("Product created successfully", "success");
-    document.location.assign(`/product/${productId}`);
+    document.location.assign(`/product/${productId}/`);
     return true;
 }
 
 const newProductForm: HTMLFormElement | null = document.querySelector("#add-product-form");
 const newProductButton: HTMLFormElement | null = document.querySelector("#add-product-button");
 const productFileInput: HTMLInputElement | null = document.querySelector('#product-image-input');
-const clearImagesButton: HTMLElement | null = document.querySelector("#clear-product-picture");
-console
+const clearImagesButton: HTMLElement | null = document.querySelector("#clear-product-images");
 
 if (newProductForm && newProductButton && productFileInput && clearImagesButton) {
 
@@ -95,7 +98,9 @@ if (newProductForm && newProductButton && productFileInput && clearImagesButton)
             return;
         }
 
-        await createProduct(newProductForm, productFileInput!.files!);      
+        newProductButton.disabled = true;
+        await createProduct(newProductForm, productFileInput!.files!);     
+        newProductButton.disabled = false; 
     })
 
 

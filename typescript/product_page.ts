@@ -1,15 +1,15 @@
 function getCart(): Promise<any> {
-  return getData('../actions/action_get_cart.php')
+  return getData('/actions/action_get_cart.php')
     .then(response => response.json());
 }
 
 function addItemToCart(productId: number, csrfToken: string): Promise<any> {
-  return postData('../actions/action_edit_cart.php', { 'product-id': productId, remove: false, csrf: csrfToken })
+  return postData('/actions/action_edit_cart.php', { 'product-id': productId, remove: false, csrf: csrfToken })
     .then(response => response.json());
 }
 
 function removeItemFromCart(productId: number, csrfToken: string): Promise<any> {
-  return postData('../actions/action_edit_cart.php', { 'product-id': productId, remove: true, csrf: csrfToken })
+  return postData('/actions/action_edit_cart.php', { 'product-id': productId, remove: true, csrf: csrfToken })
     .then(response => response.json());
 }
 
@@ -77,7 +77,7 @@ function updateCartButtonText(cartButton: HTMLElement, itemSelected: boolean): v
 }
 
 if (cartButton) {
-  const productId = parseInt(document.location.pathname.split('/').pop() || '-1');
+  const productId = parseInt(extractPathEnd());
   let itemSelected = false;
 
   getCart()
