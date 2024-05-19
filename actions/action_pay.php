@@ -13,16 +13,16 @@ function getSubtotal(array $cart): float {
     return $subtotal;
 }
 
-function parsePayment(array $cart): Payment {
-    $firstName = sanitize($_POST['first-name']);
-    $lastName = sanitize($_POST['last-name']);
-    $email = sanitize($_POST['email']);
-    $phone = sanitize($_POST['phone']);
-    $address = sanitize($_POST['address']);
-    $zipCode = sanitize($_POST['zip']);
-    $town = sanitize($_POST['town']);
-    $country = sanitize($_POST['country']);
-    $shipping = sanitize($_POST['shipping']);
+function parsePayment(array $cart, Request $request): Payment {
+    $firstName = sanitize($request->post('first-name'));
+    $lastName = sanitize($request->post('last-name'));
+    $email = sanitize($request->post('email'));
+    $phone = sanitize($request->post('phone'));
+    $address = sanitize($request->post('address'));
+    $zipCode = sanitize($request->post('zip'));
+    $town = sanitize($request->post('town'));
+    $country = sanitize($request->post('country'));
+    $shipping = sanitize($request->post('shipping'));
     $paymentDatetime = time();
     return new Payment(getSubtotal($cart), $shipping, $firstName, $lastName, $email, $phone, $address, $zipCode, $town, $country, $paymentDatetime);
 }
@@ -31,7 +31,7 @@ function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
     $payment->upload($db);
     foreach ($cart as $item) {
         $product = Product::getProductByID($db, (int)$item->getId());
-        $product->associateToPayment($db, (int)$payment->getId());
+        $product->associateToPayment($db, $payment);
     }
 }
 
@@ -40,16 +40,12 @@ $db = getDatabaseConnection();
 
 header('Content-Type: application/json');
 
-if (!$request->getMethod() != 'POST') {
+if (!$request->getMethod() !== 'POST') {
     sendMethodNotAllowed();
 }
-
 if (!$request->paramsExist(['first-name', 'last-name', 'email', 'phone', 'address', 'zip', 'town', 'country', 'shipping'])) {
     sendMissingFields();
 }
-
-$request = new Request();
-$session = $request->getSession();
 
 if (!$request->verifyCsrf()) {
     sendCrsfMismatch();
@@ -58,18 +54,17 @@ if (!userLoggedIn($request)) {
     sendUserNotLoggedIn();
 }
 
-$cart = getCookie('cart') ?? [];
-if ($cart == []) {
-    die(json_encode(array('success' => false, 'error' => 'Shopping cart empty')));
-}
+$cart = $request->cookie('cart', []);
+if ($cart == [])
+    sendUnprocessableEntity('Shopping cart empty');
 
 try {
-    $payment = parsePayment($cart);
-
-    $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
+    $payment = parsePayment($cart, $request);
     submitPaymentToDb($payment, $db, $cart);
-    putCookie('cart', []);
+    $request->setCookie('cart', []);
 } catch (Exception $e) {
-    die(json_encode(array('success' => false, 'error' => $e->getMessage())));
+    error_log($e->getMessage());
+    sendInternalServerError();
 }
-die(json_encode(array('success' => true)));
+
+sendOk(['payment' => $payment]);

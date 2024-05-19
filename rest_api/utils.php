@@ -57,6 +57,12 @@ function sendConflict(): void
     die(json_encode(['success' => false, 'error' => 'Conflict']));
 }
 
+function sendUnprocessableEntity(string $message): void
+{
+    http_response_code(422);
+    die(json_encode(['success' => false, 'error' => $message]));
+}
+
 function sendInternalServerError(): void
 {
     http_response_code(500);

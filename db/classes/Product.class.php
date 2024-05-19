@@ -314,12 +314,15 @@ class Product
         }, $products);
     }
 
-    public function associateToPayment(PDO $db, int $paymentId): void {
+    public function associateToPayment(PDO $db, Payment $payment): void {
+        $paymentId = $payment->getId();
+        $productId = $this->id;
+
         $stmt = $db->prepare("UPDATE Product SET payment = :paymentId WHERE id = :productId");
         $stmt->bindParam(":paymentId", $paymentId);
-        $stmt->bindParam(":productId", $this->id);
+        $stmt->bindParam(":productId", $productId);
         $stmt->execute();
-        $this->payment = Payment::getPaymentById($db, (int)$paymentId);
+        $this->payment = Payment::getPaymentById($db, $paymentId);
     }
 
     public function delete(PDO $db): void {

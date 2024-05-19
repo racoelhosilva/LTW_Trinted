@@ -84,7 +84,12 @@ class Request
 
     public function cookie($key, $default = null)
     {
-        return Request::sanitize($this->cookies[$key]) ?? $default;
+        return Request::sanitize(json_decode($this->cookies[$key])) ?? $default;
+    }
+
+    public function setCookie($key, array $data): void {
+        setcookie($key, json_encode($data), ['samesite' => 'strict', 'expires' => 0, 'path' => '/']);
+        $this->cookies[$key] = $data;
     }
 
     public function header($key)
