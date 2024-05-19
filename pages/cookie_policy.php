@@ -81,7 +81,7 @@ require_once __DIR__ . '/../template/common.tpl.php';
                 However if you are still looking for more information then you can contact us through one of our
                 preferred contact methods:
                 Email: wewillnotrespond@trinted.com</p>
-        </section>2
+        </section>
     </main>
 <?php } ?>
 
