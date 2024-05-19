@@ -116,4 +116,13 @@ class Controller
         include_once('pages/cookie_policy.php');
         return drawCookiePolicyPage($this->request);
     }
+
+    /**
+     * @brief Generates privacy policy page
+     */
+    public function privacyPolicy()
+    {
+        include_once('pages/privacy_policy.php');
+        return drawPrivacyPolicyPage($this->request);
+    }
 }
