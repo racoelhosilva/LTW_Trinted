@@ -57,7 +57,7 @@ $routes = [
         'controller' => 'Controller@privacyPolicy',
         'middlewares' => []
     ],
-    'terms-and-conditions' => [
+    '/terms-and-conditions' => [
         'controller' => 'Controller@termsAndConditions',
         'middlewares' => []
     ],

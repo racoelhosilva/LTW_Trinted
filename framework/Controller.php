@@ -125,4 +125,13 @@ class Controller
         include_once('pages/privacy_policy.php');
         return drawPrivacyPolicyPage($this->request);
     }
+
+    /**
+     * @brief Generates terms and conditions page
+     */
+    public function termsAndConditions()
+    {
+        include_once('pages/terms_and_conditions.php');
+        return drawTermsAndConditionsPage($this->request);
+    }
 }

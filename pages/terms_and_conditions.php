@@ -4,27 +4,64 @@ declare(strict_types=1);
 include_once('template/common.tpl.php');
 ?>
 
-<?php function drawAboutPageContent() { ?>
+<?php function drawTermsAndConditionsContent()
+{ ?>
     <main id="about-page">
-        <h1>Welcome to Our Second-Hand Marketplace Platform!</h1>
+        <h1>Terms and Conditions</h1>
         <section>
-            <h2>Overview</h2>
-            <p>With Trinted, you can browse, wishlist, buy, and even sell all the second-hand clothing you could ever want!</p>
-            <p>Discover a wide variety of pre-loved fashion right at your fingertips. Whether you're looking for vintage pieces, designer labels, or everyday basics at a fraction of the retail price, Trinted has it all. Our platform is designed to make buying and selling second-hand clothes easy, fun, and secure.</p>
-            <p>Explore our extensive categories and find exactly what you need without breaking the bank. Our user-friendly interface allows you to search for items, add them to your wishlist, and complete purchases with just a few clicks. Selling your own clothing is just as simple—create a listing, upload photos, and set your price in minutes.</p>
-            <p>At Trinted, we believe in the power of sustainability and giving clothes a second life. By choosing second-hand fashion, you're not only saving money but also contributing to a more sustainable future. Every purchase helps reduce waste and supports a community of eco-conscious shoppers and sellers.</p>
+            <h2>Welcome to Trinted!</h2>
+            <p>These terms and conditions outline the rules and regulations for the use of Trinted LLC's Website,
+                located at trinted.com.
+            </p>
+            <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use Trinted
+                if you do not agree to take all of the terms and conditions stated on this page.
+            <p>The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice
+                and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and
+                compliant to the Company's terms and conditions. "The Company", "Ourselves", "We", "Our" and "Us",
+                refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves. All terms
+                refer to the offer, acceptance and consideration of payment necessary to undertake the process of our
+                assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's
+                needs in respect of provision of the Company's stated services, in accordance with and subject to,
+                prevailing law of pt. Any use of the above terminology or other words in the singular, plural,
+                capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
         </section>
-        <footer>
-            <p>Ready to get started? Create your account now and dive into the world of second-hand fashion with Trinted. Enjoy great deals, unique finds, and the satisfaction of knowing you’re making a difference. Happy shopping!</p>
-        </footer>
-    </main> 
+        <section>
+            <h2>Cookies</h2>
+            <p>We employ the use of cookies. By accessing Trinted, you agreed to use cookies in agreement with the
+                Trinted
+                LLC's Privacy Policy.
+            </p>
+            <p>Most interactive websites use cookies to let us retrieve the user's details for each visit. Cookies are
+                used by our website to enable the functionality of certain areas to make it easier for people visiting
+                our website. Some of our affiliate/advertising partners may also use cookies.
+            </p>
+        </section>
+        <section>
+            <h2>License</h2>
+            <p>Unless otherwise stated, Trinted LLC and/or its licensors own the intellectual property rights for all
+                material on Trinted. All intellectual property rights are reserved. You may access this from Trinted for
+                your own personal use subjected to restrictions set in these terms and conditions.
+            </p>
+            <p>You must not:</p>
+            <ul>
+                <li>Republish material from Trinted</li>
+                <li>Sell, rent or sub-license material from Trinted</li>
+                <li>Reproduce, duplicate or copy material from Trinted</li>
+                <li>Redistribute content from Trinted</li>
+            </ul>
+            <p>This Agreement shall begin on the date hereof.</p>
+            <p>Trinted LLC reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
+            </p>
+        </section>
+    </main>
 <?php } ?>
 
 <?php
-function drawAboutPage(Request $request) {
+function drawTermsAndConditionsPage(Request $request)
+{
     createPage(function () use (&$request) {
         drawMainHeader();
-        drawAboutPageContent();
+        drawTermsAndConditionsContent();
         drawFooter();
     });
 } ?>
