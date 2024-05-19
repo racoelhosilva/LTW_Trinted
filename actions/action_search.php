@@ -1,12 +1,8 @@
 <?php
 declare(strict_types=1);
 
-include_once(__DIR__ . '/utils.php');
-include_once(__DIR__ . '/../db/classes/Product.class.php');
-include_once(__DIR__ . '/../db/classes/User.class.php');
-include_once(__DIR__ . '/../db/classes/Size.class.php');
-include_once(__DIR__ . '/../db/classes/Condition.class.php');
-include_once(__DIR__ . '/../db/classes/Category.class.php');
+require_once __DIR__ . '/utils.php';
+require_once __DIR__ . '/../framework/Autoload.php';
 
 $filterTypes = ['category', 'size', 'condition'];
 

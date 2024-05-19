@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../framework/Autoload.php';
 ?>
 
 <?php function drawSettingsPageContent(Request $request)
 {
-    include_once('db/classes/User.class.php');
     $db = new PDO("sqlite:" . DB_PATH);
     $user = User::getUserByID($db, $request->session('user')['id']);
     ?>

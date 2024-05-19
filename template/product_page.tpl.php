@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
-include_once('template/product.tpl.php');
+require_once __DIR__ . '/common.tpl.php';
+require_once __DIR__ . '/product.tpl.php';
 ?>
 
 <?php function drawProductPhotos(Product $product)

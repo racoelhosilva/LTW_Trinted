@@ -13,7 +13,7 @@ class Controller {
      * @brief Generates main page
      */
     public function index(array $args) {
-        include_once('pages/main_page.php');
+        require_once __DIR__ . '/../pages/main_page.php';
         return drawMainPage($this->request);
     }
 
@@ -21,7 +21,7 @@ class Controller {
      * @brief Generates login page
      */
     public function login(array $args) {
-        include_once('pages/login_page.php');
+        require_once __DIR__ . '/../pages/login_page.php';
         return drawLoginPage($this->request);
     }
 
@@ -29,7 +29,7 @@ class Controller {
      * @brief Generates search page
      */
     public function search(array $args) {
-        include_once('pages/search_page.php');
+        require_once __DIR__ . '/../pages/search_page.php';
         return drawSearchPage($this->request);
     }
 
@@ -37,12 +37,12 @@ class Controller {
      * @brief Generates profile page
      */
     public function profile(array $args) {
-        include_once('pages/profile_page.php');
+        require_once __DIR__ . '/../pages/profile_page.php';
         return drawProfilePage($this->request, $args[0]);
     }
 
     public function banned(array $args) {
-        include_once('pages/banned_page.php');
+        require_once __DIR__ . '/../pages/banned_page.php';
         return drawBannedPage();
     }
 
@@ -50,7 +50,7 @@ class Controller {
      * @brief Generates product page
      */
     public function product(array $args) {
-        include_once('pages/product_page.php');
+        require_once __DIR__ . '/../pages/product_page.php';
         return drawProductPage($this->request, (int)$args[0]);
     }
 
@@ -58,7 +58,7 @@ class Controller {
      * @brief Generates settings page
      */
     public function settings() {
-        include_once('pages/settings_page.php');
+        require_once __DIR__ . '/../pages/settings_page.php';
         return drawSettingsPage($this->request);
     }
 
@@ -66,14 +66,14 @@ class Controller {
      * @brief Generates messages page
      */
     public function messages() {
-        include_once('pages/messages_page.php');
+        require_once __DIR__ . '/../pages/messages_page.php';
         return drawMessagePage($this->request);
     }
     /**
      * @brief Generates checkout page
      */
     public function checkout(array $args) {
-        include_once('pages/checkout_page.php');
+        require_once __DIR__ . '/../pages/checkout_page.php';
         return drawCheckoutPage($this->request);
     }
 
@@ -81,7 +81,7 @@ class Controller {
      * @brief Generates help page
      */
     public function help(array $args) {
-        include_once('pages/help_page.php');
+        require_once __DIR__ . '/../pages/help_page.php';
         return drawHelpPage($this->request);
     }
 
@@ -89,7 +89,7 @@ class Controller {
      * @brief Generates about page
      */
     public function about(array $args) {
-        include_once('pages/about_page.php');
+        require_once __DIR__ . '/../pages/about_page.php';
         return drawAboutPage($this->request);
     }
 }

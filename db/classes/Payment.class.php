@@ -1,6 +1,6 @@
 <?php
 
-include_once(__DIR__ . "/Product.class.php");
+require_once __DIR__ . "/Product.class.php";
 
 class Payment {
     private int $id;

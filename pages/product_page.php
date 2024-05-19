@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
-include_once('template/product_page.tpl.php');
-include_once('template/profile_page.tpl.php');
-include_once('template/shipping_form_page.tpl.php');
-include_once('pages/404_page.php');
-include_once('db/classes/Payment.class.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../template/product_page.tpl.php';
+require_once __DIR__ . '/../template/profile_page.tpl.php';
+require_once __DIR__ . '/../template/shipping_form_page.tpl.php';
+require_once __DIR__ . '/pages/404_page.php';
+require_once __DIR__ . '/../framework/Autoload.php';
 ?>
 
 <?php function drawProductPageContent(Request $request, int $productId)

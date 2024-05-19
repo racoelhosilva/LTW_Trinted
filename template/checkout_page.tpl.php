@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-include_once('db/classes/Product.class.php');
+require_once __DIR__ . '/../db/classes/Product.class.php';
 ?>
 
 <?php function drawOrderItems(array $products) { ?>

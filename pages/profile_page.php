@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
-include_once('template/profile_page.tpl.php');
-include_once('pages/404_page.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../template/profile_page.tpl.php';
+require_once __DIR__ . '/pages/404_page.php';
 ?>
 
 <?php function drawProfilePageContent(int $userId)

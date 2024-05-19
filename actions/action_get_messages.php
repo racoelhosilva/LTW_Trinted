@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
 
-include_once(__DIR__ . '/../db/classes/Message.class.php');
-include_once(__DIR__ . '/../db/classes/User.class.php');
-include_once(__DIR__ . '/utils.php');
+require_once __DIR__ . '/../framework/Autoload.php';
+require_once __DIR__ . '/utils.php';
 
 session_start();
 

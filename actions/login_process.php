@@ -3,7 +3,7 @@
 // Start session
 session_start();
 
-require_once __DIR__ . '/../db/classes/User.class.php';
+require_once __DIR__ . '/../framework/Autoload.php';
 
 if (isset($_POST['loginemail']) && isset($_POST["loginpassword"])) {
 

@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once '../db/classes/User.class.php';
-require_once '../template/profile_page.tpl.php';
+require_once __DIR__ . '/../db/classes/User.class.php';
+require_once __DIR__ . '/../template/profile_page.tpl.php';
 
 if ($_SESSION['user']['type'] != "admin") {
     die(json_encode(array('status' => 'error', 'message' => 'Access denied')));

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-include_once(__DIR__ . '/../framework/Request.php');
+require_once __DIR__ . '/../framework/Autoload.php';
 
 function sanitize(string $data): string {
     $data = trim($data);

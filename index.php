@@ -80,6 +80,6 @@ if ($route) {
     echo $controller->$actionName($args);
 } else {
     // Display 404 page if route is not defined
-    include_once ('pages/404_page.php');
+    require_once __DIR__ . '/pages/404_page.php';
     draw404Page();
 }

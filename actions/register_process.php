@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once '../db/classes/User.class.php';
+require_once '../framework/Autoload.php';
 
 if (isset($_POST['registername']) && isset($_POST["registeremail"]) && isset($_POST["registerpassword"])) {
 

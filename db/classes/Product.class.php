@@ -2,11 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . "/User.class.php";
-require_once __DIR__ . "/Size.class.php";
-require_once __DIR__ . "/Category.class.php";
-require_once __DIR__ . "/Condition.class.php";
-require_once __DIR__ . "/Payment.class.php";
+require_once __DIR__ . "/../framework/Autoload.php";
 
 class Product
 {

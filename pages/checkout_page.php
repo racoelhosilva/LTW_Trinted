@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
-include_once('template/checkout_page.tpl.php');
-include_once('db/classes/Product.class.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../template/checkout_page.tpl.php';
+require_once __DIR__ . '/../framework/Autoload.php';
 ?>
 
 <?php function drawCheckoutPageContent(Request $request) { ?>

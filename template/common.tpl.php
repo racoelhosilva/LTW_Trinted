@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-include_once('template/main_header.tpl.php');
-include_once('template/product.tpl.php');
+require_once __DIR__ . '/main_header.tpl.php';
+require_once __DIR__ . '/product.tpl.php';
 ?>
 
 <?php function createPage(callable $buildContent)

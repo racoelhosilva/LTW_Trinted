@@ -1,4 +1,8 @@
-<?php include_once ('template/product.tpl.php'); ?>
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/product.tpl.php';
+?>
 
 <?php function drawProfileImage(string $url)
 { ?>

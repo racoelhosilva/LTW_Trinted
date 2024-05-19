@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../framework/Autoload.php';
-include_once(__DIR__ . '/utils.php');
+require_once __DIR__ . '/utils.php';
 
 function setCart(array $cart): void {
     putCookie('cart', $cart);

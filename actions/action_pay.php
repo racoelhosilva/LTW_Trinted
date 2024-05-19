@@ -1,10 +1,8 @@
 <?php
 declare(strict_types=1);
 
-include_once(__DIR__ . '/../db/classes/Product.class.php');
-include_once(__DIR__ . '/../db/classes/Payment.class.php');
-include_once(__DIR__ . '/../framework/Session.class.php');
-include_once(__DIR__ . '/utils.php');
+require_once __DIR__ . '/../framework/Autoload.php';
+require_once __DIR__ . '/utils.php';
 
 function getSubtotal(array $cart): float {
     $subtotal = 0;
