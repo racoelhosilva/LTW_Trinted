@@ -21,16 +21,16 @@ include_once('db/classes/Size.class.php');
             <h2>Post Information</h2>
             <div class="dashboard-row">
                 <div class="stat-card">
-                    <h3><?= Post::getNumberOfPosts($db) ?></h3>
+                    <h3><?= Product::getNumberOfProducts($db) ?></h3>
                     <p>Total Posts</p> 
                 </div>
                 <div class="stat-card">
-                    <h3><?= Post::getNumberOfActivePosts($db) ?></h3>
+                    <h3><?= Product::getNumberOfActiveProducts($db) ?></h3>
                     <p>Active Posts</p>
                 </div>
                 
                 <div class="stat-card">
-                    <h3><?= Post::getNumberOfClosedPosts($db) ?></h3>
+                    <h3><?= Product::getNumberOfClosedProducts($db) ?></h3>
                     <p>Closed Posts</p>
                 </div>
             </div>
@@ -160,5 +160,5 @@ function drawDashboardPage(Request $request) {
         drawMainHeader();
         drawDashboardPageContent();
         drawFooter();
-    });
+    }, $request);
 } ?>

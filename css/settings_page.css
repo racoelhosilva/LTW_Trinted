@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    padding-bottom: 2em;
 }
 
 #settings-page section {
@@ -35,4 +36,18 @@
 	color: var(--light);
 	background-color: var(--lighter);
 	border: 1px solid var(--primary);
+}
+
+/* Responsive UI */
+
+@media screen and (max-width: 1200px) {
+    #settings-page section {
+        width: 50vw;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #settings-page section {
+        width: 80vw;
+    }
 }
