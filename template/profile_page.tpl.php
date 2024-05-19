@@ -42,6 +42,8 @@ require_once __DIR__ . '/product.tpl.php';
                 <label class="material-symbols-outlined">post_add</label>
             </button>
             <form method="post" action="/actions/action_logout.php">
+                <button type="submit" class="red-button" id="logout-button">Logout</button>
+            </form>
                 
         <?php } else { ?>
 
