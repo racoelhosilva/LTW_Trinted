@@ -42,8 +42,9 @@ include_once('db/classes/Size.class.php');
                     <option value="">Select a Brand</option>
                     <?php
                         $brands = Brand::getAll($db);
+                        print_r($brands);
                         foreach ($brands as $brand) { ?>
-                            <option value="<?= $brand->name ?>"><?= $brand->name ?></option>
+                            <option value="<?= $brand->getName() ?>"><?= $brand->getName() ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -54,7 +55,7 @@ include_once('db/classes/Size.class.php');
                     <?php
                     $categories = Category::getAll($db);
                     foreach ($categories as $category) { ?>
-                        <option value="<?= $category->category ?>"> <?= $category->category ?> </option>
+                        <option value="<?= $category->getName() ?>"> <?= $category->getName() ?> </option>
                     <?php } ?>
                 </select>
             </div>
@@ -65,7 +66,7 @@ include_once('db/classes/Size.class.php');
                     <?php
                     $conditions = Condition::getAll($db);
                     foreach ($conditions as $condition) { ?>
-                        <option value="<?= $condition->condition ?>"> <?= $condition->condition ?> </option>
+                        <option value="<?= $condition->getName() ?>"> <?= $condition->getName() ?> </option>
                     <?php } ?>
                 </select>
             </div>
@@ -76,7 +77,7 @@ include_once('db/classes/Size.class.php');
                     <?php
                     $sizes = Size::getAll($db);
                     foreach ($sizes as $size) { ?>
-                        <option value="<?= $size->size ?>"> <?= $size->size ?> </option>
+                        <option value="<?= $size->getName() ?>"> <?= $size->getName() ?> </option>
                     <?php } ?>
                 </select>
             </div>
@@ -91,5 +92,5 @@ include_once('db/classes/Size.class.php');
         drawMainHeader();
         drawNewProductPageContent();
         drawFooter();
-    });
+    }, $request);
 } ?>
