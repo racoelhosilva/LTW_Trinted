@@ -17,7 +17,7 @@ if (settingsButton) {
         document.location.assign('/settings/');
     });
 }
-const messagesHeaderButton = document.getElementById('message/');
+const messagesHeaderButton = document.getElementById('message');
 if (messagesHeaderButton) {
     messagesHeaderButton.addEventListener('click', () => {
         document.location.assign(`/messages/`);
