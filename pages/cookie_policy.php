@@ -89,7 +89,7 @@ require_once __DIR__ . '/../template/common.tpl.php';
 function drawCookiePolicyPage(Request $request)
 {
     createPage(function () use (&$request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawCookiePolicyContent($request);
         drawFooter();
     }, $request);

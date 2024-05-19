@@ -60,7 +60,7 @@ require_once __DIR__ . '/../template/common.tpl.php';
 function drawTermsAndConditionsPage(Request $request)
 {
     createPage(function () use (&$request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawTermsAndConditionsContent($request);
         drawFooter();
     }, $request);

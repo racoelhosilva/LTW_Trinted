@@ -68,7 +68,7 @@ require_once __DIR__ . '/../template/common.tpl.php';
 function drawPrivacyPolicyPage(Request $request)
 {
     createPage(function () use (&$request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawPrivacyPolicyContent($request);
         drawFooter();
     }, $request);
