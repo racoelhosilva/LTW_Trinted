@@ -105,7 +105,7 @@ class Controller
     /**
      * @brief Generates cookie policy page
      */
-    public function cookiePolicy()
+    public function cookiePolicy(array $args)
     {
         require_once __DIR__ . '/../pages/cookie_policy.php';
         return drawCookiePolicyPage($this->request);
@@ -114,7 +114,7 @@ class Controller
     /**
      * @brief Generates privacy policy page
      */
-    public function privacyPolicy()
+    public function privacyPolicy(array $args)
     {
        require_once __DIR__ . '/../pages/privacy_policy.php';
         return drawPrivacyPolicyPage($this->request);
@@ -123,7 +123,7 @@ class Controller
     /**
      * @brief Generates terms and conditions page
      */
-    public function termsAndConditions()
+    public function termsAndConditions(array $args)
     {
         require_once __DIR__ . '/../pages/terms_and_conditions.php';
         return drawTermsAndConditionsPage($this->request);
