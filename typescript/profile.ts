@@ -5,8 +5,8 @@ if (messageButton) {
         document.location.assign(`/messages?id=${messageButton.dataset.userId}`);
     })
 }
-const url = new URL(window.location.href);
-const idParam = url.searchParams.get("id");
+
+const idParam = (new URL(window.location.href)).searchParams.get("id");
 let userId: number;
 
 if (idParam == null) {

@@ -7,25 +7,25 @@ $request = new Request();
 $db = getDatabaseConnection();
 
 if ($request->getMethod() != 'POST') {
-    die(header("Location: /login?loginerror=Invalid request method"));
+    die(header("Location: /login?register-error=Invalid request method"));
 }
 if ($request->verifyCsrf()) {
-    die(header("Location: /login?loginerror=CSRF token is invalid"));
+    die(header("Location: /login?register-error=CSRF token is invalid"));
 }
-if (!$request->paramsExist(['register_name', 'register_email', 'register_password'])) {
-    die(header("Location: /login?loginerror=Name, email and password are required"));
+if (!$request->paramsExist(['register-name', 'register-email', 'register-password'])) {
+    die(header("Location: /login?register-error=Name, email and password are required"));
 }
 
-$name = $request->post('register_name');
-$email = $request->post('register_email');
-$password = $request->post('register_password');
+$name = $request->post('register-name');
+$email = $request->post('register-email');
+$password = $request->post('register-password');
 
 if (empty($name)) {
-    die(header("Location: /login?loginerror=Username is required"));
+    die(header("Location: /login?register-error=Username is required"));
 } else if (empty($email)) {
-    die(header("Location: /login?loginerror=Email is required"));
+    die(header("Location: /login?register-error=Email is required"));
 } else if (empty($password)) {
-    die(header("Location: /login?loginerror=Password is required"));
+    die(header("Location: /login?register-error=Password is required"));
 }
 
 try {
@@ -33,7 +33,7 @@ try {
     $user->hashPassword();
     $user->upload($db);
 } catch (Exception $e) {
-    die(header("Location: /login?loginerror=Email already in use"));
+    die(header("Location: /login?register-error=Email already in use"));
 }
 
 $request->getSession()->set('user', [

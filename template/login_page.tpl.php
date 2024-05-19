@@ -19,44 +19,44 @@ declare(strict_types=1); ?>
     </div>
 <?php } ?>
 
-<?php function drawLoginForm(string $csrfToken)
+<?php function drawLoginForm(Request $request)
 { ?>
     <div>
         <div class="loginform">
             <form action="/actions/action_login.php" method="post">
                 <p>If you already have an account:</p>
-                <input type="text" id="login-email" name="login_email" placeholder="Email">
-                <input type="password" id="login-password" name="login_password" placeholder="Password">
-                <input type="hidden" name="csrf" value="<?= $csrfToken ?>">
+                <input type="text" id="login-email" name="login-email" placeholder="Email">
+                <input type="password" id="login-password" name="login-password" placeholder="Password">
+                <input type="hidden" name="csrf" value="<?= $request->getSession()->getCsrf() ?>">
                 <input type="submit" value="Login">
             </form>
         </div>
-        <?php if (isset($_GET['loginerror'])) { ?>
+        <?php if (isset($_GET['login-error'])) { ?>
             <script>
-                alert("<?= $_GET['loginerror'] ?>")
+                alert("<?= $_GET['login-error'] ?>")
             </script>
         <?php }  ?>
     </div>
 <?php } ?>
 
-<?php function drawRegisterForm(string $csrfToken)
+<?php function drawRegisterForm(Request $request)
 { ?>
     <div>
         <div class="registerform">
             <form action="/actions/action_register.php" method="post">
                 <p>If you don't have an account:</p>
                 <div class="nameemail">
-                    <input type="text" id="registername" name="registername" placeholder="Name">
-                    <input type="text" id="registeremail" name="registeremail" placeholder="Email">
+                    <input type="text" id="register-name" name="register-name" placeholder="Name">
+                    <input type="text" id="register-email" name="register-email" placeholder="Email">
                 </div>
-                <input type="password" id="registerpassword" name="registerpassword" placeholder="Password">
-                <input type="hidden" name="csrf" value="<?= $csrfToken ?>">
+                <input type="password" id="register-password" name="register-password" placeholder="Password">
+                <input type="hidden" name="csrf" value="<?= $request->getSession()->getCsrf() ?>">
                 <input type="submit" value="Register">
             </form>
         </div>
-        <?php if (isset($_GET['registererror'])) { ?>
+        <?php if (isset($_GET['register-error'])) { ?>
             <script>
-                alert("<?= $_GET['registererror'] ?>")
+                alert("<?= $_GET['register-error'] ?>")
             </script>
         <?php }  ?>
     </div>

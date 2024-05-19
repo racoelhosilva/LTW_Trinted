@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../framework/Autoload.php';
+require_once __DIR__ . '/../db/utils.php';
 require_once __DIR__ . '/utils.php';
 
 function getSubtotal(array $cart): float {
@@ -34,10 +35,16 @@ function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
     }
 }
 
+$request = new Request();
+$db = getDatabaseConnection();
 
 header('Content-Type: application/json');
 
-if (!isset($_POST['first-name']) || !isset($_POST['last-name']) || !isset($_POST['email']) || !isset($_POST['phone']) || !isset($_POST['address']) || !isset($_POST['zip']) || !isset($_POST['town']) || !isset($_POST['country']) || !isset($_POST['shipping'])) {
+if (!$request->getMethod() != 'POST') {
+    sendMethodNotAllowed();
+}
+
+if (!$request->paramsExist(['first-name', 'last-name', 'email', 'phone', 'address', 'zip', 'town', 'country', 'shipping'])) {
     sendMissingFields();
 }
 

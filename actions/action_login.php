@@ -10,33 +10,33 @@ $request = new Request();
 $db = getDatabaseConnection();
 
 if ($request->getMethod() != 'POST') {
-    die(header("Location: /login?loginerror=Invalid request method"));
+    die(header("Location: /login?login-error=Invalid request method"));
 }
 
 if ($request->verifyCsrf()) {
-    die(header("Location: /login?loginerror=CSRF token is invalid"));
+    die(header("Location: /login?login-error=CSRF token is invalid"));
 }
 
-if (!$request->paramsExist(['login_email', 'login_password'])) {
-    die(header("Location: /login?loginerror=Email and password are required"));
+if (!$request->paramsExist(['login-email', 'login-password'])) {
+    die(header("Location: /login?login-error=Email and password are required"));
 }
 
-$email = $request->post('login_email');
-$password = $request->post('login_password');
+$email = $request->post('login-email');
+$password = $request->post('login-password');
 
 if (empty($email)) {
-    die(header("Location: /login?loginerror=Email is required"));
+    die(header("Location: /login?login-error=Email is required"));
 } else if (empty($password)) {
-    die(header("Location: /login?loginerror=Password is required"));
+    die(header("Location: /login?login-error=Password is required"));
 }
 
 $user = User::getUserByEmail($db, $email);
 if ($user == null)
-    die(header("Location: /login?loginerror=User not found"));
+    die(header("Location: /login?login-error=User not found"));
 
 $isPasswordCorrect = $user->validatePassword($password);
 if (!$isPasswordCorrect) {
-    die(header("Location: /login?loginerror=Invalid password"));
+    die(header("Location: /login?login-error=Invalid password"));
 }
 
 $request->getSession()->set('user', [
