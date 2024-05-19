@@ -1,58 +1,61 @@
 <?php
 declare(strict_types=1);
 
-include_once(__DIR__ . '/../db/classes/Post.class.php');
-include_once(__DIR__ . '/utils.php');
+require_once __DIR__ . '/../framework/Autoload.php';
+require_once __DIR__ . '/../db/utils.php';
+require_once __DIR__ . '/../rest_api/utils.php';
+require_once __DIR__ . '/utils.php';
 
-function setCart(array $cart): void {
-    putCookie('cart', $cart);
-}
-
-function getCart(): array {
-    return getCookie('cart') ?? [];
-}
-
-function addToCart(Post $post, PDO $db): bool {
-    $cart = getCart();
-    foreach ($cart as $cart_item) {
-        if ($cart_item->id == $post->id) {
-            return false;
+function addToCart(Product $product, Request $request, PDO $db): void {
+    $cart = getCart($request, $db);
+    foreach ($cart as $cartProduct) {
+        if ($cartProduct->getId() == $product->getId()) {
+            return;
         }
     }
 
-    $cart[] = parsePost($db, $post);
-    setCart($cart);
-    return true;
+    $cart[] = $product;
+    setCart($cart, $request);
 }
 
-function removeFromCart(Post $post): bool {
-    $cart = getCart();
-    foreach ($cart as $index => $cart_item) {
-        if ($cart_item->id == $post->id) {
+function removeFromCart(Product $product, Request $request, PDO $db): void {
+    $cart = getCart($request, $db);
+    foreach ($cart as $index => $cartProduct) {
+        if ($cartProduct->getId() == $product->getId()) {
             array_splice($cart, $index, 1);
-            setCart($cart);
-            return true;
+            setCart($cart, $request);
+            return;
         }
     }
-
-    return false;
 }
 
-if (!isset($_POST['post_id']) || !in_array($_POST['remove'], [true, false]))
-    die("Invalid request");
+$request = new Request();
+$db = getDatabaseConnection();
 
-session_start();
+header('Content-Type: application/json');
 
-$post_id = validate($_POST['post_id']);
-$remove = validate($_POST['remove']) === 'true';
-$db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
+if (!$request->paramsExist(['product-id', 'remove']))
+    sendMissingFields();
+if (!in_array($request->post('remove'), ['true', 'false']))
+    sendBadRequest('Invalid remove flag');
+
+if (!$request->verifyCsrf())
+    sendCrsfMismatch();
+
+$productId = $request->post('product-id');
+$remove = $request->post('remove') === 'true';
 
 try {
-    $post_id = (int)$post_id;
-    $post = Post::getPostByID($db, (int)$post_id);
+    $product = Product::getProductByID($db, (int)$productId);
+
+    if (!$remove)
+        addToCart($product, $request, $db);
+    else
+        removeFromCart($product, $request, $db);
 } catch (Exception $e) {
-    die(json_encode(array('success' => false, 'error' => $e->getMessage())));
+    error_log($e->getMessage());
+    sendInternalServerError();
 }
 
-$success = isset($post) && ((!$remove && addToCart($post, $db)) || ($remove && removeFromCart($post)));
-echo json_encode(array('success' => $success));
+sendOk(['success' => true]);
+

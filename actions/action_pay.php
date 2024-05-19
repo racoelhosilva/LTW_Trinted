@@ -1,63 +1,80 @@
 <?php
 declare(strict_types=1);
 
-include_once(__DIR__ . '/../db/classes/Post.class.php');
-include_once(__DIR__ . '/../db/classes/Payment.class.php');
-include_once(__DIR__ . '/utils.php');
+require_once __DIR__ . '/../framework/Autoload.php';
+require_once __DIR__ . '/../db/utils.php';
+require_once __DIR__ . '/../rest_api/utils.php';
+require_once __DIR__ . '/utils.php';
 
 function getSubtotal(array $cart): float {
     $subtotal = 0;
     foreach ($cart as $item) {
-        $subtotal += $item->price;
+        $subtotal += $item->getPrice();
     }
     return $subtotal;
 }
 
-function parsePayment(array $cart): Payment {
-    $firstName = validate($_POST['first-name']);
-    $lastName = validate($_POST['last-name']);
-    $email = validate($_POST['email']);
-    $phone = validate($_POST['phone']);
-    $address = validate($_POST['address']);
-    $zipCode = validate($_POST['zip']);
-    $town = validate($_POST['town']);
-    $country = validate($_POST['country']);
-    $shipping = validate($_POST['shipping']);
+function parsePayment(array $cart, User $buyer, Request $request): Payment {
+    $firstName = $request->post('first-name');
+    $lastName = $request->post('last-name');
+    $email = $request->post('email');
+    $phone = $request->post('phone');
+    $address = $request->post('address');
+    $zipCode = $request->post('zip');
+    $town = $request->post('town');
+    $country = $request->post('country');
+    $shipping = $request->post('shipping');
     $paymentDatetime = time();
-    return new Payment(getSubtotal($cart), $shipping, $firstName, $lastName, $email, $phone, $address, $zipCode, $town, $country, $paymentDatetime);
+    return new Payment(getSubtotal($cart), $shipping, $firstName, $lastName, $email, $phone, $address, $zipCode, $town, $country, $paymentDatetime, $buyer);
 }
 
 function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
     $payment->upload($db);
     foreach ($cart as $item) {
-        $post = Post::getPostByID($db, (int)$item->id);
-        $post->associateToPayment($db, (int)$payment->id);
+        $product = Product::getProductByID($db, $item->getId());
+        $product->associateToPayment($db, $payment);
     }
 }
 
-session_start();
+$request = new Request();
+$db = getDatabaseConnection();
 
-if (!isset($_POST['first-name']) || !isset($_POST['last-name']) || !isset($_POST['email']) || !isset($_POST['phone']) || !isset($_POST['address']) || !isset($_POST['zip']) || !isset($_POST['town']) || !isset($_POST['country']) || !isset($_POST['shipping'])) {
-    die(json_encode(array('success' => false, 'error' => 'Missing fields')));
-}
+header('Content-Type: application/json');
 
-if (!isset($_SESSION['user_id'])) {
-    die(json_encode(array('success' => false, 'error' => 'User not logged in')));
-}
+if ($request->getMethod() !== 'POST')
+    sendMethodNotAllowed();
+if (!$request->verifyCsrf())
+    sendCrsfMismatch();
+if (!userLoggedIn($request)) 
+    sendUserNotLoggedIn();
 
-$cart = getCookie('cart') ?? [];
-if ($cart == []) {
-    die(json_encode(array('success' => false, 'error' => 'Shopping cart empty')));
+
+if (!$request->paramsExist(['first-name', 'last-name', 'email', 'phone', 'address', 'zip', 'town', 'country', 'shipping'])) {
+    sendMissingFields();
 }
+if (!filter_var($request->post('email'), FILTER_VALIDATE_EMAIL))
+    sendBadRequest('Invalid email address');
+if (!filter_var($request->post('phone'), FILTER_VALIDATE_INT))
+    sendBadRequest('Invalid phone number');
+if (!preg_match('/^[0-9]{4}-[0-9]{3}$/', $request->post('zip')))
+    sendBadRequest('Invalid zip code');
+if (!filter_var($request->post('shipping'), FILTER_VALIDATE_FLOAT))
+    sendBadRequest('Invalid shipping value');
+
+$cart = getCart($request, $db);
+if ($cart == [])
+    sendUnprocessableEntity('Shopping cart empty');
 
 try {
-    $payment = parsePayment($cart);
+    $sessionUser = getSessionUser($request);
+    $buyer = User::getUserByID($db, (int)$sessionUser['id']);
 
-    $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
+    $payment = parsePayment($cart, $buyer, $request);
     submitPaymentToDb($payment, $db, $cart);
+    setCart([], $request);
 } catch (Exception $e) {
-    die(json_encode(array('success' => false, 'error' => $e->getMessage())));
+    error_log($e->getMessage());
+    sendInternalServerError();
 }
 
-putCookie('cart', []);
-die(json_encode(array('success' => true)));
+sendOk(['payment' => $payment]);

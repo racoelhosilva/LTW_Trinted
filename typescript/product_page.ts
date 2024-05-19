@@ -3,13 +3,13 @@ function getCart(): Promise<any> {
     .then(response => response.json());
 }
 
-function addItemToCart(postId: number): Promise<any> {
-  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: false })
+function addItemToCart(productId: number, csrfToken: string): Promise<any> {
+  return postData('../actions/action_edit_cart.php', { 'product-id': productId, remove: false, csrf: csrfToken })
     .then(response => response.json());
 }
 
-function removeItemFromCart(postId: number): Promise<any> {
-  return postData('../actions/action_edit_cart.php', { post_id: postId, remove: true })
+function removeItemFromCart(productId: number, csrfToken: string): Promise<any> {
+  return postData('../actions/action_edit_cart.php', { 'product-id': productId, remove: true, csrf: csrfToken })
     .then(response => response.json());
 }
 
@@ -77,14 +77,14 @@ function updateCartButtonText(cartButton: HTMLElement, itemSelected: boolean): v
 }
 
 if (cartButton) {
-  const postId = parseInt(document.location.search.split('=')[1]);
+  const productId = parseInt(document.location.pathname.split('/').pop() || '-1');
   let itemSelected = false;
 
   getCart()
     .then(json => {
       const cart: Array<{ [key: string]: any }> = json.cart;
 
-      itemSelected = cart.map(item => item.id).includes(postId);
+      itemSelected = cart.map(item => item.id).includes(productId);
       updateCartButtonText(cartButton, itemSelected);
     })
     .catch(error => {
@@ -92,8 +92,9 @@ if (cartButton) {
       console.error(error);
     });
 
+  const csrfToken = cartButton.dataset.csrfToken || '';
   cartButton.addEventListener('click', () => {
-    let response = !itemSelected ? addItemToCart(postId) : removeItemFromCart(postId);
+    let response = !itemSelected ? addItemToCart(productId, csrfToken) : removeItemFromCart(productId, csrfToken);
     response
       .then(json => {
         if (json.success) {

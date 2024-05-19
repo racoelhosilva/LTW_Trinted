@@ -1,28 +1,28 @@
 <?php
 declare(strict_types=1);
 
-include_once('db/classes/Post.class.php');
+require_once __DIR__ . '/../db/classes/Product.class.php';
 ?>
 
-<?php function drawOrderItems(array $posts) { ?>
+<?php function drawOrderItems(array $products) { ?>
     <section id="order-items">
         <h1>Order</h1>
-        <?php foreach ($posts as $post) { ?>
-            <?php drawOrderItemCard($post); ?>
+        <?php foreach ($products as $product) { ?>
+            <?php drawOrderItemCard($product); ?>
         <?php } ?>
     </section>
 <?php } ?>
 
-<?php function drawOrderItemCard(Post $post) { ?>
+<?php function drawOrderItemCard(Product $product) { ?>
     <?php $db = new PDO("sqlite:" . DB_PATH); ?>
-    <div class="order-item-card" data-post-id="<?= $post->id ?>">
-        <img src="<?= $post->getAllImages($db)[0]->url ?>" alt="Product Image">
+    <div class="order-item-card" data-product-id="<?= $product->getId() ?>">
+        <img src="<?= $product->getAllImages($db)[0]->getUrl() ?>" alt="Product Image">
         <div>
-            <h1><?= $post->title ?></h1>
-            <p><?= $post->item->size->size ?> - <?= $post->item->condition->condition ?></p>
+            <h1><?= $product->getTitle() ?></h1>
+            <p><?= $product->getSize()->getName() ?> - <?= $product->getCondition()->getName() ?></p>
         </div>
         <div>
-            <p>$<?= $post->price ?></h1>
+            <p>$<?= $product->getPrice() ?></>
             <p class="num-items">2</p>
         </div>
     </div>
@@ -49,11 +49,12 @@ include_once('db/classes/Post.class.php');
     </section>
 <?php } ?>
 
-<?php function drawCheckoutForm() { ?>
+<?php function drawCheckoutForm(string $csrfToken) { ?>
     <section id="checkout-form">
         <h1>Shipping Information</h1>
-        <form id="checkout-info-form" action="actions/action_pay.php" method="post">
+        <form id="checkout-info-form" action="/actions/action_pay.php" method="post">
             <input type="hidden" name="shipping" value="0.00">
+            <input type="hidden" name="csrf" value="<?= $csrfToken ?>">
             <div>
                 <input type="text" name="first-name" aria-label="First Name" placeholder="First Name*" required>
                 <input type="text" name="last-name" aria-label="Last Name" placeholder="Last Name*" required>
@@ -64,7 +65,7 @@ include_once('db/classes/Post.class.php');
             </div>
             <div>
                 <input type="text" name="address" aria-label="Address" placeholder="Address*" required>
-                <input type="text" name="zip" pattern="[0-9]{4}-[0-9]{3}" aria-label="Zip-Code" placeholder="Zip-Code*" required>
+                <input type="text" name="zip" pattern="^[0-9]{4}-[0-9]{3}$" aria-label="Zip-Code" placeholder="Zip-Code*" required>
             </div>
             <div>
                 <input type="text" name="town" aria-label="Town" placeholder="Town*" required>
@@ -72,5 +73,10 @@ include_once('db/classes/Post.class.php');
             </div>
         </form>
     </section>
+<?php } ?>
+
+<?php function drawEmptyCart() { ?>
+    <h1 id="checkout-message">No items in the cart</h1>
+    <i class="material-symbols-outlined" id="shopping-cart-icon">shopping_cart</i>
 <?php } ?>
 

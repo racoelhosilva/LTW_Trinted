@@ -1,28 +1,35 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
-include_once('template/checkout_page.tpl.php');
-include_once('db/classes/Post.class.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../template/checkout_page.tpl.php';
+require_once __DIR__ . '/../framework/Autoload.php';
+require_once __DIR__ . '/../actions/utils.php';
 ?>
 
-<?php function drawCheckoutPageContent() { ?>
+<?php function drawCheckoutPageContent(Request $request) {
+    $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
+    $cart = getCart($request, $db);
+
+    if (!empty($cart)) { ?>
     <main id="checkout-page">
         <?php drawOrderItems([]); ?>
         <?php drawCheckoutSummary(); ?>
-        <?php drawCheckoutForm(); ?>
+        <?php drawCheckoutForm($request->getSession()->getCsrf()); ?>
     </main>
-    <!-- <main id="checkout-empty" class="hidden">
-        <?php // drawEmptyCart(); ?>
-    </main> -->
-<?php } ?>
+    <?php } else { ?>
+    <main id="checkout-empty">
+        <?php drawEmptyCart(); ?>
+    </main>
+    <?php }
+} ?>
 
 <?php
 function drawCheckoutPage(Request $request) {
-    createPage(function () {
+    createPage(function () use ($request) {
         drawMainHeader();
-        drawCheckoutPageContent();
+        drawCheckoutPageContent($request);
         drawFooter();
-    });
+    }, $request);
 }
 ?>

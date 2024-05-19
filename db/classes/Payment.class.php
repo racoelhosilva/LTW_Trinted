@@ -1,22 +1,23 @@
 <?php
 
-include_once(__DIR__ . "/Post.class.php");
+require_once __DIR__ . '/../../framework/Autoload.php';
 
 class Payment {
-    public int $id;
-    public float $subtotal;
-    public string $shipping;
-    public string $firstName;
-    public string $lastName;
-    public string $email;
-    public string $phone;
-    public string $address;
-    public string $zipCode;
-    public string $town;
-    public string $country;
-    public int $paymentDatetime;
+    private int $id;
+    private float $subtotal;
+    private string $shipping;
+    private string $firstName;
+    private string $lastName;
+    private string $email;
+    private string $phone;
+    private string $address;
+    private string $zipCode;
+    private string $town;
+    private string $country;
+    private int $paymentDatetime;
+    private User $buyer;
 
-    public function __construct(float $subtotal, string $shipping, string $firstName, string $lastName, string $email, string $phone, string $address, string $zipCode, string $town, string $country, int $paymentDatetime) {
+    public function __construct(float $subtotal, string $shipping, string $firstName, string $lastName, string $email, string $phone, string $address, string $zipCode, string $town, string $country, int $paymentDatetime, User $buyer) {
         $this->subtotal = $subtotal;
         $this->shipping = $shipping;
         $this->firstName = $firstName;
@@ -28,10 +29,62 @@ class Payment {
         $this->town = $town;
         $this->country = $country;
         $this->paymentDatetime = $paymentDatetime;
+        $this->buyer = $buyer;
+    }
+
+    public function getId(): int {
+        return $this->id;
+    }
+
+    public function getSubtotal(): float {
+        return $this->subtotal;
+    }
+
+    public function getShipping(): string {
+        return $this->shipping;
+    }
+
+    public function getFirstName(): string {
+        return $this->firstName;
+    }
+
+    public function getLastName(): string {
+        return $this->lastName;
+    }
+
+    public function getEmail(): string {
+        return $this->email;
+    }
+
+    public function getPhone(): string {
+        return $this->phone;
+    }
+
+    public function getAddress(): string {
+        return $this->address;
+    }
+
+    public function getZipCode(): string {
+        return $this->zipCode;
+    }
+
+    public function getTown(): string {
+        return $this->town;
+    }
+
+    public function getCountry(): string {
+        return $this->country;
+    }
+
+    public function getPaymentDatetime(): int {
+        return $this->paymentDatetime;
     }
 
     public function upload(PDO $db): void {
-        $stmt = $db->prepare("INSERT INTO Payment (subtotal, shipping, firstName, lastName, email, phone, address, zipCode, town, country, paymentDatetime) VALUES (:subtotal, :shipping, :firstName, :lastName, :email, :phone, :address, :zipCode, :town, :country, :paymentDatetime)");
+        $buyer = $this->buyer->getId();
+
+        $stmt = $db->prepare("INSERT INTO Payment (subtotal, shipping, firstName, lastName, email, phone, address, zipCode, town, country, paymentDatetime, buyer)
+            VALUES (:subtotal, :shipping, :firstName, :lastName, :email, :phone, :address, :zipCode, :town, :country, :paymentDatetime, :buyer)");
         $stmt->bindParam(":subtotal", $this->subtotal);
         $stmt->bindParam(":shipping", $this->shipping);
         $stmt->bindParam(":firstName", $this->firstName);
@@ -43,6 +96,7 @@ class Payment {
         $stmt->bindParam(":town", $this->town);
         $stmt->bindParam(":country", $this->country);
         $stmt->bindParam(":paymentDatetime", $this->paymentDatetime);
+        $stmt->bindParam(":buyer", $buyer);
         $stmt->execute();
         $stmt = $db->prepare("SELECT last_insert_rowid()");
         $stmt->execute();
@@ -50,15 +104,15 @@ class Payment {
         $this->id = $id[0];
     }
 
-    public function getAssociatedPostsFromSeller(PDO $db, int $sellerId): array {
-        $stmt = $db->prepare("SELECT id FROM Post WHERE payment = :payment AND seller = :seller");
+    public function getAssociatedProductsFromSeller(PDO $db, int $sellerId): array {
+        $stmt = $db->prepare("SELECT id FROM Product WHERE payment = :payment AND seller = :seller");
         $stmt->bindParam(":payment", $this->id);
         $stmt->bindParam(":seller", $sellerId);
         $stmt->execute();
-        $posts = $stmt->fetchAll();
-        return array_map(function ($post) use ($db) {
-            return Post::getPostByID($db, $post["id"], false);
-        }, $posts);
+        $products = $stmt->fetchAll();
+        return array_map(function ($product) use ($db) {
+            return Product::getProductByID($db, $product["id"], false);
+        }, $products);
     }
 
     public static function getPaymentById(PDO $db, int $id): ?Payment {
@@ -81,6 +135,7 @@ class Payment {
                 $payment["town"],
                 $payment["country"],
                 $payment["paymentDatetime"],
+                User::getUserByID($db, (int)$payment["buyer"]),
             );
             $result->id = $id;
             return $result;

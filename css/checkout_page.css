@@ -153,6 +153,18 @@
   flex-grow: 20;
 }
 
+#checkout-empty #checkout-message {
+  color: var(--primary);
+  font-size: 36px;
+  text-align: center;
+}
+
+#checkout-empty #shopping-cart-icon {
+  margin: auto;
+  width: 15em;
+  height: 15em;
+}
+
 /* Responsive UI */
 
 @media (max-width: 1000px) {

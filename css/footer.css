@@ -2,6 +2,7 @@
     background-color: var(--darker);
     display: flex;
     justify-content: center;
+    height: 13em;
 }
 
 #footer-content {

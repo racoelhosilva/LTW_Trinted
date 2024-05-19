@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
+require_once __DIR__ . 'template/common.tpl.php';
 ?>
 
 <?php function drawAboutPageContent() { ?>
@@ -26,5 +26,5 @@ function drawAboutPage(Request $request) {
         drawMainHeader();
         drawAboutPageContent();
         drawFooter();
-    });
+    }, $request);
 } ?>

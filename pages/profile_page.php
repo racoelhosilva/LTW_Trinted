@@ -2,43 +2,45 @@
 
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
-include_once('template/profile_page.tpl.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../template/profile_page.tpl.php';
+require_once __DIR__ . '/404_page.php';
 ?>
 
-<?php function drawProfilePageContent(User $user)
+<?php function drawProfilePageContent(Request $request, int $userId)
 { ?>
     <?php
+    $db = new PDO("sqlite:" . DB_PATH);
+    $user = User::getUserByID($db, $userId);
+    if (!isset($user)) {
+        draw404PageContent();
+        return;
+    }
+
+    $profilePictureUrl = $user->getProfilePicture()->getUrl();
     ?>
     <main id="profile-page">
         <section id="profile-section">
-            <?php
-            $db = new PDO("sqlite:" . DB_PATH);
-            drawProfileImage($user->getProfilePicture($db)->url);
-            ?>
+            <?php drawProfileImage($profilePictureUrl) ?>
             <?php drawUserInfo($user); ?>
-            <?php drawUserButtons($user); ?>
+            <?php drawUserButtons($request, $user); ?>
         </section>
-        <!-- TODO: Check if user is seller -->
-        <?php if (in_array($user->type, ['seller', 'admin']))
-            drawUserProductSection($user); ?>
-        <?php if ($_SESSION['user_id'] == $user->id) {
-            drawWishlist($user);
-            drawSoldItems($user);
+        <?php if (in_array($user->getType(), ['seller', 'admin']))
+            drawUserProductSection($user, $request); ?>
+        <?php if (getSessionUser($request)['id'] == $user->getId()) {
+            drawWishlist($user, $request);
+            drawSoldItems($user, $request);
         } ?>
     </main>
     <?php } ?>
     
     <?php
-function drawProfilePage(Request $request)
+function drawProfilePage(Request $request, int $userId)
 {
-    createPage(function () {
+    createPage(function () use (&$request, $userId) {
         drawMainHeader();
-        session_start();
-
-        $db = new PDO("sqlite:" . DB_PATH);
-        drawProfilePageContent(User::getUserByID($db, intval($_GET['id'])));
+        drawProfilePageContent($request, $userId);
         drawFooter();
-    });
+    }, $request);
 }
 ?>

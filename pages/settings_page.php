@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../framework/Autoload.php';
 ?>
 
 <?php function drawSettingsPageContent(Request $request)
 {
-    include_once('db/classes/User.class.php');
     $db = new PDO("sqlite:" . DB_PATH);
-    $user = User::getUserByID($db, $request->session('user_id'));
+    $user = User::getUserByID($db, getSessionUser($request)['id']);
     ?>
 
     <main id="settings-page">
@@ -16,13 +16,11 @@ include_once('template/common.tpl.php');
             <h2>Account Information</h2>
             <div class="information-field">
                 <h3>Change Username</h3>
-                <input type="text" id="new-username" name="newusername" value="<?= $user->name ?>"
-                       placeholder="New Username">
+                <input type="text" id="new-username" name="newusername" value="<?= $user->getName() ?>" placeholder="New Username">
             </div>
             <div class="information-field">
                 <h3>Change E-mail</h3>
-                <input type="e-mail" id="new-email" name="newemail" value="<?= $user->email ?>"
-                       placeholder="New E-mail">
+                <input type="e-mail" id="new-email" name="newemail" value="<?= $user->getEmail() ?>" placeholder="New E-mail">
             </div>
             <div class="information-field">
                 <h3>Change Password</h3>
@@ -51,5 +49,5 @@ function drawSettingsPage(Request $request)
         drawMainHeader();
         drawSettingsPageContent($request);
         drawFooter();
-    });
+    }, $request);
 } ?>
