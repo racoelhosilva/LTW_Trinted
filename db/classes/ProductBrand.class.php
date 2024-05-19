@@ -5,12 +5,20 @@ require_once __DIR__ . '/Product.class.php';
 require_once __DIR__ . '/Brand.class.php';
 
 class ProductBrand {
-    public Product $product;
-    public Brand $brand;
+    private Product $product;
+    private Brand $brand;
 
     public function __construct(Product $product, Brand $brand){
         $this->product = $product;
         $this->brand = $brand;
+    }
+
+    public function getProduct(): Product {
+        return $this->product;
+    }
+
+    public function getBrand(): Brand {
+        return $this->brand;
     }
 
     public function upload(PDO $db){
