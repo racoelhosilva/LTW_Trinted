@@ -36,7 +36,7 @@ function drawMessage(message: { [key: string]: any }) {
     divElement.appendChild(contentParagraph);
     divElement.appendChild(datetimeParagraph);
 
-    allMessages!.append(divElement);
+    return divElement;
 }
 
 function dateFormat(datetime: number): string {
@@ -67,10 +67,11 @@ function dateFormat(datetime: number): string {
 
 function loadNewMessages() {
     fetchNewMessages(destinationId)
+        .then(messages => messages.map((message: any) => drawMessage(message)))
         .then(messages => {
             allMessages!.innerHTML = "";
             for (const message of messages){
-                drawMessage(message);
+                allMessages!.append(message);
             }
             resetObserver();
         })
@@ -81,7 +82,8 @@ function loadNewMessages() {
 }
 
 async function fetchNewMessages(dest: any) {
-    return getData(`../actions/action_get_messages.php?id=${dest}`)
+    const loggedInUserId = await getLoggedInUserId();
+    return getData(`/api/message/${loggedInUserId}/${dest}/`)
         .then(response => response.json())
         .then(json => {
             if (json.success) {
@@ -100,9 +102,10 @@ async function fetchNewMessages(dest: any) {
 
 function loadOldMessages() {
     fetchOldMessages(destinationId)
+        .then(messages => messages.map((message: any) => drawMessage(message)))
         .then(messages => {
             for (const message of messages){
-                drawMessage(message);
+                allMessages!.append(message);
             }
             resetObserver();
         })
@@ -113,10 +116,12 @@ function loadOldMessages() {
 }
 
 async function fetchOldMessages(dest: any) {
-    return getData(`../actions/action_get_messages.php?id=${dest}&lastId=${allMessages?.lastElementChild?.getAttribute('data-message-id')}`)
+    const loggedInUserId = await getLoggedInUserId();
+    return getData(`/api/message/${loggedInUserId}/${dest}?last_id=${allMessages?.lastElementChild?.getAttribute('data-message-id')}`)
         .then(response => response.json())
         .then(json => {
             if (json.success) {
+                console.log(json.messages);
                 return json.messages;
             } else {
                 sendToastMessage('Could not load messages, try again later', 'error');
@@ -131,7 +136,8 @@ async function fetchOldMessages(dest: any) {
 }
 
 async function sendMessage(message: string, dest: number): Promise<any> {
-    return postData("../actions/action_send_message.php",  {message: message, destID: dest})
+    const loggedInUserId = await getLoggedInUserId();
+    return postData(`/api/message/${loggedInUserId}/`,  {content: message, receiver: dest, csrf: getCsrfToken()})
       .then(response => response.json());
 }
 
@@ -187,5 +193,4 @@ if (destinationId && newmessage && messageBox && sendButton) {
 
     oldObserver.observe(allMessages?.lastElementChild!);
     newObserver.observe(allMessages?.firstElementChild!);
-
 }

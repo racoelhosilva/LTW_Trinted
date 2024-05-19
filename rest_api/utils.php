@@ -440,9 +440,11 @@ function parseMessage(Message $message, Request $request): array
     ];
 }
 
-function parseMessages(array $messages): array
+function parseMessages(array $messages, Request $request): array
 {
-    return array_map('parseMessage', $messages);
+    return array_map(function ($message) use ($request) {
+        return parseMessage($message, $request);
+    }, $messages);
 }
 
 function storeMessage(Request $request, PDO $db, User $sender, User $receiver): Message

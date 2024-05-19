@@ -33,8 +33,8 @@ switch ($method) {
                 sendUnauthorized('Only the sender and the receiver can see the respective messages');
 
             $lastId = $request->get('last_id');
-            $lastId = $lastId && !filter_var($lastId, FILTER_VALIDATE_INT) ? (int)$lastId : 20;
-            $messages = parseMessages(Message::getMessages($db, $user1, $user2, $lastId));
+            $lastId = $lastId != null && filter_var($lastId, FILTER_VALIDATE_INT) ? (int)$lastId : PHP_INT_MAX;
+            $messages = parseMessages(Message::getMessages($db, $user1, $user2, $lastId), $request);
             
             sendOk(['messages' => $messages]);
         } else {
@@ -75,6 +75,7 @@ switch ($method) {
             }
 
             sendCreated([
+                'message' => parseMessage($message, $request),
                 'links' => [
                     [
                         'rel' => 'messages',
