@@ -56,7 +56,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
 <?php } ?>
 
 
-<?php function drawProductInfo(Product $product) { ?>
+<?php function drawProductInfo(Product $product, Request $request) { ?>
     <?php
     $db = new PDO("sqlite:" . DB_PATH);
     $brands = $product->getBrands($db);
@@ -85,7 +85,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
             <p><strong>Description</strong></p>
         </div>
         <p class="description"><?= $product->getDescription() ?></p>
-        <button class="add-cart-button">Add to Cart</button>
+        <button class="add-cart-button" <?php if ($product->getSeller()->getId() == $request->session('user')['id']) ?>>Add to Cart</button>
     </div>
 <?php } ?>
 

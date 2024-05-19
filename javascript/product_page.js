@@ -78,7 +78,7 @@ if (cartButton) {
         sendToastMessage('An unexpected error occurred, try again', 'error');
         console.error(error);
     });
-    const csrfToken = cartButton.dataset.csrfToken || '';
+    const csrfToken = getCsrfToken();
     cartButton.addEventListener('click', () => {
         let response = !itemSelected ? addItemToCart(productId, csrfToken) : removeItemFromCart(productId, csrfToken);
         response

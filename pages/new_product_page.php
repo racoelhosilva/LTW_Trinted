@@ -15,34 +15,34 @@ require_once __DIR__ . '/../db/classes/Size.class.php';
     
     <main id="new-product">
         <section id="add-product">
+            <form id="add-product-form"></form>
             <h2>Add new product</h2>
             <div class="information-field">
                 <h3>Product Name</h3>
-                <input type="text" id="product-name" name="product-name" placeholder="Product Name" required>
+                <input type="text" id="product-name" form="add-product-form" name="title" placeholder="Product Title" required>
             </div>
             <div class="information-field">
                 <h3>Product Description</h3>
-                <input type="text" id="product-description" name="product-description" placeholder="Product Description" required>
+                <input type="text" id="product-description" form="add-product-form" name="description" placeholder="Product Description" required>
             </div>
             <div class="information-field">
                 <h3>Target Price</h3>
-                <input type="text" id="target-price" name="target-price" placeholder="Target Price" required>
+                <input type="text" id="target-price" form="add-product-form" name="price" placeholder="Target Price" required>
             </div>
 
             <div class="information-field">
                 <h3>Add Product Images</h3>
-                <input type="file" id="image-input" name="image" multiple required>
+                <input type="file" id="product-image-input" form="add-product-form" name="image" multiple required>
 
-                <input type="submit" id="clear-profile-picture" value="Clear">
+                <input type="submit" id="clear-product-picture" form="add-product-form" value="Clear">
             </div>
 
             <div class="information-field">
                 <h3>Brand</h3>
-                <select id="brand-select" name="brand">
+                <select id="brand-select" form="add-product-form" name="brands" multiple>
                     <option value="">Select a Brand</option>
                     <?php
                         $brands = Brand::getAll($db);
-                        print_r($brands);
                         foreach ($brands as $brand) { ?>
                             <option value="<?= $brand->getName() ?>"><?= $brand->getName() ?></option>
                     <?php } ?>
@@ -50,7 +50,7 @@ require_once __DIR__ . '/../db/classes/Size.class.php';
             </div>
             <div class="information-field">
                 <h3>Category</h3>
-                <select id="category-select" name="category">
+                <select id="category-select" form="add-product-form" name="category">
                     <option value="">Select a Category</option>
                     <?php
                     $categories = Category::getAll($db);
@@ -61,7 +61,7 @@ require_once __DIR__ . '/../db/classes/Size.class.php';
             </div>
             <div class="information-field">
                 <h3>Condition</h3>
-                <select id="condition-select" name="condition">
+                <select id="condition-select" form="add-product-form" name="condition">
                     <option value="">Select a Condition</option>
                     <?php
                     $conditions = Condition::getAll($db);
@@ -72,7 +72,7 @@ require_once __DIR__ . '/../db/classes/Size.class.php';
             </div>
             <div class="information-field">
                 <h3>Size</h3>
-                <select id="size-select" name="size">
+                <select id="size-select" form="add-product-form" name="size">
                     <option value="">Select a Size</option>
                     <?php
                     $sizes = Size::getAll($db);
@@ -82,7 +82,7 @@ require_once __DIR__ . '/../db/classes/Size.class.php';
                 </select>
             </div>
 
-            <input type="button" id="settings-button" value="Publish">
+            <input type="button" id="add-product-button" form="add-product-form" value="Publish">
         </section>
     </main>
 <?php } ?>

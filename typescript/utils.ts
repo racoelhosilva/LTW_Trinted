@@ -208,6 +208,25 @@ async function removeFromWishlist(productId: string, sellerId: string, csrfToken
 		});
 }
 
+async function uploadImage(file: File, subfolder: string): Promise<any> {
+  // Unfortunately, here we can't use the postData function because it doesn't support the necessary headers for file uploads.
+  const formData = new FormData();
+  formData.append("subfolder", subfolder);
+  formData.append("image", file);
+
+  const response = await fetch("/actions/action_upload_image.php", {
+      method: 'POST',
+      body: formData,
+  });
+
+  if (!response.ok) {
+      throw new Error(`Failed to upload profile picture: ${response.statusText}`);
+  } else {
+      const data = await response.json();
+      return data;
+  }
+}
+
 async function likeButtonOnClick(event: Event, likeButtonInput: HTMLInputElement, productId: string, userId: string, csrfToken: string): Promise<void> {
 	event.preventDefault();
 	event.stopPropagation();
@@ -252,5 +271,20 @@ async function drawProductCard(product: {[key: string]: any}): Promise<HTMLEleme
   }
 
   return productCard;
+}
+
+function escapeHtml(string: string): string {
+  const entityMap: any = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': '&quot;',
+    "'": '&#39;',
+    "/": '&#x2F;'
+  };
+
+  return String(string).replace(/[&<>"'\/]/g, function (s) {
+    return entityMap[s];
+  });
 }
 

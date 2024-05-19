@@ -45,7 +45,7 @@ require_once __DIR__ . '/product.tpl.php';
                 <button type="submit" class="red-button" id="logout-button">Logout</button>
             </form>
                 
-        <?php } else { ?>
+            <?php } else { ?>
 
             <button class="blue-button" id="message-button" data-user-id="<?= $user->getId() ?>">
                 <label class="material-symbols-outlined">message</label>

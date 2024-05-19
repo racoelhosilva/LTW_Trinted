@@ -55,10 +55,8 @@ function modifyProductBrands(Product $product, array $add, array $remove, PDO $d
 
 function addProductImages(Request $request, Product $product, array $images, PDO $db): void
 {
-    $images = uploadImages($request, $images, $db, "posts");
-    echo json_encode($images);
-    foreach ($images as $image) {
-        $product->addImage($db, $image);
+    foreach ($images as $imageUrl) {
+        $product->addImage($db, new Image($imageUrl));
     }
 }
 
@@ -133,19 +131,18 @@ switch ($method) {
                 sendUserNotLoggedIn();
 
             $user = getSessionUser($request);
-            if (!$request->paramsExist(['title', 'description', 'price']))
+            if (!$request->paramsExist(['title', 'description', 'price', 'image']))
                 sendMissingFields();
             if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT))
                 sendBadRequest('Invalid price value');
-
-            if ($request->files('images') == null)
-                sendBadRequest('Image files missing');
 
             try {
                 $user = User::getUserByID($db, $user['id']);
                 if ($user->getType() === 'buyer')
                     $user->setType($db, 'seller');
                 $product = createProduct($request, $user, $db);
+
+                
                 
             } catch (Exception $e) {
                 error_log($e->getMessage());
@@ -153,6 +150,7 @@ switch ($method) {
             }
 
             sendCreated([
+                'product' => parseProduct($product, $request, $db),
                 'links' => getProductLinks($product, $request), 
             ]);
 
@@ -171,7 +169,7 @@ switch ($method) {
                 sendForbidden('User must be the original seller or admin to update brands');
 
             try {
-                $images = $request->files('images') ?? [];
+                $images = $request->post('images') ?? [];
                 addProductImages($request, $product, $images, $db);
             } catch (Exception $e) {
                 error_log($e->getMessage());

@@ -120,7 +120,7 @@ if (brandsCard) {
                 if (!success)
                     return;
                 const newBrandItem = document.createElement("li");
-                newBrandItem.innerHTML = newBrandInput.value;
+                newBrandItem.innerHTML = escapeHtml(newBrandInput.value);
                 brandsList.appendChild(newBrandItem);
                 newBrandInput.value = "";
                 brandCount.innerHTML = (parseInt(brandCount.innerHTML) + 1).toString();
@@ -147,7 +147,7 @@ if (categoriesCard) {
                 if (!success)
                     return;
                 const newCategoryItem = document.createElement("li");
-                newCategoryItem.innerHTML = newCategoryInput.value;
+                newCategoryItem.innerHTML = escapeHtml(newCategoryInput.value);
                 categoriesList.appendChild(newCategoryItem);
                 newCategoryInput.value = "";
                 categoryCount.innerHTML = (parseInt(categoryCount.innerHTML) + 1).toString();
@@ -174,7 +174,7 @@ if (conditionsCard) {
                 if (!success)
                     return;
                 const newConditionItem = document.createElement("li");
-                newConditionItem.innerHTML = newConditionInput.value;
+                newConditionItem.innerHTML = escapeHtml(newConditionInput.value);
                 conditionsList.appendChild(newConditionItem);
                 newConditionInput.value = "";
                 conditionsCount.innerHTML = (parseInt(conditionsCount.innerHTML) + 1).toString();
@@ -201,7 +201,7 @@ if (sizesCard) {
                 if (!success)
                     return;
                 const newSizeItem = document.createElement("li");
-                newSizeItem.innerHTML = newSizeInput.value;
+                newSizeItem.innerHTML = escapeHtml(newSizeInput.value);
                 sizesList.appendChild(newSizeItem);
                 newSizeInput.value = "";
                 sizesCount.innerHTML = (parseInt(sizesCount.innerHTML) + 1).toString();

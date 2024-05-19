@@ -51,6 +51,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
             <script src="/javascript/profile.js" defer></script>
             <script src="/javascript/settings.js" defer></script>
             <script src="/javascript/dashboard_page.js" defer></script>
+            <script src="/javascript/new_product.js" defer></script>
             <title>Trinted</title>
         </head>
         <body>

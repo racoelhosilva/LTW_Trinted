@@ -22,7 +22,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
     if (is_null($product->getPayment())){ ?>
         <main id="product-page">
             <?php drawProductPhotos($product, $request); ?>
-            <?php drawProductInfo($product); ?>
+            <?php drawProductInfo($product, $request); ?>
             <?php drawRelatedProductsSection($product, $request); ?>
         </main>
     <?php } elseif (getSessionUser($request)['id'] == $product->getSeller()->getId()) { ?>

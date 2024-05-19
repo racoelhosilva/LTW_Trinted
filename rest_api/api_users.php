@@ -124,7 +124,7 @@ switch ($method) {
             $sessionUser = getSessionUser($request);
             if ($sessionUser['id'] != $user->getId() && $sessionUser['type'] != 'admin')
                 sendUnauthorized('User must be admin to update other users');
-            if ($sessionUser['type'] != 'admin' && userIsBeingPrivileged($user, $request->put('type'), $request))
+            if ($sessionUser['type'] != 'admin' && $request->put('type') != null && userIsBeingPrivileged($user, $request->put('type'), $request))
                 sendForbidden('User cannot be privileged by non-admin');
             if ($request->patch('is_banned') != null && $sessionUser['type'] != 'admin')
                 sendForbidden('User must be admin to ban users');

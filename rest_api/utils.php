@@ -188,15 +188,13 @@ function createProduct(Request $request, User $seller, PDO $db): Product
     $category = $request->post('category') != null ? Category::getCategory($db, $request->post('category')) : null;
     $condition = $request->post('condition') != null ? Condition::getCondition($db, $request->post('condition')) : null;
 
+    $imageUrl = $request->post('image');
+
     $product = new Product(null, $title, $price, $description, time(), $seller, $size, $category, $condition);
     $product->upload($db);
 
-    $requestImages = $request->files('images');
-    $images = uploadImages($request, $requestImages('images'), $db, 'product');
-    foreach ($images as $image) {
-        $productImage = new ProductImage($product, $image);
-        $productImage->upload($db);
-    }
+    $productImage = new ProductImage($product, new Image($imageUrl));
+    $productImage->upload($db);
     return $product;
 }
 

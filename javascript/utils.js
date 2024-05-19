@@ -210,6 +210,25 @@ function removeFromWishlist(productId, sellerId, csrfToken) {
         });
     });
 }
+function uploadImage(file, subfolder) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // Unfortunately, here we can't use the postData function because it doesn't support the necessary headers for file uploads.
+        const formData = new FormData();
+        formData.append("subfolder", subfolder);
+        formData.append("image", file);
+        const response = yield fetch("/actions/action_upload_image.php", {
+            method: 'POST',
+            body: formData,
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to upload profile picture: ${response.statusText}`);
+        }
+        else {
+            const data = yield response.json();
+            return data;
+        }
+    });
+}
 function likeButtonOnClick(event, likeButtonInput, productId, userId, csrfToken) {
     return __awaiter(this, void 0, void 0, function* () {
         event.preventDefault();
@@ -248,5 +267,18 @@ function drawProductCard(product) {
             productCard.appendChild(likeButton);
         }
         return productCard;
+    });
+}
+function escapeHtml(string) {
+    const entityMap = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+    };
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+        return entityMap[s];
     });
 }

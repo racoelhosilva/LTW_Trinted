@@ -65,19 +65,19 @@ VALUES ('https://i1.rgstatic.net/ii/profile.image/823368932679681-1573317859494_
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (1, 'JoshuaEBradley@rhyta.com', 'Joshua E. Bradley',
         '$2y$10$5qzG2ayXItO6hhltSvCLK.J41BWPnK8h9LKWT4BxD7716brYw2T4a', '1704112535',
-        'https://randomuser.me/api/portraits/men/84.jpg', 'seller');
+        'https://randomuser.me/api/portraits/men/84.jpg', 'buyer');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (2, 'JeffreyFCervantes@teleworm.us', 'Jeffrey F. Cervantes',
         '$2y$10$wgMqjjZwkncCqt14pJAjpeThLPopeez2XY8CoXHLwWmcj/4nHNCFe', '1707146712',
-        'https://randomuser.me/api/portraits/men/19.jpg', 'seller');
+        'https://randomuser.me/api/portraits/men/19.jpg', 'buyer');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (3, 'JohnAHill@armyspy.com', 'John A. Hill',
         '$2y$10$wqgEj1VXvv/sSANCNCpliuxZH3HrHW1XthJk2ATyHK2BQJYWiz0RK', '1709832885',
-        'https://randomuser.me/api/portraits/men/32.jpg', 'seller');
+        'https://randomuser.me/api/portraits/men/32.jpg', 'buyer');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (4, 'DennisMChandler@dayrep.com', 'Dennis M. Chandler',
         '$2y$10$pTsBH1AIIMOso.Dl/knV6OzJVH73Kn.FihC9xBIzI9NXc2gd6SBxS', '1711963292',
-        'https://randomuser.me/api/portraits/men/64.jpg', 'seller');
+        'https://randomuser.me/api/portraits/men/64.jpg', 'buyer');
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
 VALUES (5, 'up202204988@up.pt', 'Henrique Fernandes',
         '$2y$10$h5ldOURPVpPjsl44MzI1..7wPzCXV4x87f2ABP5ufxk1pcDK8EE7W', '1656513143',
@@ -112,7 +112,7 @@ VALUES ('Armwear'),
        ('Badges'),
        ('Belts'),
        ('Bags'),
-       ('Children''s clothing'),
+       ('Children&#039;s clothing'),
        ('Coats'),
        ('Dresses'),
        ('Footwear'),
