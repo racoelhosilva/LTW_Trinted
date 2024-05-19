@@ -79,8 +79,8 @@ require_once __DIR__ . '/../template/common.tpl.php';
                 interact with one of the features you use on our site.
                 For more general information on cookies, please read the Cookies Policy article.
                 However if you are still looking for more information then you can contact us through one of our
-                preferred contact methods:
-                Email: wewillnotrespond@trinted.com</p>
+                preferred contact methods:</p>
+                <p>Email: wewillnotrespond@trinted.com</p>
         </section>
     </main>
 <?php } ?>
