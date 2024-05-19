@@ -19,7 +19,7 @@ declare(strict_types=1); ?>
 { ?>
     <div id="action-buttons">
         <?php 
-        if ($request->session('type') == 'admin'){
+        if ($request->session('user')['type'] == 'admin'){
             drawHeaderButton('dashboard');
         } ?>
 

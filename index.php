@@ -49,6 +49,18 @@ $routes = [
         'controller' => 'Controller@about',
         'middlewares' => []
     ],
+    '/cookie-policy' => [
+        'controller' => 'Controller@cookiePolicy',
+        'middlewares' => []
+    ],
+    '/privacy-policy' => [
+        'controller' => 'Controller@privacyPolicy',
+        'middlewares' => []
+    ],
+    '/terms-and-conditions' => [
+        'controller' => 'Controller@termsAndConditions',
+        'middlewares' => []
+    ],
     '/api' => [
         'controller' => 'ApiController@handle',
         'middlewares' => []

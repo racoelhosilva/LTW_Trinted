@@ -1,11 +1,14 @@
 <?php
+
 /**
  * @brief Receives requests and Generates pages
  */
-class Controller {
+class Controller
+{
     private $request;
 
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
         $this->request = $request;
     }
 
@@ -74,6 +77,7 @@ class Controller {
         require_once __DIR__ . '/../pages/messages_page.php';
         return drawMessagePage($this->request);
     }
+
     /**
      * @brief Generates checkout page
      */
@@ -96,6 +100,33 @@ class Controller {
     public function about(array $args) {
         require_once __DIR__ . '/../pages/about_page.php';
         return drawAboutPage($this->request);
+    }
+
+    /**
+     * @brief Generates cookie policy page
+     */
+    public function cookiePolicy(array $args)
+    {
+        require_once __DIR__ . '/../pages/cookie_policy.php';
+        return drawCookiePolicyPage($this->request);
+    }
+
+    /**
+     * @brief Generates privacy policy page
+     */
+    public function privacyPolicy(array $args)
+    {
+       require_once __DIR__ . '/../pages/privacy_policy.php';
+        return drawPrivacyPolicyPage($this->request);
+    }
+
+    /**
+     * @brief Generates terms and conditions page
+     */
+    public function termsAndConditions(array $args)
+    {
+        require_once __DIR__ . '/../pages/terms_and_conditions.php';
+        return drawTermsAndConditionsPage($this->request);
     }
 
     /**
