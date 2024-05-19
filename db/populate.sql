@@ -296,19 +296,36 @@ INSERT INTO ProductBrand (product, brand)
 VALUES (10, 'Trendsplant');
 
 -- Create ProductImages
-INSERT INTO ProductImage (product, image) VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf86hwNJhBnREMUwWlvVpOCfTm8li5gmA&s');
-INSERT INTO ProductImage (product, image) VALUES (1, 'https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg');
-INSERT INTO ProductImage (product, image) VALUES (2, 'https://www.redcarpet-fashionawards.com/wp-content/uploads/2023/03/Ana-de-Armas.jpeg');
-INSERT INTO ProductImage (product, image) VALUES (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s');
-INSERT INTO ProductImage (product, image) VALUES (5, 'https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
-INSERT INTO ProductImage (product, image) VALUES (6, '/images/posts/664a75633874a.jpg');
-INSERT INTO ProductImage (product, image) VALUES (6, '/images/posts/664a75633c5de.jpg');
-INSERT INTO ProductImage (product, image) VALUES (6, '/images/posts/664a756340197.jpg');
-INSERT INTO ProductImage (product, image) VALUES (7, '/images/posts/664a767ee867f.jpg');
-INSERT INTO ProductImage (product, image) VALUES (7, '/images/posts/664a767eec822.jpg');
-INSERT INTO ProductImage (product, image) VALUES (8, '/images/posts/664a76ed37cf6.jpg');
-INSERT INTO ProductImage (product, image) VALUES (8, '/images/posts/664a76ed3c31e.jpg');
-INSERT INTO ProductImage (product, image) VALUES (9, '/images/posts/664a777c09ed7.jpg');
-INSERT INTO ProductImage (product, image) VALUES (9, '/images/posts/664a777c0e906.jpg');
-INSERT INTO ProductImage (product, image) VALUES (10, '/images/posts/664a780e20a33.jpg');
-INSERT INTO ProductImage (product, image) VALUES (10, '/images/posts/664a780e241db.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf86hwNJhBnREMUwWlvVpOCfTm8li5gmA&s');
+INSERT INTO ProductImage (product, image)
+VALUES (1,
+        'https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (2, 'https://www.redcarpet-fashionawards.com/wp-content/uploads/2023/03/Ana-de-Armas.jpeg');
+INSERT INTO ProductImage (product, image)
+VALUES (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s');
+INSERT INTO ProductImage (product, image)
+VALUES (5, 'https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (6, 'images/posts/664a75633874a.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (6, 'images/posts/664a75633c5de.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (6, 'images/posts/664a756340197.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (7, 'images/posts/664a767ee867f.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (7, 'images/posts/664a767eec822.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (8, 'images/posts/664a76ed37cf6.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (8, 'images/posts/664a76ed3c31e.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (9, 'images/posts/664a777c09ed7.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (9, 'images/posts/664a777c0e906.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (10, 'images/posts/664a780e20a33.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (10, 'images/posts/664a780e241db.jpg');
