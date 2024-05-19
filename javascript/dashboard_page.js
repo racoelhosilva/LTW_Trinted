@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a, _b, _c, _d, _e, _f, _g, _h;
 function addNewBrand(name) {
     return __awaiter(this, void 0, void 0, function* () {
         if (name === "")
@@ -100,32 +101,29 @@ function addNewSize(name) {
         });
     });
 }
-function sortList(list) {
-    const newList = list.cloneNode(false);
-    const listElems = [];
-    for (let i = 0; i < list.children.length; i++) {
-        listElems.push(list.children[i]);
-    }
-    listElems.sort((a, b) => {
-        return a.textContent.localeCompare(b.textContent);
-    });
-    listElems.forEach(item => newList.appendChild(item));
-    list.replaceWith(newList);
-}
-const newBrandForm = document.querySelector("#new-brand");
-const newCategoryForm = document.querySelector("#new-category");
-const newConditionForm = document.querySelector("#new-condition");
-const newSizeForm = document.querySelector("#new-size");
-if (newBrandForm) {
-    const newBrandInput = newBrandForm.querySelector('input[type="text"]');
-    const newBrandButton = newBrandForm.querySelector('input[type="button"]');
-    if (newBrandInput && newBrandButton) {
+const brandsCard = document.querySelector("#brands-card");
+const categoriesCard = document.querySelector("#categories-card");
+const conditionsCard = document.querySelector("#conditions-card");
+const sizesCard = document.querySelector("#sizes-card");
+if (brandsCard) {
+    const newBrandForm = brandsCard.querySelector('form');
+    const newBrandInput = (_a = newBrandForm === null || newBrandForm === void 0 ? void 0 : newBrandForm.querySelector('input[type="text"]')) !== null && _a !== void 0 ? _a : null;
+    const newBrandButton = (_b = newBrandForm === null || newBrandForm === void 0 ? void 0 : newBrandForm.querySelector('input[type="button"]')) !== null && _b !== void 0 ? _b : null;
+    const brandsList = brandsCard.querySelector('ul');
+    const brandCount = brandsCard.querySelector(".detail-count");
+    if (newBrandForm && newBrandInput && newBrandButton && brandsList && brandCount) {
         newBrandForm.addEventListener("submit", (event) => {
             event.preventDefault();
         });
         newBrandButton.addEventListener("click", () => {
-            addNewBrand(newBrandInput.value).then(() => {
+            addNewBrand(newBrandInput.value).then((success) => {
+                if (!success)
+                    return;
+                const newBrandItem = document.createElement("li");
+                newBrandItem.innerHTML = newBrandInput.value;
+                brandsList.appendChild(newBrandItem);
                 newBrandInput.value = "";
+                brandCount.innerHTML = (parseInt(brandCount.innerHTML) + 1).toString();
             });
         });
         newBrandInput.addEventListener("keypress", (event) => {
@@ -134,16 +132,25 @@ if (newBrandForm) {
         });
     }
 }
-if (newCategoryForm) {
-    const newCategoryInput = newCategoryForm.querySelector('input[type="text"]');
-    const newCategoryButton = newCategoryForm.querySelector('input[type="button"]');
-    if (newCategoryInput && newCategoryButton) {
+if (categoriesCard) {
+    const newCategoryForm = categoriesCard.querySelector('form');
+    const newCategoryInput = (_c = newCategoryForm === null || newCategoryForm === void 0 ? void 0 : newCategoryForm.querySelector('input[type="text"]')) !== null && _c !== void 0 ? _c : null;
+    const newCategoryButton = (_d = newCategoryForm === null || newCategoryForm === void 0 ? void 0 : newCategoryForm.querySelector('input[type="button"]')) !== null && _d !== void 0 ? _d : null;
+    const categoriesList = categoriesCard.querySelector('ul');
+    const categoryCount = categoriesCard.querySelector(".detail-count");
+    if (newCategoryForm && newCategoryInput && newCategoryButton && categoriesList && categoryCount) {
         newCategoryForm.addEventListener("submit", (event) => {
             event.preventDefault();
         });
-        newCategoryButton.addEventListener("click", (event) => {
-            addNewCategory(newCategoryInput.value).then(() => {
+        newCategoryButton.addEventListener("click", () => {
+            addNewCategory(newCategoryInput.value).then((success) => {
+                if (!success)
+                    return;
+                const newCategoryItem = document.createElement("li");
+                newCategoryItem.innerHTML = newCategoryInput.value;
+                categoriesList.appendChild(newCategoryItem);
                 newCategoryInput.value = "";
+                categoryCount.innerHTML = (parseInt(categoryCount.innerHTML) + 1).toString();
             });
         });
         newCategoryInput.addEventListener("keypress", (event) => {
@@ -152,21 +159,25 @@ if (newCategoryForm) {
         });
     }
 }
-if (newConditionForm) {
-    const newConditionInput = newConditionForm.querySelector('input[type="text"]');
-    const newConditionButton = newConditionForm.querySelector('input[type="button"]');
-    const conditionCount = newConditionForm.querySelector(".details-count");
-    const ;
-    if (newConditionInput && newConditionButton) {
+if (conditionsCard) {
+    const newConditionForm = conditionsCard.querySelector('form');
+    const newConditionInput = (_e = newConditionForm === null || newConditionForm === void 0 ? void 0 : newConditionForm.querySelector('input[type="text"]')) !== null && _e !== void 0 ? _e : null;
+    const newConditionButton = (_f = newConditionForm === null || newConditionForm === void 0 ? void 0 : newConditionForm.querySelector('input[type="button"]')) !== null && _f !== void 0 ? _f : null;
+    const conditionsCount = conditionsCard.querySelector(".detail-count");
+    const conditionsList = conditionsCard.querySelector('ul');
+    if (newConditionForm && newConditionInput && newConditionButton && conditionsCount && conditionsList) {
         newConditionForm.addEventListener("submit", (event) => {
             event.preventDefault();
         });
-        newConditionButton.addEventListener("click", (event) => {
+        newConditionButton.addEventListener("click", () => {
             addNewCondition(newConditionInput.value).then((success) => {
-                if (success) {
-                    newConditionInput.value = "";
-                    conditionCount;
-                }
+                if (!success)
+                    return;
+                const newConditionItem = document.createElement("li");
+                newConditionItem.innerHTML = newConditionInput.value;
+                conditionsList.appendChild(newConditionItem);
+                newConditionInput.value = "";
+                conditionsCount.innerHTML = (parseInt(conditionsCount.innerHTML) + 1).toString();
             });
         });
         newConditionInput.addEventListener("keypress", (event) => {
@@ -175,16 +186,25 @@ if (newConditionForm) {
         });
     }
 }
-if (newSizeForm) {
-    const newSizeInput = newSizeForm.querySelector('input[type="text"]');
-    const newSizeButton = newSizeForm.querySelector('input[type="button"]');
-    if (newSizeInput && newSizeButton) {
+if (sizesCard) {
+    const newSizeForm = sizesCard.querySelector('form');
+    const newSizeInput = (_g = newSizeForm === null || newSizeForm === void 0 ? void 0 : newSizeForm.querySelector('input[type="text"]')) !== null && _g !== void 0 ? _g : null;
+    const newSizeButton = (_h = newSizeForm === null || newSizeForm === void 0 ? void 0 : newSizeForm.querySelector('input[type="button"]')) !== null && _h !== void 0 ? _h : null;
+    const sizesCount = sizesCard.querySelector(".detail-count");
+    const sizesList = sizesCard.querySelector('ul');
+    if (newSizeForm && newSizeInput && newSizeButton && sizesCard && sizesList && sizesCount) {
         newSizeForm.addEventListener("submit", (event) => {
             event.preventDefault();
         });
-        newSizeButton.addEventListener("click", (event) => {
-            addNewSize(newSizeInput.value).then(() => {
+        newSizeButton.addEventListener("click", () => {
+            addNewSize(newSizeInput.value).then((success) => {
+                if (!success)
+                    return;
+                const newSizeItem = document.createElement("li");
+                newSizeItem.innerHTML = newSizeInput.value;
+                sizesList.appendChild(newSizeItem);
                 newSizeInput.value = "";
+                sizesCount.innerHTML = (parseInt(sizesCount.innerHTML) + 1).toString();
             });
         });
         newSizeInput.addEventListener("keypress", (event) => {
