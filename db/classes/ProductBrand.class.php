@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../framework/Autoload.php';
+require_once __DIR__ . '/../../framework/Autoload.php';
 
 class ProductBrand {
     private Product $product;

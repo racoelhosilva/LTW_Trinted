@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../template/common.tpl.php';
 require_once __DIR__ . '/../template/profile_page.tpl.php';
-require_once __DIR__ . '/pages/404_page.php';
+require_once __DIR__ . '/404_page.php';
 ?>
 
 <?php function drawProfilePageContent(int $userId)

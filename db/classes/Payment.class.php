@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/Product.class.php";
+require_once __DIR__ . '/../../framework/Autoload.php';
 
 class Payment {
     private int $id;

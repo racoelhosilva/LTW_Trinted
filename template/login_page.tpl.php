@@ -19,14 +19,15 @@ declare(strict_types=1); ?>
     </div>
 <?php } ?>
 
-<?php function drawLoginForm()
+<?php function drawLoginForm(string $csrfToken)
 { ?>
     <div>
         <div class="loginform">
-            <form action="/actions/login_process.php" method="post">
+            <form action="/actions/action_login.php" method="post">
                 <p>If you already have an account:</p>
-                <input type="text" id="loginemail" name="loginemail" placeholder="Email">
-                <input type="password" id="loginpassword" name="loginpassword" placeholder="Password">
+                <input type="text" id="login-email" name="login_email" placeholder="Email">
+                <input type="password" id="login-password" name="login_password" placeholder="Password">
+                <input type="hidden" name="csrf" value="<?= $csrfToken ?>">
                 <input type="submit" value="Login">
             </form>
         </div>
@@ -38,17 +39,18 @@ declare(strict_types=1); ?>
     </div>
 <?php } ?>
 
-<?php function drawRegisterForm()
+<?php function drawRegisterForm(string $csrfToken)
 { ?>
     <div>
         <div class="registerform">
-            <form action="/actions/register_process.php" method="post">
+            <form action="/actions/action_register.php" method="post">
                 <p>If you don't have an account:</p>
                 <div class="nameemail">
                     <input type="text" id="registername" name="registername" placeholder="Name">
                     <input type="text" id="registeremail" name="registeremail" placeholder="Email">
                 </div>
                 <input type="password" id="registerpassword" name="registerpassword" placeholder="Password">
+                <input type="hidden" name="csrf" value="<?= $csrfToken ?>">
                 <input type="submit" value="Register">
             </form>
         </div>
