@@ -5,8 +5,7 @@ if (messageButton) {
         document.location.assign(`/messages?id=${messageButton.dataset.userId}`);
     });
 }
-const url = new URL(window.location.href);
-const idParam = url.searchParams.get("id");
+const idParam = window.location.pathname.split("/").pop();
 let userId;
 if (idParam == null) {
     userId = 0;
@@ -27,38 +26,35 @@ document.addEventListener("click", function (event) {
     }
 });
 function banUser(userId) {
-    postData("api/ban_user.php", { user_id: userId }).then(response => response.json()).then(json => {
-        console.log(json.message);
-        if (json.status === "success") {
+    patchData(`/api/user/${userId}/`, { is_banned: 'true', csrf: getCsrfToken() }).then(response => response.json()).then(json => {
+        if (json.success) {
             setBannedButtons();
-            sendToastMessage(json.message, "success");
+            sendToastMessage('User banned successfully', "success");
         }
         else {
-            sendToastMessage(json.message, "error");
+            sendToastMessage(json.error, "error");
         }
     });
 }
 function unbanUser(userId) {
-    postData("api/unban_user.php", { user_id: userId }).then(response => response.json()).then(json => {
-        console.log(json.message);
-        if (json.status === "success") {
+    patchData(`/api/user/${userId}/`, { is_banned: 'false', csrf: getCsrfToken() }).then(response => response.json()).then(json => {
+        if (json.success) {
             setUnbannedButtons();
-            sendToastMessage(json.message, "success");
+            sendToastMessage('User unbanned successfully', "success");
         }
         else {
-            sendToastMessage(json.message, "error");
+            sendToastMessage(json.error, "error");
         }
     });
 }
 function makeUserAdmin(userId) {
-    postData("api/make_admin.php", { user_id: userId }).then(response => response.json()).then(json => {
-        console.log(json.message);
-        if (json.status == "success") {
+    patchData(`/api/user/${userId}/`, { type: 'admin', csrf: getCsrfToken() }).then(response => response.json()).then(json => {
+        if (json.success) {
             setAdminButton();
-            sendToastMessage(json.message, "success");
+            sendToastMessage('User promoted successfully', "success");
         }
         else {
-            sendToastMessage(json.message, "error");
+            sendToastMessage(json.error, "error");
         }
     });
 }

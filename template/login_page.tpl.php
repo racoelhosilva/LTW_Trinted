@@ -6,7 +6,7 @@ declare(strict_types=1); ?>
 { ?>
     <header id="login-header">
         <a href="/">
-            <img src="svg/logo_large.svg" alt="Trinted Logo" id="logo">
+            <img src="/svg/logo_large.svg" alt="Trinted Logo" id="logo">
         </a>
     </header>
 <?php } ?>
@@ -19,42 +19,44 @@ declare(strict_types=1); ?>
     </div>
 <?php } ?>
 
-<?php function drawLoginForm()
+<?php function drawLoginForm(Request $request)
 { ?>
     <div>
         <div class="loginform">
-            <form action="/actions/login_process.php" method="post">
+            <form action="/actions/action_login.php" method="post">
                 <p>If you already have an account:</p>
-                <input type="text" id="loginemail" name="loginemail" placeholder="Email">
-                <input type="password" id="loginpassword" name="loginpassword" placeholder="Password">
+                <input type="text" id="login-email" name="login-email" placeholder="Email">
+                <input type="password" id="login-password" name="login-password" placeholder="Password">
+                <input type="hidden" name="csrf" value="<?= $request->getSession()->getCsrf() ?>">
                 <input type="submit" value="Login">
             </form>
         </div>
-        <?php if (isset($_GET['loginerror'])) { ?>
+        <?php if ($request->get('login-error') != null) { ?>
             <script>
-                alert("<?= $_GET['loginerror'] ?>")
+                alert("<?= $request->get('login-error') ?>")
             </script>
         <?php }  ?>
     </div>
 <?php } ?>
 
-<?php function drawRegisterForm()
+<?php function drawRegisterForm(Request $request)
 { ?>
     <div>
         <div class="registerform">
-            <form action="/actions/register_process.php" method="post">
+            <form action="/actions/action_register.php" method="post">
                 <p>If you don't have an account:</p>
                 <div class="nameemail">
-                    <input type="text" id="registername" name="registername" placeholder="Name">
-                    <input type="text" id="registeremail" name="registeremail" placeholder="Email">
+                    <input type="text" id="register-name" name="register-name" placeholder="Name">
+                    <input type="text" id="register-email" name="register-email" placeholder="Email">
                 </div>
-                <input type="password" id="registerpassword" name="registerpassword" placeholder="Password">
+                <input type="password" id="register-password" name="register-password" placeholder="Password">
+                <input type="hidden" name="csrf" value="<?= $request->getSession()->getCsrf() ?>">
                 <input type="submit" value="Register">
             </form>
         </div>
-        <?php if (isset($_GET['registererror'])) { ?>
+        <?php if ($request->get('register-error') != null) { ?>
             <script>
-                alert("<?= $_GET['registererror'] ?>")
+                alert("<?= $request->get('register-error') ?>")
             </script>
         <?php }  ?>
     </div>

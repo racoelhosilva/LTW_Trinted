@@ -9,14 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a, _b, _c;
-function updateProducts(posts, numResults, searchedProducts) {
-    searchedProducts.innerHTML = '';
-    const productSectionTitle = document.createElement('h1');
-    productSectionTitle.innerHTML = numResults === 0 ? 'No results found' : `Found ${numResults} results`;
-    searchedProducts.appendChild(productSectionTitle);
-    posts.forEach((post) => {
-        const productCard = drawProductCard(post);
-        searchedProducts.appendChild(productCard);
+function updateProducts(products, numResults, searchedProducts) {
+    return __awaiter(this, void 0, void 0, function* () {
+        searchedProducts.innerHTML = '';
+        const productSectionTitle = document.createElement('h1');
+        productSectionTitle.innerHTML = numResults === 0 ? 'No results found' : `Found ${numResults} results`;
+        searchedProducts.appendChild(productSectionTitle);
+        for (const product of products) {
+            const productCard = yield drawProductCard(product);
+            searchedProducts.appendChild(productCard);
+        }
     });
 }
 function performSearch(searchQuery, filters, start, limit) {
@@ -27,7 +29,7 @@ function performSearch(searchQuery, filters, start, limit) {
             .then(response => response.json())
             .then(json => {
             if (json.success) {
-                return json.posts;
+                return json.products;
             }
             else {
                 sendToastMessage('An unexpected error occurred', 'error');
@@ -138,7 +140,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchButton = document.querySelector('#search-button');
     const searchFilterElems = document.querySelectorAll('.search-filter');
     let searchFilters = [];
-    const postsPerPage = 15;
+    const productsPerPage = 15;
     let numResults;
     let totalPages;
     let currentPage;
@@ -147,7 +149,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     function updatePage(query, page) {
         return __awaiter(this, void 0, void 0, function* () {
             currentPage = page;
-            const results = yield performSearch(query, searchFilters, (currentPage - 1) * postsPerPage, postsPerPage);
+            const results = yield performSearch(query, searchFilters, (currentPage - 1) * productsPerPage, productsPerPage);
             updateProducts(results, numResults, searchedProducts);
             pagination.remove();
             pagination = drawPagination(totalPages, currentPage, (page) => updatePage(query, page));
@@ -157,7 +159,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     function updateSearchResults(query) {
         return __awaiter(this, void 0, void 0, function* () {
             numResults = yield getNumberResults(query, searchFilters);
-            totalPages = Math.ceil(numResults / postsPerPage);
+            totalPages = Math.ceil(numResults / productsPerPage);
             updatePage(query, 1);
         });
     }
@@ -170,10 +172,6 @@ if (searchDrawer && searchResults && searchedProducts) {
             updateSearchResults(searchInput.value);
         });
         searchInput.value = (_c = urlParams.get('query')) !== null && _c !== void 0 ? _c : '';
-        searchInput.addEventListener('input', () => {
-            window.history.pushState({}, '', `search?query=${searchInput.value}`);
-            updateSearchResults(searchInput.value);
-        });
     }
     searchFilterElems.forEach(filterElem => {
         const filterInput = filterElem.querySelector('input');

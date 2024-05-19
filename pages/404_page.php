@@ -1,8 +1,8 @@
 <?php
 declare(strict_types = 1);
 
-include_once('template/main_header.tpl.php');
-include_once('template/common.tpl.php');
+require_once __DIR__ . '/../template/main_header.tpl.php';
+require_once __DIR__ . '/../template/common.tpl.php';
 ?>
 
 <?php function draw404PageContent() { ?>
@@ -12,10 +12,10 @@ include_once('template/common.tpl.php');
     </main>
 <?php } ?>
 
-<?php function draw404Page() {
+<?php function draw404Page(Request $request) {
     createPage(function () {
         drawMainHeader();
         draw404PageContent();
         drawFooter();
-    });
+    }, $request);
 } ?>

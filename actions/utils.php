@@ -1,23 +1,10 @@
 <?php
 declare(strict_types=1);
 
-function validate(string $data): string {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-function putCookie(string $name, array $data): void {
-    setcookie($name, json_encode($data), ['samesite' => 'strict', 'expires' => 0, 'path' => '/']);
-}
-
-function getCookie(string $name): mixed {
-    return isset($_COOKIE[$name]) ? json_decode($_COOKIE[$name]) : null;
-}
+require_once __DIR__ . '/../framework/Autoload.php';
 
 function getUrl(Image $img): string {
-    return $img->url;
+    return $img->getUrl();
 }
 
 function dateFormat(int $datetime): string {
@@ -40,35 +27,14 @@ function dateFormat(int $datetime): string {
     }
 }
 
-function parsePost(PDO $db, Post $post): array {
-    return [
-        'id' => $post->id,
-        'title' => $post->title,
-        'description' => $post->description,
-        'price' => $post->price,
-        'publishDatetime' => $post->publishDateTime,
-        'seller' => $post->seller->id,
-        'username' => $post->seller->name,
-        'category' => $post->item->category->category,
-        'size' => $post->item->size->size,
-        'condition' => $post->item->condition->condition,
-        'images' => array_map('getUrl', $post->getAllImages($db)),
-        'inWishlist' => isset($_SESSION['user_id']) ? User::getUserByID($db, $_SESSION['user_id'])->isInWishlist($db, (int)$post->id) : false
-    ];
+function setCart(array $cart, Request $request): void {
+    $request->setCookie('cart', array_map(function ($item) {
+        return $item->getId();
+    }, $cart));
 }
 
-function paramsExist(string $method, array $params): bool {
-    foreach ($params as $param) {
-        switch ($method) {
-            case 'GET':
-                if (!isset($_GET[$param]))
-                    return false;
-                break;
-            case 'POST':
-                if (!isset($_POST[$param]))
-                    return false;
-                break;
-        }
-    }
-    return true;
+function getCart(Request $request, PDO $db): array {
+    return array_map(function ($id) use ($db) {
+        return Product::getProductByID($db, (int)$id);
+    }, $request->cookie('cart', []));
 }

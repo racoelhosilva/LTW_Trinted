@@ -2,33 +2,33 @@
 
 declare(strict_types=1);
 
-include_once('template/common.tpl.php');
-include_once('template/main_page.tpl.php');
-include_once('template/product.tpl.php');
+require_once __DIR__ . '/../template/common.tpl.php';
+require_once __DIR__ . '/../template/main_page.tpl.php';
+require_once __DIR__ . '/../template/product.tpl.php';
 ?>
 
-<?php function drawMainPageContent()
+<?php function drawMainPageContent(Request $request)
 { ?>
     <main>
         <?php drawWelcomeBanner(); ?>
-        <?php drawHomeProductsSection(); ?>
+        <?php drawHomeProductsSection($request); ?>
     </main>
 <?php } ?>
 
 <?php
 function drawMainPage(Request $request)
 {
-    createPage(function () {
+    createPage(function () use ($request) {
         drawMainHeader();
-        drawMainPageContent();
+        drawMainPageContent($request);
         drawFooter();
-    });
+    }, $request);
 }
 ?>
 
-<?php function drawHomeProductsSection()
+<?php function drawHomeProductsSection(Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
-    $posts = Post::getNPosts($db, 10);
-    drawProductSection($posts, "Explore new items");
+    $products = Product::getNProducts($db, 15);
+    drawProductSection($products, $request, "Explore new items");
 } ?>

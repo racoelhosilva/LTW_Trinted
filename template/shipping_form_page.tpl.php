@@ -1,21 +1,19 @@
 <?php
 declare(strict_types=1);
 
-include_once('db/classes/Payment.class.php');
-include_once('template/common.tpl.php');
-include_once('db/classes/Post.class.php');
+require_once __DIR__ . '/../framework/Autoload.php';
 ?>
 
-<?php function drawShippingForm(Post $initialPost) {
+<?php function drawShippingForm(Product $initialPost) {
     $db = new PDO("sqlite:" . DB_PATH);
-    $payment = $initialPost->payment;
-    $seller = $initialPost->seller;
-    $posts = $payment->getAssociatedPostsFromSeller($db, $seller->id); ?>
+    $payment = $initialPost->getPayment();
+    $seller = $initialPost->getSeller();
+    $posts = $payment->getAssociatedProductsFromSeller($db, $seller->getId()); ?>
 
     <section id="form-buyer-info">
-        <p id="name"><?= $payment->lastName . ', ' . $payment->firstName ?></p>
-        <p id="address"><?= $payment->address . ', ' . $payment->zipCode ?></p>
-        <p id="location"><?= $payment->town . ', ' . $payment->country ?></p>
+        <p id="name"><?= $payment->getLastName() . ', ' . $payment->getFirstName() ?></p>
+        <p id="address"><?= $payment->getAddress() . ', ' . $payment->getZipCode() ?></p>
+        <p id="location"><?= $payment->getTown() . ', ' . $payment->getCountry() ?></p>
     </section>
 
     <section id="form-product-info">
@@ -23,23 +21,23 @@ include_once('db/classes/Post.class.php');
         $sum = 0;
         $count = 0;
         foreach ($posts as $post) { 
-            $sum += $post->price;
+            $sum += $post->getPrice();
             $count += 1; ?>
             <div class="product-name-price">
-                <p class="product-name"> <?= $post->title ?> </p>
-                <p class="price product-price"> <?= $post->price ?> </p>
+                <p class="product-name"> <?= $post->getTitle() ?> </p>
+                <p class="price product-price"> <?= $post->getPrice() ?> </p>
             </div>
-            <p class="product-description"> <?= $post->description ?> </p>
+            <p class="product-description"> <?= $post->getDescription() ?> </p>
         <?php } ?>
     </section>
     
     <section id="form-price-info">
         <p class="price" id="total-cost"> Total Cost: <?= $sum ?> </p>
-        <p class="price" id="shipping-cost"> Shipping: <?= $payment->shipping ?> </p>
+        <p class="price" id="shipping-cost"> Shipping: <?= $payment->getShipping() ?> </p>
     </section>
 
     <section id="form-seller-info">
-        <p id="sold-by">Sold by: <span><?= $seller->name ?></span> </p>
+        <p id="sold-by">Sold by: <span><?= $seller->getName() ?></span> </p>
     </section>
 
 <?php } ?>

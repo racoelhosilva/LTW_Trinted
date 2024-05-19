@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class Image
 {
-    public string $url;
+    private string $url;
 
     public function __construct(string $url)
     {
@@ -17,6 +17,12 @@ class Image
         $stmt->bindParam(":url", $this->url);
         $stmt->execute();
     }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
     public static function getImage(PDO $db, string $url): Image
     {
         // At first glance, going to the database if we already now the image
@@ -30,5 +36,12 @@ class Image
             throw new Exception("Image not found");
         }
         return new Image($urlName["url"]);
+    }
+
+    public function delete(PDO $db): void
+    {
+        $stmt = $db->prepare("DELETE FROM Image WHERE url = :url");
+        $stmt->bindParam(":url", $this->url);
+        $stmt->execute();
     }
 }
