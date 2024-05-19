@@ -26,5 +26,5 @@ else
     echo "Consider installing tsc for future runs"
 fi
 
+php -S localhost:9000 &
 xdg-open localhost:9000
-php -S localhost:9000
