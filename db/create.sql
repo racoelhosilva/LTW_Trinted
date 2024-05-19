@@ -100,7 +100,10 @@ CREATE TABLE Payment
         CONSTRAINT CountryNotNull NOT NULL,
     paymentDatetime DATETIME
         CONSTRAINT PaymentDatetimeNotNull NOT NULL,
-    CONSTRAINT IdPK PRIMARY KEY (id)
+    buyer    INTEGER
+        CONSTRAINT BuyerNotNull NOT NULL,
+    CONSTRAINT IdPK PRIMARY KEY (id),
+    CONSTRAINT BuyerFK FOREIGN KEY (buyer) REFERENCES User (id)
 );
 
 CREATE TABLE Product
