@@ -2,7 +2,7 @@ const profileButton = document.getElementById('person');
 
 if (profileButton) {
     profileButton.addEventListener('click', () => {
-        location.href = 'actions/go_to_profile.php';
+        document.location.assign('/profile');
     })
 }
 
@@ -10,7 +10,7 @@ const checkoutButton = document.getElementById('shopping_cart');
 
 if (checkoutButton) {
     checkoutButton.addEventListener('click', () => {
-        location.href = 'checkout';
+        document.location.assign('/checkout');
     })
 }
 
@@ -27,5 +27,13 @@ const messagesHeaderButton = document.getElementById('message');
 if (messagesHeaderButton) {
     messagesHeaderButton.addEventListener('click', () => {
         document.location.assign(`/messages`);
+    })
+}
+
+const dashboardButton = document.getElementById('dashboard');
+
+if (dashboardButton) {
+    dashboardButton.addEventListener('click', () => {
+        document.location.assign(`/dashboard`);
     })
 }

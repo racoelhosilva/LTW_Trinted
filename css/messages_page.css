@@ -64,6 +64,8 @@
 }
 
 .avatar {
+    width: 40px;
+    height: 40px;
     border-radius: 20px;
 }
 
@@ -98,7 +100,6 @@
 	background-color: var(--background-primary);
     border: 1px solid var(--halftone);
 	border-radius: 22px;
-	margin-bottom: 1em;
     border-style: solid;
     color: var(--text);
 }
@@ -112,6 +113,7 @@
 	color: var(--background-secondary);
 	background-color: var(--lighter);
 	border: 1px solid var(--primary);
+    cursor: pointer;
 }
 
 #messages {

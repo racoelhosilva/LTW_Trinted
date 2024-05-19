@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    padding-bottom: 2em;
 }
 
 #settings-page section {
@@ -41,14 +42,15 @@
 
 /* Responsive UI */
 
-@media (max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     #settings-page section {
         width: 60vw;
     }
 }
 
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
     #settings-page section {
         width: 80vw;
     }
 }
+

@@ -15,21 +15,52 @@ function resetFields(username, email) {
     oldPasswordField.value = "";
     fileInput.value = "";
 }
+function verifyPassword(password) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return postData(`/actions/action_verify_password.php`, {
+            password: password,
+            csrf: getCsrfToken(),
+        })
+            .then(response => response.json())
+            .then(json => {
+            if (json.success) {
+                return json.valid;
+            }
+            else {
+                sendToastMessage('An unexpected error occurred', 'error');
+                console.error(json.error);
+                return null;
+            }
+        })
+            .catch(error => {
+            sendToastMessage('An unexpected error occurred', 'error');
+            console.error(error);
+            return null;
+        });
+    });
+}
 function changeSettings(username, email, newPassword, oldPassword, profilePicture) {
     return __awaiter(this, void 0, void 0, function* () {
-        let message = { path: "" };
+        let path = "";
         if (profilePicture != null) {
-            message = yield uploadProfilePicture(profilePicture);
+            path = (yield uploadProfilePicture(profilePicture)).path;
         }
-        return postData("../actions/change_settings.php", {
-            username: username,
+        const passwordValid = yield verifyPassword(oldPassword);
+        if (passwordValid === false) {
+            sendToastMessage('Incorrect password, try again', 'error');
+            return;
+        }
+        else if (passwordValid == null) {
+            return;
+        }
+        const loggedInUserId = yield getLoggedInUserId();
+        return patchData(`/api/user/${loggedInUserId}`, {
+            name: username,
             email: email,
-            old: oldPassword,
-            new: newPassword,
-            profile_picture: message.path,
-        }).then(response => response.json()).then(json => {
-            return json;
-        });
+            password: newPassword,
+            profile_picture: path,
+            csrf: getCsrfToken(),
+        }).then(response => response.json());
     });
 }
 function uploadProfilePicture(file) {
@@ -38,8 +69,8 @@ function uploadProfilePicture(file) {
         const formData = new FormData();
         formData.append("subfolder", "profiles");
         formData.append("image", file);
-        const response = yield fetch("api/upload_image.php", {
-            method: "POST",
+        const response = yield fetch("/actions/action_upload_image.php", {
+            method: 'POST',
             body: formData,
         });
         if (!response.ok) {
@@ -69,9 +100,6 @@ if (settingsSection && changeSettingsButton && clearProfilePictureButton && user
                 sendToastMessage('Profile changed successfully', 'success');
                 username = usernameField.value;
                 email = emailField.value;
-            }
-            else if (['Invalid request method', 'User not found', 'Incorrect password', 'No fields to change'].includes(json.error)) {
-                sendToastMessage(json.error, 'error');
             }
             else {
                 sendToastMessage('Could not change settings, try again later', 'error');

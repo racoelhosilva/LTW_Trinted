@@ -23,4 +23,4 @@ Note: since the autoloader is enabled in index.php, if new classes are created, 
 
 1. https://archlinux.org/packages/extra/x86_64/php-gd/ (this one im not sure)
 2. Open the php.ini file (usually located in /etc/php/php.ini, you can find the location by running `php --ini`)
-3. Uncomment the eline `extension=gd`
+3. Uncomment the line `extension=gd`

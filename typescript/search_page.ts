@@ -1,18 +1,18 @@
-function updateProducts(
-    posts: Array<{[key: string]: string}>,
+async function updateProducts(
+    products: Array<{[key: string]: string}>,
     numResults: number,
     searchedProducts: HTMLElement,
-): void {
+): Promise<void> {
     searchedProducts.innerHTML = '';
 
     const productSectionTitle = document.createElement('h1');
     productSectionTitle.innerHTML = numResults === 0 ? 'No results found' : `Found ${numResults} results`;
     searchedProducts.appendChild(productSectionTitle);
 
-    posts.forEach((post: {[key: string]: string}) => {
-        const productCard = drawProductCard(post);
+    for (const product of products) {
+        const productCard = await drawProductCard(product);
         searchedProducts.appendChild(productCard);
-    });
+    }
 }
 
 async function performSearch(searchQuery: string, filters: Array<string>, start: number, limit: number): Promise<Array<{[key: string]: string}>> {
@@ -23,7 +23,7 @@ async function performSearch(searchQuery: string, filters: Array<string>, start:
         .then(response => response.json())
         .then(json => {
             if (json.success) {
-                return json.posts;
+                return json.products;
             } else {
                 sendToastMessage('An unexpected error occurred', 'error');
                 console.error(json.error);
@@ -142,7 +142,7 @@ if (searchDrawer && searchResults && searchedProducts) {
     const searchFilterElems: NodeListOf<HTMLElement> = document.querySelectorAll('.search-filter');
     let searchFilters: Array<string> = [];
 
-    const postsPerPage = 15;
+    const productsPerPage = 15;
     let numResults: number;
     let totalPages: number;
     let currentPage: number;
@@ -151,7 +151,7 @@ if (searchDrawer && searchResults && searchedProducts) {
 
     async function updatePage(query: string, page: number): Promise<void> {
         currentPage = page;
-        const results = await performSearch(query, searchFilters, (currentPage - 1) * postsPerPage, postsPerPage);
+        const results = await performSearch(query, searchFilters, (currentPage - 1) * productsPerPage, productsPerPage);
         updateProducts(results, numResults, searchedProducts!);
         
         pagination.remove();
@@ -161,7 +161,7 @@ if (searchDrawer && searchResults && searchedProducts) {
 
     async function updateSearchResults(query: string): Promise<void> {
         numResults = await getNumberResults(query, searchFilters);
-        totalPages = Math.ceil(numResults / postsPerPage);
+        totalPages = Math.ceil(numResults / productsPerPage);
         updatePage(query, 1);
     }
 
@@ -176,10 +176,6 @@ if (searchDrawer && searchResults && searchedProducts) {
         });
 
         searchInput.value = urlParams.get('query') ?? '';
-        searchInput.addEventListener('input', () => {
-            window.history.pushState({}, '', `search?query=${searchInput.value}`);
-            updateSearchResults(searchInput.value);
-        });
     }
     
     searchFilterElems.forEach(filterElem => {

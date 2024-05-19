@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 class Size
 {
-    public string $size;
-    public function __construct(string $size)
+    private string $name;
+
+    public function __construct(string $name)
     {
-        $this->size = $size;
+        $this->name = $name;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function upload(PDO $db)
     {
         $stmt = $db->prepare("INSERT INTO Size (name) VALUES (:name)");
-        $stmt->bindParam(":name", $this->size);
+        $stmt->bindParam(":name", $this->name);
         $stmt->execute();
     }
-
+    
     public static function getSize(PDO $db, string $size): Size
     {
         // At first glance, going to the database if we already now the size

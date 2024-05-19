@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-require_once 'Image.class.php';
+require_once __DIR__ . '/../../framework/Autoload.php';
 
 class User
 {
-    public int $id;
-    public string $email;
-    public string $name;
-    public string $password;
-    public int $registerDateTime;
-    public Image $profilePicture;
-    public string $type;
-    public bool $isBanned;
+    private ?int $id;
+    private string $name;
+    private string $password;
+    private int $registerDatetime;
+    private Image $profilePicture;
+    private string $type;
+    private bool $isBanned;
+    private string $email;
 
-    public function __construct(int $id, string $email, string $name, string $password, int $registerDateTime, Image $profilePicture, string $type)
+    public function __construct(?int $id, string $email, string $name, string $password, int $registerDatetime, Image $profilePicture, string $type)
     {
         $this->id = $id;
         $this->email = $email;
         $this->name = $name;
         $this->password = $password;
-        $this->registerDateTime = $registerDateTime;
+        $this->registerDatetime = $registerDatetime;
         $this->profilePicture = $profilePicture;
         $this->type = $type;
         $this->isBanned = false;
@@ -39,54 +39,129 @@ class User
 
     public function upload(PDO $db): void
     {
-        $stmt = $db->prepare("INSERT INTO User (email, name, password, registerDatetime, profilePicture, type) VALUES (:email, :name, :password, :registerDateTime, :profilePicture, :type)");
+        if ($this->id == null) {
+            $stmt = $db->prepare("INSERT INTO User (email, name, password, registerDatetime, profilePicture, type) VALUES (:email, :name, :password, :registerDateTime, :profilePicture, :type)");
+        } else {
+            $stmt = $db->prepare("INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type) VALUES (:id, :email, :name, :password, :registerDateTime, :profilePicture, :type)");
+            $stmt->bindParam(":id", $this->id);
+        }
+
+        $profilePictureUrl = $this->profilePicture->getUrl();
+
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":password", $this->password);
-        $stmt->bindParam(":registerDateTime", $this->registerDateTime);
-        $stmt->bindParam(":profilePicture", $this->profilePicture->url);
+        $stmt->bindParam(":registerDateTime", $this->registerDatetime);
+        $stmt->bindParam(":profilePicture", $profilePictureUrl);
         $stmt->bindParam(":type", $this->type);
         $stmt->execute();
-        $stmt = $db->prepare("SELECT last_insert_rowid()");
-        $stmt->execute();
-        $id = $stmt->fetch();
-        $this->id = $id[0];
+
+        if ($this->id == null) {
+            $stmt = $db->prepare("SELECT last_insert_rowid()");
+            $stmt->execute();
+            $id = $stmt->fetch();
+            $this->id = $id[0];
+        }
     }
 
-    public static function getUserByID(PDO $db, int $id): User
+    public function getId(): ?int
+    {
+        return (int)$this->id;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getRegisterDatetime(): int
+    {
+        return (int)$this->registerDatetime;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getIsBanned(): bool
+    {
+        return (bool)$this->isBanned;
+    }
+
+    public function getProfilePicture(): Image
+    {
+        return $this->profilePicture;
+    }
+
+    public static function getNumberOfUsers(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+    
+    public static function getNumberOfActiveUsers(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User WHERE NOT isBanned");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    public static function getNumberOfBannedUsers(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User WHERE isBanned");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    public static function getNumberOfAdmins(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User WHERE User.type == 'admin'");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    public static function getNumberOfSellers(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User WHERE User.type == 'seller'");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    public static function getNumberOfBuyers(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User WHERE User.type == 'buyer'");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    
+    public static function getUserByID(PDO $db, int $id): ?User
     {
         $stmt = $db->prepare("SELECT * FROM User WHERE id = :id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
         $user = $stmt->fetch();
-        if ($user === false) {
-            throw new Exception("User not found");
-        }
+        if ($user == false)
+            return null;
         return new User($user["id"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
     }
 
-    public static function getUserByEmail(PDO $db, string $email): User
+    public static function getUserByEmail(PDO $db, string $email): ?User
     {
         $stmt = $db->prepare("SELECT * FROM User WHERE email = :email");
         $stmt->bindParam(":email", $email);
         $stmt->execute();
         $user = $stmt->fetch();
-        if ($user === false) {
-            throw new Exception("User not found");
+        if ($user == false) {
+            return null;
         }
         return new User($user["id"], $user["email"], $user["name"], $user["password"], $user["registerDatetime"], new Image($user["profilePicture"]), $user["type"]);
-    }
-
-    public function getProfilePicture(PDO $db): Image
-    {
-        $stmt = $db->prepare("SELECT profilePicture FROM User WHERE id = :id");
-        $stmt->bindParam(":id", $this->id);
-        $stmt->execute();
-        $profilePicture = $stmt->fetch();
-        if ($profilePicture === false) {
-            throw new Exception("No image found");
-        }
-        return new Image($profilePicture["profilePicture"]);
     }
 
     public function setType(PDO $db, string $type): void
@@ -129,40 +204,38 @@ class User
         $stmt->execute();
     }
 
-    public function setProfilePicture(PDO $db, string $profilePicture): void
+    public function setProfilePicture(PDO $db, Image $image): void
     {
+        $imageUrl = $image->getUrl();
+
         $stmt = $db->prepare("UPDATE User SET profilePicture = :profilePicture WHERE id = :id");
-        $stmt->bindParam(":profilePicture", $profilePicture);
+        $stmt->bindParam(":profilePicture", $imageUrl);
         $stmt->bindParam(":id", $this->id);
         $stmt->execute();
-        try {
-            $this->profilePicture = Image::getImage($db, $profilePicture);
-        } catch (Exception $e) {
-            echo "Fatal error: " . $e->getMessage();
-        }
 
+        $this->profilePicture = $image;
     }
 
-    public function getUserPosts(PDO $db): array
+    public function getUserProducts(PDO $db): array
     {
-        $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller AND (payment IS NULL)");
+        $stmt = $db->prepare("SELECT id FROM Product WHERE seller = :seller AND (payment IS NULL)");
         $stmt->bindParam(":seller", $this->id);
         $stmt->execute();
         $posts = $stmt->fetchAll();
         return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), $this, Item::getItem($db, $post["item"]));
+            return Product::getProductByID($db, $post["id"]);
         }, $posts);
     }
 
     public function getSoldItems(PDO $db): array
     {
-        $stmt = $db->prepare("SELECT * FROM Post WHERE seller = :seller AND (NOT (payment IS NULL)) ");
+        $stmt = $db->prepare("SELECT * FROM Product WHERE seller = :seller AND (NOT (payment IS NULL)) ");
         $stmt->bindParam(":seller", $this->id);
         $stmt->execute();
-        $posts = $stmt->fetchAll();
-        return array_map(function ($post) use ($db) {
-            return new Post($post["id"], $post["title"], $post["price"], $post["description"], strtotime($post["publishDatetime"]), $this, Item::getItem($db, $post["item"]));
-        }, $posts);
+        $products = $stmt->fetchAll();
+        return array_map(function ($product) use ($db) {
+            return Product::getProductByID($db, $product["id"]);
+        }, $products);
     }
 
     public function isBanned(PDO $db): bool
@@ -199,33 +272,45 @@ class User
         $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user");
         $stmt->bindParam(":user", $this->id);
         $stmt->execute();
-        return array_map(function ($postId) use ($db) {
-            return Post::getPostByID($db, $postId["post"]);
+        return array_map(function ($productId) use ($db) {
+            return Product::getProductByID($db, $productId["product"]);
         }, $stmt->fetchAll());
     }
 
-    public function addToWishlist(PDO $db, int $postId): void
+    public function addToWishlist(PDO $db, Product $product): void
     {
-        $stmt = $db->prepare("INSERT INTO Wishes (user, post) VALUES (:user, :post)");
+        $productId = $product->getId();
+
+        $stmt = $db->prepare("INSERT INTO Wishes (user, product) VALUES (:user, :product)");
         $stmt->bindParam(":user", $this->id);
-        $stmt->bindParam(":post", $postId);
+        $stmt->bindParam(":product", $productId);
         $stmt->execute();
     }
 
-    public function removeFromWishlist(PDO $db, int $postId): void
+    public function removeFromWishlist(PDO $db, Product $product): void
     {
-        $stmt = $db->prepare("DELETE FROM Wishes WHERE user = :user AND post = :post");
+        $productId = $product->getId();
+
+        $stmt = $db->prepare("DELETE FROM Wishes WHERE user = :user AND product = :product");
         $stmt->bindParam(":user", $this->id);
-        $stmt->bindParam(":post", $postId);
+        $stmt->bindParam(":product", $productId);
         $stmt->execute();
     }
 
-    public function isInWishlist(PDO $db, int $postId): bool
+    public function isInWishlist(PDO $db, Product $product): bool
     {
-        $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user AND post = :post");
+        $productId = $product->getId();
+
+        $stmt = $db->prepare("SELECT * FROM Wishes WHERE user = :user AND product = :product");
         $stmt->bindParam(":user", $this->id);
-        $stmt->bindParam(":post", $postId);
+        $stmt->bindParam(":product", $productId);
         $stmt->execute();
         return $stmt->fetch() !== false;
+    }
+
+    public function delete(PDO $db): void {
+        $stmt = $db->prepare("DELETE FROM User WHERE id = :id");
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
     }
 }

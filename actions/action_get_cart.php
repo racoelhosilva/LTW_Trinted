@@ -1,9 +1,13 @@
 <?php
 declare(strict_types=1);
 
-include_once(__DIR__ . '/../db/classes/Post.class.php');
-include_once(__DIR__ . '/utils.php');
+require_once __DIR__ . '/utils.php';
+require_once __DIR__ . '/../rest_api/utils.php';
+require_once __DIR__ . '/../db/utils.php';
 
-session_start();
+$request = new Request();
+$db = getDatabaseConnection();
 
-echo json_encode(array('success' => true, 'cart' => getCookie('cart') ?? []));
+header('Content-Type: application/json');
+
+sendOk(['cart' => parseProducts(getCart($request, $db), $request, $db)]);

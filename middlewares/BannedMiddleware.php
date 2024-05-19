@@ -1,15 +1,15 @@
 <?php
 require_once __DIR__ . "/Middleware.php";
 
-
-
 class BannedMiddleware implements Middleware
 {
-    public function handle($request, $next)
+    public function handle(Request $request, callable $next)
     {
         $db = new PDO("sqlite:" . DB_PATH);
-        $user = User::getUserByID($db, $request->session('user_id'));
-        $isBanned = $user->isBanned($db);
+        $userId = $request->getSession()->get('user')['id'];
+        $user = $userId ? User::getUserByID($db, $userId) : null;
+        
+        $isBanned = $user?->isBanned($db);
         if ($isBanned) {
             header("Location: /banned");
             return $next($request);

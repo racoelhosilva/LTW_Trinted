@@ -1,32 +1,31 @@
-function itemCardOnClick(event: MouseEvent, postId: number): void {
-  document.location.assign(`/product?id=${postId}`);
-}
-
-function createOrderItemCard(post: { [key: string]: any }): HTMLElement {
+async function createOrderItemCard(product: { [key: string]: any }): Promise<HTMLElement> {
   const orderItemCard = document.createElement('div');
   orderItemCard.classList.add('order-item-card');
 
   const image = document.createElement('img');
-  image.src = post.images[0];
+  image.src = (await getProductImages(product.id))[0];
   image.alt = 'Product Image';
   orderItemCard.appendChild(image);
 
-  image.addEventListener('click', (event) => itemCardOnClick(event, post.id));
-
-  const itemTitle = document.createElement('h1');
-  itemTitle.innerHTML = post.title;
-
-  const itemDetails = document.createElement('p');
-  itemDetails.innerHTML = `${post.size} - ${post.condition}`;
+  image.addEventListener('click', (event) => goToProduct(product.id));
 
   const itemInfo = document.createElement('div');
-  itemInfo.appendChild(itemTitle);
-  itemInfo.appendChild(itemDetails);
   orderItemCard.appendChild(itemInfo);
+
+  const itemTitle = document.createElement('h1');
+  itemTitle.innerHTML = product.title;
+  itemInfo.appendChild(itemTitle);
+
+  const itemDetails = document.createElement('p');
+  const itemDetailsText = [product.size, product.condition].filter(detail => detail).join(' - ');
+  if (itemDetailsText !== '') {
+    itemDetails.innerHTML = itemDetailsText;
+    itemInfo.appendChild(itemDetails);
+  } 
 
   const itemPrice = document.createElement('p');
   itemPrice.classList.add('price');
-  itemPrice.innerHTML = `${post.price}`;
+  itemPrice.innerHTML = `${product.price}`;
   orderItemCard.appendChild(itemPrice);
 
   return orderItemCard;
@@ -89,13 +88,13 @@ let subtotal: number = 0;
 
 if (orderItemsSection && payNowButton && checkoutInfoForm && checkoutSubtotal && checkoutShipping && checkoutTotal && shippingInput) {
   getCart()
-    .then(json => {
+    .then(async json => {
       if (json.success) {
         const cart: Array<{ [key: string]: any }> = json.cart;
-        for (const post of cart) {
-          const orderItemCard = createOrderItemCard(post);
-          orderItemsSection.appendChild(orderItemCard);
-          subtotal += post.price;
+        for (const product of cart) {
+          const orderItemCard = createOrderItemCard(product);
+          orderItemsSection.appendChild(await orderItemCard);
+          subtotal += product.price;
         }
 
         if (checkoutSubtotal && checkoutShipping && checkoutTotal)

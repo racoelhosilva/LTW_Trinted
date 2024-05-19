@@ -35,7 +35,7 @@ function drawMessage(message) {
     datetimeParagraph.textContent = dateFormat(message.datetime);
     divElement.appendChild(contentParagraph);
     divElement.appendChild(datetimeParagraph);
-    allMessages.append(divElement);
+    return divElement;
 }
 function dateFormat(datetime) {
     const timestamp = new Date(datetime * 1000);
@@ -67,10 +67,11 @@ function dateFormat(datetime) {
 }
 function loadNewMessages() {
     fetchNewMessages(destinationId)
+        .then(messages => messages.map((message) => drawMessage(message)))
         .then(messages => {
         allMessages.innerHTML = "";
         for (const message of messages) {
-            drawMessage(message);
+            allMessages.append(message);
         }
         resetObserver();
     })
@@ -81,7 +82,8 @@ function loadNewMessages() {
 }
 function fetchNewMessages(dest) {
     return __awaiter(this, void 0, void 0, function* () {
-        return getData(`../actions/action_get_messages.php?id=${dest}`)
+        const loggedInUserId = yield getLoggedInUserId();
+        return getData(`/api/message/${loggedInUserId}/${dest}/`)
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -100,9 +102,10 @@ function fetchNewMessages(dest) {
 }
 function loadOldMessages() {
     fetchOldMessages(destinationId)
+        .then(messages => messages.map((message) => drawMessage(message)))
         .then(messages => {
         for (const message of messages) {
-            drawMessage(message);
+            allMessages.append(message);
         }
         resetObserver();
     })
@@ -114,7 +117,8 @@ function loadOldMessages() {
 function fetchOldMessages(dest) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
-        return getData(`../actions/action_get_messages.php?id=${dest}&lastId=${(_a = allMessages === null || allMessages === void 0 ? void 0 : allMessages.lastElementChild) === null || _a === void 0 ? void 0 : _a.getAttribute('data-message-id')}`)
+        const loggedInUserId = yield getLoggedInUserId();
+        return getData(`/api/message/${loggedInUserId}/${dest}?last_id=${(_a = allMessages === null || allMessages === void 0 ? void 0 : allMessages.lastElementChild) === null || _a === void 0 ? void 0 : _a.getAttribute('data-message-id')}`)
             .then(response => response.json())
             .then(json => {
             if (json.success) {
@@ -133,7 +137,8 @@ function fetchOldMessages(dest) {
 }
 function sendMessage(message, dest) {
     return __awaiter(this, void 0, void 0, function* () {
-        return postData("../actions/action_send_message.php", { message: message, destID: dest })
+        const loggedInUserId = yield getLoggedInUserId();
+        return postData(`/api/message/${loggedInUserId}/`, { content: message, receiver: dest, csrf: getCsrfToken() })
             .then(response => response.json());
     });
 }

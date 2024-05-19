@@ -1,4 +1,8 @@
-<?php include_once ('template/product.tpl.php'); ?>
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/product.tpl.php';
+?>
 
 <?php function drawProfileImage(string $url)
 { ?>
@@ -8,10 +12,10 @@
 <?php function drawUserInfo(User $user)
 { ?>
     <div id="user-info">
-        <h1><?= $user->name ?></h1>
+        <h1><?= $user->getName() ?></h1>
         <?php
         $currentDate = new DateTime(date('Y-m-d', time()));
-        $joinDate = new DateTime(date('Y-m-d', $user->registerDateTime));
+        $joinDate = new DateTime(date('Y-m-d', $user->getRegisterDatetime()));
         $timeDifference = $joinDate->diff($currentDate)->y;
         if ($timeDifference == 0) {
             ?>
@@ -30,23 +34,21 @@
     </div>
 <?php } ?>
 
-<?php function drawUserButtons(User $user)
+<?php function drawUserButtons(Request $request, User $user)
 { ?>
     <div id="user-buttons">
-        <?php
-
-        if ($_SESSION['user_id'] == $user->id){ ?>
-            <form method="post" action="/actions/logout.php">
+        <?php if (getSessionUser($request)['id'] == $user->getId()){ ?>
+            <form method="post" action="/actions/action_logout.php">
                 <button type="submit" class="red-button" id="logout-button">Logout</button>
             </form>
         <?php } else { ?>
 
-            <button class="blue-button" id="message-button" data-user-id="<?= $user->id ?>">
+            <button class="blue-button" id="message-button" data-user-id="<?= $user->getId() ?>">
                 <label class="material-symbols-outlined">message</label>
             </button>
 
             <?php
-            if ($_SESSION['type'] == 'admin' && $user->type != 'admin') {
+            if (getSessionUser($request)['type'] == 'admin' && $user->getType() != 'admin') {
 
                 if (!$user->isBanned(new PDO("sqlite:" . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db'))) { ?>
                     <button type="submit" class="blue-button" id="make-admin-button">Make Admin</button>
@@ -57,31 +59,31 @@
             }
         }
 
-        if ($user->type == "admin") { ?>
+        if ($user->getType() == "admin") { ?>
             <!-- User is admin -->
-        <button disabled class="blue-button" id="is-admin-button">User is <?php echo $user->type ?></button>
+            <button disabled class="blue-button" id="is-admin-button">User is <?php echo $user->getType() ?></button>
         <?php } ?>
 
     </div> <?php
 }?>
 
-<?php function drawUserProductSection(User $user)
+<?php function drawUserProductSection(User $user, Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
-    $posts = $user->getUserPosts($db);
-    drawProductSection($posts, "Products by the seller" . (count($posts) != 0 ? " (" . count($posts) . ")" : ""));
+    $products = $user->getUserProducts($db);
+    drawProductSection($products, $request, "Products by the seller" . (count($products) != 0 ? " (" . count($products) . ")" : ""));
 } ?>
 
-<?php function drawWishlist(User $user)
+<?php function drawWishlist(User $user, Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $wishlist = $user->getWishlist($db);
-    drawProductSection($wishlist, "Wishlist");
+    drawProductSection($wishlist, $request, "Wishlist");
 } ?>
 
-<?php function drawSoldItems(User $user)
+<?php function drawSoldItems(User $user, Request $request)
 {
     $db = new PDO("sqlite:" . DB_PATH);
     $posts = $user->getSoldItems($db);
-    drawProductSection($posts, "Products sold" . (count($posts) != 0 ? " (" . count($posts) . ")" : ""));
+    drawProductSection($posts, $request, "Products sold" . (count($posts) != 0 ? " (" . count($posts) . ")" : ""));
 } ?>
