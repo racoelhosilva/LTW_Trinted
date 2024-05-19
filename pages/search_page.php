@@ -6,15 +6,6 @@ require_once __DIR__ . '/../template/common.tpl.php';
 require_once __DIR__ . '/../template/search_page.tpl.php';
 ?>
 
-<!-- TODO: Remove this function-->
-<?php function generateProducts(int $from, int $to): array
-{
-    $products = array();
-    for ($i = $from; $i <= $to; $i++)
-        $products[] = (string) $i;
-    return $products;
-} ?>
-
 <?php function drawSearchPageContent(Request $request) { ?>
     <?php
     $page = (int) $request->get('page');
@@ -25,9 +16,7 @@ require_once __DIR__ . '/../template/search_page.tpl.php';
     <main id="search-page">
         <?php drawSearchDrawer(); ?>
         <section id="search-results">
-            <!-- TODO: use real search -->
-            <?php
-            drawSearchedProducts($products, $page); ?>
+            <?php drawSearchedProducts($products, $page); ?>
         </section>
     </main>
 <?php } ?>

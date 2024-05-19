@@ -25,7 +25,6 @@ require_once __DIR__ . '/404_page.php';
             <?php drawUserInfo($user); ?>
             <?php drawUserButtons($user); ?>
         </section>
-        <!-- TODO: Check if user is seller -->
         <?php if (in_array($user->getType(), ['seller', 'admin']))
             drawUserProductSection($user); ?>
         <?php if ($_SESSION['user']['id'] == $user->getId()) {

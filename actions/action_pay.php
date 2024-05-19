@@ -40,28 +40,34 @@ $db = getDatabaseConnection();
 
 header('Content-Type: application/json');
 
-if (!$request->getMethod() !== 'POST') {
+if (!$request->getMethod() !== 'POST')
     sendMethodNotAllowed();
-}
+if (!$request->verifyCsrf())
+    sendCrsfMismatch();
+if (!userLoggedIn($request)) 
+    sendUserNotLoggedIn();
+
+
 if (!$request->paramsExist(['first-name', 'last-name', 'email', 'phone', 'address', 'zip', 'town', 'country', 'shipping'])) {
     sendMissingFields();
 }
+if (!filter_var($request->post('email'), FILTER_VALIDATE_EMAIL))
+    sendBadRequest('Invalid email address');
+if (!filter_var($request->post('phone'), FILTER_VALIDATE_INT))
+    sendBadRequest('Invalid phone number');
+if (!preg_match('/^[0-9]{4}-[0-9]{3}$/', $request->post('zip')))
+    sendBadRequest('Invalid zip code');
+if (!filter_var($request->post('shipping'), FILTER_VALIDATE_FLOAT))
+    sendBadRequest('Invalid shipping value');
 
-if (!$request->verifyCsrf()) {
-    sendCrsfMismatch();
-}
-if (!userLoggedIn($request)) {
-    sendUserNotLoggedIn();
-}
-
-$cart = $request->cookie('cart', []);
+$cart = getCart($request);
 if ($cart == [])
     sendUnprocessableEntity('Shopping cart empty');
 
 try {
     $payment = parsePayment($cart, $request);
     submitPaymentToDb($payment, $db, $cart);
-    $request->setCookie('cart', []);
+    setCart([], $request);
 } catch (Exception $e) {
     error_log($e->getMessage());
     sendInternalServerError();

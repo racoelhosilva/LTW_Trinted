@@ -3,17 +3,6 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../framework/Autoload.php';
 
-function sanitize(string $data): string {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-function getCookie(string $name): mixed {
-    return isset($_COOKIE[$name]) ? json_decode($_COOKIE[$name]) : null;
-}
-
 function getUrl(Image $img): string {
     return $img->getUrl();
 }
@@ -72,4 +61,12 @@ function sendMissingFields(): void {
 
 function getLoggedInUser(Request $request): array {
     return $request->session('user');
+}
+
+function setCart(array $cart, Request $request): void {
+    $request->setCookie('cart', $cart);
+}
+
+function getCart(Request $request): array {
+    return $request->cookie('cart', []);
 }

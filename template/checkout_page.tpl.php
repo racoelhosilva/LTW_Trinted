@@ -65,7 +65,7 @@ require_once __DIR__ . '/../db/classes/Product.class.php';
             </div>
             <div>
                 <input type="text" name="address" aria-label="Address" placeholder="Address*" required>
-                <input type="text" name="zip" pattern="[0-9]{4}-[0-9]{3}" aria-label="Zip-Code" placeholder="Zip-Code*" required>
+                <input type="text" name="zip" pattern="^[0-9]{4}-[0-9]{3}$" aria-label="Zip-Code" placeholder="Zip-Code*" required>
             </div>
             <div>
                 <input type="text" name="town" aria-label="Town" placeholder="Town*" required>
