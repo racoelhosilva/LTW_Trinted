@@ -128,4 +128,12 @@ class Controller
         require_once __DIR__ . '/../pages/terms_and_conditions.php';
         return drawTermsAndConditionsPage($this->request);
     }
+
+    /**
+     * @brief Generates admin dashboard page
+     */
+    public function dashboard() {
+        include_once('pages/dashboard_page.php');
+        return drawDashboardPage($this->request);
+    }
 }

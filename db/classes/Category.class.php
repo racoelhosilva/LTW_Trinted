@@ -40,7 +40,7 @@ class Category
 
     public static function getAll(PDO $db): array
     {
-        $stmt = $db->prepare("SELECT name FROM Category");
+        $stmt = $db->prepare("SELECT name FROM Category ORDER BY name ASC");
         $stmt->execute();
         $categories = array_map(function ($category) {
             return new Category($category["name"]);

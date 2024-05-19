@@ -15,7 +15,7 @@ require_once __DIR__ . '/../template/message_page.tpl.php';
 <?php 
 function drawMessagePage(Request $request) {
     createPage(function () use ($request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawMessagePageContent($request);
         drawFooter();
     }, $request);

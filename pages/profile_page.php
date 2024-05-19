@@ -37,8 +37,8 @@ require_once __DIR__ . '/404_page.php';
     <?php
 function drawProfilePage(Request $request, int $userId)
 {
-    createPage(function () use (&$request, $userId) {
-        drawMainHeader();
+    createPage(function () use ($request, $userId) {
+        drawMainHeader($request);
         drawProfilePageContent($request, $userId);
         drawFooter();
     }, $request);

@@ -45,6 +45,12 @@ class Message
         }
     }
 
+    public static function getNumberOfMessages(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Message");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
     public function getId(): int
     {
         return (int)$this->id;

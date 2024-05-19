@@ -43,7 +43,7 @@ require_once __DIR__ . '/../rest_api/utils.php';
 function drawProductPage(Request $request, int $productId)
 {
     createPage(function () use ($request, $productId) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawProductPageContent($request, $productId);
         drawFooter();
     }, $request);

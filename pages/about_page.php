@@ -35,8 +35,8 @@ require_once __DIR__ . '/../template/common.tpl.php';
 function drawAboutPage(Request $request)
 {
     createPage(function () use (&$request) {
-        drawMainHeader();
-        drawAboutPageContent($request);
+        drawMainHeader($request);
+        drawAboutPageContent();
         drawFooter();
     }, $request);
 } ?>

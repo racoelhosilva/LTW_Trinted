@@ -64,6 +64,10 @@ $routes = [
     '/api' => [
         'controller' => 'ApiController@handle',
         'middlewares' => []
+    ],
+    '/dashboard' => [
+        'controller' => 'Controller@dashboard',
+        'middlewares' => [new AdminMiddleware(), new AuthenticationMiddleware(), new BannedMiddleware()]
     ]
 ];
 

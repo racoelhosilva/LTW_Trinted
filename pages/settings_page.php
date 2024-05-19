@@ -46,7 +46,7 @@ require_once __DIR__ . '/../framework/Autoload.php';
 function drawSettingsPage(Request $request)
 {
     createPage(function () use (&$request) {
-        drawMainHeader();
+        drawMainHeader($request);
         drawSettingsPageContent($request);
         drawFooter();
     }, $request);

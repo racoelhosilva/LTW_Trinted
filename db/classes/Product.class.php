@@ -224,6 +224,25 @@ class Product
         }, $images);
     }
 
+
+    public static function getNumberOfProducts(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Product");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+    
+    public static function getNumberOfActiveProducts(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Product WHERE payment IS NULL");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    public static function getNumberOfClosedProducts(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM Product WHERE NOT (payment IS NULL)");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
     private static function rowToProduct(array $row, PDO $db): Product {
         return new Product(
             $row["id"],

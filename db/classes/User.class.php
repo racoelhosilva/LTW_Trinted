@@ -104,6 +104,43 @@ class User
         return $this->profilePicture;
     }
 
+    public static function getNumberOfUsers(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+    
+    public static function getNumberOfActiveUsers(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User WHERE NOT isBanned");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    public static function getNumberOfBannedUsers(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User WHERE isBanned");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    public static function getNumberOfAdmins(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User WHERE User.type == 'admin'");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    public static function getNumberOfSellers(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User WHERE User.type == 'seller'");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    public static function getNumberOfBuyers(PDO $db) {
+        $stmt = $db->prepare("SELECT COUNT(*) AS cnt FROM User WHERE User.type == 'buyer'");
+        $stmt->execute();
+        return $stmt->fetch()['cnt'];
+    }
+
+    
     public static function getUserByID(PDO $db, int $id): ?User
     {
         $stmt = $db->prepare("SELECT * FROM User WHERE id = :id");
