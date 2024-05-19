@@ -32,7 +32,7 @@ function submitPaymentToDb(Payment $payment, PDO $db, array $cart): void {
     $payment->upload($db);
     foreach ($cart as $item) {
         $product = Product::getProductByID($db, (int)$item->getId());
-        $product->associateToPayment($db, (int)$payment->id);
+        $product->associateToPayment($db, (int)$payment->getId());
     }
 }
 

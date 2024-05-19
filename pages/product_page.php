@@ -26,7 +26,7 @@ include_once('db/classes/Payment.class.php');
             <?php drawProductInfo($product); ?>
             <?php drawRelatedProductsSection($product); ?>
         </main>
-    <?php } elseif ($request->session('user_id') == $product->seller->id) { ?>
+    <?php } elseif ($request->session('user_id') == $product->getSeller()->getId()) { ?>
         <main id="shipping-form">
             <?php 
                 drawShippingForm($product); 

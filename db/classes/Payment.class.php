@@ -3,18 +3,18 @@
 include_once(__DIR__ . "/Product.class.php");
 
 class Payment {
-    public int $id;
-    public float $subtotal;
-    public string $shipping;
-    public string $firstName;
-    public string $lastName;
-    public string $email;
-    public string $phone;
-    public string $address;
-    public string $zipCode;
-    public string $town;
-    public string $country;
-    public int $paymentDatetime;
+    private int $id;
+    private float $subtotal;
+    private string $shipping;
+    private string $firstName;
+    private string $lastName;
+    private string $email;
+    private string $phone;
+    private string $address;
+    private string $zipCode;
+    private string $town;
+    private string $country;
+    private int $paymentDatetime;
 
     public function __construct(float $subtotal, string $shipping, string $firstName, string $lastName, string $email, string $phone, string $address, string $zipCode, string $town, string $country, int $paymentDatetime) {
         $this->subtotal = $subtotal;
@@ -28,6 +28,54 @@ class Payment {
         $this->town = $town;
         $this->country = $country;
         $this->paymentDatetime = $paymentDatetime;
+    }
+
+    public function getId(): int {
+        return $this->id;
+    }
+
+    public function getSubtotal(): float {
+        return $this->subtotal;
+    }
+
+    public function getShipping(): string {
+        return $this->shipping;
+    }
+
+    public function getFirstName(): string {
+        return $this->firstName;
+    }
+
+    public function getLastName(): string {
+        return $this->lastName;
+    }
+
+    public function getEmail(): string {
+        return $this->email;
+    }
+
+    public function getPhone(): string {
+        return $this->phone;
+    }
+
+    public function getAddress(): string {
+        return $this->address;
+    }
+
+    public function getZipCode(): string {
+        return $this->zipCode;
+    }
+
+    public function getTown(): string {
+        return $this->town;
+    }
+
+    public function getCountry(): string {
+        return $this->country;
+    }
+
+    public function getPaymentDatetime(): int {
+        return $this->paymentDatetime;
     }
 
     public function upload(PDO $db): void {

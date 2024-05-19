@@ -137,7 +137,7 @@ class Product
         $size = $this->size?->getName();
         $category = $this->category?->getName();
         $condition = $this->condition?->getName();
-        $paymentId = $this->payment?->id;
+        $paymentId = $this->payment?->getId();
 
         if ($this->id === null) {
             $stmt = $db->prepare("INSERT INTO Product (title, price, description, publishDatetime, seller, size, category, condition, payment)
