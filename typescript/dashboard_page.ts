@@ -86,38 +86,34 @@ async function addNewSize(name: string): Promise<boolean> {
         });
 }
 
-function sortList(list: HTMLUListElement) {
-    const newList = list.cloneNode(false) as HTMLUListElement;
-    const listElems: HTMLElement[] = [];
-    for (let i = 0; i < list.children.length; i++) {
-        listElems.push(list.children[i] as HTMLElement);
-    }
+const brandsCard: HTMLElement | null = document.querySelector("#brands-card");
+const categoriesCard: HTMLElement | null = document.querySelector("#categories-card");
+const conditionsCard: HTMLElement | null = document.querySelector("#conditions-card");
+const sizesCard: HTMLElement | null = document.querySelector("#sizes-card");
 
-    listElems.sort((a: HTMLElement, b: HTMLElement) => {
-        return a.textContent!.localeCompare(b.textContent!);
-    })
+if (brandsCard) {
+    const newBrandForm: HTMLFormElement | null = brandsCard.querySelector('form');
+    const newBrandInput: HTMLInputElement | null = newBrandForm?.querySelector('input[type="text"]') ?? null;
+    const newBrandButton: HTMLInputElement | null = newBrandForm?.querySelector('input[type="button"]') ?? null;
+    const brandsList: HTMLUListElement | null = brandsCard.querySelector('ul');
+    const brandCount = brandsCard.querySelector(".detail-count");
 
-    listElems.forEach(item => newList.appendChild(item));
-    list.replaceWith(newList);
-}
-
-const newBrandForm: HTMLFormElement | null = document.querySelector("#new-brand");
-const newCategoryForm: HTMLFormElement | null = document.querySelector("#new-category");
-const newConditionForm: HTMLFormElement | null = document.querySelector("#new-condition");
-const newSizeForm: HTMLFormElement | null = document.querySelector("#new-size");
-
-if (newBrandForm) {
-    const newBrandInput: HTMLInputElement | null = newBrandForm.querySelector('input[type="text"]');
-    const newBrandButton: HTMLInputElement | null = newBrandForm.querySelector('input[type="button"]');
-
-    if (newBrandInput && newBrandButton) {
+    if (newBrandForm && newBrandInput && newBrandButton && brandsList && brandCount) {
         newBrandForm.addEventListener("submit", (event) => {
             event.preventDefault();
         });
 
         newBrandButton.addEventListener("click", () => {
-            addNewBrand(newBrandInput.value).then(() => {
+            addNewBrand(newBrandInput.value).then((success) => {
+                if (!success)
+                    return;
+
+                const newBrandItem = document.createElement("li");
+                newBrandItem.innerHTML = newBrandInput.value;
+                brandsList!.appendChild(newBrandItem);
+
                 newBrandInput.value = "";
+                brandCount.innerHTML = (parseInt(brandCount.innerHTML!) + 1).toString();
             });
         });
 
@@ -128,18 +124,29 @@ if (newBrandForm) {
     }
 }
 
-if (newCategoryForm) {
-    const newCategoryInput: HTMLInputElement | null = newCategoryForm.querySelector('input[type="text"]');
-    const newCategoryButton: HTMLInputElement | null = newCategoryForm.querySelector('input[type="button"]');
+if (categoriesCard) {
+    const newCategoryForm: HTMLFormElement | null = categoriesCard.querySelector('form');
+    const newCategoryInput: HTMLInputElement | null = newCategoryForm?.querySelector('input[type="text"]') ?? null;
+    const newCategoryButton: HTMLInputElement | null = newCategoryForm?.querySelector('input[type="button"]') ?? null;
+    const categoriesList: HTMLUListElement | null = categoriesCard.querySelector('ul');
+    const categoryCount = categoriesCard.querySelector(".detail-count");
 
-    if (newCategoryInput && newCategoryButton) {
+    if (newCategoryForm && newCategoryInput && newCategoryButton && categoriesList && categoryCount) {
         newCategoryForm.addEventListener("submit", (event) => {
             event.preventDefault();
         });
 
-        newCategoryButton.addEventListener("click", (event) => {
-            addNewCategory(newCategoryInput.value).then(() => {
+        newCategoryButton.addEventListener("click", () => {
+            addNewCategory(newCategoryInput.value).then((success) => {
+                if (!success)
+                    return
+
+                const newCategoryItem = document.createElement("li");
+                newCategoryItem.innerHTML = newCategoryInput.value;
+                categoriesList!.appendChild(newCategoryItem);
+
                 newCategoryInput.value = "";
+                categoryCount.innerHTML = (parseInt(categoryCount.innerHTML!) + 1).toString();
             });
         });
 
@@ -150,23 +157,29 @@ if (newCategoryForm) {
     }
 }
 
-if (newConditionForm) {
-    const newConditionInput: HTMLInputElement | null = newConditionForm.querySelector('input[type="text"]');
-    const newConditionButton: HTMLInputElement | null = newConditionForm.querySelector('input[type="button"]');
-    const conditionCount: HTMLElement | null = newConditionForm.querySelector(".details-count");
-    const
+if (conditionsCard) {
+    const newConditionForm: HTMLFormElement | null = conditionsCard.querySelector('form');
+    const newConditionInput: HTMLInputElement | null = newConditionForm?.querySelector('input[type="text"]') ?? null;
+    const newConditionButton: HTMLInputElement | null = newConditionForm?.querySelector('input[type="button"]') ?? null;
+    const conditionsCount: HTMLElement | null = conditionsCard.querySelector(".detail-count");
+    const conditionsList: HTMLUListElement | null = conditionsCard.querySelector('ul');
 
-    if (newConditionInput && newConditionButton) {
+    if (newConditionForm && newConditionInput && newConditionButton && conditionsCount && conditionsList) {
         newConditionForm.addEventListener("submit", (event) => {
             event.preventDefault();
         });
 
-        newConditionButton.addEventListener("click", (event) => {
+        newConditionButton.addEventListener("click", () => {
             addNewCondition(newConditionInput.value).then((success) => {
-                if (success) {
-                    newConditionInput.value = "";
-                    conditionCount
-                } 
+                if (!success)
+                    return;
+                
+                const newConditionItem = document.createElement("li");
+                newConditionItem.innerHTML = newConditionInput.value;
+                conditionsList!.appendChild(newConditionItem);
+
+                newConditionInput.value = "";
+                conditionsCount.innerHTML = (parseInt(conditionsCount.innerHTML) + 1).toString();
             });
         });
 
@@ -177,18 +190,29 @@ if (newConditionForm) {
     }
 }
 
-if (newSizeForm) {
-    const newSizeInput: HTMLInputElement | null = newSizeForm.querySelector('input[type="text"]');
-    const newSizeButton: HTMLInputElement | null = newSizeForm.querySelector('input[type="button"]');
+if (sizesCard) {
+    const newSizeForm: HTMLFormElement | null = sizesCard.querySelector('form');
+    const newSizeInput: HTMLInputElement | null = newSizeForm?.querySelector('input[type="text"]') ?? null;
+    const newSizeButton: HTMLInputElement | null = newSizeForm?.querySelector('input[type="button"]') ?? null;
+    const sizesCount: HTMLElement | null = sizesCard.querySelector(".detail-count");
+    const sizesList: HTMLUListElement | null = sizesCard.querySelector('ul');
 
-    if (newSizeInput && newSizeButton) {
+    if (newSizeForm && newSizeInput && newSizeButton && sizesCard && sizesList && sizesCount) {
         newSizeForm.addEventListener("submit", (event) => {
             event.preventDefault();
         });
 
-        newSizeButton.addEventListener("click", (event) => {
-            addNewSize(newSizeInput.value).then(() => {
+        newSizeButton.addEventListener("click", () => {
+            addNewSize(newSizeInput.value).then((success) => {
+                if (!success)
+                    return;
+
+                const newSizeItem = document.createElement("li");
+                newSizeItem.innerHTML = newSizeInput.value;
+                sizesList!.appendChild(newSizeItem);
+
                 newSizeInput.value = "";
+                sizesCount.innerHTML = (parseInt(sizesCount.innerHTML) + 1).toString();
             });
         });
 
