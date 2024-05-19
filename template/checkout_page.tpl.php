@@ -76,7 +76,9 @@ require_once __DIR__ . '/../db/classes/Product.class.php';
 <?php } ?>
 
 <?php function drawEmptyCart() { ?>
-    <h1 id="checkout-message">No items in the cart</h1>
-    <i class="material-symbols-outlined" id="shopping-cart-icon">shopping_cart</i>
+    <div class="empty-cart-container">
+        <h1 id="checkout-message">No items in the cart</h1>
+        <i class="material-symbols-outlined" id="shopping-cart-icon">shopping_cart</i>
+    </div>
 <?php } ?>
 
