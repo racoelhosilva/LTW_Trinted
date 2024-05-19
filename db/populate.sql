@@ -55,11 +55,33 @@ VALUES ('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcq
 INSERT INTO Image (url)
 VALUES ('https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg');
 INSERT INTO Image (url)
-VALUES ('https://br.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M45321_PM2_Front%20view.jpg');
-INSERT INTO Image (url)
 VALUES ('https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
 INSERT INTO Image (url)
 VALUES ('https://i1.rgstatic.net/ii/profile.image/823368932679681-1573317859494_Q512/Andre-Restivo.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a75633874a.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a75633c5de.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a756340197.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a75c6f3180.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a767ee867f.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a767eec822.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a76ed37cf6.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a76ed3c31e.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a777c09ed7.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a777c0e906.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a780e20a33.jpg');
+INSERT INTO Image (url)
+VALUES ('images/posts/664a780e241db.jpg');
 
 -- Create Users
 INSERT INTO User (id, email, name, password, registerDatetime, profilePicture, type)
@@ -108,38 +130,78 @@ VALUES ('XS'),
 
 -- Create Categories
 INSERT INTO Category (name)
-VALUES ('Armwear'),
-       ('Badges'),
-       ('Belts'),
-       ('Bags'),
-       ('Children&#039;s clothing'),
-       ('Coats'),
-       ('Dresses'),
-       ('Footwear'),
-       ('Gowns'),
-       ('Handwear'),
-       ('Headgear'),
-       ('Hosiery'),
-       ('Jackets'),
-       ('Knee clothing'),
-       ('Masks'),
-       ('Neckwear'),
-       ('One-piece suits'),
-       ('Outerwear'),
-       ('Ponchos'),
-       ('Robes and cloaks'),
-       ('Royal attire'),
-       ('Saris'),
-       ('Sashes'),
-       ('Shawls and wraps'),
-       ('Skirts'),
-       ('Sportswear'),
-       ('Suits'),
-       ('Tops'),
-       ('Trousers and shorts'),
-       ('T-shirts'),
-       ('Undergarments'),
-       ('Wedding clothing');
+VALUES ('Armwear');
+INSERT INTO Category (name)
+VALUES ('Badges');
+INSERT INTO Category (name)
+VALUES ('Belts');
+INSERT INTO Category (name)
+VALUES ('Bags');
+INSERT INTO Category (name)
+VALUES ('Children&#039;s clothing');
+INSERT INTO Category (name)
+VALUES ('Coats');
+INSERT INTO Category (name)
+VALUES ('Dresses');
+INSERT INTO Category (name)
+VALUES ('Footwear');
+INSERT INTO Category (name)
+VALUES ('Gowns');
+INSERT INTO Category (name)
+VALUES ('Handwear');
+INSERT INTO Category (name)
+VALUES ('Headgear');
+INSERT INTO Category (name)
+VALUES ('Hosiery');
+INSERT INTO Category (name)
+VALUES ('Jackets');
+INSERT INTO Category (name)
+VALUES ('Knee clothing');
+INSERT INTO Category (name)
+VALUES ('Masks');
+INSERT INTO Category (name)
+VALUES ('Neckwear');
+INSERT INTO Category (name)
+VALUES ('One-piece suits');
+INSERT INTO Category (name)
+VALUES ('Outerwear');
+INSERT INTO Category (name)
+VALUES ('Ponchos');
+INSERT INTO Category (name)
+VALUES ('Robes and cloaks');
+INSERT INTO Category (name)
+VALUES ('Royal attire');
+INSERT INTO Category (name)
+VALUES ('Saris');
+INSERT INTO Category (name)
+VALUES ('Sashes');
+INSERT INTO Category (name)
+VALUES ('Shawls and wraps');
+INSERT INTO Category (name)
+VALUES ('Skirts');
+INSERT INTO Category (name)
+VALUES ('Sportswear');
+INSERT INTO Category (name)
+VALUES ('Suits');
+INSERT INTO Category (name)
+VALUES ('Tops');
+INSERT INTO Category (name)
+VALUES ('Trousers and shorts');
+INSERT INTO Category (name)
+VALUES ('T-shirts');
+INSERT INTO Category (name)
+VALUES ('Undergarments');
+INSERT INTO Category (name)
+VALUES ('Wedding clothing');
+INSERT INTO Category (name)
+VALUES ('Sweatshirt');
+INSERT INTO Category (name)
+VALUES ('Jeans');
+INSERT INTO Category (name)
+VALUES ('Watches');
+INSERT INTO Category (name)
+VALUES ('Socks');
+
 
 -- Create Conditions
 INSERT INTO Condition (name)
@@ -153,51 +215,117 @@ VALUES ('New with tag'),
 
 -- Create Brands
 INSERT INTO Brand (name)
-VALUES ('Nike'),
-       ('Adidas'),
-       ('Louis Vuitton'),
-       ('Chanel'),
-       ('Gucci'),
-       ('Hermès'),
-       ('Dior'),
-       ('Cartier'),
-       ('Zara'),
-       ('Rolex');
+VALUES ('ACM');
+INSERT INTO Brand (name)
+VALUES ('Adidas');
+INSERT INTO Brand (name)
+VALUES ('Cartier');
+INSERT INTO Brand (name)
+VALUES ('Casio');
+INSERT INTO Brand (name)
+VALUES ('Chanel');
+INSERT INTO Brand (name)
+VALUES ('Dior');
+INSERT INTO Brand (name)
+VALUES ('Gucci');
+INSERT INTO Brand (name)
+VALUES ('Hermès');
+INSERT INTO Brand (name)
+VALUES ('Kiabi');
+INSERT INTO Brand (name)
+VALUES ('Levis');
+INSERT INTO Brand (name)
+VALUES ('Louis Vuitton');
+INSERT INTO Brand (name)
+VALUES ('Nike');
+INSERT INTO Brand (name)
+VALUES ('Rolex');
+INSERT INTO Brand (name)
+VALUES ('Trendsplant');
+INSERT INTO Brand (name)
+VALUES ('Zara');
+
 
 -- Create Products
-INSERT INTO Product (title, price, description, publishDatetime, seller, size, category, condition)
-VALUES ('T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but never used it', DATETIME('2024-04-23 14:00'), 5, 'M', 'T-shirts', 'New without tag'),
-       ('Dress', 5.99, 'Almost new dress from Louis Vuitton', DATETIME('2024-04-23 14:01'), 6, 'S', 'Dresses', 'Like new'),
-       ('Coat', 5.99, 'Coat in good condition from Chanel', DATETIME('2024-04-23 14:02'), 7, 'L', 'Coats', 'Excellent'),
-       ('Bag', 67.99, 'Leather bag from Louis Vuitton', DATETIME('2024-05-01 09:12'), 5, 'M', 'Bags', 'New with tag'),
-       ('Used Chanel Dress', 2334.00, 'Pre owned 1996 chanel dress', DATETIME('2024-05-02 10:43'), 6, 'S', 'Dresses', 'Excellent');
+INSERT INTO Product (id, title, price, description, publishDatetime, seller, size, category, condition, payment)
+VALUES (1, 'T-shirt', 5.99, 'Brand new t-shirt from Gucci, I removed the tag but never used it', '2024-04-23 14:00:00',
+        5, 'M', 'T-shirts', 'New without tag', null);
+INSERT INTO Product (id, title, price, description, publishDatetime, seller, size, category, condition, payment)
+VALUES (2, 'Dress', 5.99, 'Almost new dress from Louis Vuitton', '2024-04-23 14:01:00', 6, 'S', 'Dresses', 'Like new',
+        null);
+INSERT INTO Product (id, title, price, description, publishDatetime, seller, size, category, condition, payment)
+VALUES (3, 'Coat', 5.99, 'Coat in good condition from Chanel', '2024-04-23 14:02:00', 7, 'L', 'Coats', 'Excellent',
+        null);
+INSERT INTO Product (id, title, price, description, publishDatetime, seller, size, category, condition, payment)
+VALUES (5, 'Used Chanel Dress', 2334, 'Pre owned 1996 chanel dress', '2024-05-02 10:43:00', 6, 'S', 'Dresses',
+        'Excellent', null);
+INSERT INTO Product (id, title, price, description, publishDatetime, seller, size, category, condition, payment)
+VALUES (6, 'Levis Jeans', 5.95, 'Levis Jeans', '05/19/2024 21:55:47', 5, 'S', 'Jeans', 'New without tag', null);
+INSERT INTO Product (id, title, price, description, publishDatetime, seller, size, category, condition, payment)
+VALUES (7, 'Casio watch', 12, 'Rare watch from casio', '05/19/2024 22:00:30', 5, 'M', 'Watches', 'New without tag',
+        null);
+INSERT INTO Product (id, title, price, description, publishDatetime, seller, size, category, condition, payment)
+VALUES (8, 'Nike Air Force 1', 15, 'Original but used, just a slight defect in the interior', '05/19/2024 22:02:21', 5,
+        'M', 'Footwear', 'Very good', null);
+INSERT INTO Product (id, title, price, description, publishDatetime, seller, size, category, condition, payment)
+VALUES (9, 'Kiabi pullover', 7.5, '100% cotton pullover', '05/19/2024 22:04:44', 6, 'M', 'Sweatshirt', 'Very good',
+        null);
+INSERT INTO Product (id, title, price, description, publishDatetime, seller, size, category, condition, payment)
+VALUES (10, 'Socks from trendsplant', 9.99, 'Socks from trendsplant', '05/19/2024 22:07:10', 6, 'M', 'Socks',
+        'Like new', null);
+
 
 -- Create ProductBrands
 INSERT INTO ProductBrand (product, brand)
-VALUES (1, 'Gucci'),
-       (2, 'Louis Vuitton'),
-       (3, 'Chanel'),
-       (4, 'Louis Vuitton'),
-       (5, 'Chanel');
+VALUES (1, 'Gucci');
+INSERT INTO ProductBrand (product, brand)
+VALUES (2, 'Louis Vuitton');
+INSERT INTO ProductBrand (product, brand)
+VALUES (3, 'Chanel');
+INSERT INTO ProductBrand (product, brand)
+VALUES (5, 'Chanel');
+INSERT INTO ProductBrand (product, brand)
+VALUES (6, 'Levis');
+INSERT INTO ProductBrand (product, brand)
+VALUES (7, 'Casio');
+INSERT INTO ProductBrand (product, brand)
+VALUES (8, 'Nike');
+INSERT INTO ProductBrand (product, brand)
+VALUES (9, 'Kiabi');
+INSERT INTO ProductBrand (product, brand)
+VALUES (10, 'Trendsplant');
 
 -- Create ProductImages
 INSERT INTO ProductImage (product, image)
-VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf86hwNJhBnREMUwWlvVpOCfTm8li5gmA&s'),
-       (1,
-        'https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg'),
-       (2, 'https://www.redcarpet-fashionawards.com/wp-content/uploads/2023/03/Ana-de-Armas.jpeg'),
-       (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s'),
-       (4,
-        'https://br.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm--M45321_PM2_Front%20view.jpg'),
-       (5, 'https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
-
--- Create Messages
-INSERT INTO Message (id, datetime, content, sender, receiver)
-VALUES  (0, '1715351715', 'Hello, Rodrigo from Henrique!', 5, 6),
-        (1, '1715351778', 'Hi, Henrique from Rodrigo!', 6, 5),
-        (2, '1715351716', 'Hello, Bruno from Rodrigo!', 6, 7),
-        (3, '1715351779', 'Hi, Rodrigo from Bruno!', 7, 6),
-        (4, '1715351717', 'Hello, Henrique from Bruno!', 7, 5),
-        (5, '1715351780', 'Hi, Bruno from Henrique!', 5, 7),
-        (6, '1715351718', 'Hello, professor from Rodrigo!', 6, 8),
-        (7, '1715351818', 'Hello, professor from Rodrigo!', 8, 6);
+VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs6eD780lPkOf86hwNJhBnREMUwWlvVpOCfTm8li5gmA&s');
+INSERT INTO ProductImage (product, image)
+VALUES (1,
+        'https://media.gucci.com/style/DarkGray_Center_0_0_490x490/1692980128/440103_X3F05_1508_001_100_0000_Light.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (2, 'https://www.redcarpet-fashionawards.com/wp-content/uploads/2023/03/Ana-de-Armas.jpeg');
+INSERT INTO ProductImage (product, image)
+VALUES (3, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwl3bp6pxiz4KbGcqef7fPt7mE4eIWp0s24HBwxT3DyQ&s');
+INSERT INTO ProductImage (product, image)
+VALUES (5, 'https://cdn-images.farfetch-contents.com/20/16/32/39/20163239_50171749_600.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (6, 'images/posts/664a75633874a.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (6, 'images/posts/664a75633c5de.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (6, 'images/posts/664a756340197.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (7, 'images/posts/664a767ee867f.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (7, 'images/posts/664a767eec822.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (8, 'images/posts/664a76ed37cf6.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (8, 'images/posts/664a76ed3c31e.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (9, 'images/posts/664a777c09ed7.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (9, 'images/posts/664a777c0e906.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (10, 'images/posts/664a780e20a33.jpg');
+INSERT INTO ProductImage (product, image)
+VALUES (10, 'images/posts/664a780e241db.jpg');
