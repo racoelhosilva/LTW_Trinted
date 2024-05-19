@@ -4,9 +4,9 @@ declare(strict_types=1);
 require_once __DIR__ . '/../framework/Autoload.php';
 require_once __DIR__ . '/utils.php';
 
-function parseWishlist(PDO $db, array $wishlist): array {
-    return array_map(function ($product) use ($db) {
-        return parseProduct($db, $product);
+function parseWishlist(array $wishlist, Request $request, PDO $db): array {
+    return array_map(function ($product) use ($request, $db) {
+        return parseProduct($product, $request, $db);
     }, $wishlist);
 }
 
@@ -20,7 +20,7 @@ if (!isset($_SESSION['user']['id']))
 try {
     $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
     $user = User::getUserByID($db, (int)$_SESSION['user']['id']);
-    $wishlist = parseWishlist($db, $user->getWishlist($db));
+    $wishlist = parseWishlist($user->getWishlist($db), $db);
 } catch (Exception $e) {
     die(json_encode(['success' => false, 'error' => $e->getMessage()]));
 }

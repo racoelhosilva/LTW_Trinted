@@ -82,27 +82,48 @@ function drawLikeButton() {
 function goToProduct(id) {
     document.location.assign(`/product/${id}`);
 }
+function getProductImages(productId) {
+    return getData(`/api/product/${productId}/images`)
+        .then(response => response.json())
+        .then(json => {
+        if (json.success) {
+            return json.images;
+        }
+        else {
+            sendToastMessage('An unexpected error occurred', 'error');
+            console.error(json.error);
+            return [];
+        }
+    })
+        .catch(error => {
+        sendToastMessage('An unexpected error occurred', 'error');
+        console.error(error);
+        return [];
+    });
+}
 function onLikeButtonClick(event) {
     event.stopPropagation();
     return;
 }
 function drawProductCard(product) {
-    const productCard = document.createElement('div');
-    productCard.classList.add('product-card');
-    productCard.addEventListener('click', () => goToProduct(product.id));
-    const productImage = document.createElement('img');
-    productImage.src = product.images[0];
-    productImage.alt = product.title;
-    const productTitle = document.createElement('h1');
-    productTitle.innerHTML = product.title;
-    const productPrice = document.createElement('p');
-    productPrice.classList.add('price');
-    productPrice.innerHTML = product.price;
-    const likeButton = drawLikeButton();
-    likeButton.addEventListener('click', onLikeButtonClick);
-    productCard.appendChild(productImage);
-    productCard.appendChild(productTitle);
-    productCard.appendChild(productPrice);
-    productCard.appendChild(likeButton);
-    return productCard;
+    return __awaiter(this, void 0, void 0, function* () {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        productCard.addEventListener('click', () => goToProduct(product.id));
+        const productImage = document.createElement('img');
+        productImage.src = (yield getProductImages(product.id))[0];
+        productImage.alt = product.title;
+        const productTitle = document.createElement('h1');
+        productTitle.innerHTML = product.title;
+        const productPrice = document.createElement('p');
+        productPrice.classList.add('price');
+        productPrice.innerHTML = product.price;
+        const likeButton = drawLikeButton();
+        likeButton.addEventListener('click', onLikeButtonClick);
+        productCard.appendChild(productImage);
+        productCard.appendChild(productTitle);
+        productCard.appendChild(productPrice);
+        productCard.appendChild(likeButton);
+        return productCard;
+    });
 }

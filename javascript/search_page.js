@@ -14,10 +14,10 @@ function updateProducts(products, numResults, searchedProducts) {
     const productSectionTitle = document.createElement('h1');
     productSectionTitle.innerHTML = numResults === 0 ? 'No results found' : `Found ${numResults} results`;
     searchedProducts.appendChild(productSectionTitle);
-    products.forEach((product) => {
+    products.forEach((product) => __awaiter(this, void 0, void 0, function* () {
         const productCard = drawProductCard(product);
-        searchedProducts.appendChild(productCard);
-    });
+        searchedProducts.appendChild(yield productCard);
+    }));
 }
 function performSearch(searchQuery, filters, start, limit) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -170,10 +170,6 @@ if (searchDrawer && searchResults && searchedProducts) {
             updateSearchResults(searchInput.value);
         });
         searchInput.value = (_c = urlParams.get('query')) !== null && _c !== void 0 ? _c : '';
-        searchInput.addEventListener('input', () => {
-            window.history.pushState({}, '', `search?query=${searchInput.value}`);
-            updateSearchResults(searchInput.value);
-        });
     }
     searchFilterElems.forEach(filterElem => {
         const filterInput = filterElem.querySelector('input');

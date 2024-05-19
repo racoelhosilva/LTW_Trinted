@@ -86,19 +86,40 @@ function goToProduct(id: string): void {
 	document.location.assign(`/product/${id}`);
 }
 
+function getProductImages(productId: number): Promise<string[]> {
+  return getData(`/api/product/${productId}/images`)
+    .then(response => response.json())
+    .then(json => {
+      if (json.success) {
+        return json.images;
+      } else {
+        sendToastMessage('An unexpected error occurred', 'error');
+        console.error(json.error);
+        return [];
+      }
+    })
+    .catch(error => {
+      sendToastMessage('An unexpected error occurred', 'error');
+      console.error(error);
+      return [];
+    });
+}
+
+
+
 function onLikeButtonClick(event: Event): void {
   event.stopPropagation();
   return;
 }
 
-function drawProductCard(product: {[key: string]: string}): HTMLElement {
+async function drawProductCard(product: {[key: string]: any}): Promise<HTMLElement> {
   const productCard = document.createElement('div');
   productCard.classList.add('product-card');
 
   productCard.addEventListener('click', () => goToProduct(product.id));
 
   const productImage = document.createElement('img');
-  productImage.src = product.images[0];
+  productImage.src = (await getProductImages(product.id))[0];
   productImage.alt = product.title;
 
   const productTitle = document.createElement('h1');

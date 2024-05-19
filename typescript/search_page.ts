@@ -9,9 +9,9 @@ function updateProducts(
     productSectionTitle.innerHTML = numResults === 0 ? 'No results found' : `Found ${numResults} results`;
     searchedProducts.appendChild(productSectionTitle);
 
-    products.forEach((product: {[key: string]: string}) => {
+    products.forEach(async (product: {[key: string]: string}) => {
         const productCard = drawProductCard(product);
-        searchedProducts.appendChild(productCard);
+        searchedProducts.appendChild(await productCard);
     });
 }
 
@@ -176,10 +176,6 @@ if (searchDrawer && searchResults && searchedProducts) {
         });
 
         searchInput.value = urlParams.get('query') ?? '';
-        searchInput.addEventListener('input', () => {
-            window.history.pushState({}, '', `search?query=${searchInput.value}`);
-            updateSearchResults(searchInput.value);
-        });
     }
     
     searchFilterElems.forEach(filterElem => {

@@ -1,22 +1,3 @@
-function getProductImages(productId: number): Promise<string[]> {
-  return getData(`/api/product/${productId}/images`)
-    .then(response => response.json())
-    .then(json => {
-      if (json.success) {
-        return json.images;
-      } else {
-        sendToastMessage('An unexpected error occurred', 'error');
-        console.error(json.error);
-        return [];
-      }
-    })
-    .catch(error => {
-      sendToastMessage('An unexpected error occurred', 'error');
-      console.error(error);
-      return [];
-    });
-}
-
 async function createOrderItemCard(product: { [key: string]: any }): Promise<HTMLElement> {
   const orderItemCard = document.createElement('div');
   orderItemCard.classList.add('order-item-card');

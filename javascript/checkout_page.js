@@ -9,25 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a;
-function getProductImages(productId) {
-    return getData(`/api/product/${productId}/images`)
-        .then(response => response.json())
-        .then(json => {
-        if (json.success) {
-            return json.images;
-        }
-        else {
-            sendToastMessage('An unexpected error occurred', 'error');
-            console.error(json.error);
-            return [];
-        }
-    })
-        .catch(error => {
-        sendToastMessage('An unexpected error occurred', 'error');
-        console.error(error);
-        return [];
-    });
-}
 function createOrderItemCard(product) {
     return __awaiter(this, void 0, void 0, function* () {
         const orderItemCard = document.createElement('div');

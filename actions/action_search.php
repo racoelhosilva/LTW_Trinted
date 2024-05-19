@@ -2,11 +2,13 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/utils.php';
+require_once __DIR__ . '/../db/utils.php';
+require_once __DIR__ . '/../rest_api/utils.php';
 require_once __DIR__ . '/../framework/Autoload.php';
 
 $filterTypes = ['category', 'size', 'condition'];
 
-function searchProducts(PDO $db, string $search): array {
+function searchProducts(PDO $db, string $search, Request $request): array {
     $query = '
         SELECT id
         FROM Product
@@ -29,7 +31,7 @@ function searchProducts(PDO $db, string $search): array {
     $products = [];
     foreach ($stmt->fetchAll() as $row) {
         $product = Product::getProductByID($db, $row['id']);
-        $products[] = parseProduct($db, $product);
+        $products[] = parseProduct($product, $request, $db);
     }
     return $products;
 }
@@ -65,43 +67,44 @@ function limitResults(array $products, int $start, int $limit): array {
     return array_slice($products, $start, $limit);
 }
 
-function countProducts(PDO $db, string $search, array $filters): int {
-    return count(array_filter(searchProducts($db, $search), function($product) use ($filters) {
+function countProducts(PDO $db, string $search, array $filters, Request $request): int {
+    return count(array_filter(searchProducts($db, $search, $request), function($product) use ($filters) {
         return matchesFilters($product, $filters);
     }));
 }
 
-session_start();
+$request = new Request();
+$db = getDatabaseConnection();
 
-if ($_SERVER['REQUEST_METHOD'] !== 'GET')
-    die(json_encode(['success' => false, 'error' => 'Invalid request method']));
+if ($request->getMethod() !== 'GET')
+    sendMethodNotAllowed();
 
 $request = new Request();
 if (!$request->paramsExist(['query']))
-    die(['success' => false, 'error' => 'Missing fields']);
+    sendMissingFields();
 
 try {
-    $query = sanitize($_GET['query']);
-    $count = isset($_GET['count']) && $_GET['count'] === 'true';
-    $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : PHP_INT_MAX;
+    $query = $request->get('query');
+    $count = $request->get('count', 'false') === 'true';
+    $start = (int)$request->get('start', 0);
+    $limit = (int)$request->get('limit', PHP_INT_MAX);
 
-    $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/db/database.db');
     $filters = getFilters();
 
     if (!$count) {
-        $products = searchProducts($db, $query);
+        $products = searchProducts($db, $query, $request);
         $products = filterResults($db, $products, $filters);
         $products = limitResults($products, $start, $limit);
 
-        die(json_encode(['success' => true, 'products' => $products]));
+        sendOk(['products' => $products]);
     } else {
-        $count = countProducts($db, $query, $filters);
+        $count = countProducts($db, $query, $filters, $request);
 
-        die(json_encode(['success' => true, 'count' => $count]));
+        sendOk(['count' => $count]);
     }
         
 } catch (Exception $e) {
-    die(json_encode(['success' => false, 'error' => $e->getMessage()]));
+    error_log($e->getMessage());
+    sendInternalServerError();
 }
 
