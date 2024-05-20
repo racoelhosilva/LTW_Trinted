@@ -15,7 +15,7 @@ function createProduct(form, files) {
             const result = yield uploadImage(files[i], 'posts')
                 .then(json => {
                 if (json.success) {
-                    images.push(`/${json.path}`);
+                    images.push(json.path);
                     return true;
                 }
                 else {

@@ -11,6 +11,10 @@ if ($request->getMethod() != 'POST') {
     die(header("Location: /login?register-error=Invalid request method"));
 }
 
+if (!$request->verifyCsrf()) {
+    die(header("Location: /login?login-error=CSRF token is invalid"));
+}
+
 if (!$request->paramsExist(['register-name', 'register-email', 'register-password'])) {
     die(header("Location: /login?register-error=Name, email and password are required"));
 }
