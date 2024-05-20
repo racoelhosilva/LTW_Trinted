@@ -36,7 +36,7 @@ if ($subfolder !== 'posts' && $subfolder !== 'profiles') {
     sendBadRequest('Invalid subfolder!');
 }
 
-$filename = "images/" . $subfolder . "/" . uniqid() . ".jpg";
+$filename = "/images/" . $subfolder . "/" . uniqid() . ".jpg";
 
 try {
     $stmt = $db->prepare("INSERT INTO Image (url) VALUES (:url)");
@@ -47,7 +47,7 @@ try {
     sendInternalServerError();
 }
 
-imagejpeg($image, $_SERVER['DOCUMENT_ROOT'] . "/" . $filename);
+imagejpeg($image, $_SERVER['DOCUMENT_ROOT'] . $filename);
 sendOk(['path' => $filename]);
 
 

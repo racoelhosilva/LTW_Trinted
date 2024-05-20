@@ -29,7 +29,7 @@ function updateProductBrands(Product $product, array $brands, PDO $db): void
     $product->removeBrands($db);
 
     foreach ($brands as $brandName) {
-        $brand = Brand::getBrand($db, urlencode($brandName));
+        $brand = Brand::getBrand($db, $brandName);
         if ($brand !== null) {
             $product->addBrand($db, $brand);
         }
@@ -39,14 +39,14 @@ function updateProductBrands(Product $product, array $brands, PDO $db): void
 function modifyProductBrands(Product $product, array $add, array $remove, PDO $db): void
 {
     foreach ($add as $brandName) {
-        $brand = Brand::getBrand($db, urlencode($brandName));
+        $brand = Brand::getBrand($db, $brandName);
         if ($brand !== null) {
             $product->addBrand($db, $brand);
         }
     }
 
     foreach ($remove as $brandName) {
-        $brand = Brand::getBrand($db, urlencode($brandName));
+        $brand = Brand::getBrand($db, $brandName);
         if ($brand !== null) {
             $product->removeBrand($db, $brand);
         }
@@ -133,7 +133,7 @@ switch ($method) {
             $user = getSessionUser($request);
             if (!$request->paramsExist(['title', 'description', 'price', 'image']))
                 sendMissingFields();
-            if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT) || (int)$request->post('price') < 0)
+            if (!filter_var($request->post('price'), FILTER_VALIDATE_FLOAT) || (float)$request->post('price') < 0)
                 sendBadRequest('Invalid price value');
 
             try {

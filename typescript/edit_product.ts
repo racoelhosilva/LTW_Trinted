@@ -4,7 +4,7 @@ async function updateProduct(productId: string, form: HTMLFormElement, files: Fi
         const result = await uploadImage(files[i], 'posts')
             .then(json => {
                 if (json.success) {
-                    images.push(`/${json.path}`);
+                    images.push(json.path);
                     return true;
                 } else {
                     sendToastMessage("An unexpected error occurred", "error");
