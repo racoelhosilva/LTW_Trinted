@@ -94,3 +94,10 @@ We also implemented the following additional requirements:
 - [X] **User Preferences**
 - [X] **Analytics Dashboard**
 - [X] **Shipping Costs**
+
+---
+
+> Class: 2LEIC15 Group: G02  
+> Final Grade: 18.6  
+> Professors: André Restivo    
+> Created in March 2024 for LTW (Linguagens e Tecnologias Web) [FEUP-L.EIC019]  
